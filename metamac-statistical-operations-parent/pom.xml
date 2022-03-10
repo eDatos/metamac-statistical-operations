@@ -10,7 +10,7 @@
 
     <groupId>org.siemac.metamac.metamac-statistical-operations</groupId>
     <artifactId>metamac-statistical-operations-parent</artifactId>
-    <version>2.6.1-SNAPSHOT</version>
+    <version>2.6.2-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>METAMAC :: STATISTICAL OPERATIONS :: PARENT</name>
     <description>METAMAC :: STATISTICAL OPERATIONS :: PARENT</description>

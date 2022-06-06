@@ -57,8 +57,9 @@ public class NoticesRestInternalFacadeImpl implements NoticesRestInternalFacade 
     public void createNotificationForPublishExternallyOperation(ServiceContext ctx, OperationDto operation) throws MetamacWebException {
         ResourceInternal resource = this.operationDtoToResourceInternal(ctx, operation);
         ResourceInternal[] noticeResource = {resource};
-
-        this.createPublicationNotification(ctx, ServiceNoticeAction.OPERATION_PUBLISH_EXTERNALLY, ServiceNoticeMessage.OPERATION_PUBLISH_EXTERNALLY_OK, noticeResource);
+        MetamacRolesEnum[] roles = {MetamacRolesEnum.TECNICO_PLANIFICACION, MetamacRolesEnum.TECNICO_APOYO_PLANIFICACION, MetamacRolesEnum.TECNICO_PRODUCCION};
+        
+        this.createPublicationNotification(ctx, ServiceNoticeAction.OPERATION_PUBLISH_EXTERNALLY, ServiceNoticeMessage.OPERATION_PUBLISH_EXTERNALLY_OK, noticeResource, roles);
     }
 
     @Override
@@ -71,11 +72,12 @@ public class NoticesRestInternalFacadeImpl implements NoticesRestInternalFacade 
     public void createNotificationForPublishInternallyOperation(ServiceContext ctx, OperationDto operation) throws MetamacWebException {
         ResourceInternal resource = this.operationDtoToResourceInternal(ctx, operation);
         ResourceInternal[] noticeResource = {resource};
-
-        this.createPublicationNotification(ctx, ServiceNoticeAction.OPERATION_PUBLISH_INTERNALLY, ServiceNoticeMessage.OPERATION_PUBLISH_INTERNALLY_OK, noticeResource);
+        MetamacRolesEnum[] roles = {MetamacRolesEnum.TECNICO_PLANIFICACION, MetamacRolesEnum.TECNICO_APOYO_PLANIFICACION, MetamacRolesEnum.TECNICO_PRODUCCION};
+        
+        this.createPublicationNotification(ctx, ServiceNoticeAction.OPERATION_PUBLISH_INTERNALLY, ServiceNoticeMessage.OPERATION_PUBLISH_INTERNALLY_OK, noticeResource, roles);
     }
 
-    private void createPublicationNotification(ServiceContext ctx, String actionCode, String messageCode, ResourceInternal[] resources) throws MetamacWebException {
+    private void createPublicationNotification(ServiceContext ctx, String actionCode, String messageCode, ResourceInternal[] resources, MetamacRolesEnum[] roles) throws MetamacWebException {
         Locale locale = ServiceContextUtils.getLocale(ctx);
         String subject = LocaleUtil.getMessageForCode(actionCode, locale);
         String localisedMessage = LocaleUtil.getMessageForCode(messageCode, locale);
@@ -87,7 +89,9 @@ public class NoticesRestInternalFacadeImpl implements NoticesRestInternalFacade 
 
 		Notice notification = NoticeBuilder.notification()
 				.withMessages(message).withSendingApplication(sendingApp)
-				.withSendingUser(ctx.getUserId()).withSubject(subject).build();
+				.withSendingUser(ctx.getUserId()).withSubject(subject)
+				.withRoles(roles)
+				.build();
 		// @formatter:on
 
         Response response = restApiLocator.getNoticesRestInternalFacadeV10().createNotice(notification);

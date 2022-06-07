@@ -82,7 +82,8 @@ public class NoticesRestInternalFacadeImpl implements NoticesRestInternalFacade 
         String subject = LocaleUtil.getMessageForCode(actionCode, locale);
         String localisedMessage = LocaleUtil.getMessageForCode(messageCode, locale);
         String sendingApp = MetamacApplicationsEnum.GESTOR_OPERACIONES.getName();
-
+        MetamacApplicationsEnum[] applications = {MetamacApplicationsEnum.GESTOR_OPERACIONES};
+        
         // @formatter:off
 		Message message = MessageBuilder.message().withText(localisedMessage)
 				.withResources(resources).build();
@@ -90,6 +91,7 @@ public class NoticesRestInternalFacadeImpl implements NoticesRestInternalFacade 
 		Notice notification = NoticeBuilder.notification()
 				.withMessages(message).withSendingApplication(sendingApp)
 				.withSendingUser(ctx.getUserId()).withSubject(subject)
+				.withApplications(applications)
 				.withRoles(roles)
 				.build();
 		// @formatter:on

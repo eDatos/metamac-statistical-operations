@@ -17,9 +17,6 @@ import org.springframework.beans.factory.annotation.Value;
 
 public abstract class StatisticalOperationsBaseTest extends MetamacDBUnitBaseTests {
 
-    @Value("${metamac.statistical_operations.db.provider}")
-    private String databaseProvider;
-
     @Value("${metamac.statistical_operations.db.default_schema}")
     private String defaultSchema;
 
@@ -145,12 +142,7 @@ public abstract class StatisticalOperationsBaseTest extends MetamacDBUnitBaseTes
         primaryKeys.put("TB_SEQUENCES", Arrays.asList("SEQUENCE_NAME"));
         return primaryKeys;
     }
-
-    @Override
-    protected DataBaseProvider getDatabaseProvider() {
-        return DataBaseProvider.valueOf(databaseProvider);
-    }
-
+    
     @Override
     protected String getDefaultSchema() {
         return defaultSchema;

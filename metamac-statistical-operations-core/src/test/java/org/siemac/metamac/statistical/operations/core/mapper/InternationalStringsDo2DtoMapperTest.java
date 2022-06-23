@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.siemac.metamac.common.test.MetamacBaseTest;
-import org.siemac.metamac.common.test.dbunit.MetamacDBUnitBaseTests.DataBaseProvider;
 import org.siemac.metamac.common.test.mock.ConfigurationServiceMockImpl;
 import org.siemac.metamac.core.common.conf.ConfigurationService;
 import org.siemac.metamac.core.common.dto.InternationalStringDto;
@@ -18,9 +17,6 @@ import org.siemac.metamac.statistical.operations.core.utils.mocks.StatisticalOpe
 import org.springframework.beans.factory.annotation.Value;
 
 public class InternationalStringsDo2DtoMapperTest extends MetamacBaseTest {
-
-    @Value("${metamac.statistical_operations.db.provider}")
-    private String                     databaseProvider;
 
     private final Do2DtoMapper         do2DtoMapper         = new Do2DtoMapperImpl();
 
@@ -77,10 +73,5 @@ public class InternationalStringsDo2DtoMapperTest extends MetamacBaseTest {
 
         InternationalStringDto result = (InternationalStringDto) internationalStringDtoToEntityMethod.invoke(do2DtoMapper, parameters);
         StatisticalOperationsAsserts.assertEqualsInternationalString(internationalString, result);
-    }
-
-    @Override
-    protected DataBaseProvider getDatabaseProvider() {
-        return DataBaseProvider.valueOf(databaseProvider);
     }
 }

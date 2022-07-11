@@ -1,12 +1,9 @@
 package org.siemac.metamac.statistical.operations.web.client.utils;
 
-import static org.siemac.metamac.statistical.operations.web.client.OperationsWeb.getCoreMessages;
-
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-
+import com.google.gwt.http.client.URL;
+import com.google.gwt.resources.client.ImageResource;
+import com.smartgwt.client.widgets.form.fields.FormItemIcon;
+import com.smartgwt.client.widgets.form.validator.LengthRangeValidator;
 import org.siemac.metamac.core.common.dto.ExternalItemDto;
 import org.siemac.metamac.core.common.util.shared.StringUtils;
 import org.siemac.metamac.statistical.operations.core.dto.FamilyBaseDto;
@@ -16,12 +13,17 @@ import org.siemac.metamac.statistical.operations.core.dto.OperationDto;
 import org.siemac.metamac.statistical.operations.core.enume.domain.ProcStatusEnum;
 import org.siemac.metamac.statistical.operations.core.enume.domain.StatusEnum;
 import org.siemac.metamac.statistical.operations.core.enume.domain.StreamMessageStatusEnum;
+import org.siemac.metamac.statistical.operations.web.client.OperationsWeb;
 import org.siemac.metamac.statistical.operations.web.client.constants.StatisticalOperationsWebConstants;
 import org.siemac.metamac.web.common.client.resources.GlobalResources;
+import org.siemac.metamac.web.common.shared.utils.SharedTokens;
 
-import com.google.gwt.resources.client.ImageResource;
-import com.smartgwt.client.widgets.form.fields.FormItemIcon;
-import com.smartgwt.client.widgets.form.validator.LengthRangeValidator;
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+
+import static org.siemac.metamac.statistical.operations.web.client.OperationsWeb.getCoreMessages;
 
 public class CommonUtils {
 
@@ -179,5 +181,19 @@ public class CommonUtils {
 
         return icon;
     }
+
+    // EXPORTATION UTILS
+
+    public static void downloadFile(String fileName) {
+        StringBuffer url = new StringBuffer();
+        url.append(URL.encode(OperationsWeb.getRelativeURL(SharedTokens.FILE_DOWNLOAD_DIR_PATH)));
+        url.append("?").append(URL.encode(SharedTokens.PARAM_FILE_NAME)).append("=").append(URL.encode(fileName));
+        downloadUrl(url.toString());
+    }
+
+    private static native void downloadUrl(String url) /*-{
+		$wnd.location = url;
+    }-*/;
+
 
 }

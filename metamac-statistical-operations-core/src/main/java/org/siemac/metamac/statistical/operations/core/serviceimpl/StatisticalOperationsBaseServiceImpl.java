@@ -1,10 +1,5 @@
 package org.siemac.metamac.statistical.operations.core.serviceimpl;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-
 import org.fornax.cartridges.sculptor.framework.accessapi.ConditionalCriteria;
 import org.fornax.cartridges.sculptor.framework.domain.PagedResult;
 import org.fornax.cartridges.sculptor.framework.domain.PagingParameter;
@@ -29,12 +24,16 @@ import org.siemac.metamac.statistical.operations.core.error.ServiceExceptionType
 import org.siemac.metamac.statistical.operations.core.exception.FamilyNotFoundException;
 import org.siemac.metamac.statistical.operations.core.exception.InstanceNotFoundException;
 import org.siemac.metamac.statistical.operations.core.exception.OperationNotFoundException;
-import org.siemac.metamac.statistical.operations.core.serviceapi.StreamMessagingServiceFacade;
 import org.siemac.metamac.statistical.operations.core.serviceimpl.utils.CheckMandatoryMetadataUtil;
 import org.siemac.metamac.statistical.operations.core.serviceimpl.utils.StatisticalOperationsValidationUtils;
 import org.siemac.metamac.statistical.operations.core.serviceimpl.utils.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 import static org.fornax.cartridges.sculptor.framework.accessapi.ConditionalCriteriaBuilder.criteriaFor;
 
@@ -285,6 +284,13 @@ public class StatisticalOperationsBaseServiceImpl extends StatisticalOperationsB
         } catch (OperationNotFoundException e) {
             throw new MetamacException(ServiceExceptionType.OPERATION_NOT_FOUND);
         }
+    }
+
+    @Override
+    public List<Operation> findOperationsByIdIn(ServiceContext ctx, List<Long> operationsId) throws MetamacException {
+        // Prepare criteria
+        List<ConditionalCriteria> conditions = criteriaFor(Operation.class).withProperty(org.siemac.metamac.statistical.operations.core.domain.OperationProperties.id()).in(operationsId).build();
+        return operationRepository.findByCondition(conditions);
     }
 
     @Override

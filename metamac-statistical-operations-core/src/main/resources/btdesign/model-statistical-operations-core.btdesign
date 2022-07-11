@@ -91,6 +91,7 @@ Application StatisticalOperations {
        		@InstanceDto publishInternallyInstance(Long instanceId) throws MetamacException;
        		@InstanceDto publishExternallyInstance(Long instanceId) throws MetamacException;
        		@OperationBaseDto findOperationForInstance(Long instanceId) throws MetamacException;
+       		String exportOperationsTsv(List<Long> operationId) throws MetamacException;
 	   }
 
 		Service StreamMessagingServiceFacade {
@@ -139,6 +140,7 @@ Application StatisticalOperations {
        		@Operation updateOperation(@Operation operation) throws MetamacException;
 			deleteOperation(Long operationId) throws MetamacException;
 			List<@Operation> findAllOperations throws MetamacException;
+			List<@Operation> findOperationsByIdIn(List<Long> id) throws MetamacException;
 			List<@Operation> findOperationByCondition(List<ConditionalCriteria> condition) throws MetamacException;
 			PagedResult<@Operation> findOperationByCondition(List<ConditionalCriteria> condition, PagingParameter pagingParameter) throws MetamacException;
 			@Operation publishInternallyOperation(Long operationId) throws MetamacException;
@@ -427,6 +429,7 @@ Application StatisticalOperations {
 		   		delete;
 		   		findByCondition;
 				findByCondition(PagingParameter pagingParameter);
+				findByIdIn(List<Long> operationsId);
 			}
 		}
 		

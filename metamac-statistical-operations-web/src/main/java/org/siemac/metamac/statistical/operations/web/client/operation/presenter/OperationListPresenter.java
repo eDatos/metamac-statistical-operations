@@ -1,37 +1,5 @@
 package org.siemac.metamac.statistical.operations.web.client.operation.presenter;
 
-import static org.siemac.metamac.statistical.operations.web.client.OperationsWeb.getConstants;
-import static org.siemac.metamac.statistical.operations.web.client.OperationsWeb.getMessages;
-
-import java.util.List;
-
-import org.siemac.metamac.core.common.enume.domain.TypeExternalArtefactsEnum;
-import org.siemac.metamac.core.common.util.shared.StringUtils;
-import org.siemac.metamac.statistical.operations.core.dto.OperationBaseDto;
-import org.siemac.metamac.statistical.operations.core.dto.OperationDto;
-import org.siemac.metamac.statistical.operations.navigation.shared.NameTokens;
-import org.siemac.metamac.statistical.operations.web.client.LoggedInGatekeeper;
-import org.siemac.metamac.statistical.operations.web.client.enums.ToolStripButtonEnum;
-import org.siemac.metamac.statistical.operations.web.client.events.SelectMenuButtonEvent;
-import org.siemac.metamac.statistical.operations.web.client.model.OperationRecord;
-import org.siemac.metamac.statistical.operations.web.client.operation.view.handlers.OperationListUiHandlers;
-import org.siemac.metamac.statistical.operations.web.client.presenter.MainPagePresenter;
-import org.siemac.metamac.statistical.operations.web.client.utils.PlaceRequestUtils;
-import org.siemac.metamac.statistical.operations.web.shared.DeleteOperationListAction;
-import org.siemac.metamac.statistical.operations.web.shared.DeleteOperationListResult;
-import org.siemac.metamac.statistical.operations.web.shared.GetOperationPaginatedListAction;
-import org.siemac.metamac.statistical.operations.web.shared.GetOperationPaginatedListResult;
-import org.siemac.metamac.statistical.operations.web.shared.SaveOperationAction;
-import org.siemac.metamac.statistical.operations.web.shared.SaveOperationResult;
-import org.siemac.metamac.statistical.operations.web.shared.external.GetExternalResourcesAction;
-import org.siemac.metamac.statistical.operations.web.shared.external.GetExternalResourcesResult;
-import org.siemac.metamac.statistical.operations.web.shared.external.RestWebCriteriaUtils;
-import org.siemac.metamac.web.common.client.events.ShowMessageEvent;
-import org.siemac.metamac.web.common.client.utils.WaitingAsyncCallbackHandlingError;
-import org.siemac.metamac.web.common.shared.criteria.SrmExternalResourceRestCriteria;
-import org.siemac.metamac.web.common.shared.criteria.SrmItemRestCriteria;
-import org.siemac.metamac.web.common.shared.domain.ExternalItemsResult;
-
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.dispatch.shared.DispatchAsync;
@@ -53,6 +21,40 @@ import com.smartgwt.client.widgets.form.fields.events.HasClickHandlers;
 import com.smartgwt.client.widgets.grid.events.HasRecordClickHandlers;
 import com.smartgwt.client.widgets.grid.events.RecordClickEvent;
 import com.smartgwt.client.widgets.grid.events.RecordClickHandler;
+import org.siemac.metamac.core.common.enume.domain.TypeExternalArtefactsEnum;
+import org.siemac.metamac.core.common.util.shared.StringUtils;
+import org.siemac.metamac.statistical.operations.core.dto.OperationBaseDto;
+import org.siemac.metamac.statistical.operations.core.dto.OperationDto;
+import org.siemac.metamac.statistical.operations.navigation.shared.NameTokens;
+import org.siemac.metamac.statistical.operations.web.client.LoggedInGatekeeper;
+import org.siemac.metamac.statistical.operations.web.client.enums.ToolStripButtonEnum;
+import org.siemac.metamac.statistical.operations.web.client.events.SelectMenuButtonEvent;
+import org.siemac.metamac.statistical.operations.web.client.model.OperationRecord;
+import org.siemac.metamac.statistical.operations.web.client.operation.view.handlers.OperationListUiHandlers;
+import org.siemac.metamac.statistical.operations.web.client.presenter.MainPagePresenter;
+import org.siemac.metamac.statistical.operations.web.client.utils.CommonUtils;
+import org.siemac.metamac.statistical.operations.web.client.utils.PlaceRequestUtils;
+import org.siemac.metamac.statistical.operations.web.shared.DeleteOperationListAction;
+import org.siemac.metamac.statistical.operations.web.shared.DeleteOperationListResult;
+import org.siemac.metamac.statistical.operations.web.shared.ExportOperationListAction;
+import org.siemac.metamac.statistical.operations.web.shared.ExportOperationListResult;
+import org.siemac.metamac.statistical.operations.web.shared.GetOperationPaginatedListAction;
+import org.siemac.metamac.statistical.operations.web.shared.GetOperationPaginatedListResult;
+import org.siemac.metamac.statistical.operations.web.shared.SaveOperationAction;
+import org.siemac.metamac.statistical.operations.web.shared.SaveOperationResult;
+import org.siemac.metamac.statistical.operations.web.shared.external.GetExternalResourcesAction;
+import org.siemac.metamac.statistical.operations.web.shared.external.GetExternalResourcesResult;
+import org.siemac.metamac.statistical.operations.web.shared.external.RestWebCriteriaUtils;
+import org.siemac.metamac.web.common.client.events.ShowMessageEvent;
+import org.siemac.metamac.web.common.client.utils.WaitingAsyncCallbackHandlingError;
+import org.siemac.metamac.web.common.shared.criteria.SrmExternalResourceRestCriteria;
+import org.siemac.metamac.web.common.shared.criteria.SrmItemRestCriteria;
+import org.siemac.metamac.web.common.shared.domain.ExternalItemsResult;
+
+import java.util.List;
+
+import static org.siemac.metamac.statistical.operations.web.client.OperationsWeb.getConstants;
+import static org.siemac.metamac.statistical.operations.web.client.OperationsWeb.getMessages;
 
 public class OperationListPresenter extends Presenter<OperationListPresenter.OperationListView, OperationListPresenter.OperationsListProxy> implements OperationListUiHandlers {
 
@@ -79,6 +81,7 @@ public class OperationListPresenter extends Presenter<OperationListPresenter.Ope
     public interface OperationListView extends View, HasUiHandlers<OperationListUiHandlers> {
 
         void setOperations(List<OperationBaseDto> operationBaseDtos, int firstResult, int totalResults);
+        List<Long> getOperations();
         HasRecordClickHandlers getSelectedOperation();
         HasClickHandlers getSaveNewOperation();
         OperationDto getOperation();
@@ -209,6 +212,21 @@ public class OperationListPresenter extends Presenter<OperationListPresenter.Ope
             protected void afterResult() {
                 retrieveOperationList(OPERATION_LIST_FIRST_RESULT, OPERATION_LIST_MAX_RESULTS, getView().getOperationCriteria());
             }
+        });
+    }
+
+    @Override
+    public void exportOperationsTsv() {
+        dispatcher.execute(new ExportOperationListAction(getView().getOperations()), new WaitingAsyncCallbackHandlingError<ExportOperationListResult>(this) {
+            @Override
+            public void onWaitSuccess(ExportOperationListResult result) {
+                CommonUtils.downloadFile(result.getFileName());
+            }
+            @Override
+            public void onWaitFailure(Throwable caught) {
+                ShowMessageEvent.fireErrorMessage(OperationListPresenter.this, caught);
+            }
+
         });
     }
 

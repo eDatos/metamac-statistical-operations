@@ -1,15 +1,12 @@
 package org.siemac.metamac.statistical.operations.core.serviceimpl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
 import org.fornax.cartridges.sculptor.framework.domain.PagedResult;
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
 import org.siemac.metamac.core.common.criteria.MetamacCriteria;
 import org.siemac.metamac.core.common.criteria.MetamacCriteriaResult;
 import org.siemac.metamac.core.common.criteria.SculptorCriteria;
 import org.siemac.metamac.core.common.exception.MetamacException;
+import org.siemac.metamac.statistical.operations.core.conf.StatisticalOperationsConfigurationService;
 import org.siemac.metamac.statistical.operations.core.domain.CollMethod;
 import org.siemac.metamac.statistical.operations.core.domain.Cost;
 import org.siemac.metamac.statistical.operations.core.domain.Family;
@@ -44,8 +41,14 @@ import org.siemac.metamac.statistical.operations.core.serviceimpl.result.Publish
 import org.siemac.metamac.statistical.operations.core.serviceimpl.result.PublishInternallyOperationServiceResult;
 import org.siemac.metamac.statistical.operations.core.serviceimpl.result.ReSendStreamMessageOperationServiceResult;
 import org.siemac.metamac.statistical.operations.core.serviceimpl.result.SendStreamMessageResult;
+import org.siemac.metamac.statistical.operations.core.serviceimpl.utils.StatisticalOperationsValidationUtils;
+import org.siemac.metamac.statistical.operations.core.serviceimpl.utils.TsvExportationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Implementation of StatisticalOperationsServiceFacade.
@@ -67,6 +70,9 @@ public class StatisticalOperationsServiceFacadeImpl extends StatisticalOperation
 
     @Autowired
     private StatisticalOperationsListsService      statisticalOperationsListsService;
+
+    @Autowired
+    private StatisticalOperationsConfigurationService configurationService;
 
     @Autowired
     private StreamMessagingServiceFacade           streamMessagingServiceFacade;
@@ -875,6 +881,22 @@ public class StatisticalOperationsServiceFacadeImpl extends StatisticalOperation
     }
 
     @Override
+    public String exportOperationsTsv(ServiceContext ctx, List<Long> operationId) throws MetamacException {
+        // Security
+        SecurityUtils.canExportCategoriesTsv(ctx);
+        List<String> languages = configurationService.retrieveLanguages();
+        List<Operation> operations = getStatisticalOperationsBaseService().findOperationsByIdIn(ctx, operationId);
+        List<OperationDto> operationsDto = operationsListDo2Dto(ctx, operations);
+
+        for (OperationDto opDto : operationsDto){
+            StatisticalOperationsValidationUtils.checkExportOperationsTsv(opDto.getId(), null);
+        }
+
+        // Export
+        return TsvExportationUtils.exportStatisticalOperations(operationsDto, languages);
+    }
+
+    @Override
     public InstanceBaseDto findInstanceBaseById(ServiceContext ctx, Long id) throws MetamacException {
         // Security
         SecurityUtils.checkServiceOperationAllowed(ctx, StatisticalOperationsRoleEnum.ANY_ROLE_ALLOWED);
@@ -918,6 +940,13 @@ public class StatisticalOperationsServiceFacadeImpl extends StatisticalOperation
     // --------------------------------------------------------------------------------
     // TRANSFORM LISTS
     // --------------------------------------------------------------------------------
+    private List<OperationDto> operationsListDo2Dto(ServiceContext ctx, List<Operation> operations) throws MetamacException {
+        List<OperationDto> operationDtos = new ArrayList<>();
+        for (Operation operation : operations){
+            operationDtos.add(operationToDto(ctx, operation));
+        }
+        return operationDtos;
+    }
 
     private List<FamilyBaseDto> familiesListDo2BaseDto(List<Family> families) throws MetamacException {
         List<FamilyBaseDto> familiesDtos = new ArrayList<FamilyBaseDto>();

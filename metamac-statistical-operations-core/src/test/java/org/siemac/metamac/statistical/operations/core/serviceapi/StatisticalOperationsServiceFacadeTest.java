@@ -1,10 +1,5 @@
 package org.siemac.metamac.statistical.operations.core.serviceapi;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -56,12 +51,16 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-
 import static org.siemac.metamac.statistical.operations.core.utils.mocks.StatisticalOperationsDtoMocks.mockExternalItemDto;
 
 /**
@@ -3512,6 +3511,11 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
         // Check number of instances
         int instancesAfter = statisticalOperationsServiceFacade.findAllInstances(getServiceContextAdministrador()).size();
         assertEquals(instancesBefore, instancesAfter);
+    }
+
+    @Override
+    public void testExportOperationsTsv() throws Exception {
+
     }
 
     @Override

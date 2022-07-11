@@ -3,6 +3,7 @@ package org.siemac.metamac.statistical.operations.web.server;
 import org.siemac.metamac.statistical.operations.web.server.handlers.DeleteFamilyListActionHandler;
 import org.siemac.metamac.statistical.operations.web.server.handlers.DeleteInstanceListActionHandler;
 import org.siemac.metamac.statistical.operations.web.server.handlers.DeleteOperationListActionHandler;
+import org.siemac.metamac.statistical.operations.web.server.handlers.ExportOperationListActionHandler;
 import org.siemac.metamac.statistical.operations.web.server.handlers.GetFamilyActionHandler;
 import org.siemac.metamac.statistical.operations.web.server.handlers.GetFamilyAndOperationsActionHandler;
 import org.siemac.metamac.statistical.operations.web.server.handlers.GetFamilyPaginatedListActionHandler;
@@ -31,6 +32,7 @@ import org.siemac.metamac.statistical.operations.web.server.handlers.external.Ge
 import org.siemac.metamac.statistical.operations.web.shared.DeleteFamilyListAction;
 import org.siemac.metamac.statistical.operations.web.shared.DeleteInstanceListAction;
 import org.siemac.metamac.statistical.operations.web.shared.DeleteOperationListAction;
+import org.siemac.metamac.statistical.operations.web.shared.ExportOperationListAction;
 import org.siemac.metamac.statistical.operations.web.shared.GetFamilyAction;
 import org.siemac.metamac.statistical.operations.web.shared.GetFamilyAndOperationsAction;
 import org.siemac.metamac.statistical.operations.web.shared.GetFamilyPaginatedListAction;
@@ -98,6 +100,7 @@ public class ServerModule extends HandlerModule {
         bindHandler(SaveOperationAction.class, SaveOperationActionHandler.class);
         bindHandler(GetOperationAndInstancesAction.class, GetOperationAndInstancesActionHandler.class);
         bindHandler(DeleteOperationListAction.class, DeleteOperationListActionHandler.class);
+        bindHandler(ExportOperationListAction.class, ExportOperationListActionHandler.class);
         bindHandler(UpdateOperationFamiliesAction.class, UpdateOperationFamiliesActionHandler.class);
         bindHandler(PublishInternallyOperationAction.class, PublishInternallyOperationActionHandler.class);
         bindHandler(PublishExternallyOperationAction.class, PublishExternallyOperationActionHandler.class);

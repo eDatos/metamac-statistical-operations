@@ -72,4 +72,13 @@ public class SecurityUtils extends SharedSecurityUtils {
         return metamacPrincipal;
     }
 
+    public static void canExportCategoriesTsv(ServiceContext ctx) throws MetamacException {
+        if (!canExportCategoriesTsv(getMetamacPrincipal(ctx))) {
+            throw new MetamacException(ServiceExceptionType.SECURITY_PRINCIPAL_NOT_FOUND);
+        }
+    }
+    public static boolean canExportCategoriesTsv(MetamacPrincipal metamacPrincipal) {
+        return isAnyStatisticalOperationsRole(metamacPrincipal);
+    }
+
 }

@@ -1,12 +1,15 @@
 package org.siemac.metamac.statistical.operations.core.serviceimpl;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import org.fornax.cartridges.sculptor.framework.domain.PagedResult;
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
 import org.siemac.metamac.core.common.criteria.MetamacCriteria;
 import org.siemac.metamac.core.common.criteria.MetamacCriteriaResult;
 import org.siemac.metamac.core.common.criteria.SculptorCriteria;
 import org.siemac.metamac.core.common.exception.MetamacException;
-import org.siemac.metamac.statistical.operations.core.conf.StatisticalOperationsConfigurationService;
 import org.siemac.metamac.statistical.operations.core.domain.CollMethod;
 import org.siemac.metamac.statistical.operations.core.domain.Cost;
 import org.siemac.metamac.statistical.operations.core.domain.Family;
@@ -42,13 +45,8 @@ import org.siemac.metamac.statistical.operations.core.serviceimpl.result.Publish
 import org.siemac.metamac.statistical.operations.core.serviceimpl.result.ReSendStreamMessageOperationServiceResult;
 import org.siemac.metamac.statistical.operations.core.serviceimpl.result.SendStreamMessageResult;
 import org.siemac.metamac.statistical.operations.core.serviceimpl.utils.StatisticalOperationsValidationUtils;
-import org.siemac.metamac.statistical.operations.core.serviceimpl.utils.TsvExportationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 /**
  * Implementation of StatisticalOperationsServiceFacade.
@@ -70,9 +68,6 @@ public class StatisticalOperationsServiceFacadeImpl extends StatisticalOperation
 
     @Autowired
     private StatisticalOperationsListsService      statisticalOperationsListsService;
-
-    @Autowired
-    private StatisticalOperationsConfigurationService configurationService;
 
     @Autowired
     private StreamMessagingServiceFacade           streamMessagingServiceFacade;
@@ -98,7 +93,7 @@ public class StatisticalOperationsServiceFacadeImpl extends StatisticalOperation
         SecurityUtils.checkServiceOperationAllowed(ctx, StatisticalOperationsRoleEnum.ANY_ROLE_ALLOWED);
 
         List<SurveyType> surveyTypesList = getStatisticalOperationsListsService().findAllSurveyTypes(ctx);
-        List<SurveyTypeDto> surveyTypesDtoList = new ArrayList<SurveyTypeDto>();
+        List<SurveyTypeDto> surveyTypesDtoList = new ArrayList<>();
         for (SurveyType item : surveyTypesList) {
             surveyTypesDtoList.add(do2DtoMapper.surveyTypeToDto(item));
         }
@@ -881,19 +876,25 @@ public class StatisticalOperationsServiceFacadeImpl extends StatisticalOperation
     }
 
     @Override
-    public String exportOperationsTsv(ServiceContext ctx, List<Long> operationId) throws MetamacException {
+    public List<OperationDto> findOperationsByIdIn(ServiceContext ctx, List<Long> operationsId) throws MetamacException {
         // Security
-        SecurityUtils.canExportCategoriesTsv(ctx);
-        List<String> languages = configurationService.retrieveLanguages();
-        List<Operation> operations = getStatisticalOperationsBaseService().findOperationsByIdIn(ctx, operationId);
-        List<OperationDto> operationsDto = operationsListDo2Dto(ctx, operations);
+        SecurityUtils.checkServiceOperationAllowed(ctx, StatisticalOperationsRoleEnum.ANY_ROLE_ALLOWED);
 
-        for (OperationDto opDto : operationsDto){
-            StatisticalOperationsValidationUtils.checkExportOperationsTsv(opDto.getId(), null);
+        List<Operation> operations = getStatisticalOperationsBaseService().findOperationsByIdIn(ctx, operationsId);
+
+        // Export
+        return operationsListDo2Dto(ctx, operations);
+    }
+
+    @Override
+    public String exportOperationsTsv(ServiceContext ctx, List<OperationDto> operationDtos) throws MetamacException {
+        //Security
+        for (OperationDto op : operationDtos){
+            StatisticalOperationsValidationUtils.checkExportOperationsTsv(op.getId(), null);
         }
 
         // Export
-        return TsvExportationUtils.exportStatisticalOperations(operationsDto, languages);
+        return getStatisticalOperationsBaseService().exportOperationsTsv(ctx, operationDtos);
     }
 
     @Override

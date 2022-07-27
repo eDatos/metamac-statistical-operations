@@ -1,5 +1,12 @@
 package org.siemac.metamac.statistical.operations.core.serviceimpl;
 
+import static org.fornax.cartridges.sculptor.framework.accessapi.ConditionalCriteriaBuilder.criteriaFor;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+
 import org.fornax.cartridges.sculptor.framework.accessapi.ConditionalCriteria;
 import org.fornax.cartridges.sculptor.framework.domain.PagedResult;
 import org.fornax.cartridges.sculptor.framework.domain.PagingParameter;
@@ -9,6 +16,7 @@ import org.siemac.metamac.core.common.criteria.utils.CriteriaUtils;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.core.common.exception.MetamacExceptionItem;
 import org.siemac.metamac.core.common.util.GeneratorUrnUtils;
+import org.siemac.metamac.statistical.operations.core.conf.StatisticalOperationsConfigurationService;
 import org.siemac.metamac.statistical.operations.core.domain.Family;
 import org.siemac.metamac.statistical.operations.core.domain.FamilyRepository;
 import org.siemac.metamac.statistical.operations.core.domain.Instance;
@@ -16,6 +24,7 @@ import org.siemac.metamac.statistical.operations.core.domain.InstanceProperties;
 import org.siemac.metamac.statistical.operations.core.domain.InstanceRepository;
 import org.siemac.metamac.statistical.operations.core.domain.Operation;
 import org.siemac.metamac.statistical.operations.core.domain.OperationRepository;
+import org.siemac.metamac.statistical.operations.core.dto.OperationDto;
 import org.siemac.metamac.statistical.operations.core.enume.domain.ProcStatusEnum;
 import org.siemac.metamac.statistical.operations.core.enume.domain.StatusEnum;
 import org.siemac.metamac.statistical.operations.core.enume.domain.StreamMessageStatusEnum;
@@ -26,16 +35,10 @@ import org.siemac.metamac.statistical.operations.core.exception.InstanceNotFound
 import org.siemac.metamac.statistical.operations.core.exception.OperationNotFoundException;
 import org.siemac.metamac.statistical.operations.core.serviceimpl.utils.CheckMandatoryMetadataUtil;
 import org.siemac.metamac.statistical.operations.core.serviceimpl.utils.StatisticalOperationsValidationUtils;
+import org.siemac.metamac.statistical.operations.core.serviceimpl.utils.TsvExportationUtils;
 import org.siemac.metamac.statistical.operations.core.serviceimpl.utils.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-
-import static org.fornax.cartridges.sculptor.framework.accessapi.ConditionalCriteriaBuilder.criteriaFor;
 
 /**
  * Implementation of StatisticalOperationsBaseService.
@@ -52,6 +55,9 @@ public class StatisticalOperationsBaseServiceImpl extends StatisticalOperationsB
     @Autowired
     private InstanceRepository instanceRepository;
 
+    @Autowired
+    private StatisticalOperationsConfigurationService configurationService;
+
 
     public StatisticalOperationsBaseServiceImpl() {
     }
@@ -63,7 +69,7 @@ public class StatisticalOperationsBaseServiceImpl extends StatisticalOperationsB
     @Override
     public Family findFamilyById(ServiceContext ctx, Long id) throws MetamacException {
         // Validations
-        StatisticalOperationsValidationUtils.checkParameterRequired(id, ServiceExceptionParameters.ID, new ArrayList<MetamacExceptionItem>());
+        StatisticalOperationsValidationUtils.checkParameterRequired(id, ServiceExceptionParameters.ID, new ArrayList<>());
 
         // Return family
         try {
@@ -459,6 +465,14 @@ public class StatisticalOperationsBaseServiceImpl extends StatisticalOperationsB
 
         // Save
         return updateOperation(ctx, operation);
+    }
+
+    @Override
+    public String exportOperationsTsv(ServiceContext ctx,  List<OperationDto> operationsDto) throws MetamacException {
+        List<String> languages = configurationService.retrieveLanguages();
+
+        // Export
+        return TsvExportationUtils.exportStatisticalOperations(operationsDto, languages);
     }
 
     // --------------------------------------------------------------------------------------------------------------

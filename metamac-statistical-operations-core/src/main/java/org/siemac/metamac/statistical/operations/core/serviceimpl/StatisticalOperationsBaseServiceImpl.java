@@ -69,7 +69,7 @@ public class StatisticalOperationsBaseServiceImpl extends StatisticalOperationsB
     @Override
     public Family findFamilyById(ServiceContext ctx, Long id) throws MetamacException {
         // Validations
-        StatisticalOperationsValidationUtils.checkParameterRequired(id, ServiceExceptionParameters.ID, new ArrayList<>());
+        StatisticalOperationsValidationUtils.checkParameterRequired(id, ServiceExceptionParameters.ID, new ArrayList<MetamacExceptionItem>());
 
         // Return family
         try {

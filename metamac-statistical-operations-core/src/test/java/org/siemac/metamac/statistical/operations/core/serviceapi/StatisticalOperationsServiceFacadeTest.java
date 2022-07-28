@@ -7,8 +7,13 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.siemac.metamac.statistical.operations.core.utils.mocks.StatisticalOperationsDtoMocks.mockExternalItemDto;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -3512,13 +3517,58 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
         int instancesAfter = statisticalOperationsServiceFacade.findAllInstances(getServiceContextAdministrador()).size();
         assertEquals(instancesBefore, instancesAfter);
     }
-    @Override public void testFindOperationsByIdIn() throws Exception {
 
+    @Override
+    @Test
+    @Transactional
+    public void testFindOperationsByIdIn() throws Exception {
+        // Create operation
+        List<OperationDto> operationsDto = createListOperationsDto();
+        int operationsBefore = statisticalOperationsServiceFacade.findAllOperations(getServiceContextAdministrador()).size();
+
+        List<Long> operationsId = new ArrayList<Long>(operationsDto.size());
+        for(OperationDto operationDto : operationsDto){
+            operationsId.add(operationDto.getId());
+        }
+
+        // Check number of operations
+        int operationsAfter = statisticalOperationsServiceFacade.findOperationsByIdIn(getServiceContextAdministrador(), operationsId).size();
+        assertEquals(operationsBefore, operationsAfter);
     }
 
     @Override
+    @Test
+    @Transactional
     public void testExportOperationsTsv() throws Exception {
+        // Create operation
+        List<OperationDto> operationsDto = createListOperationsDto();
+        String fileName = statisticalOperationsServiceFacade.exportOperationsTsv(getServiceContextAdministrador(),operationsDto);
+        assertNotNull(fileName);
 
+        // Validate
+        File file = new File(tempDirPath() + File.separatorChar + fileName);
+        FileInputStream fileInputStream = new FileInputStream(file);
+        InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream, "UTF-8");
+        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+        assertEquals("code\turn\ttitle#es\ttitle#pt\ttitle#en\ttitle#ca\tacronym#es\tacronym#pt\tacronym#en\tacronym#ca\t"
+                        + "subject_areas\tsecondary_subject_areas\tobjective#es\tobjective#pt\tobjective#en\tobjective#ca\tdescription#es\t"
+                        + "description#pt\tdescription#en\tdescription#ca\tstatistical_operation_type\tofficiality_type\tindicator_system\tproducer"
+                        + "\tregional_responsible\tregional_contributor\tcreated_date\tinventory_Date\tcurrenlty_active\tstatus\tproc_status\tpublisher\t"
+                        + "common_metadata\trel_pol_us_ac#es\trel_pol_us_ac#pt\trel_pol_us_ac#en\trel_pol_us_ac#ca\trelease_calendar\trelease_calendar_access\t"
+                        + "update_frequency\tcurrent_internal_instance\tcurrent_instance\tinventory_date\tspecific_legal_acts#es\tspecific_legal_acts#pt\t"
+                        + "specific_legal_acts#en\tspecific_legal_acts#ca\tcommon_data_sharing#es\tcommon_data_sharing#pt\t"
+                        + "common_data_sharing#en\tcommon_data_sharing#ca\tconfidentality_policy#es\tconfidentality_policy#pt\tconfidentality_policy#en\tconfidentality_policy#ca\t"
+                        + "confidentality_data_treatment#es\tconfidentality_data_treatment#pt\tconfidentality_data_treatment#en\tconfidentality_data_treatment#ca\t"
+                        + "notes#es\tnotes#pt\tnotes#en\tnotes#ca\tcomment#es\tcomment#pt\tcomment#en\tcomment#ca", bufferedReader.readLine());
+
+        Set<String> lines = new HashSet<>();
+        String line = null;
+        while ((line = bufferedReader.readLine()) != null) {
+            System.out.println(line.replaceAll("\t", "\\\\t"));
+            lines.add(line);
+        }
+        assertEquals(operationsDto.size(), lines.size());
+        
     }
 
     @Override
@@ -3805,6 +3855,20 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
         order.setType(orderType);
         order.setPropertyName(property.name());
         metamacCriteria.getOrdersBy().add(order);
+    }
+
+    private List<OperationDto> createListOperationsDto() throws MetamacException {
+        List<OperationDto> operationsDto = new ArrayList<OperationDto>();
+        for(int i=0;i <= getRandomNumber();i++){
+            operationsDto.add(statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), createOperationDtoForInternalPublishing()));
+        }
+        return operationsDto;
+    }
+
+    private int getRandomNumber() {
+        int min = 5;
+        int max = 25;
+        return (int) ((Math.random() * (max - min)) + min);
     }
 
 }

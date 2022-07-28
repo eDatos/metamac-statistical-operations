@@ -643,8 +643,10 @@ public class StatisticalOperationsBaseServiceTest extends StatisticalOperationsB
     public void testPublishExternallyOperation() throws Exception {
         // This test is in *ServiceFacade
     }
-    @Override public void testExportOperationsTsv() throws Exception {
 
+    @Override
+    public void testExportOperationsTsv() throws Exception {
+        // This test is in *ServiceFacade
     }
 
     /**************************************************************************

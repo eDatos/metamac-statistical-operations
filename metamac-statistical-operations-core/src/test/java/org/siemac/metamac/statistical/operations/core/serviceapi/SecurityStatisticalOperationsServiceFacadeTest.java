@@ -1535,12 +1535,21 @@ public class SecurityStatisticalOperationsServiceFacadeTest extends StatisticalO
     }
 
     @Override
+    @Test
     public void testFindOperationsByIdIn() throws Exception {
-     /*   //Operation List
-        OperationDto operationDto = createOperationDto();
-        statisticalOperationsServiceFacade.createOperation(getServiceContextTecnicoPlanificacion(), operationDto);
+        List<OperationDto> operationsDto = createListOperationsDto();
 
-*/
+        List<Long> operationsId = new ArrayList<Long>(operationsDto.size());
+        for(OperationDto operationDto : operationsDto){
+            operationsId.add(operationDto.getId());
+        }
+
+        statisticalOperationsServiceFacade.findOperationsByIdIn(getServiceContextTecnicoApoyoDifusion(), operationsId);
+        statisticalOperationsServiceFacade.findOperationsByIdIn(getServiceContextTecnicoApoyoPlanificacion(), operationsId);
+        statisticalOperationsServiceFacade.findOperationsByIdIn(getServiceContextTecnicoApoyoProduccion(), operationsId);
+        statisticalOperationsServiceFacade.findOperationsByIdIn(getServiceContextTecnicoDifusion(), operationsId);
+        statisticalOperationsServiceFacade.findOperationsByIdIn(getServiceContextTecnicoPlanificacion(), operationsId);
+        statisticalOperationsServiceFacade.findOperationsByIdIn(getServiceContextTecnicoProduccion(), operationsId);
     }
 
     @Override
@@ -1708,5 +1717,19 @@ public class SecurityStatisticalOperationsServiceFacadeTest extends StatisticalO
         instanceDto.setInstanceType(statisticalOperationsServiceFacade.findInstanceTypeById(getServiceContextAdministrador(), Long.valueOf(1)));
 
         return instanceDto;
+    }
+
+    private List<OperationDto> createListOperationsDto() throws MetamacException {
+        List<OperationDto> operationsDto = new ArrayList<OperationDto>();
+        for(int i=0;i <= getRandomNumber();i++){
+            operationsDto.add(statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), createOperationDtoForInternalPublishing()));
+        }
+        return operationsDto;
+    }
+
+    private int getRandomNumber() {
+        int min = 5;
+        int max = 25;
+        return (int) ((Math.random() * (max - min)) + min);
     }
 }

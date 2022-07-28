@@ -1,5 +1,13 @@
 package org.siemac.metamac.statistical.operations.core.serviceapi;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+import static org.siemac.metamac.statistical.operations.core.utils.mocks.StatisticalOperationsDtoMocks.mockExternalItemDto;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,14 +29,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-import static org.siemac.metamac.statistical.operations.core.utils.mocks.StatisticalOperationsDtoMocks.mockExternalItemDto;
 
 /**
  * Spring based transactional test with DbUnit support.
@@ -1535,6 +1535,15 @@ public class SecurityStatisticalOperationsServiceFacadeTest extends StatisticalO
     }
 
     @Override
+    public void testFindOperationsByIdIn() throws Exception {
+     /*   //Operation List
+        OperationDto operationDto = createOperationDto();
+        statisticalOperationsServiceFacade.createOperation(getServiceContextTecnicoPlanificacion(), operationDto);
+
+*/
+    }
+
+    @Override
     public void testExportOperationsTsv() throws Exception {
 
     }
@@ -1542,6 +1551,7 @@ public class SecurityStatisticalOperationsServiceFacadeTest extends StatisticalO
     /**************************************************************************
      * PRIVATE UTILS
      **************************************************************************/
+
 
     private FamilyDto createFamilyDto() {
         FamilyDto familyDto = new FamilyDto();

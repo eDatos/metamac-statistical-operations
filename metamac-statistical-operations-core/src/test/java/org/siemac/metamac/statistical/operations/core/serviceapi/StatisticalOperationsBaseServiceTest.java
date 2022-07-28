@@ -1,5 +1,16 @@
 package org.siemac.metamac.statistical.operations.core.serviceapi;
 
+import static org.fornax.cartridges.sculptor.framework.accessapi.ConditionalCriteriaBuilder.criteriaFor;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.siemac.metamac.statistical.operations.core.utils.mocks.StatisticalOperationsMocks.mockExternalItem;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import org.apache.commons.lang.RandomStringUtils;
 import org.fornax.cartridges.sculptor.framework.accessapi.ConditionalCriteria;
 import org.fornax.cartridges.sculptor.framework.domain.LeafProperty;
@@ -36,17 +47,6 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import static org.fornax.cartridges.sculptor.framework.accessapi.ConditionalCriteriaBuilder.criteriaFor;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.siemac.metamac.statistical.operations.core.utils.mocks.StatisticalOperationsMocks.mockExternalItem;
-
 /**
  * Spring based transactional test with DbUnit support.
  */
@@ -62,6 +62,7 @@ public class StatisticalOperationsBaseServiceTest extends StatisticalOperationsB
 
     @Autowired
     protected StatisticalOperationsListsService statisticalOperationsListsService;
+
 
     @Autowired
     private final PlatformTransactionManager    transactionManager = null;
@@ -641,6 +642,9 @@ public class StatisticalOperationsBaseServiceTest extends StatisticalOperationsB
     @Test
     public void testPublishExternallyOperation() throws Exception {
         // This test is in *ServiceFacade
+    }
+    @Override public void testExportOperationsTsv() throws Exception {
+
     }
 
     /**************************************************************************

@@ -1,9 +1,9 @@
 package org.siemac.metamac.statistical.operations.web.client.operation.view.handlers;
 
+import java.util.List;
+
 import org.siemac.metamac.statistical.operations.core.dto.OperationDto;
 import org.siemac.metamac.web.common.client.view.handlers.SrmExternalResourcesUiHandlers;
-
-import java.util.List;
 
 public interface OperationListUiHandlers extends SrmExternalResourcesUiHandlers {
 

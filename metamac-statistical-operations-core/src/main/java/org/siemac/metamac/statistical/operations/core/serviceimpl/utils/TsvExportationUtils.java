@@ -1,15 +1,5 @@
 package org.siemac.metamac.statistical.operations.core.serviceimpl.utils;
 
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
-import org.siemac.metamac.core.common.dto.ExternalItemDto;
-import org.siemac.metamac.core.common.dto.InternationalStringDto;
-import org.siemac.metamac.core.common.exception.MetamacException;
-import org.siemac.metamac.core.common.exception.MetamacExceptionBuilder;
-import org.siemac.metamac.statistical.operations.core.constants.StatisticalOperationsConstants;
-import org.siemac.metamac.statistical.operations.core.dto.OperationDto;
-import org.siemac.metamac.statistical.operations.core.error.ServiceExceptionType;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -20,6 +10,16 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
+import org.siemac.metamac.core.common.dto.ExternalItemDto;
+import org.siemac.metamac.core.common.dto.InternationalStringDto;
+import org.siemac.metamac.core.common.exception.MetamacException;
+import org.siemac.metamac.core.common.exception.MetamacExceptionBuilder;
+import org.siemac.metamac.statistical.operations.core.constants.StatisticalOperationsConstants;
+import org.siemac.metamac.statistical.operations.core.dto.OperationDto;
+import org.siemac.metamac.statistical.operations.core.error.ServiceExceptionType;
 
 public class TsvExportationUtils {
 

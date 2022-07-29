@@ -3546,20 +3546,11 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
         assertNotNull(fileName);
 
         // Validate
-        File file = new File(tempDirPath() + File.separatorChar + fileName);
-        FileInputStream fileInputStream = new FileInputStream(file);
-        InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream, "UTF-8");
-        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-        assertEquals("code\turn\ttitle#es\ttitle#pt\ttitle#en\ttitle#ca\tacronym#es\tacronym#pt\tacronym#en\tacronym#ca\t"
-                        + "subject_areas\tsecondary_subject_areas\tobjective#es\tobjective#pt\tobjective#en\tobjective#ca\tdescription#es\t"
-                        + "description#pt\tdescription#en\tdescription#ca\tstatistical_operation_type\tofficiality_type\tindicator_system\tproducer"
-                        + "\tregional_responsible\tregional_contributor\tcreated_date\tinventory_Date\tcurrenlty_active\tstatus\tproc_status\tpublisher\t"
-                        + "common_metadata\trel_pol_us_ac#es\trel_pol_us_ac#pt\trel_pol_us_ac#en\trel_pol_us_ac#ca\trelease_calendar\trelease_calendar_access\t"
-                        + "update_frequency\tcurrent_internal_instance\tcurrent_instance\tinventory_date\tspecific_legal_acts#es\tspecific_legal_acts#pt\t"
-                        + "specific_legal_acts#en\tspecific_legal_acts#ca\tcommon_data_sharing#es\tcommon_data_sharing#pt\t"
-                        + "common_data_sharing#en\tcommon_data_sharing#ca\tconfidentality_policy#es\tconfidentality_policy#pt\tconfidentality_policy#en\tconfidentality_policy#ca\t"
-                        + "confidentality_data_treatment#es\tconfidentality_data_treatment#pt\tconfidentality_data_treatment#en\tconfidentality_data_treatment#ca\t"
-                        + "notes#es\tnotes#pt\tnotes#en\tnotes#ca\tcomment#es\tcomment#pt\tcomment#en\tcomment#ca", bufferedReader.readLine());
+        BufferedReader bufferedReader = getBufferedReader(tempDirPath() + File.separatorChar + fileName);
+
+        BufferedReader testBufferedReader = getBufferedReader("src/test/resources/tsv/operations.tsv");
+
+        assertEquals(testBufferedReader.readLine(), bufferedReader.readLine());
 
         Set<String> lines = new HashSet<>();
         String line = null;
@@ -3568,7 +3559,6 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
             lines.add(line);
         }
         assertEquals(operationsDto.size(), lines.size());
-        
     }
 
     @Override
@@ -3859,16 +3849,22 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
 
     private List<OperationDto> createListOperationsDto() throws MetamacException {
         List<OperationDto> operationsDto = new ArrayList<OperationDto>();
-        for(int i=0;i <= getRandomNumber();i++){
+        for(int i=0;i <= getRandomNumber(5,25);i++){
             operationsDto.add(statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), createOperationDtoForInternalPublishing()));
         }
         return operationsDto;
     }
 
-    private int getRandomNumber() {
-        int min = 5;
-        int max = 25;
+    private int getRandomNumber(int min, int max) {
         return (int) ((Math.random() * (max - min)) + min);
+    }
+
+    private BufferedReader getBufferedReader(String pathname) throws Exception{
+        File file = new File(pathname);
+        FileInputStream fileInputStream = new FileInputStream(file);
+        InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream, "UTF-8");
+
+        return new BufferedReader(inputStreamReader);
     }
 
 }

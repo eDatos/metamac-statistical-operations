@@ -1721,15 +1721,13 @@ public class SecurityStatisticalOperationsServiceFacadeTest extends StatisticalO
 
     private List<OperationDto> createListOperationsDto() throws MetamacException {
         List<OperationDto> operationsDto = new ArrayList<OperationDto>();
-        for(int i=0;i <= getRandomNumber();i++){
+        for(int i=0;i <= getRandomNumber(5,25);i++){
             operationsDto.add(statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), createOperationDtoForInternalPublishing()));
         }
         return operationsDto;
     }
 
-    private int getRandomNumber() {
-        int min = 5;
-        int max = 25;
+    private int getRandomNumber(int min, int max) {
         return (int) ((Math.random() * (max - min)) + min);
     }
 }

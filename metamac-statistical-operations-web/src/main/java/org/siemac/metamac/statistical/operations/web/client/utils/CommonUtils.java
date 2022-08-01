@@ -1,9 +1,12 @@
 package org.siemac.metamac.statistical.operations.web.client.utils;
 
-import com.google.gwt.http.client.URL;
-import com.google.gwt.resources.client.ImageResource;
-import com.smartgwt.client.widgets.form.fields.FormItemIcon;
-import com.smartgwt.client.widgets.form.validator.LengthRangeValidator;
+import static org.siemac.metamac.statistical.operations.web.client.OperationsWeb.getCoreMessages;
+
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+
 import org.siemac.metamac.core.common.dto.ExternalItemDto;
 import org.siemac.metamac.core.common.util.shared.StringUtils;
 import org.siemac.metamac.statistical.operations.core.dto.FamilyBaseDto;
@@ -18,12 +21,10 @@ import org.siemac.metamac.statistical.operations.web.client.constants.Statistica
 import org.siemac.metamac.web.common.client.resources.GlobalResources;
 import org.siemac.metamac.web.common.shared.utils.SharedTokens;
 
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-
-import static org.siemac.metamac.statistical.operations.web.client.OperationsWeb.getCoreMessages;
+import com.google.gwt.http.client.URL;
+import com.google.gwt.resources.client.ImageResource;
+import com.smartgwt.client.widgets.form.fields.FormItemIcon;
+import com.smartgwt.client.widgets.form.validator.LengthRangeValidator;
 
 public class CommonUtils {
 

@@ -1,9 +1,6 @@
 package org.siemac.metamac.statistical.operations.web.server.handlers;
 
-import java.util.List;
-
 import org.siemac.metamac.core.common.exception.MetamacException;
-import org.siemac.metamac.statistical.operations.core.dto.OperationDto;
 import org.siemac.metamac.statistical.operations.core.serviceapi.StatisticalOperationsServiceFacade;
 import org.siemac.metamac.statistical.operations.web.shared.ExportOperationListAction;
 import org.siemac.metamac.statistical.operations.web.shared.ExportOperationListResult;
@@ -31,8 +28,7 @@ public class ExportOperationListActionHandler extends SecurityActionHandler<Expo
             String fileName = null;
 
             try {
-                List<OperationDto> operationsDto = statisticalOperationsServiceFacade.findOperationsByIdIn(ServiceContextHolder.getCurrentServiceContext(), action.getIdOperations());
-                fileName = statisticalOperationsServiceFacade.exportOperationsTsv(ServiceContextHolder.getCurrentServiceContext(),operationsDto);
+                fileName = statisticalOperationsServiceFacade.exportOperationsTsv(ServiceContextHolder.getCurrentServiceContext(),action.getIdOperations());
             } catch (MetamacException e) {
                 throw WebExceptionUtils.createMetamacWebException(e);
             }

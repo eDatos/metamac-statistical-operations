@@ -1536,25 +1536,14 @@ public class SecurityStatisticalOperationsServiceFacadeTest extends StatisticalO
 
     @Override
     @Test
-    public void testFindOperationsByIdIn() throws Exception {
-        List<OperationDto> operationsDto = createListOperationsDto();
-
-        List<Long> operationsId = new ArrayList<Long>(operationsDto.size());
-        for(OperationDto operationDto : operationsDto){
-            operationsId.add(operationDto.getId());
-        }
-
-        statisticalOperationsServiceFacade.findOperationsByIdIn(getServiceContextTecnicoApoyoDifusion(), operationsId);
-        statisticalOperationsServiceFacade.findOperationsByIdIn(getServiceContextTecnicoApoyoPlanificacion(), operationsId);
-        statisticalOperationsServiceFacade.findOperationsByIdIn(getServiceContextTecnicoApoyoProduccion(), operationsId);
-        statisticalOperationsServiceFacade.findOperationsByIdIn(getServiceContextTecnicoDifusion(), operationsId);
-        statisticalOperationsServiceFacade.findOperationsByIdIn(getServiceContextTecnicoPlanificacion(), operationsId);
-        statisticalOperationsServiceFacade.findOperationsByIdIn(getServiceContextTecnicoProduccion(), operationsId);
-    }
-
-    @Override
     public void testExportOperationsTsv() throws Exception {
-
+        List<Long> operationsId = createListOperationsId();
+        statisticalOperationsServiceFacade.exportOperationsTsv(getServiceContextTecnicoApoyoDifusion(),operationsId);
+        statisticalOperationsServiceFacade.exportOperationsTsv(getServiceContextTecnicoApoyoPlanificacion(),operationsId);
+        statisticalOperationsServiceFacade.exportOperationsTsv(getServiceContextTecnicoApoyoProduccion(),operationsId);
+        statisticalOperationsServiceFacade.exportOperationsTsv(getServiceContextTecnicoDifusion(),operationsId);
+        statisticalOperationsServiceFacade.exportOperationsTsv(getServiceContextTecnicoPlanificacion(),operationsId);
+        statisticalOperationsServiceFacade.exportOperationsTsv(getServiceContextTecnicoProduccion(),operationsId);
     }
 
     /**************************************************************************
@@ -1719,12 +1708,12 @@ public class SecurityStatisticalOperationsServiceFacadeTest extends StatisticalO
         return instanceDto;
     }
 
-    private List<OperationDto> createListOperationsDto() throws MetamacException {
-        List<OperationDto> operationsDto = new ArrayList<OperationDto>();
+    private List<Long> createListOperationsId() throws MetamacException {
+        List<Long> operationsId = new ArrayList<Long>();
         for(int i=0;i <= getRandomNumber(5,25);i++){
-            operationsDto.add(statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), createOperationDtoForInternalPublishing()));
+            operationsId.add(statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), createOperationDtoForInternalPublishing()).getId());
         }
-        return operationsDto;
+        return operationsId;
     }
 
     private int getRandomNumber(int min, int max) {

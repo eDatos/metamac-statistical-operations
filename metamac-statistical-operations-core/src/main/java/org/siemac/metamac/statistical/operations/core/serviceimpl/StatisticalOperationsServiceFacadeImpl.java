@@ -44,7 +44,6 @@ import org.siemac.metamac.statistical.operations.core.serviceimpl.result.Publish
 import org.siemac.metamac.statistical.operations.core.serviceimpl.result.PublishInternallyOperationServiceResult;
 import org.siemac.metamac.statistical.operations.core.serviceimpl.result.ReSendStreamMessageOperationServiceResult;
 import org.siemac.metamac.statistical.operations.core.serviceimpl.result.SendStreamMessageResult;
-import org.siemac.metamac.statistical.operations.core.serviceimpl.utils.StatisticalOperationsValidationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -876,26 +875,30 @@ public class StatisticalOperationsServiceFacadeImpl extends StatisticalOperation
     }
 
     @Override
-    public List<OperationDto> findOperationsByIdIn(ServiceContext ctx, List<Long> operationsId) throws MetamacException {
-        // Security
-        SecurityUtils.checkServiceOperationAllowed(ctx, StatisticalOperationsRoleEnum.ANY_ROLE_ALLOWED);
+    public String exportOperationsTsv(ServiceContext ctx, List<Long> operationsId) throws MetamacException {
+        //Security
+        SecurityUtils.checkServiceOperationAllowed(ctx,StatisticalOperationsRoleEnum.ANY_ROLE_ALLOWED);
 
-        List<Operation> operations = getStatisticalOperationsBaseService().findOperationsByIdIn(ctx, operationsId);
+
 
         // Export
-        return operationsListDo2Dto(ctx, operations);
+        return getStatisticalOperationsBaseService().exportOperationsTsv(ctx, operationsId);
     }
+    /*
+         // Security
+        SecurityUtils.canExportCategoriesTsv(ctx);
+        List<String> languages = configurationService.retrieveLanguages();
+        List<Operation> operations = getStatisticalOperationsBaseService().findOperationsByIdIn(ctx, operationId);
+        List<OperationDto> operationsDto = operationsListDo2Dto(ctx, operations);
 
-    @Override
-    public String exportOperationsTsv(ServiceContext ctx, List<OperationDto> operationDtos) throws MetamacException {
-        //Security
-        for (OperationDto op : operationDtos){
-            StatisticalOperationsValidationUtils.checkExportOperationsTsv(op.getId(), null);
+        for (OperationDto opDto : operationsDto){
+            StatisticalOperationsValidationUtils.checkExportOperationsTsv(opDto.getId(), null);
         }
 
         // Export
-        return getStatisticalOperationsBaseService().exportOperationsTsv(ctx, operationDtos);
+        return TsvExportationUtils.exportStatisticalOperations(operationsDto, languages);
     }
+    * */
 
     @Override
     public InstanceBaseDto findInstanceBaseById(ServiceContext ctx, Long id) throws MetamacException {
@@ -941,14 +944,6 @@ public class StatisticalOperationsServiceFacadeImpl extends StatisticalOperation
     // --------------------------------------------------------------------------------
     // TRANSFORM LISTS
     // --------------------------------------------------------------------------------
-    private List<OperationDto> operationsListDo2Dto(ServiceContext ctx, List<Operation> operations) throws MetamacException {
-        List<OperationDto> operationDtos = new ArrayList<>();
-        for (Operation operation : operations){
-            operationDtos.add(operationToDto(ctx, operation));
-        }
-        return operationDtos;
-    }
-
     private List<FamilyBaseDto> familiesListDo2BaseDto(List<Family> families) throws MetamacException {
         List<FamilyBaseDto> familiesDtos = new ArrayList<FamilyBaseDto>();
         for (Family family : families) {

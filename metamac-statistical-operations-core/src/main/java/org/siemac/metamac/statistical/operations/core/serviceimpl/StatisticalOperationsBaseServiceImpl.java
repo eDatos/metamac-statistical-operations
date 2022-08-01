@@ -12,11 +12,11 @@ import org.fornax.cartridges.sculptor.framework.domain.PagedResult;
 import org.fornax.cartridges.sculptor.framework.domain.PagingParameter;
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
 import org.joda.time.DateTime;
+import org.siemac.metamac.core.common.conf.ConfigurationService;
 import org.siemac.metamac.core.common.criteria.utils.CriteriaUtils;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.core.common.exception.MetamacExceptionItem;
 import org.siemac.metamac.core.common.util.GeneratorUrnUtils;
-import org.siemac.metamac.statistical.operations.core.conf.StatisticalOperationsConfigurationService;
 import org.siemac.metamac.statistical.operations.core.domain.Family;
 import org.siemac.metamac.statistical.operations.core.domain.FamilyRepository;
 import org.siemac.metamac.statistical.operations.core.domain.Instance;
@@ -24,7 +24,6 @@ import org.siemac.metamac.statistical.operations.core.domain.InstanceProperties;
 import org.siemac.metamac.statistical.operations.core.domain.InstanceRepository;
 import org.siemac.metamac.statistical.operations.core.domain.Operation;
 import org.siemac.metamac.statistical.operations.core.domain.OperationRepository;
-import org.siemac.metamac.statistical.operations.core.dto.OperationDto;
 import org.siemac.metamac.statistical.operations.core.enume.domain.ProcStatusEnum;
 import org.siemac.metamac.statistical.operations.core.enume.domain.StatusEnum;
 import org.siemac.metamac.statistical.operations.core.enume.domain.StreamMessageStatusEnum;
@@ -56,7 +55,7 @@ public class StatisticalOperationsBaseServiceImpl extends StatisticalOperationsB
     private InstanceRepository instanceRepository;
 
     @Autowired
-    private StatisticalOperationsConfigurationService configurationService;
+    private ConfigurationService configurationService;
 
 
     public StatisticalOperationsBaseServiceImpl() {
@@ -293,13 +292,6 @@ public class StatisticalOperationsBaseServiceImpl extends StatisticalOperationsB
     }
 
     @Override
-    public List<Operation> findOperationsByIdIn(ServiceContext ctx, List<Long> operationsId) throws MetamacException {
-        // Prepare criteria
-        List<ConditionalCriteria> conditions = criteriaFor(Operation.class).withProperty(org.siemac.metamac.statistical.operations.core.domain.OperationProperties.id()).in(operationsId).build();
-        return operationRepository.findByCondition(conditions);
-    }
-
-    @Override
     public Operation findOperationByCode(ServiceContext ctx, String code) throws MetamacException {
         // Validations
         StatisticalOperationsValidationUtils.checkParameterRequired(code, ServiceExceptionParameters.CODE, new ArrayList<MetamacExceptionItem>());
@@ -468,11 +460,21 @@ public class StatisticalOperationsBaseServiceImpl extends StatisticalOperationsB
     }
 
     @Override
-    public String exportOperationsTsv(ServiceContext ctx,  List<OperationDto> operationsDto) throws MetamacException {
+    public String exportOperationsTsv(ServiceContext ctx,  List<Long> operationsId) throws MetamacException {
+       //Security check
+        for (Long id : operationsId){
+            StatisticalOperationsValidationUtils.checkExportOperationsTsv(id, null);
+        }
+
+        // Export
+        List<ConditionalCriteria> conditions = criteriaFor(Operation.class)
+                .withProperty(org.siemac.metamac.statistical.operations.core.domain.OperationProperties.id())
+                .in(operationsId).build();
+        List<Operation> operations =  operationRepository.findByCondition(conditions);
         List<String> languages = configurationService.retrieveLanguages();
 
         // Export
-        return TsvExportationUtils.exportStatisticalOperations(operationsDto, languages);
+        return TsvExportationUtils.exportStatisticalOperations(operations, languages);
     }
 
     // --------------------------------------------------------------------------------------------------------------

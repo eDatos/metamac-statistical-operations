@@ -3521,32 +3521,15 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
     @Override
     @Test
     @Transactional
-    public void testFindOperationsByIdIn() throws Exception {
-        // Create operation
-        List<OperationDto> operationsDto = createListOperationsDto();
-        int operationsBefore = statisticalOperationsServiceFacade.findAllOperations(getServiceContextAdministrador()).size();
-
-        List<Long> operationsId = new ArrayList<Long>(operationsDto.size());
-        for(OperationDto operationDto : operationsDto){
-            operationsId.add(operationDto.getId());
-        }
-
-        // Check number of operations
-        int operationsAfter = statisticalOperationsServiceFacade.findOperationsByIdIn(getServiceContextAdministrador(), operationsId).size();
-        assertEquals(operationsBefore, operationsAfter);
-    }
-
-    @Override
-    @Test
-    @Transactional
     public void testExportOperationsTsv() throws Exception {
         // Create operation
-        List<OperationDto> operationsDto = createListOperationsDto();
-        String fileName = statisticalOperationsServiceFacade.exportOperationsTsv(getServiceContextAdministrador(),operationsDto);
+        List<Long> operationsId = createListOperationsId();
+        String fileName = statisticalOperationsServiceFacade.exportOperationsTsv(getServiceContextAdministrador(),operationsId);
         assertNotNull(fileName);
 
         // Validate
-        BufferedReader bufferedReader = getBufferedReader(tempDirPath() + File.separatorChar + fileName);
+        String tempPath = System.getProperty("java.io.tmpdir");
+        BufferedReader bufferedReader = getBufferedReader(tempPath + fileName);
 
         BufferedReader testBufferedReader = getBufferedReader("src/test/resources/tsv/operations.tsv");
 
@@ -3558,7 +3541,7 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
             System.out.println(line.replaceAll("\t", "\\\\t"));
             lines.add(line);
         }
-        assertEquals(operationsDto.size(), lines.size());
+        assertEquals(operationsId.size(), lines.size());
     }
 
     @Override
@@ -3847,12 +3830,12 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
         metamacCriteria.getOrdersBy().add(order);
     }
 
-    private List<OperationDto> createListOperationsDto() throws MetamacException {
-        List<OperationDto> operationsDto = new ArrayList<OperationDto>();
+    private List<Long> createListOperationsId() throws MetamacException {
+        List<Long> operationsId = new ArrayList<Long>();
         for(int i=0;i <= getRandomNumber(5,25);i++){
-            operationsDto.add(statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), createOperationDtoForInternalPublishing()));
+            operationsId.add(statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), createOperationDtoForInternalPublishing()).getId());
         }
-        return operationsDto;
+        return operationsId;
     }
 
     private int getRandomNumber(int min, int max) {

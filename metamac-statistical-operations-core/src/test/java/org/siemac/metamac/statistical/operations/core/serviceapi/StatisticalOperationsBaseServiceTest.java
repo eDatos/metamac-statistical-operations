@@ -507,11 +507,6 @@ public class StatisticalOperationsBaseServiceTest extends StatisticalOperationsB
     }
 
     @Override
-    public void testFindOperationsByIdIn() throws Exception {
-
-    }
-
-    @Override
     @Test
     public void testFindOperationByCondition() throws MetamacException {
         statisticalOperationsBaseService.createOperation(getServiceContextAdministrador(), createOperation());

@@ -40,57 +40,57 @@ public class TsvExportationUtils {
             writer = new OutputStreamWriter(outputStream, StatisticalOperationsConstants.TSV_EXPORTATION_ENCODING);
 
             writeStatisticalOperationsHeader(writer, languages);
-            for (Operation op : operations) {
+            for (Operation operation : operations) {
                 writer.write(StatisticalOperationsConstants.TSV_LINE_SEPARATOR);
                 //Identificadores
-                writeStringSingleFirstItem(writer, op.getCode());
-                writeStringSingleItem(writer, op.getUrn());
-                writeItemInternationalString(writer, op.getTitle(), languages);
-                writeItemInternationalString(writer, op.getAcronym(), languages);
+                writeStringSingleFirstItem(writer, operation.getCode());
+                writeStringSingleItem(writer, operation.getUrn());
+                writeItemInternationalString(writer, operation.getTitle(), languages);
+                writeItemInternationalString(writer, operation.getAcronym(), languages);
 
                 //Clasificadores de contenido
-                writeStringSingleItem(writer, op.getSubjectArea().getCode());
-                writeExternalItemListItem(writer, op.getSecondarySubjectAreas());
+                writeStringSingleItem(writer, operation.getSubjectArea().getCode());
+                writeExternalItemListItem(writer, operation.getSecondarySubjectAreas());
 
                 //Descriptores de contenido
-                writeItemInternationalString(writer, op.getObjective(), languages);
-                writeItemInternationalString(writer, op.getDescription(), languages);
+                writeItemInternationalString(writer, operation.getObjective(), languages);
+                writeItemInternationalString(writer, operation.getDescription(), languages);
 
                 //Descriptores de clase
-                writeStringSingleItem(writer, op.getSurveyType() == null? null : op.getSurveyType().getIdentifier());
-                writeStringSingleItem(writer, op.getOfficialityType() == null? null : op.getOfficialityType().getIdentifier());
-                writeStringSingleItem(writer, op.getIndicatorSystem().toString());
+                writeStringSingleItem(writer, operation.getSurveyType() == null? null : operation.getSurveyType().getIdentifier());
+                writeStringSingleItem(writer, operation.getOfficialityType() == null? null : operation.getOfficialityType().getIdentifier());
+                writeStringSingleItem(writer, operation.getIndicatorSystem().toString());
 
                 //Descriptores de producción
-                writeExternalItemListItem(writer, op.getProducer());
-                writeExternalItemListItem(writer, op.getRegionalResponsible());
-                writeExternalItemListItem(writer, op.getRegionalContributor());
-                writeDateItem(writer, op.getCreatedDate());
-                writeDateItem(writer, op.getInternalInventoryDate());
-                writeStringSingleItem(writer, op.getCurrentlyActive().toString());
-                writeStringSingleItem(writer, op.getStatus().getName());
-                writeStringSingleItem(writer, op.getProcStatus().getName());
+                writeExternalItemListItem(writer, operation.getProducer());
+                writeExternalItemListItem(writer, operation.getRegionalResponsible());
+                writeExternalItemListItem(writer, operation.getRegionalContributor());
+                writeDateItem(writer, operation.getCreatedDate());
+                writeDateItem(writer, operation.getInternalInventoryDate());
+                writeStringSingleItem(writer, operation.getCurrentlyActive().toString());
+                writeStringSingleItem(writer, operation.getStatus().getName());
+                writeStringSingleItem(writer, operation.getProcStatus().getName());
 
                 //Descriptores de difusión
-                writeExternalItemListItem(writer, op.getPublisher());
-                writeStringSingleItem(writer, op.getCommonMetadata() == null? null : op.getCommonMetadata().getCode());
-                writeItemInternationalString(writer, op.getRelPolUsAc(),languages);
-                writeStringSingleItem(writer, op.getReleaseCalendar().toString());
-                writeStringSingleItem(writer, op.getReleaseCalendarAccess());
-                writeExternalItemListItem(writer, op.getUpdateFrequency());
-                writeStringSingleItem(writer, getCurrentInternalInstance(op.getInstances()) == null? null : getCurrentInternalInstance(op.getInstances()).getCode());
-                writeStringSingleItem(writer, getCurrentInstance(op.getInstances()) == null? null : getCurrentInternalInstance(op.getInstances()).getCode());
-                writeDateItem(writer, op.getInventoryDate());
+                writeExternalItemListItem(writer, operation.getPublisher());
+                writeStringSingleItem(writer, operation.getCommonMetadata() == null? null : operation.getCommonMetadata().getCode());
+                writeItemInternationalString(writer, operation.getRelPolUsAc(),languages);
+                writeStringSingleItem(writer, operation.getReleaseCalendar().toString());
+                writeStringSingleItem(writer, operation.getReleaseCalendarAccess());
+                writeExternalItemListItem(writer, operation.getUpdateFrequency());
+                writeStringSingleItem(writer, getCurrentInternalInstance(operation.getInstances()) == null? null : getCurrentInternalInstance(operation.getInstances()).getCode());
+                writeStringSingleItem(writer, getCurrentInstance(operation.getInstances()) == null? null : getCurrentInternalInstance(operation.getInstances()).getCode());
+                writeDateItem(writer, operation.getInventoryDate());
 
                 //Marco legal
-                writeItemInternationalString(writer, op.getSpecificLegalActs(), languages);
-                writeItemInternationalString(writer, op.getSpecificDataSharing(),languages);
-                writeItemInternationalString(writer, op.getRevPractice(), languages);
-                writeItemInternationalString(writer, op.getRevPolicy(), languages);
+                writeItemInternationalString(writer, operation.getSpecificLegalActs(), languages);
+                writeItemInternationalString(writer, operation.getSpecificDataSharing(),languages);
+                writeItemInternationalString(writer, operation.getRevPractice(), languages);
+                writeItemInternationalString(writer, operation.getRevPolicy(), languages);
 
                 //Anotaciones
-                writeItemInternationalString(writer, op.getNotes(), languages);
-                writeItemInternationalString(writer, op.getComment(), languages);
+                writeItemInternationalString(writer, operation.getNotes(), languages);
+                writeItemInternationalString(writer, operation.getComment(), languages);
             }
             writer.flush();
             return file.getName();

@@ -10,13 +10,15 @@ import static org.siemac.metamac.statistical.operations.core.utils.mocks.Statist
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Test;
@@ -3532,21 +3534,40 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
         String fileName = statisticalOperationsServiceFacade.exportOperationsTsv(getServiceContextAdministrador(),operationsId);
         assertNotNull(fileName);
 
-        // Validate
+        // Check headers
         String tempPath = System.getProperty("java.io.tmpdir");
-        BufferedReader bufferedReader = getBufferedReader(tempPath + fileName);
+        File file = new File(tempPath + fileName);
+        BufferedReader bufferedReader = getBufferedReader(file);
 
-        BufferedReader testBufferedReader = getBufferedReader("src/test/resources/tsv/operations.tsv");
+        File testFile = new File("src/test/resources/tsv/operations.tsv");
+        BufferedReader testBufferedReader = getBufferedReader(testFile);
 
         assertEquals(testBufferedReader.readLine(), bufferedReader.readLine());
-
+        testBufferedReader.close();
+        // Check information
         Set<String> lines = new HashSet<>();
         String line = null;
         while ((line = bufferedReader.readLine()) != null) {
-            LOGGER.info(line.replaceAll("\t", "\\\\t"));
+            LOGGER.info(line.replaceAll("\t", "\\\t"));
             lines.add(line);
         }
         assertEquals(operationsId.size(), lines.size());
+
+        OperationDto operationDtoGet0 = statisticalOperationsServiceFacade.findOperationById(getServiceContextAdministrador(), operationsId.get(0));
+        OperationDto operationDtoGet1 = statisticalOperationsServiceFacade.findOperationById(getServiceContextAdministrador(), operationsId.get(1));
+        OperationDto operationDtoGet2 = statisticalOperationsServiceFacade.findOperationById(getServiceContextAdministrador(), operationsId.get(2));
+        OperationDto operationDtoGet3 = statisticalOperationsServiceFacade.findOperationById(getServiceContextAdministrador(), operationsId.get(3));
+
+        assertTrue(lines.contains(operationDtoGet0.getCode()+"\t"+ operationDtoGet0.getUrn()+"\tTítulo en español de operacion\t\tTítulo en inglés de operacion\t\tDescripción en español de operacion\t\tDescripción en inglés de operacion\t\tHEALTH\t\tOPERACION - OBJECTIVE - ES\t\tOPERACION - OBJECTIVE - EN\t\t\t\t\t\tCOYUNTURAL\tESTUDIO\tfalse\tISTAC\tISTAC\t\t"
+                + parseDateItem( operationDtoGet0.getCreatedDate())+"\t\tfalse\tPLANNING\tDRAFT\tISTAC\tISTAC\t\t\t\t\ttrue\thttp://www.test.com\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"));
+        assertTrue(lines.contains(operationDtoGet1.getCode()+"\t"+operationDtoGet1.getUrn()+"\tTítulo en español de operacion\t\tTítulo en inglés de operacion\t\tDescripción en español de operacion\t\tDescripción en inglés de operacion\t\tHEALTH\t\t\t\t\t\t\t\t\t\tCOYUNTURAL\tESTUDIO\tfalse\t\t\t\t"
+                + parseDateItem(operationDtoGet1.getCreatedDate()) +"\t\tfalse\tPLANNING\tDRAFT\t\t\t\t\t\t\ttrue\thttp://www.test.com\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"));
+        assertTrue(lines.contains(operationDtoGet2.getCode()+"\t"+ operationDtoGet2.getUrn()+"\tTítulo en español de operacion\t\tTítulo en inglés de operacion\t\tDescripción en español de operacion\t\tDescripción en inglés de operacion\t\tHEALTH\t\t\t\t\t\t\t\t\t\tCOYUNTURAL\tESTUDIO\tfalse\tISTAC\t\t\t"
+                + parseDateItem(operationDtoGet2.getCreatedDate()) + "\t\tfalse\tPLANNING\tDRAFT\t\t\t\t\t\t\ttrue\thttp://www.test.com\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"));
+        assertTrue(lines.contains(operationDtoGet3.getCode()+"\t"+operationDtoGet3.getUrn() + "\tTítulo en español de operacion\t\tTítulo en inglés de operacion\t\tDescripción en español de operacion\t\tDescripción en inglés de operacion\t\tHEALTH\t\t\t\t\t\t\t\t\t\tCOYUNTURAL\tESTUDIO\tfalse\t\t\t\t"
+                + parseDateItem(operationDtoGet3.getCreatedDate())+ "\t\tfalse\tPLANNING\tDRAFT\t\t\t\t\t\t\ttrue\thttp://www.test.com\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"));
+        bufferedReader.close();
+        file.delete();
     }
 
     @Override
@@ -3837,22 +3858,27 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
 
     private List<Long> createListOperationsId() throws MetamacException {
         List<Long> operationsId = new ArrayList<Long>();
-        for(int i=0;i <= getRandomNumber(5,25);i++){
-            operationsId.add(statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), createOperationDtoForInternalPublishing()).getId());
-        }
+        operationsId.add(statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), createOperationDtoForInternalPublishing()).getId());
+        operationsId.add(statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), createOperationDtoWithOfficialityType()).getId());
+        operationsId.add(statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), createOperationDtoWithProducer()).getId());
+        operationsId.add(statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), createOperationDto()).getId());
+
         return operationsId;
     }
 
-    private int getRandomNumber(int min, int max) {
-        return (int) ((Math.random() * (max - min)) + min);
-    }
-
-    private BufferedReader getBufferedReader(String pathname) throws Exception{
-        File file = new File(pathname);
+    private BufferedReader getBufferedReader(File file) throws Exception{
         FileInputStream fileInputStream = new FileInputStream(file);
         InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream, "UTF-8");
 
         return new BufferedReader(inputStreamReader);
     }
 
+    private static String parseDateItem(Date item) throws IOException {
+        if(item != null){
+            DateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy hh:mm:ss");
+            String strDate = dateFormat.format(item);
+            return strDate;
+        }
+        return "\t";
+    }
 }

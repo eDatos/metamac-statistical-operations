@@ -17,6 +17,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -60,6 +61,8 @@ import org.siemac.metamac.statistical.operations.core.error.ServiceExceptionType
 import org.siemac.metamac.statistical.operations.core.utils.StatisticalOperationsBaseTest;
 import org.siemac.metamac.statistical.operations.core.utils.asserts.StatisticalOperationsAsserts;
 import org.siemac.metamac.statistical.operations.core.utils.mocks.StatisticalOperationsMocks;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
@@ -77,6 +80,8 @@ import org.springframework.transaction.annotation.Transactional;
 @TransactionConfiguration(transactionManager = "txManager", defaultRollback = true)
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 public class StatisticalOperationsServiceFacadeTest extends StatisticalOperationsBaseTest implements StatisticalOperationsServiceFacadeTestBase {
+
+    static final Logger LOGGER = LoggerFactory.getLogger(StatisticalOperationsServiceFacadeTest.class);
 
     @Autowired
     protected StatisticalOperationsServiceFacade statisticalOperationsServiceFacade;
@@ -3538,7 +3543,7 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
         Set<String> lines = new HashSet<>();
         String line = null;
         while ((line = bufferedReader.readLine()) != null) {
-            System.out.println(line.replaceAll("\t", "\\\\t"));
+            LOGGER.info(line.replaceAll("\t", "\\\\t"));
             lines.add(line);
         }
         assertEquals(operationsId.size(), lines.size());

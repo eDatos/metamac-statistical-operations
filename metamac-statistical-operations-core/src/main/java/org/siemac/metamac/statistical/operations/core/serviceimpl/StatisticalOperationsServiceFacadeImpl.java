@@ -879,26 +879,9 @@ public class StatisticalOperationsServiceFacadeImpl extends StatisticalOperation
         //Security
         SecurityUtils.checkServiceOperationAllowed(ctx,StatisticalOperationsRoleEnum.ANY_ROLE_ALLOWED);
 
-
-
         // Export
         return getStatisticalOperationsBaseService().exportOperationsTsv(ctx, operationsId);
     }
-    /*
-         // Security
-        SecurityUtils.canExportCategoriesTsv(ctx);
-        List<String> languages = configurationService.retrieveLanguages();
-        List<Operation> operations = getStatisticalOperationsBaseService().findOperationsByIdIn(ctx, operationId);
-        List<OperationDto> operationsDto = operationsListDo2Dto(ctx, operations);
-
-        for (OperationDto opDto : operationsDto){
-            StatisticalOperationsValidationUtils.checkExportOperationsTsv(opDto.getId(), null);
-        }
-
-        // Export
-        return TsvExportationUtils.exportStatisticalOperations(operationsDto, languages);
-    }
-    * */
 
     @Override
     public InstanceBaseDto findInstanceBaseById(ServiceContext ctx, Long id) throws MetamacException {

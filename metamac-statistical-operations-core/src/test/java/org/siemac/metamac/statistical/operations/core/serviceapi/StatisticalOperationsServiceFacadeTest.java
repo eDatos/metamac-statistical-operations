@@ -3548,7 +3548,7 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
         Set<String> lines = new HashSet<>();
         String line = null;
         while ((line = bufferedReader.readLine()) != null) {
-            LOGGER.info(line.replaceAll("\t", "\\\t"));
+            line.replaceAll("\t", "\\\t");
             lines.add(line);
         }
         assertEquals(operationsId.size(), lines.size());

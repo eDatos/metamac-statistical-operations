@@ -1,6 +1,5 @@
 package org.siemac.metamac.statistical.operations.core.serviceimpl.utils;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -9,11 +8,8 @@ import org.siemac.metamac.core.common.ent.domain.InternationalString;
 import org.siemac.metamac.core.common.ent.domain.LocalisedString;
 import org.siemac.metamac.core.common.enume.utils.TypeExternalArtefactsEnumUtils;
 import org.siemac.metamac.core.common.exception.CommonServiceExceptionType;
-import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.core.common.exception.MetamacExceptionItem;
-import org.siemac.metamac.core.common.exception.utils.ExceptionUtils;
 import org.siemac.metamac.core.common.serviceimpl.utils.ValidationUtils;
-import org.siemac.metamac.statistical.operations.core.error.ServiceExceptionParameters;
 import org.siemac.metamac.statistical.operations.core.error.ServiceExceptionType;
 
 
@@ -155,16 +151,5 @@ public class StatisticalOperationsValidationUtils extends ValidationUtils {
         }
         return isEmpty(parameter.getCode()) || isEmpty(parameter.getUri()) || isEmpty(parameter.getType());
     }
-
-    public static void checkExportOperationsTsv(Long operationId, List<MetamacExceptionItem> exceptions) throws MetamacException {
-        if (exceptions == null) {
-            exceptions = new ArrayList<>();
-        }
-
-        ValidationUtils.checkParameterRequired(operationId, ServiceExceptionParameters.ID, exceptions);
-
-        ExceptionUtils.throwIfException(exceptions);
-    }
-
-
+    
 }

@@ -240,31 +240,21 @@ public class TsvExportationUtils {
     }
 
     private static Instance getCurrentInternalInstance(List<Instance> instances){
-        Instance currentInternalInstance = null;
         for (Instance instance: instances) {
-            if (currentInternalInstance == null && ProcStatusEnum.PUBLISH_INTERNALLY.equals(instance.getProcStatus())) {
-                currentInternalInstance = instance;
-            }
-
-            if (currentInternalInstance != null) {
-                break;
+            if (ProcStatusEnum.PUBLISH_INTERNALLY.equals(instance.getProcStatus())) {
+                return instance;
             }
         }
-        return currentInternalInstance;
+        return null;
     }
 
     private static Instance getCurrentInstance(List<Instance> instances){
-        Instance currentInstance = null;
         for (Instance instance: instances) {
-            if (currentInstance == null && ProcStatusEnum.PUBLISH_EXTERNALLY.equals(instance.getProcStatus())) {
-                currentInstance = instance;
-            }
-
-            if (currentInstance != null) {
-                break;
+            if (ProcStatusEnum.PUBLISH_EXTERNALLY.equals(instance.getProcStatus())) {
+                return instance;
             }
         }
 
-        return currentInstance;
+        return null;
     }
 }

@@ -28,7 +28,7 @@ public class StatisticalOperationsConstants {
     public static final String TSV_HEADER_REGIONAL_RESPONSIBLE = "regional_responsible";
     public static final String TSV_HEADER_REGIONAL_CONTRIBUTOR = "regional_contributor";
     public static final String TSV_HEADER_CREATED_DATE = "created_date";
-    public static final String TSV_HEADER_INTERNAL_INVENTORY_DATE = "inventory_Date";
+    public static final String TSV_HEADER_INTERNAL_INVENTORY_DATE = "internal_inventory_date";
     public static final String TSV_HEADER_CURRENTLY_ACTIVE = "currenlty_active";
     public static final String TSV_HEADER_STATUS = "status";
     public static final String TSV_HEADER_PROC_STATUS = "proc_status";

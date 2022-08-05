@@ -12,9 +12,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -3540,32 +3541,44 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
         BufferedReader bufferedReader = getBufferedReader(file);
 
         File testFile = new File("src/test/resources/tsv/operations.tsv");
-        BufferedReader testBufferedReader = getBufferedReader(testFile);
+        BufferedReader expectedBufferedReader = getBufferedReader(testFile);
 
-        assertEquals(testBufferedReader.readLine(), bufferedReader.readLine());
-        testBufferedReader.close();
+        assertEquals(expectedBufferedReader.readLine(), bufferedReader.readLine());
+
         // Check information
-        Set<String> lines = new HashSet<>();
-        String line = null;
-        while ((line = bufferedReader.readLine()) != null) {
-            line.replaceAll("\t", "\\\t");
-            lines.add(line);
-        }
+        Set<String> lines = getFileLines(bufferedReader);
+        Set<String> expectedLines = getFileLines(expectedBufferedReader);
         assertEquals(operationsId.size(), lines.size());
 
-        OperationDto operationDtoGet0 = statisticalOperationsServiceFacade.findOperationById(getServiceContextAdministrador(), operationsId.get(0));
-        OperationDto operationDtoGet1 = statisticalOperationsServiceFacade.findOperationById(getServiceContextAdministrador(), operationsId.get(1));
-        OperationDto operationDtoGet2 = statisticalOperationsServiceFacade.findOperationById(getServiceContextAdministrador(), operationsId.get(2));
-        OperationDto operationDtoGet3 = statisticalOperationsServiceFacade.findOperationById(getServiceContextAdministrador(), operationsId.get(3));
+        int indexCreatedDate = 26;
+        List<String> rows = new ArrayList<>(lines);
+        Collections.sort(rows);
+        List<String> row0 = Arrays.asList(rows.get(0).split("\t"));
+        row0.set(indexCreatedDate, "");
+        List<String> row1 = Arrays.asList(rows.get(1).split("\t"));
+        row1.set(indexCreatedDate, "");
+        List<String> row2 = Arrays.asList(rows.get(2).split("\t"));
+        row2.set(indexCreatedDate, "");
+        List<String> row3 = Arrays.asList(rows.get(3).split("\t"));
+        row3.set(indexCreatedDate, "");
 
-        assertTrue(lines.contains(operationDtoGet0.getCode()+"\t"+ operationDtoGet0.getUrn()+"\tTítulo en español de operacion\t\tTítulo en inglés de operacion\t\tDescripción en español de operacion\t\tDescripción en inglés de operacion\t\tHEALTH\t\tOPERACION - OBJECTIVE - ES\t\tOPERACION - OBJECTIVE - EN\t\t\t\t\t\tCOYUNTURAL\tESTUDIO\tfalse\tISTAC\tISTAC\t\t"
-                + parseDateItem( operationDtoGet0.getCreatedDate())+"\t\tfalse\tPLANNING\tDRAFT\tISTAC\tISTAC\t\t\t\t\ttrue\thttp://www.test.com\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"));
-        assertTrue(lines.contains(operationDtoGet1.getCode()+"\t"+operationDtoGet1.getUrn()+"\tTítulo en español de operacion\t\tTítulo en inglés de operacion\t\tDescripción en español de operacion\t\tDescripción en inglés de operacion\t\tHEALTH\t\t\t\t\t\t\t\t\t\tCOYUNTURAL\tESTUDIO\tfalse\t\t\t\t"
-                + parseDateItem(operationDtoGet1.getCreatedDate()) +"\t\tfalse\tPLANNING\tDRAFT\t\t\t\t\t\t\ttrue\thttp://www.test.com\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"));
-        assertTrue(lines.contains(operationDtoGet2.getCode()+"\t"+ operationDtoGet2.getUrn()+"\tTítulo en español de operacion\t\tTítulo en inglés de operacion\t\tDescripción en español de operacion\t\tDescripción en inglés de operacion\t\tHEALTH\t\t\t\t\t\t\t\t\t\tCOYUNTURAL\tESTUDIO\tfalse\tISTAC\t\t\t"
-                + parseDateItem(operationDtoGet2.getCreatedDate()) + "\t\tfalse\tPLANNING\tDRAFT\t\t\t\t\t\t\ttrue\thttp://www.test.com\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"));
-        assertTrue(lines.contains(operationDtoGet3.getCode()+"\t"+operationDtoGet3.getUrn() + "\tTítulo en español de operacion\t\tTítulo en inglés de operacion\t\tDescripción en español de operacion\t\tDescripción en inglés de operacion\t\tHEALTH\t\t\t\t\t\t\t\t\t\tCOYUNTURAL\tESTUDIO\tfalse\t\t\t\t"
-                + parseDateItem(operationDtoGet3.getCreatedDate())+ "\t\tfalse\tPLANNING\tDRAFT\t\t\t\t\t\t\ttrue\thttp://www.test.com\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"));
+        List<String> expectedRows = new ArrayList<>(expectedLines);
+        Collections.sort(expectedRows);
+        List<String> expectedRow0 = Arrays.asList(expectedRows.get(0).split("\t"));
+        expectedRow0.set(indexCreatedDate, "");
+        List<String> expectedRow1 = Arrays.asList(expectedRows.get(1).split("\t"));
+        expectedRow1.set(indexCreatedDate, "");
+        List<String> expectedRow2 = Arrays.asList(expectedRows.get(2).split("\t"));
+        expectedRow2.set(indexCreatedDate, "");
+        List<String> expectedRow3 = Arrays.asList(expectedRows.get(3).split("\t"));
+        expectedRow3.set(indexCreatedDate, "");
+
+        assertEquals(row0,expectedRow0);
+        assertEquals(row1,expectedRow1);
+        assertEquals(row2,expectedRow2);
+        assertEquals(row3,expectedRow3);
+
+        expectedBufferedReader.close();
         bufferedReader.close();
         file.delete();
     }
@@ -3856,12 +3869,24 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
         metamacCriteria.getOrdersBy().add(order);
     }
 
-    private List<Long> createListOperationsId() throws MetamacException {
+    private List<Long> createListOperationsId() throws MetamacException, ParseException {
         List<Long> operationsId = new ArrayList<Long>();
-        operationsId.add(statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), createOperationDtoForInternalPublishing()).getId());
-        operationsId.add(statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), createOperationDtoWithOfficialityType()).getId());
-        operationsId.add(statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), createOperationDtoWithProducer()).getId());
-        operationsId.add(statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), createOperationDto()).getId());
+
+        OperationDto operationDtoForInternalPublishing = createOperationDtoForInternalPublishing();
+        operationDtoForInternalPublishing.setCode("CODE01eXp");
+        operationsId.add(statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), operationDtoForInternalPublishing).getId());
+
+        OperationDto operationDtoWithProducer = createOperationDtoWithProducer();
+        operationDtoWithProducer.setCode("CODE02eXp");
+        operationsId.add(statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), operationDtoWithProducer).getId());
+
+        OperationDto operationDtoWithOfficialityType = createOperationDtoWithOfficialityType();
+        operationDtoWithOfficialityType.setCode("CODE03eXp");
+        operationsId.add(statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), operationDtoWithOfficialityType).getId());
+
+        OperationDto operationDto = createOperationDtoWithOfficialityType();
+        operationDto.setCode("CODE04eXp");
+        operationsId.add(statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), operationDto).getId());
 
         return operationsId;
     }
@@ -3873,12 +3898,14 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
         return new BufferedReader(inputStreamReader);
     }
 
-    private static String parseDateItem(Date item) throws IOException {
-        if(item != null){
-            DateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy hh:mm:ss");
-            String strDate = dateFormat.format(item);
-            return strDate;
+    private Set<String> getFileLines(BufferedReader bufferedReader) throws IOException {
+        Set<String> lines = new HashSet<>();
+        String line = null;
+        while ((line = bufferedReader.readLine()) != null) {
+            line.replaceAll("\t", "\\\t");
+            lines.add(line);
         }
-        return "\t";
+        return lines;
     }
+
 }

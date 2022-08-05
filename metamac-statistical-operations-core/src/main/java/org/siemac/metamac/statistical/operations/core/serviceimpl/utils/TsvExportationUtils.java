@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -207,7 +208,7 @@ public class TsvExportationUtils {
     private static void writeDateItem(OutputStreamWriter writer, DateTime item) throws IOException {
         writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
         if(item != null){
-            DateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy hh:mm:ss");
+            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
             String strDate = dateFormat.format(item.toDate());
             writer.write(strDate);
         }
@@ -216,11 +217,12 @@ public class TsvExportationUtils {
     private static void writeExternalItemListItem(OutputStreamWriter writer, Set<ExternalItem> list) throws IOException {
         writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
         if(list != null && list.size() > 0){
+            Set<String> values = new HashSet<>();
             String value = null;
             for(ExternalItem item : list){
-                value = value.join(", ",item.getCode());
+                values.add(item.getCode());
             }
-            writer.write(value);
+            writer.write(values.toString().replaceAll("^\\[|\\]$",""));
         }
     }
 

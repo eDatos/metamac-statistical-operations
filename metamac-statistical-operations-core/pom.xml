@@ -29,6 +29,11 @@
             <version>${metamac-sso.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.siemac.metamac.metamac-access-control</groupId>
+            <artifactId>metamac-access-control-rest-internal-api</artifactId>
+            <version>${metamac-access-control.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.siemac.metamac</groupId>
             <artifactId>metamac-core-common</artifactId>
             <version>${metamac-core-common.version}</version>

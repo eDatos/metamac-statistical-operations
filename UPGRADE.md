@@ -14,6 +14,14 @@ actualización de la versión 1.0.0 a la 2.0.0.*
 
 *Se deberá realizar primero la actualización de la versión 1.0.0 a la 2.0.0 y luego desde la 2.0.0 a la 3.0.0*
 
+## 3.0.0 a 3.0.1-SNAPSHOT
+
+* Es necesario ejecutar el script SQL contenido en la carpeta
+  ```shell
+  etc/changes-from-release/3.0.1/db/statistical-operations/$BD/20220707_add-columns-to-tb_operations.sql
+  ```
+  donde `$DBMS` se corresponde con el sistema de gestión de base de datos que esté utilizando.
+
 ## 2.6.1 a 3.0.0
 
 * A partir de esta versión de la aplicación se elimina el soporte para bases de datos Oracle o Sql Server, siendo PostgreSQL la única base de datos con soporte.

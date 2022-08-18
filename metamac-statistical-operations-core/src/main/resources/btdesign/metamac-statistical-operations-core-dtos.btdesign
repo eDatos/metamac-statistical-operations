@@ -121,6 +121,9 @@ Application StatisticalOperationsDto {
 
             Long optimisticLockingVersion;
             - @StreamMessageStatusEnum streamMessageStatus;
+
+            String technicianInCharge nullable;
+            String assistantTechnician nullable;
         }
 
         "Dto for OperationBaseDto"

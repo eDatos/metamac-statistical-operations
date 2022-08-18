@@ -20,10 +20,14 @@ public class StatisticalOperationsConstants {
     public static final String TSV_HEADER_OBJECTIVE = "objective";
     public static final String TSV_HEADER_DESCRIPTION = "description";
 
+    public static final String TSV_HEADER_TEC = "description";
     public static final String TSV_HEADER_STATISTICAL_OPERATION_TYPE = "statistical_operation_type";
     public static final String TSV_HEADER_OFFICIALITY_TYPE = "officiality_type";
     public static final String TSV_HEADER_INDICATOR_SYSTEM = "indicator_system";
 
+    public static final String TSV_HEADER_TECHNICIAN_IN_CHARGE = "technician_in_charge";
+
+    public static final String TSV_HEADER_ASSISTANT_TECHNICIAN = "assistant_technician";
     public static final String TSV_HEADER_PRODUCER = "producer";
     public static final String TSV_HEADER_REGIONAL_RESPONSIBLE = "regional_responsible";
     public static final String TSV_HEADER_REGIONAL_CONTRIBUTOR = "regional_contributor";

@@ -63,6 +63,8 @@ public class TsvExportationUtils {
                 writeStringSingleItem(writer, operation.getIndicatorSystem().toString());
 
                 //Descriptores de producción
+                writeStringSingleItem(writer, operation.getTechnicianInCharge());
+                writeStringSingleItem(writer, operation.getAssistantTechnician());
                 writeExternalItemListItem(writer, operation.getProducer());
                 writeExternalItemListItem(writer, operation.getRegionalResponsible());
                 writeExternalItemListItem(writer, operation.getRegionalContributor());
@@ -126,6 +128,10 @@ public class TsvExportationUtils {
         writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
         writer.write(StatisticalOperationsConstants.TSV_HEADER_INDICATOR_SYSTEM);
         //Descriptores de producción
+        writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
+        writer.write(StatisticalOperationsConstants.TSV_HEADER_TECHNICIAN_IN_CHARGE);
+        writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
+        writer.write(StatisticalOperationsConstants.TSV_HEADER_ASSISTANT_TECHNICIAN);
         writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
         writer.write(StatisticalOperationsConstants.TSV_HEADER_PRODUCER);
         writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);

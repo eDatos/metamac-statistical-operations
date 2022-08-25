@@ -63,7 +63,6 @@ public class StatisticalOperationsBaseServiceTest extends StatisticalOperationsB
     @Autowired
     protected StatisticalOperationsListsService statisticalOperationsListsService;
 
-
     @Autowired
     private final PlatformTransactionManager    transactionManager = null;
 

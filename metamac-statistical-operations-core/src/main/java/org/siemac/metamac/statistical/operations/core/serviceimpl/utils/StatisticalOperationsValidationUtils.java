@@ -12,7 +12,6 @@ import org.siemac.metamac.core.common.exception.MetamacExceptionItem;
 import org.siemac.metamac.core.common.serviceimpl.utils.ValidationUtils;
 import org.siemac.metamac.statistical.operations.core.error.ServiceExceptionType;
 
-
 public class StatisticalOperationsValidationUtils extends ValidationUtils {
 
     /**
@@ -151,5 +150,5 @@ public class StatisticalOperationsValidationUtils extends ValidationUtils {
         }
         return isEmpty(parameter.getCode()) || isEmpty(parameter.getUri()) || isEmpty(parameter.getType());
     }
-    
+
 }

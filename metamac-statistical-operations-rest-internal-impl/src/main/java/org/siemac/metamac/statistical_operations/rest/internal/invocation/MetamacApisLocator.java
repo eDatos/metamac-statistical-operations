@@ -15,12 +15,12 @@ import org.springframework.stereotype.Component;
 public class MetamacApisLocator {
 
     @Autowired
-    private ConfigurationService     configurationService;
+    private ConfigurationService                configurationService;
 
-    private CommonMetadataV1_0       commonMetadataRestExternalFacadeV10 = null;
-    private SrmRestInternalFacadeV10 srmRestInternalFacadeV10            = null;
+    private CommonMetadataV1_0                  commonMetadataRestExternalFacadeV10 = null;
+    private SrmRestInternalFacadeV10            srmRestInternalFacadeV10            = null;
 
-    private AccessControlRestInternalFacadeV1_0 accessControlRestInternalFacadeV1_0         = null;
+    private AccessControlRestInternalFacadeV1_0 accessControlRestInternalFacadeV1_0 = null;
 
     @PostConstruct
     public void initService() throws Exception {
@@ -52,8 +52,8 @@ public class MetamacApisLocator {
 
     public AccessControlRestInternalFacadeV1_0 getAccessControlRestInternalFacadeV1_0() {
         // reset thread context
-        WebClient.client(getAccessControlRestInternalFacadeV1_0()).reset();
-        WebClient.client(getAccessControlRestInternalFacadeV1_0()).accept("application/xml");
-        return getAccessControlRestInternalFacadeV1_0();
+        WebClient.client(accessControlRestInternalFacadeV1_0).reset();
+        WebClient.client(accessControlRestInternalFacadeV1_0).accept("application/xml");
+        return accessControlRestInternalFacadeV1_0;
     }
 }

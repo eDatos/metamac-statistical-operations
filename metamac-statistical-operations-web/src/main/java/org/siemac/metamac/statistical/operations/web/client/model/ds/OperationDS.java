@@ -33,6 +33,8 @@ public class OperationDS extends DataSource {
     public static final String PROC_STATUS                = "op-proc-status";
     public static final String PROC_STATUS_VIEW           = "op-proc-status-view"; // Not mapped in DTO
     public static final String CREATED_DATE               = "op-created-date";
+    public static final String TECHNICIAN_IN_CHARGE       = "op-tech-in-charge";
+    public static final String ASSISTANT_TECHNICIAN       = "op-tech-assistant";
     // DIFUSSION DESCRIPTORS
     public static final String PUBLISHER                  = "op-publisherItem";
     public static final String RE_POL_US_AC               = "op-pol-us";

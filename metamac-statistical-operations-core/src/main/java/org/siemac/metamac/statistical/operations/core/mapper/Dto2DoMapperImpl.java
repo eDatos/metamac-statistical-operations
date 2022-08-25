@@ -287,8 +287,8 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
         target.setSubjectArea(externalItemDtoToEntity(source.getSubjectArea(), target.getSubjectArea(), ServiceExceptionParameters.OPERATION_SUBJECT_AREA));
 
         // SECONDARY_SUBJECT_AREAS
-        target.getSecondarySubjectAreas().addAll(
-                externalItemListToEntity(source.getSecondarySubjectAreas(), target.getSecondarySubjectAreas(), ServiceExceptionParameters.OPERATION_SECONDARY_SUBJECT_AREAS));
+        target.getSecondarySubjectAreas()
+                .addAll(externalItemListToEntity(source.getSecondarySubjectAreas(), target.getSecondarySubjectAreas(), ServiceExceptionParameters.OPERATION_SECONDARY_SUBJECT_AREAS));
 
         // OBJECTIVE
         target.setObjective(internationalStringToEntity(source.getObjective(), target.getObjective(), ServiceExceptionParameters.OPERATION_OBJECTIVE));
@@ -328,6 +328,12 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
 
         // INACTIVE_DATE
         // Not necessary. It can't be manually modified
+
+        // TECHNICIAN IN CHARGE
+        target.setTechnicianInCharge(source.getTechnicianInCharge());
+
+        // ASSITANT TECHNICIAN
+        target.setAssistantTechnician(source.getAssistantTechnician());
 
         // STATUS
         target.setStatus(source.getStatus());
@@ -431,12 +437,12 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
         target.getStatisticalUnit().addAll(externalItemListToEntity(source.getStatisticalUnit(), target.getStatisticalUnit(), ServiceExceptionParameters.INSTANCE_STATISTICAL_UNIT));
 
         // GEOGRAPHIC_GRANULARITY
-        target.getGeographicGranularity().addAll(
-                externalItemListToEntity(source.getGeographicGranularity(), target.getGeographicGranularity(), ServiceExceptionParameters.INSTANCE_GEOGRAPHIC_GRANULARITY));
+        target.getGeographicGranularity()
+                .addAll(externalItemListToEntity(source.getGeographicGranularity(), target.getGeographicGranularity(), ServiceExceptionParameters.INSTANCE_GEOGRAPHIC_GRANULARITY));
 
         // GEOGRAPHIC_COMPARABILITY
-        target.setGeographicComparability(internationalStringToEntity(source.getGeographicComparability(), target.getGeographicComparability(),
-                ServiceExceptionParameters.INSTANCE_GEOGRAPHIC_COMPARABILITY));
+        target.setGeographicComparability(
+                internationalStringToEntity(source.getGeographicComparability(), target.getGeographicComparability(), ServiceExceptionParameters.INSTANCE_GEOGRAPHIC_COMPARABILITY));
 
         // TEMPORAL_GRANULARITY
         target.getTemporalGranularity().addAll(externalItemListToEntity(source.getTemporalGranularity(), target.getTemporalGranularity(), ServiceExceptionParameters.INSTANCE_TEMPORAL_GRANULARITY));

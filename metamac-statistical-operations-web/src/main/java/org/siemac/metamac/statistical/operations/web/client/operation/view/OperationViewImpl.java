@@ -39,6 +39,7 @@ import org.siemac.metamac.statistical.operations.web.client.widgets.ListGridTool
 import org.siemac.metamac.statistical.operations.web.client.widgets.ModalWindow;
 import org.siemac.metamac.statistical.operations.web.client.widgets.NewInstanceForm;
 import org.siemac.metamac.statistical.operations.web.client.widgets.OperationMainFormLayout;
+import org.siemac.metamac.statistical.operations.web.shared.external.GetUsersAccessControlListResult;
 import org.siemac.metamac.web.common.client.MetamacWebCommon;
 import org.siemac.metamac.web.common.client.utils.CommonWebUtils;
 import org.siemac.metamac.web.common.client.utils.CustomRequiredValidator;
@@ -125,6 +126,8 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
     private CustomCheckboxItem                        indSystem;
 
     // PRODUCTION DESCRIPTORS
+    private CustomSelectItem                          technicianInCharge;
+    private CustomSelectItem                          assistantTechnician;
     private GroupDynamicForm                          productionDescriptorsForm;
     private GroupDynamicForm                          productionDescriptorsEditionForm;
     private CustomCheckboxItem                        currentlyActiveItem;
@@ -411,7 +414,8 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         operationDto.setIndicatorSystem(indSystem.getValueAsBoolean() == null ? false : indSystem.getValueAsBoolean());
 
         // PRODUCTION DESCRIPTORS
-
+        operationDto.setTechnicianInCharge(technicianInCharge.getValueAsString() != null ? technicianInCharge.getValue().toString() : null);
+        operationDto.setAssistantTechnician(assistantTechnician.getValueAsString() != null ? assistantTechnician.getValue().toString() : null);
         List<ExternalItemDto> producers = ((ExternalItemListItem) productionDescriptorsEditionForm.getItem(OperationDS.PRODUCER)).getExternalItemDtos();
         operationDto.getProducer().clear();
         operationDto.getProducer().addAll(producers);
@@ -596,6 +600,8 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         classForm.setFields(survey, officiality, indSystem);
 
         // Production descriptors
+        ViewTextItem techinicianInCharge = new ViewTextItem(OperationDS.TECHNICIAN_IN_CHARGE, getConstants().operationTechnicianInCharge());
+        ViewTextItem assistantTechnician = new ViewTextItem(OperationDS.ASSISTANT_TECHNICIAN, getConstants().operationAssistantTechnician());
         productionDescriptorsForm = new GroupDynamicForm(getConstants().operationProductionDescriptors());
         ExternalItemListItem producer = new ExternalItemListItem(OperationDS.PRODUCER, getConstants().operationProducers(), false);
         ExternalItemListItem regionalResposible = new ExternalItemListItem(OperationDS.REG_RESPONSIBLE, getConstants().operationRegionalResponsibles(), false);
@@ -605,7 +611,8 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         ViewTextItem currentlyActive = new ViewTextItem(OperationDS.CURRENTLY_ACTIVE, getConstants().operationCurrentlyActive());
         ViewTextItem status = new ViewTextItem(OperationDS.STATUS, getConstants().operationStatus());
         ViewTextItem procStatus = new ViewTextItem(OperationDS.PROC_STATUS, getConstants().operationProcStatus());
-        productionDescriptorsForm.setFields(producer, regionalResposible, regionalContibutor, createdDate, inventoryDate, currentlyActive, status, procStatus);
+        productionDescriptorsForm.setFields(techinicianInCharge, assistantTechnician, producer, regionalResposible, regionalContibutor, createdDate, inventoryDate, currentlyActive, status,
+                procStatus);
 
         // Diffusion Descriptors
         diffusionForm = new GroupDynamicForm(getConstants().operationDiffusionAndPublication());
@@ -727,6 +734,12 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         classDescriptorsEditionForm.setFields(surveyType, officialityType, indSystem);
 
         // PRODUCTION DESCRIPTORS
+        /**********
+         *************
+         */
+
+        technicianInCharge = new CustomSelectItem(OperationDS.TECHNICIAN_IN_CHARGE, getConstants().operationTechnicianInCharge());
+        assistantTechnician = new CustomSelectItem(OperationDS.ASSISTANT_TECHNICIAN, getConstants().operationAssistantTechnician());
 
         productionDescriptorsEditionForm = new GroupDynamicForm(getConstants().operationProductionDescriptors());
 
@@ -767,8 +780,8 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         ViewTextItem procStatus = new ViewTextItem(OperationDS.PROC_STATUS, getConstants().operationProcStatus());
         ViewTextItem staticProcStatus = new ViewTextItem(OperationDS.PROC_STATUS_VIEW, getConstants().operationProcStatus());
         staticProcStatus.setShowIfCondition(FormItemUtils.getFalseFormItemIfFunction());
-        productionDescriptorsEditionForm.setFields(producerItem, regionalResponsibleItem, regionalContributorItem, createdDate, internalInventoryDate, currentlyActiveItem, statusItem,
-                staticProcStatus, procStatus);
+        productionDescriptorsEditionForm.setFields(technicianInCharge, assistantTechnician, producerItem, regionalResponsibleItem, regionalContributorItem, createdDate, internalInventoryDate,
+                currentlyActiveItem, statusItem, staticProcStatus, procStatus);
 
         // DIFFUSION AND PUBLICATION
 
@@ -862,6 +875,8 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
 
         // PRODUCTION DESCRIPTORS
 
+        productionDescriptorsForm.setValue(OperationDS.TECHNICIAN_IN_CHARGE, operationDto.getTechnicianInCharge() == null ? "" : operationDto.getTechnicianInCharge());
+        productionDescriptorsForm.setValue(OperationDS.ASSISTANT_TECHNICIAN, operationDto.getAssistantTechnician() == null ? "" : operationDto.getAssistantTechnician());
         ((ExternalItemListItem) productionDescriptorsForm.getItem(OperationDS.PRODUCER)).setExternalItems(operationDto.getProducer());
         ((ExternalItemListItem) productionDescriptorsForm.getItem(OperationDS.REG_RESPONSIBLE)).setExternalItems(operationDto.getRegionalResponsible());
         ((ExternalItemListItem) productionDescriptorsForm.getItem(OperationDS.REG_CONTRIBUTOR)).setExternalItems(operationDto.getRegionalContributor());
@@ -953,6 +968,8 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
 
         // PRODUCTION DESCRIPTORS
 
+        technicianInCharge.setValue(operationDto.getTechnicianInCharge() != null ? operationDto.getTechnicianInCharge() : null);
+        assistantTechnician.setValue(operationDto.getAssistantTechnician() != null ? operationDto.getAssistantTechnician() : null);
         ((ExternalItemListItem) productionDescriptorsEditionForm.getItem(OperationDS.PRODUCER)).setExternalItems(operationDto.getProducer());
         ((ExternalItemListItem) productionDescriptorsEditionForm.getItem(OperationDS.REG_RESPONSIBLE)).setExternalItems(operationDto.getRegionalResponsible());
         ((ExternalItemListItem) productionDescriptorsEditionForm.getItem(OperationDS.REG_CONTRIBUTOR)).setExternalItems(operationDto.getRegionalContributor());
@@ -1036,7 +1053,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
 
     /**
      * Select Instance in ListGrid
-     * 
+     *
      * @param id
      */
     private void selectInstance(Long id) {
@@ -1107,6 +1124,11 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
             windowToAddFamiliesToOperation.setResources(families);
             windowToAddFamiliesToOperation.refreshSourcePaginationInfo(firstResult, families.size(), totalResults);
         }
+    }
+    @Override
+    public void setUsersAccessControl(GetUsersAccessControlListResult result) {
+        technicianInCharge.setValueMap(result.getUsers());
+        assistantTechnician.setValueMap(result.getUsers());
     }
 
     // ------------------------------------------------------------------------------------------------------------

@@ -61,6 +61,8 @@ import org.siemac.metamac.statistical.operations.web.shared.external.GetCommonMe
 import org.siemac.metamac.statistical.operations.web.shared.external.GetCommonMetadataConfigurationsResult;
 import org.siemac.metamac.statistical.operations.web.shared.external.GetExternalResourcesAction;
 import org.siemac.metamac.statistical.operations.web.shared.external.GetExternalResourcesResult;
+import org.siemac.metamac.statistical.operations.web.shared.external.GetUsersAccessControlListAction;
+import org.siemac.metamac.statistical.operations.web.shared.external.GetUsersAccessControlListResult;
 import org.siemac.metamac.statistical.operations.web.shared.external.RestWebCriteriaUtils;
 import org.siemac.metamac.web.common.client.events.ShowMessageEvent;
 import org.siemac.metamac.web.common.client.utils.WaitingAsyncCallbackHandlingError;
@@ -175,6 +177,8 @@ public class OperationPresenter extends Presenter<OperationPresenter.OperationVi
         HasRecordClickHandlers getSelectedFamily();
 
         void setFamilies(List<ExternalItemDto> families, int firstResult, int totalResults);
+
+        void setUsersAccessControl(GetUsersAccessControlListResult result);
     }
 
     @Inject
@@ -406,6 +410,7 @@ public class OperationPresenter extends Presenter<OperationPresenter.OperationVi
                 instanceBaseDtos = result.getInstanceBaseDtos();
                 familyBaseDtos = result.getFamilyBaseDtos();
                 MainPagePresenter.getMasterHead().setTitleLabel(getMessages().titleStatisticalOperation(operationDto.getCode()));
+                retrieveUsersAccessControl();
                 getView().setOperation(operationDto, instanceBaseDtos, familyBaseDtos);
             }
         });
@@ -552,6 +557,15 @@ public class OperationPresenter extends Presenter<OperationPresenter.OperationVi
             }
         });
     }
+
+    private void retrieveUsersAccessControl() {
+        dispatcher.execute(new GetUsersAccessControlListAction(), new WaitingAsyncCallbackHandlingError<GetUsersAccessControlListResult>(this) {
+            @Override public void onWaitSuccess(GetUsersAccessControlListResult result) {
+                getView().setUsersAccessControl(result);
+            }
+        });
+    }
+
 
     //
     // NAVIGATION

@@ -81,17 +81,17 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
     private StatisticalOperationsConfigurationService configurationService;
 
     @Autowired
-    private CommonMetadataRestExternalFacade commonMetadataRestExternalFacade;
+    private CommonMetadataRestExternalFacade          commonMetadataRestExternalFacade;
 
     @Autowired
-    private SrmRestInternalFacade srmRestInternalFacade;
+    private SrmRestInternalFacade                     srmRestInternalFacade;
 
-    private String statisticalOperationsApiInternalEndpointV10;
-    private String statisticalOperationsInternalWebApplication;
-    private String srmApiInternalEndpoint;
-    private String srmInternalWebApplication;
+    private String                                    statisticalOperationsApiInternalEndpointV10;
+    private String                                    statisticalOperationsInternalWebApplication;
+    private String                                    srmApiInternalEndpoint;
+    private String                                    srmInternalWebApplication;
 
-    private InternalWebApplicationNavigation internalWebApplicationNavigation;
+    private InternalWebApplicationNavigation          internalWebApplicationNavigation;
 
     @PostConstruct
     public void init() throws Exception {
@@ -145,6 +145,8 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         target.setParentLink(this.toOperationParentLink());
         target.setChildLinks(this.toOperationChildLinks(source));
         target.setManagementAppLink(this.toOperationManagementApplicationLink(source.getCode()));
+        target.setTechnicianInCharge(source.getTechnicianInCharge());
+        target.setAssistantTechnician(source.getAssistantTechnician());
         return target;
     }
 
@@ -1027,8 +1029,8 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
 
     private List<ResourceInternal> srmConceptSchemeToResourceInternalConcepts(ExternalItem conceptSchemeSource) {
         // Return from API
-        List<org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.ItemResourceInternal> conceptSources = this.srmRestInternalFacade.retrieveConceptsByConceptScheme(conceptSchemeSource
-                .getUrn());
+        List<org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.ItemResourceInternal> conceptSources = this.srmRestInternalFacade
+                .retrieveConceptsByConceptScheme(conceptSchemeSource.getUrn());
 
         // Transform
         List<ResourceInternal> targets = new ArrayList<ResourceInternal>(conceptSources.size());

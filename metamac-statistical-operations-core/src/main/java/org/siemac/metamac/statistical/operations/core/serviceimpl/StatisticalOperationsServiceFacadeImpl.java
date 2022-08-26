@@ -92,7 +92,7 @@ public class StatisticalOperationsServiceFacadeImpl extends StatisticalOperation
         SecurityUtils.checkServiceOperationAllowed(ctx, StatisticalOperationsRoleEnum.ANY_ROLE_ALLOWED);
 
         List<SurveyType> surveyTypesList = getStatisticalOperationsListsService().findAllSurveyTypes(ctx);
-        List<SurveyTypeDto> surveyTypesDtoList = new ArrayList<SurveyTypeDto>();
+        List<SurveyTypeDto> surveyTypesDtoList = new ArrayList<>();
         for (SurveyType item : surveyTypesList) {
             surveyTypesDtoList.add(do2DtoMapper.surveyTypeToDto(item));
         }
@@ -875,6 +875,15 @@ public class StatisticalOperationsServiceFacadeImpl extends StatisticalOperation
     }
 
     @Override
+    public String exportOperationsTsv(ServiceContext ctx, List<Long> operationsId) throws MetamacException {
+        //Security
+        SecurityUtils.checkServiceOperationAllowed(ctx,StatisticalOperationsRoleEnum.ANY_ROLE_ALLOWED);
+
+        // Export
+        return getStatisticalOperationsBaseService().exportOperationsTsv(ctx, operationsId);
+    }
+
+    @Override
     public InstanceBaseDto findInstanceBaseById(ServiceContext ctx, Long id) throws MetamacException {
         // Security
         SecurityUtils.checkServiceOperationAllowed(ctx, StatisticalOperationsRoleEnum.ANY_ROLE_ALLOWED);
@@ -918,7 +927,6 @@ public class StatisticalOperationsServiceFacadeImpl extends StatisticalOperation
     // --------------------------------------------------------------------------------
     // TRANSFORM LISTS
     // --------------------------------------------------------------------------------
-
     private List<FamilyBaseDto> familiesListDo2BaseDto(List<Family> families) throws MetamacException {
         List<FamilyBaseDto> familiesDtos = new ArrayList<FamilyBaseDto>();
         for (Family family : families) {

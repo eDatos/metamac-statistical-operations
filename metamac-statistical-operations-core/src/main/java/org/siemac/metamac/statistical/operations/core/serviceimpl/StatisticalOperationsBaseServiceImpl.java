@@ -1,5 +1,7 @@
 package org.siemac.metamac.statistical.operations.core.serviceimpl;
 
+import static org.fornax.cartridges.sculptor.framework.accessapi.ConditionalCriteriaBuilder.criteriaFor;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -10,6 +12,7 @@ import org.fornax.cartridges.sculptor.framework.domain.PagedResult;
 import org.fornax.cartridges.sculptor.framework.domain.PagingParameter;
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
 import org.joda.time.DateTime;
+import org.siemac.metamac.core.common.conf.ConfigurationService;
 import org.siemac.metamac.core.common.criteria.utils.CriteriaUtils;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.core.common.exception.MetamacExceptionItem;
@@ -29,14 +32,12 @@ import org.siemac.metamac.statistical.operations.core.error.ServiceExceptionType
 import org.siemac.metamac.statistical.operations.core.exception.FamilyNotFoundException;
 import org.siemac.metamac.statistical.operations.core.exception.InstanceNotFoundException;
 import org.siemac.metamac.statistical.operations.core.exception.OperationNotFoundException;
-import org.siemac.metamac.statistical.operations.core.serviceapi.StreamMessagingServiceFacade;
 import org.siemac.metamac.statistical.operations.core.serviceimpl.utils.CheckMandatoryMetadataUtil;
 import org.siemac.metamac.statistical.operations.core.serviceimpl.utils.StatisticalOperationsValidationUtils;
+import org.siemac.metamac.statistical.operations.core.serviceimpl.utils.TsvExportationUtils;
 import org.siemac.metamac.statistical.operations.core.serviceimpl.utils.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import static org.fornax.cartridges.sculptor.framework.accessapi.ConditionalCriteriaBuilder.criteriaFor;
 
 /**
  * Implementation of StatisticalOperationsBaseService.
@@ -45,14 +46,16 @@ import static org.fornax.cartridges.sculptor.framework.accessapi.ConditionalCrit
 public class StatisticalOperationsBaseServiceImpl extends StatisticalOperationsBaseServiceImplBase {
 
     @Autowired
-    private FamilyRepository familyRepository;
+    private FamilyRepository     familyRepository;
 
     @Autowired
-    private OperationRepository operationRepository;
+    private OperationRepository  operationRepository;
 
     @Autowired
-    private InstanceRepository instanceRepository;
+    private InstanceRepository   instanceRepository;
 
+    @Autowired
+    private ConfigurationService configurationService;
 
     public StatisticalOperationsBaseServiceImpl() {
     }
@@ -453,6 +456,19 @@ public class StatisticalOperationsBaseServiceImpl extends StatisticalOperationsB
 
         // Save
         return updateOperation(ctx, operation);
+    }
+
+    @Override
+    public String exportOperationsTsv(ServiceContext ctx, List<Long> operationsId) throws MetamacException {
+        // Security check
+        StatisticalOperationsValidationUtils.checkParameterRequired(operationsId, ServiceExceptionParameters.ID, new ArrayList<MetamacExceptionItem>());
+
+        List<ConditionalCriteria> conditions = criteriaFor(Operation.class).withProperty(org.siemac.metamac.statistical.operations.core.domain.OperationProperties.id()).in(operationsId).build();
+        List<Operation> operations = operationRepository.findByCondition(conditions);
+        List<String> languages = configurationService.retrieveLanguages();
+
+        // Export
+        return TsvExportationUtils.exportStatisticalOperations(operations, languages);
     }
 
     // --------------------------------------------------------------------------------------------------------------

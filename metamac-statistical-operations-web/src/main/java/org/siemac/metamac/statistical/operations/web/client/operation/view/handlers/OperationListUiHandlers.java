@@ -12,4 +12,6 @@ public interface OperationListUiHandlers extends SrmExternalResourcesUiHandlers 
     void createOperation(OperationDto operationDto);
     void goToOperation(String operationCode);
     void deleteOperations(List<Long> operationDtos);
+
+    void exportOperationsTsv();
 }

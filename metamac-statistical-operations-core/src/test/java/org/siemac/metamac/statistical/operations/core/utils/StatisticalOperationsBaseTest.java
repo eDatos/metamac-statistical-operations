@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 public abstract class StatisticalOperationsBaseTest extends MetamacDBUnitBaseTests {
 
     @Value("${metamac.statistical_operations.db.default_schema}")
-    private String defaultSchema;
+    private String      defaultSchema;
 
     public final String OPERATION_01 = "C0025A";
     public final String OPERATION_02 = "C0025B";
@@ -142,7 +142,7 @@ public abstract class StatisticalOperationsBaseTest extends MetamacDBUnitBaseTes
         primaryKeys.put("TB_SEQUENCES", Arrays.asList("SEQUENCE_NAME"));
         return primaryKeys;
     }
-    
+
     @Override
     protected String getDefaultSchema() {
         return defaultSchema;

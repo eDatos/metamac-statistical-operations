@@ -16,9 +16,12 @@ import org.siemac.metamac.statistical.operations.web.client.events.SelectMenuBut
 import org.siemac.metamac.statistical.operations.web.client.model.OperationRecord;
 import org.siemac.metamac.statistical.operations.web.client.operation.view.handlers.OperationListUiHandlers;
 import org.siemac.metamac.statistical.operations.web.client.presenter.MainPagePresenter;
+import org.siemac.metamac.statistical.operations.web.client.utils.CommonUtils;
 import org.siemac.metamac.statistical.operations.web.client.utils.PlaceRequestUtils;
 import org.siemac.metamac.statistical.operations.web.shared.DeleteOperationListAction;
 import org.siemac.metamac.statistical.operations.web.shared.DeleteOperationListResult;
+import org.siemac.metamac.statistical.operations.web.shared.ExportOperationListAction;
+import org.siemac.metamac.statistical.operations.web.shared.ExportOperationListResult;
 import org.siemac.metamac.statistical.operations.web.shared.GetOperationPaginatedListAction;
 import org.siemac.metamac.statistical.operations.web.shared.GetOperationPaginatedListResult;
 import org.siemac.metamac.statistical.operations.web.shared.SaveOperationAction;
@@ -79,6 +82,7 @@ public class OperationListPresenter extends Presenter<OperationListPresenter.Ope
     public interface OperationListView extends View, HasUiHandlers<OperationListUiHandlers> {
 
         void setOperations(List<OperationBaseDto> operationBaseDtos, int firstResult, int totalResults);
+        List<Long> getOperations();
         HasRecordClickHandlers getSelectedOperation();
         HasClickHandlers getSaveNewOperation();
         OperationDto getOperation();
@@ -209,6 +213,21 @@ public class OperationListPresenter extends Presenter<OperationListPresenter.Ope
             protected void afterResult() {
                 retrieveOperationList(OPERATION_LIST_FIRST_RESULT, OPERATION_LIST_MAX_RESULTS, getView().getOperationCriteria());
             }
+        });
+    }
+
+    @Override
+    public void exportOperationsTsv() {
+        dispatcher.execute(new ExportOperationListAction(getView().getOperations()), new WaitingAsyncCallbackHandlingError<ExportOperationListResult>(this) {
+            @Override
+            public void onWaitSuccess(ExportOperationListResult result) {
+                CommonUtils.downloadFile(result.getFileName());
+            }
+            @Override
+            public void onWaitFailure(Throwable caught) {
+                ShowMessageEvent.fireErrorMessage(OperationListPresenter.this, caught);
+            }
+
         });
     }
 

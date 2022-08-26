@@ -2,6 +2,7 @@ package org.siemac.metamac.statistical.operations.web.client.widgets;
 
 import org.siemac.metamac.statistical.operations.web.client.OperationsWeb;
 import org.siemac.metamac.statistical.operations.web.client.resources.GlobalResources;
+import org.siemac.metamac.web.common.client.widgets.CustomToolStripButton;
 import org.siemac.metamac.web.common.client.widgets.DeleteConfirmationWindow;
 
 import com.smartgwt.client.types.Visibility;
@@ -14,6 +15,7 @@ public class ListGridToolStrip extends ToolStrip {
 
     private ToolStripButton          newButton;
     private ToolStripButton          deleteButton;
+    private ToolStripButton          exportTsvButton;
 
     private DeleteConfirmationWindow deleteConfirmationWindow;
 
@@ -25,6 +27,7 @@ public class ListGridToolStrip extends ToolStrip {
         deleteConfirmationWindow.setVisibility(Visibility.HIDDEN);
 
         newButton = new ToolStripButton(OperationsWeb.getConstants().actionNew(), GlobalResources.RESOURCE.newListGrid().getURL());
+        exportTsvButton =  new CustomToolStripButton(OperationsWeb.getConstants().actionExportTsv(), org.siemac.metamac.web.common.client.resources.GlobalResources.RESOURCE.exportResource().getURL());
 
         deleteButton = new ToolStripButton(OperationsWeb.getConstants().actionDelete(), GlobalResources.RESOURCE.deleteListGrid().getURL());
         deleteButton.setVisibility(Visibility.HIDDEN);
@@ -37,12 +40,17 @@ public class ListGridToolStrip extends ToolStrip {
         });
 
         addButton(newButton);
+        addButton(exportTsvButton);
         addSeparator();
         addButton(deleteButton);
     }
 
     public ToolStripButton getNewButton() {
         return newButton;
+    }
+
+    public ToolStripButton getExportTsvButton() {
+        return exportTsvButton;
     }
 
     public ToolStripButton getDeleteButton() {

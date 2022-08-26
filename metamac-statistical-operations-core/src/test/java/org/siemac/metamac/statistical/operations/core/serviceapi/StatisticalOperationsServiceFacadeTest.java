@@ -1,7 +1,23 @@
 package org.siemac.metamac.statistical.operations.core.serviceapi;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.siemac.metamac.statistical.operations.core.utils.mocks.StatisticalOperationsDtoMocks.mockExternalItemDto;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -48,6 +64,8 @@ import org.siemac.metamac.statistical.operations.core.error.ServiceExceptionType
 import org.siemac.metamac.statistical.operations.core.utils.StatisticalOperationsBaseTest;
 import org.siemac.metamac.statistical.operations.core.utils.asserts.StatisticalOperationsAsserts;
 import org.siemac.metamac.statistical.operations.core.utils.mocks.StatisticalOperationsMocks;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
@@ -55,14 +73,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import static org.siemac.metamac.statistical.operations.core.utils.mocks.StatisticalOperationsDtoMocks.mockExternalItemDto;
 
 /**
  * Spring based transactional test with DbUnit support.
@@ -73,6 +83,8 @@ import static org.siemac.metamac.statistical.operations.core.utils.mocks.Statist
 @TransactionConfiguration(transactionManager = "txManager", defaultRollback = true)
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 public class StatisticalOperationsServiceFacadeTest extends StatisticalOperationsBaseTest implements StatisticalOperationsServiceFacadeTestBase {
+
+    static final Logger LOGGER = LoggerFactory.getLogger(StatisticalOperationsServiceFacadeTest.class);
 
     @Autowired
     protected StatisticalOperationsServiceFacade statisticalOperationsServiceFacade;
@@ -3517,6 +3529,63 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
     @Override
     @Test
     @Transactional
+    public void testExportOperationsTsv() throws Exception {
+        // Create operation
+        List<Long> operationsId = createListOperationsId();
+        String fileName = statisticalOperationsServiceFacade.exportOperationsTsv(getServiceContextAdministrador(),operationsId);
+        assertNotNull(fileName);
+
+        // Check headers
+        String tempPath = System.getProperty("java.io.tmpdir");
+        File file = new File(tempPath + fileName);
+        BufferedReader bufferedReader = getBufferedReader(file);
+
+        File testFile = new File("src/test/resources/tsv/operations.tsv");
+        BufferedReader expectedBufferedReader = getBufferedReader(testFile);
+
+        assertEquals(expectedBufferedReader.readLine(), bufferedReader.readLine());
+
+        // Check information
+        Set<String> lines = getFileLines(bufferedReader);
+        Set<String> expectedLines = getFileLines(expectedBufferedReader);
+        assertEquals(operationsId.size(), lines.size());
+
+        int indexCreatedDate = 26;
+        List<String> rows = new ArrayList<>(lines);
+        Collections.sort(rows);
+        List<String> row0 = Arrays.asList(rows.get(0).split("\t"));
+        row0.set(indexCreatedDate, "");
+        List<String> row1 = Arrays.asList(rows.get(1).split("\t"));
+        row1.set(indexCreatedDate, "");
+        List<String> row2 = Arrays.asList(rows.get(2).split("\t"));
+        row2.set(indexCreatedDate, "");
+        List<String> row3 = Arrays.asList(rows.get(3).split("\t"));
+        row3.set(indexCreatedDate, "");
+
+        List<String> expectedRows = new ArrayList<>(expectedLines);
+        Collections.sort(expectedRows);
+        List<String> expectedRow0 = Arrays.asList(expectedRows.get(0).split("\t"));
+        expectedRow0.set(indexCreatedDate, "");
+        List<String> expectedRow1 = Arrays.asList(expectedRows.get(1).split("\t"));
+        expectedRow1.set(indexCreatedDate, "");
+        List<String> expectedRow2 = Arrays.asList(expectedRows.get(2).split("\t"));
+        expectedRow2.set(indexCreatedDate, "");
+        List<String> expectedRow3 = Arrays.asList(expectedRows.get(3).split("\t"));
+        expectedRow3.set(indexCreatedDate, "");
+
+        assertEquals(row0,expectedRow0);
+        assertEquals(row1,expectedRow1);
+        assertEquals(row2,expectedRow2);
+        assertEquals(row3,expectedRow3);
+
+        expectedBufferedReader.close();
+        bufferedReader.close();
+        file.delete();
+    }
+
+    @Override
+    @Test
+    @Transactional
     public void testFindInstanceBaseById() throws MetamacException {
         // Create instance
         Long operationId = statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), createOperationDtoForInternalPublishing()).getId();
@@ -3798,6 +3867,45 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
         order.setType(orderType);
         order.setPropertyName(property.name());
         metamacCriteria.getOrdersBy().add(order);
+    }
+
+    private List<Long> createListOperationsId() throws MetamacException, ParseException {
+        List<Long> operationsId = new ArrayList<Long>();
+
+        OperationDto operationDtoForInternalPublishing = createOperationDtoForInternalPublishing();
+        operationDtoForInternalPublishing.setCode("CODE01eXp");
+        operationsId.add(statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), operationDtoForInternalPublishing).getId());
+
+        OperationDto operationDtoWithProducer = createOperationDtoWithProducer();
+        operationDtoWithProducer.setCode("CODE02eXp");
+        operationsId.add(statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), operationDtoWithProducer).getId());
+
+        OperationDto operationDtoWithOfficialityType = createOperationDtoWithOfficialityType();
+        operationDtoWithOfficialityType.setCode("CODE03eXp");
+        operationsId.add(statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), operationDtoWithOfficialityType).getId());
+
+        OperationDto operationDto = createOperationDtoWithOfficialityType();
+        operationDto.setCode("CODE04eXp");
+        operationsId.add(statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), operationDto).getId());
+
+        return operationsId;
+    }
+
+    private BufferedReader getBufferedReader(File file) throws Exception{
+        FileInputStream fileInputStream = new FileInputStream(file);
+        InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream, "UTF-8");
+
+        return new BufferedReader(inputStreamReader);
+    }
+
+    private Set<String> getFileLines(BufferedReader bufferedReader) throws IOException {
+        Set<String> lines = new HashSet<>();
+        String line = null;
+        while ((line = bufferedReader.readLine()) != null) {
+            line.replaceAll("\t", "\\\t");
+            lines.add(line);
+        }
+        return lines;
     }
 
 }

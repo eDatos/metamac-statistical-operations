@@ -84,7 +84,7 @@ import org.springframework.transaction.annotation.Transactional;
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 public class StatisticalOperationsServiceFacadeTest extends StatisticalOperationsBaseTest implements StatisticalOperationsServiceFacadeTestBase {
 
-    static final Logger LOGGER = LoggerFactory.getLogger(StatisticalOperationsServiceFacadeTest.class);
+    static final Logger                          LOGGER = LoggerFactory.getLogger(StatisticalOperationsServiceFacadeTest.class);
 
     @Autowired
     protected StatisticalOperationsServiceFacade statisticalOperationsServiceFacade;
@@ -3532,12 +3532,12 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
     public void testExportOperationsTsv() throws Exception {
         // Create operation
         List<Long> operationsId = createListOperationsId();
-        String fileName = statisticalOperationsServiceFacade.exportOperationsTsv(getServiceContextAdministrador(),operationsId);
+        String fileName = statisticalOperationsServiceFacade.exportOperationsTsv(getServiceContextAdministrador(), operationsId);
         assertNotNull(fileName);
 
         // Check headers
-        String tempPath = System.getProperty("java.io.tmpdir");
-        File file = new File(tempPath + fileName);
+        String pathTmpFile = tempDirPath() + File.separatorChar + fileName;
+        File file = new File(pathTmpFile);
         BufferedReader bufferedReader = getBufferedReader(file);
 
         File testFile = new File("src/test/resources/tsv/operations.tsv");
@@ -3573,10 +3573,10 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
         List<String> expectedRow3 = Arrays.asList(expectedRows.get(3).split("\t"));
         expectedRow3.set(indexCreatedDate, "");
 
-        assertEquals(row0,expectedRow0);
-        assertEquals(row1,expectedRow1);
-        assertEquals(row2,expectedRow2);
-        assertEquals(row3,expectedRow3);
+        assertEquals(row0, expectedRow0);
+        assertEquals(row1, expectedRow1);
+        assertEquals(row2, expectedRow2);
+        assertEquals(row3, expectedRow3);
 
         expectedBufferedReader.close();
         bufferedReader.close();
@@ -3891,7 +3891,7 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
         return operationsId;
     }
 
-    private BufferedReader getBufferedReader(File file) throws Exception{
+    private BufferedReader getBufferedReader(File file) throws Exception {
         FileInputStream fileInputStream = new FileInputStream(file);
         InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream, "UTF-8");
 

@@ -102,8 +102,9 @@ public class RestCriteria2SculptorCriteriaMapperImpl implements RestCriteria2Scu
                 case PRODUCER_URN:
                     return buildSculptorPropertyCriteria(OperationProperties.producer().urn(), PropertyTypeEnum.STRING, propertyRestriction);
                 case INTERNAL_INVENTORY_DATE:
-                    return buildSculptorPropertyCriteria(new LeafProperty<Operation>(OperationProperties.internalInventoryDate().getName(), CoreCommonConstants.CRITERIA_DATETIME_COLUMN_DATETIME,
-                            true, Operation.class), PropertyTypeEnum.DATE, propertyRestriction);
+                    return buildSculptorPropertyCriteria(
+                            new LeafProperty<Operation>(OperationProperties.internalInventoryDate().getName(), CoreCommonConstants.CRITERIA_DATETIME_COLUMN_DATETIME, true, Operation.class),
+                            PropertyTypeEnum.DATE, propertyRestriction);
                 case CURRENTLY_ACTIVE:
                     return buildSculptorPropertyCriteria(OperationProperties.currentlyActive(), PropertyTypeEnum.BOOLEAN, propertyRestriction);
                 case STATUS:
@@ -113,8 +114,14 @@ public class RestCriteria2SculptorCriteriaMapperImpl implements RestCriteria2Scu
                 case PUBLISHER_URN:
                     return buildSculptorPropertyCriteria(OperationProperties.publisher().urn(), PropertyTypeEnum.STRING, propertyRestriction);
                 case INVENTORY_DATE:
-                    return buildSculptorPropertyCriteria(new LeafProperty<Operation>(OperationProperties.inventoryDate().getName(), CoreCommonConstants.CRITERIA_DATETIME_COLUMN_DATETIME, true,
-                            Operation.class), PropertyTypeEnum.DATE, propertyRestriction);
+                    return buildSculptorPropertyCriteria(
+                            new LeafProperty<Operation>(OperationProperties.inventoryDate().getName(), CoreCommonConstants.CRITERIA_DATETIME_COLUMN_DATETIME, true, Operation.class),
+                            PropertyTypeEnum.DATE, propertyRestriction);
+                case TECHNICIAN_IN_CHARGE:
+                    return buildSculptorPropertyCriteria(OperationProperties.technicianInCharge(), PropertyTypeEnum.STRING, propertyRestriction);
+
+                case ASSISTANT_TECHNICIAN:
+                    return buildSculptorPropertyCriteria(OperationProperties.assistantTechnician(), PropertyTypeEnum.STRING, propertyRestriction);
                 default:
                     throw toRestExceptionParameterIncorrect(propertyNameCriteria.name());
             }
@@ -156,8 +163,9 @@ public class RestCriteria2SculptorCriteriaMapperImpl implements RestCriteria2Scu
                 case DESCRIPTION:
                     return buildSculptorPropertyCriteria(FamilyProperties.description().texts().label(), PropertyTypeEnum.STRING, propertyRestriction);
                 case INTERNAL_INVENTORY_DATE:
-                    return buildSculptorPropertyCriteria(new LeafProperty<Family>(FamilyProperties.internalInventoryDate().getName(), CoreCommonConstants.CRITERIA_DATETIME_COLUMN_DATETIME, true,
-                            Family.class), PropertyTypeEnum.DATE, propertyRestriction);
+                    return buildSculptorPropertyCriteria(
+                            new LeafProperty<Family>(FamilyProperties.internalInventoryDate().getName(), CoreCommonConstants.CRITERIA_DATETIME_COLUMN_DATETIME, true, Family.class),
+                            PropertyTypeEnum.DATE, propertyRestriction);
                 case PROC_STATUS:
                     return buildSculptorPropertyCriteria(FamilyProperties.procStatus(), PropertyTypeEnum.PROC_STATUS, propertyRestriction);
                 case INVENTORY_DATE:
@@ -210,13 +218,15 @@ public class RestCriteria2SculptorCriteriaMapperImpl implements RestCriteria2Scu
                 case INSTANCE_TYPE_ID:
                     return buildSculptorPropertyCriteria(InstanceProperties.instanceType().identifier(), PropertyTypeEnum.STRING, propertyRestriction);
                 case INTERNAL_INVENTORY_DATE:
-                    return buildSculptorPropertyCriteria(new LeafProperty<Instance>(InstanceProperties.internalInventoryDate().getName(), CoreCommonConstants.CRITERIA_DATETIME_COLUMN_DATETIME, true,
-                            Instance.class), PropertyTypeEnum.DATE, propertyRestriction);
+                    return buildSculptorPropertyCriteria(
+                            new LeafProperty<Instance>(InstanceProperties.internalInventoryDate().getName(), CoreCommonConstants.CRITERIA_DATETIME_COLUMN_DATETIME, true, Instance.class),
+                            PropertyTypeEnum.DATE, propertyRestriction);
                 case PROC_STATUS:
                     return buildSculptorPropertyCriteria(InstanceProperties.procStatus(), PropertyTypeEnum.PROC_STATUS, propertyRestriction);
                 case INVENTORY_DATE:
-                    return buildSculptorPropertyCriteria(new LeafProperty<Instance>(InstanceProperties.inventoryDate().getName(), CoreCommonConstants.CRITERIA_DATETIME_COLUMN_DATETIME, true,
-                            Instance.class), PropertyTypeEnum.DATE, propertyRestriction);
+                    return buildSculptorPropertyCriteria(
+                            new LeafProperty<Instance>(InstanceProperties.inventoryDate().getName(), CoreCommonConstants.CRITERIA_DATETIME_COLUMN_DATETIME, true, Instance.class),
+                            PropertyTypeEnum.DATE, propertyRestriction);
                 default:
                     throw toRestExceptionParameterIncorrect(propertyNameCriteria.name());
             }

@@ -377,6 +377,12 @@ public class Do2DtoMapperImpl extends BaseDo2DtoMapperImpl implements Do2DtoMapp
         // STATUS
         // Not necessary
 
+        // TECHNICIAN IN CHARGE
+        // Not necessary
+
+        // ASSITANT TECHNICIAN
+        // Not necessary
+
         // INTERNAL INVENTORY DATE
         // Not necessary
 

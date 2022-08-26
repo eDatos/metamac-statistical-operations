@@ -146,6 +146,9 @@ Application StatisticalOperationsDto {
             
             JAVADATE internalInventoryDate nullable;
             - @StreamMessageStatusEnum streamMessageStatus;
+
+            String technicianInCharge nullable;
+            String assistantTechnician nullable;
         }
 
         "Dto for InstanceDto"

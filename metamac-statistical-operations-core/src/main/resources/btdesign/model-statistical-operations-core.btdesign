@@ -413,7 +413,7 @@ Application StatisticalOperations {
        		// CONFIDENCIALITY_POLICY: It comes from AppCommonMetadata
        		// CONFIDENCIALITY_DATA_TREATMENT: It comes from AppCommonMetadata
 
-            "Metadata TECHNICIAL_IN_CHARGE"
+            "Metadata TECHNICIAN_IN_CHARGE"
             String technicianInCharge nullable length="255";
             "Metadata ASSISTANT_TECHNICIAN"
             String assistantTechnician nullable length="255";

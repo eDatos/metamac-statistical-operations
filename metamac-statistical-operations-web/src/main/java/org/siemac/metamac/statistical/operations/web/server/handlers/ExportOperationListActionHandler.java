@@ -20,23 +20,23 @@ public class ExportOperationListActionHandler extends SecurityActionHandler<Expo
     private StatisticalOperationsServiceFacade statisticalOperationsServiceFacade;
 
     public ExportOperationListActionHandler() {
-            super(ExportOperationListAction.class);
+        super(ExportOperationListAction.class);
+    }
+
+    @Override
+    public ExportOperationListResult executeSecurityAction(ExportOperationListAction action) throws ActionException {
+        String fileName = null;
+
+        try {
+            fileName = statisticalOperationsServiceFacade.exportOperationsTsv(ServiceContextHolder.getCurrentServiceContext(), action.getIdOperations());
+        } catch (MetamacException e) {
+            throw WebExceptionUtils.createMetamacWebException(e);
         }
+        return new ExportOperationListResult(fileName);
+    }
 
-        @Override
-        public ExportOperationListResult executeSecurityAction(ExportOperationListAction action) throws ActionException {
-            String fileName = null;
+    @Override
+    public void undo(ExportOperationListAction action, ExportOperationListResult result, ExecutionContext context) throws ActionException {
 
-            try {
-                fileName = statisticalOperationsServiceFacade.exportOperationsTsv(ServiceContextHolder.getCurrentServiceContext(),action.getIdOperations());
-            } catch (MetamacException e) {
-                throw WebExceptionUtils.createMetamacWebException(e);
-            }
-            return new ExportOperationListResult(fileName);
-        }
-
-        @Override
-        public void undo(ExportOperationListAction action, ExportOperationListResult result, ExecutionContext context) throws ActionException {
-
-        }
+    }
 }

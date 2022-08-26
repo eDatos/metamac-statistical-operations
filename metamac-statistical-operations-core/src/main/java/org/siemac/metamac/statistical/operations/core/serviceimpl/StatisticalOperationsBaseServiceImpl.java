@@ -46,17 +46,16 @@ import org.springframework.stereotype.Service;
 public class StatisticalOperationsBaseServiceImpl extends StatisticalOperationsBaseServiceImplBase {
 
     @Autowired
-    private FamilyRepository familyRepository;
+    private FamilyRepository     familyRepository;
 
     @Autowired
-    private OperationRepository operationRepository;
+    private OperationRepository  operationRepository;
 
     @Autowired
-    private InstanceRepository instanceRepository;
+    private InstanceRepository   instanceRepository;
 
     @Autowired
     private ConfigurationService configurationService;
-
 
     public StatisticalOperationsBaseServiceImpl() {
     }
@@ -460,14 +459,12 @@ public class StatisticalOperationsBaseServiceImpl extends StatisticalOperationsB
     }
 
     @Override
-    public String exportOperationsTsv(ServiceContext ctx,  List<Long> operationsId) throws MetamacException {
-       //Security check
+    public String exportOperationsTsv(ServiceContext ctx, List<Long> operationsId) throws MetamacException {
+        // Security check
         StatisticalOperationsValidationUtils.checkParameterRequired(operationsId, ServiceExceptionParameters.ID, new ArrayList<MetamacExceptionItem>());
 
-        List<ConditionalCriteria> conditions = criteriaFor(Operation.class)
-                .withProperty(org.siemac.metamac.statistical.operations.core.domain.OperationProperties.id())
-                .in(operationsId).build();
-        List<Operation> operations =  operationRepository.findByCondition(conditions);
+        List<ConditionalCriteria> conditions = criteriaFor(Operation.class).withProperty(org.siemac.metamac.statistical.operations.core.domain.OperationProperties.id()).in(operationsId).build();
+        List<Operation> operations = operationRepository.findByCondition(conditions);
         List<String> languages = configurationService.retrieveLanguages();
 
         // Export

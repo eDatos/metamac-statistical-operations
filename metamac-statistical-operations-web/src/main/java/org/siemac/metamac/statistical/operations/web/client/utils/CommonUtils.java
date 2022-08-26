@@ -196,5 +196,4 @@ public class CommonUtils {
 		$wnd.location = url;
     }-*/;
 
-
 }

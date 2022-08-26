@@ -26,11 +26,12 @@ import org.siemac.metamac.statistical.operations.core.error.ServiceExceptionType
 
 public class TsvExportationUtils {
 
-    private TsvExportationUtils() {}
+    private TsvExportationUtils() {
+    }
 
     /**
      * OPERATIONS
-     * */
+     */
 
     public static String exportStatisticalOperations(List<Operation> operations, List<String> languages) throws MetamacException {
         OutputStream outputStream = null;
@@ -43,26 +44,26 @@ public class TsvExportationUtils {
             writeStatisticalOperationsHeader(writer, languages);
             for (Operation operation : operations) {
                 writer.write(StatisticalOperationsConstants.TSV_LINE_SEPARATOR);
-                //Identificadores
+                // Identificadores
                 writeStringSingleFirstItem(writer, operation.getCode());
                 writeStringSingleItem(writer, operation.getUrn());
                 writeItemInternationalString(writer, operation.getTitle(), languages);
                 writeItemInternationalString(writer, operation.getAcronym(), languages);
 
-                //Clasificadores de contenido
+                // Clasificadores de contenido
                 writeStringSingleItem(writer, operation.getSubjectArea().getCode());
                 writeExternalItemListItem(writer, operation.getSecondarySubjectAreas());
 
-                //Descriptores de contenido
+                // Descriptores de contenido
                 writeItemInternationalString(writer, operation.getObjective(), languages);
                 writeItemInternationalString(writer, operation.getDescription(), languages);
 
-                //Descriptores de clase
-                writeStringSingleItem(writer, operation.getSurveyType() == null? null : operation.getSurveyType().getIdentifier());
-                writeStringSingleItem(writer, operation.getOfficialityType() == null? null : operation.getOfficialityType().getIdentifier());
+                // Descriptores de clase
+                writeStringSingleItem(writer, operation.getSurveyType() == null ? null : operation.getSurveyType().getIdentifier());
+                writeStringSingleItem(writer, operation.getOfficialityType() == null ? null : operation.getOfficialityType().getIdentifier());
                 writeStringSingleItem(writer, operation.getIndicatorSystem().toString());
 
-                //Descriptores de producción
+                // Descriptores de producción
                 writeStringSingleItem(writer, operation.getTechnicianInCharge());
                 writeStringSingleItem(writer, operation.getAssistantTechnician());
                 writeExternalItemListItem(writer, operation.getProducer());
@@ -74,24 +75,24 @@ public class TsvExportationUtils {
                 writeStringSingleItem(writer, operation.getStatus().getName());
                 writeStringSingleItem(writer, operation.getProcStatus().getName());
 
-                //Descriptores de difusión
+                // Descriptores de difusión
                 writeExternalItemListItem(writer, operation.getPublisher());
-                writeStringSingleItem(writer, operation.getCommonMetadata() == null? null : operation.getCommonMetadata().getCode());
-                writeItemInternationalString(writer, operation.getRelPolUsAc(),languages);
+                writeStringSingleItem(writer, operation.getCommonMetadata() == null ? null : operation.getCommonMetadata().getCode());
+                writeItemInternationalString(writer, operation.getRelPolUsAc(), languages);
                 writeStringSingleItem(writer, operation.getReleaseCalendar().toString());
                 writeStringSingleItem(writer, operation.getReleaseCalendarAccess());
                 writeExternalItemListItem(writer, operation.getUpdateFrequency());
-                writeStringSingleItem(writer, getCurrentInternalInstance(operation.getInstances()) == null? null : getCurrentInternalInstance(operation.getInstances()).getCode());
-                writeStringSingleItem(writer, getCurrentInstance(operation.getInstances()) == null? null : getCurrentInternalInstance(operation.getInstances()).getCode());
+                writeStringSingleItem(writer, getCurrentInternalInstance(operation.getInstances()) == null ? null : getCurrentInternalInstance(operation.getInstances()).getCode());
+                writeStringSingleItem(writer, getCurrentInstance(operation.getInstances()) == null ? null : getCurrentInternalInstance(operation.getInstances()).getCode());
                 writeDateItem(writer, operation.getInventoryDate());
 
-                //Marco legal
+                // Marco legal
                 writeItemInternationalString(writer, operation.getSpecificLegalActs(), languages);
-                writeItemInternationalString(writer, operation.getSpecificDataSharing(),languages);
+                writeItemInternationalString(writer, operation.getSpecificDataSharing(), languages);
                 writeItemInternationalString(writer, operation.getRevPractice(), languages);
                 writeItemInternationalString(writer, operation.getRevPolicy(), languages);
 
-                //Anotaciones
+                // Anotaciones
                 writeItemInternationalString(writer, operation.getNotes(), languages);
                 writeItemInternationalString(writer, operation.getComment(), languages);
             }
@@ -106,28 +107,28 @@ public class TsvExportationUtils {
     }
 
     private static void writeStatisticalOperationsHeader(OutputStreamWriter writer, List<String> languages) throws IOException {
-        //Identificadores
+        // Identificadores
         writer.write(StatisticalOperationsConstants.TSV_HEADER_CODE);
         writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
         writer.write(StatisticalOperationsConstants.TSV_HEADER_URN);
         writeHeaderItem(writer, languages, StatisticalOperationsConstants.TSV_HEADER_TITLE);
         writeHeaderItem(writer, languages, StatisticalOperationsConstants.TSV_HEADER_ACRONYM);
-        //Clasificadores de contenido
+        // Clasificadores de contenido
         writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
         writer.write(StatisticalOperationsConstants.TSV_HEADER_SUBJECT_AREA);
         writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
         writer.write(StatisticalOperationsConstants.TSV_HEADER_SECONDARY_SUBJECT_AREAS);
-        //Descriptores de contenido
+        // Descriptores de contenido
         writeHeaderItem(writer, languages, StatisticalOperationsConstants.TSV_HEADER_OBJECTIVE);
         writeHeaderItem(writer, languages, StatisticalOperationsConstants.TSV_HEADER_DESCRIPTION);
-        //Descriptores de clase
+        // Descriptores de clase
         writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
         writer.write(StatisticalOperationsConstants.TSV_HEADER_STATISTICAL_OPERATION_TYPE);
         writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
         writer.write(StatisticalOperationsConstants.TSV_HEADER_OFFICIALITY_TYPE);
         writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
         writer.write(StatisticalOperationsConstants.TSV_HEADER_INDICATOR_SYSTEM);
-        //Descriptores de producción
+        // Descriptores de producción
         writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
         writer.write(StatisticalOperationsConstants.TSV_HEADER_TECHNICIAN_IN_CHARGE);
         writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
@@ -148,7 +149,7 @@ public class TsvExportationUtils {
         writer.write(StatisticalOperationsConstants.TSV_HEADER_STATUS);
         writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
         writer.write(StatisticalOperationsConstants.TSV_HEADER_PROC_STATUS);
-        //Descriptores de difusión
+        // Descriptores de difusión
         writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
         writer.write(StatisticalOperationsConstants.TSV_HEADER_PUBLISHER);
         writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
@@ -166,12 +167,12 @@ public class TsvExportationUtils {
         writer.write(StatisticalOperationsConstants.TSV_HEADER_CURRENT_INSTANCE);
         writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
         writer.write(StatisticalOperationsConstants.TSV_HEADER_INVENTORY_DATE);
-        //Marco legal
+        // Marco legal
         writeHeaderItem(writer, languages, StatisticalOperationsConstants.TSV_HEADER_SPECIFIC_LEGAL_ACTS);
         writeHeaderItem(writer, languages, StatisticalOperationsConstants.TSV_HEADER_COMMON_DATA_SHARING);
         writeHeaderItem(writer, languages, StatisticalOperationsConstants.TSV_HEADER_CONFIDENTALITY_POLICY);
         writeHeaderItem(writer, languages, StatisticalOperationsConstants.TSV_HEADER_CONFIDENTALITY_DATA_TREATMENT);
-        //Anotaciones
+        // Anotaciones
         writeHeaderItem(writer, languages, StatisticalOperationsConstants.TSV_HEADER_NOTES);
         writeHeaderItem(writer, languages, StatisticalOperationsConstants.TSV_HEADER_COMMENT);
     }
@@ -180,7 +181,7 @@ public class TsvExportationUtils {
     // COMMON UTILS
     // ---------------------------------------------------------------------------------------------------------------
 
-    private static void writeHeaderItem(OutputStreamWriter writer, List<String> languages, String header) throws IOException{
+    private static void writeHeaderItem(OutputStreamWriter writer, List<String> languages, String header) throws IOException {
         for (String language : languages) {
             writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
             writer.write(header + StatisticalOperationsConstants.TSV_HEADER_INTERNATIONAL_STRING_SEPARATOR + language);
@@ -199,21 +200,21 @@ public class TsvExportationUtils {
     }
 
     private static void writeStringSingleFirstItem(OutputStreamWriter writer, String item) throws IOException {
-        if(item != null){
+        if (item != null) {
             writer.write(item);
         }
     }
 
     private static void writeStringSingleItem(OutputStreamWriter writer, String item) throws IOException {
         writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
-        if(item != null){
+        if (item != null) {
             writer.write(item);
         }
     }
 
     private static void writeDateItem(OutputStreamWriter writer, DateTime item) throws IOException {
         writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
-        if(item != null){
+        if (item != null) {
             DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
             String strDate = dateFormat.format(item.toDate());
             writer.write(strDate);
@@ -222,33 +223,33 @@ public class TsvExportationUtils {
 
     private static void writeExternalItemListItem(OutputStreamWriter writer, Set<ExternalItem> list) throws IOException {
         writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
-        if(list != null && list.size() > 0){
+        if (list != null && list.size() > 0) {
             Set<String> values = new HashSet<>();
             String value = null;
-            for(ExternalItem item : list){
+            for (ExternalItem item : list) {
                 values.add(item.getCode());
             }
-            writer.write(values.toString().replaceAll("^\\[|\\]$",""));
+            writer.write(values.toString().replaceAll("^\\[|\\]$", ""));
         }
     }
 
     private static void writeItemInternationalString(OutputStreamWriter writer, InternationalString internationalString, List<String> languages) throws IOException {
-       for (String language : languages) {
-           if(internationalString != null) {
-               String stringInLocale = internationalString.getLocalisedLabel(language);
-               writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
-               if (stringInLocale != null) {
-                   stringInLocale = removeUnsupportedCharaters(stringInLocale);
-                   writer.write(stringInLocale);
-               }
-           }else{
-               writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
-           }
-       }
+        for (String language : languages) {
+            if (internationalString != null) {
+                String stringInLocale = internationalString.getLocalisedLabel(language);
+                writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
+                if (stringInLocale != null) {
+                    stringInLocale = removeUnsupportedCharaters(stringInLocale);
+                    writer.write(stringInLocale);
+                }
+            } else {
+                writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
+            }
+        }
     }
 
-    private static Instance getCurrentInternalInstance(List<Instance> instances){
-        for (Instance instance: instances) {
+    private static Instance getCurrentInternalInstance(List<Instance> instances) {
+        for (Instance instance : instances) {
             if (ProcStatusEnum.PUBLISH_INTERNALLY.equals(instance.getProcStatus())) {
                 return instance;
             }
@@ -256,8 +257,8 @@ public class TsvExportationUtils {
         return null;
     }
 
-    private static Instance getCurrentInstance(List<Instance> instances){
-        for (Instance instance: instances) {
+    private static Instance getCurrentInstance(List<Instance> instances) {
+        for (Instance instance : instances) {
             if (ProcStatusEnum.PUBLISH_EXTERNALLY.equals(instance.getProcStatus())) {
                 return instance;
             }

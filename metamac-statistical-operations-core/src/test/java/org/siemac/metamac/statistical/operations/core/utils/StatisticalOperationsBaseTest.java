@@ -1,5 +1,7 @@
 package org.siemac.metamac.statistical.operations.core.utils;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -147,4 +149,13 @@ public abstract class StatisticalOperationsBaseTest extends MetamacDBUnitBaseTes
     protected String getDefaultSchema() {
         return defaultSchema;
     }
+
+    protected String tempDirPath() throws IOException {
+        File temp = File.createTempFile("temp-file-name", ".tmp");
+        String absolutePath = temp.getAbsolutePath();
+        String tempFilePath = absolutePath.substring(0, absolutePath.lastIndexOf(File.separator));
+        temp.delete();
+        return tempFilePath;
+    }
+
 }

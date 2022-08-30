@@ -46,6 +46,8 @@ public class ServiceExceptionParameters extends CommonServiceExceptionParameters
     public static final String OPERATION_SPECIFIC_LEGAL_ACTS     = "parameter.operations.operation.specific_legal_acts";
     public static final String OPERATION_SPECIFIC_DATA_SHARING   = "parameter.operations.operation.specific_data_sharing";
 
+    public static final String OPERATION_GENDER_PERSPECTIVE      = "parameter.operations.operation.gender_perspective";
+
     public static final String INSTANCE_CODE                     = "parameter.operations.instance.code";
     public static final String INSTANCE_URN                      = "parameter.operations.instance.urn";
     public static final String INSTANCE_TITLE                    = "parameter.operations.instance.title";

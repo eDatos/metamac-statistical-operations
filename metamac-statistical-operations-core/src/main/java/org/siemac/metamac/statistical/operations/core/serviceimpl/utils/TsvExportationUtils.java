@@ -72,6 +72,7 @@ public class TsvExportationUtils {
                 writeStringSingleItem(writer, operation.getCurrentlyActive().toString());
                 writeStringSingleItem(writer, operation.getStatus().getName());
                 writeStringSingleItem(writer, operation.getProcStatus().getName());
+                writeItemInternationalString(writer, operation.getGenderPerspective(), languages);
 
                 // Descriptores de difusión
                 writeExternalItemListItem(writer, operation.getPublisher());
@@ -143,6 +144,8 @@ public class TsvExportationUtils {
         writer.write(StatisticalOperationsConstants.TSV_HEADER_STATUS);
         writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
         writer.write(StatisticalOperationsConstants.TSV_HEADER_PROC_STATUS);
+        writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
+        writer.write(StatisticalOperationsConstants.TSV_HEADER_GENDER_PERSPECTIVE);
         // Descriptores de difusión
         writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
         writer.write(StatisticalOperationsConstants.TSV_HEADER_PUBLISHER);

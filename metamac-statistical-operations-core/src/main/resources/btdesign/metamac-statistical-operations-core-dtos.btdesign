@@ -121,6 +121,8 @@ Application StatisticalOperationsDto {
 
             Long optimisticLockingVersion;
             - @StreamMessageStatusEnum streamMessageStatus;
+
+            - @InternationalStringDto genderPerspective nullable;
         }
 
         "Dto for OperationBaseDto"

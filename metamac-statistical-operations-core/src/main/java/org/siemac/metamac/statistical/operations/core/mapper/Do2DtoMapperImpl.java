@@ -277,6 +277,9 @@ public class Do2DtoMapperImpl extends BaseDo2DtoMapperImpl implements Do2DtoMapp
         // PROC_STATUS
         // Not necessary
 
+        // GENDER_PERSPECTIVE
+        target.setGenderPerspective(internationalStringToDto(source.getGenderPerspective()));
+
         // CURRENT_INTERNAL_INSTANCE
         // Transformed in service
 

@@ -68,7 +68,6 @@ import org.siemac.metamac.statistical_operations.rest.common.StatisticalOperatio
 import org.siemac.metamac.statistical_operations.rest.external.exception.RestServiceExceptionType;
 import org.siemac.metamac.statistical_operations.rest.external.invocation.CommonMetadataRestExternalFacade;
 import org.siemac.metamac.statistical_operations.rest.external.invocation.SrmRestExternalFacade;
-import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -131,6 +130,7 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         target.setComment(toInternationalString(source.getComment()));
         target.setParentLink(toOperationParentLink());
         target.setChildLinks(toOperationChildLinks(source));
+        target.setGenderPerspective(toInternationalString(source.getGenderPerspective()));
         return target;
     }
 

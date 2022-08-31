@@ -190,6 +190,14 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
             }
         });
         createViewForm();
+        mainFormLayout.getEditToolStripButton().addClickHandler(new ClickHandler() {
+
+            @Override
+            public void onClick(ClickEvent event) {
+
+                getUiHandlers().retrieveUsersAccessControl();
+            }
+        });
         createEditionForm();
 
         // INSTANCES
@@ -734,14 +742,10 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         classDescriptorsEditionForm.setFields(surveyType, officialityType, indSystem);
 
         // PRODUCTION DESCRIPTORS
-        /**********
-         *************
-         */
-
-        technicianInCharge = new CustomSelectItem(OperationDS.TECHNICIAN_IN_CHARGE, getConstants().operationTechnicianInCharge());
-        assistantTechnician = new CustomSelectItem(OperationDS.ASSISTANT_TECHNICIAN, getConstants().operationAssistantTechnician());
-
         productionDescriptorsEditionForm = new GroupDynamicForm(getConstants().operationProductionDescriptors());
+        technicianInCharge = new CustomSelectItem(OperationDS.TECHNICIAN_IN_CHARGE, getConstants().operationTechnicianInCharge());
+
+        assistantTechnician = new CustomSelectItem(OperationDS.ASSISTANT_TECHNICIAN, getConstants().operationAssistantTechnician());
 
         final SearchSrmListItemWithSchemeFilterItem producerItem = createProducersItem();
         producerItem.setValidators(new CustomRequiredValidator() {
@@ -844,7 +848,6 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
     }
 
     private void setOperationViewMode(OperationDto operationDto) {
-
         // IDENTIFIERS
 
         identifiersForm.setValue(OperationDS.CODE, operationDto.getCode());

@@ -410,7 +410,6 @@ public class OperationPresenter extends Presenter<OperationPresenter.OperationVi
                 instanceBaseDtos = result.getInstanceBaseDtos();
                 familyBaseDtos = result.getFamilyBaseDtos();
                 MainPagePresenter.getMasterHead().setTitleLabel(getMessages().titleStatisticalOperation(operationDto.getCode()));
-                retrieveUsersAccessControl();
                 getView().setOperation(operationDto, instanceBaseDtos, familyBaseDtos);
             }
         });
@@ -548,6 +547,7 @@ public class OperationPresenter extends Presenter<OperationPresenter.OperationVi
     }
 
     @Override
+
     public void retrieveItems(final String formItemName, SrmItemRestCriteria itemWebCriteria, int firstResult, int maxResults) {
         dispatcher.execute(new GetExternalResourcesAction(itemWebCriteria, firstResult, maxResults), new WaitingAsyncCallbackHandlingError<GetExternalResourcesResult>(this) {
 
@@ -558,14 +558,16 @@ public class OperationPresenter extends Presenter<OperationPresenter.OperationVi
         });
     }
 
-    private void retrieveUsersAccessControl() {
+    @Override
+    public void retrieveUsersAccessControl() {
         dispatcher.execute(new GetUsersAccessControlListAction(), new WaitingAsyncCallbackHandlingError<GetUsersAccessControlListResult>(this) {
-            @Override public void onWaitSuccess(GetUsersAccessControlListResult result) {
+
+            @Override
+            public void onWaitSuccess(GetUsersAccessControlListResult result) {
                 getView().setUsersAccessControl(result);
             }
         });
     }
-
 
     //
     // NAVIGATION

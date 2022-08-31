@@ -25,4 +25,6 @@ public interface OperationUiHandlers extends SrmExternalResourcesUiHandlers {
     // External resources
 
     void retrieveCommonMetadataConfigurations(CommonConfigurationRestCriteria criteria);
+
+    void retrieveUsersAccessControl();
 }

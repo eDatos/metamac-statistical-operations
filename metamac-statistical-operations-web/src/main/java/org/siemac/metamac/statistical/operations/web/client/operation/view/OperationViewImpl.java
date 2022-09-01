@@ -1,6 +1,7 @@
 package org.siemac.metamac.statistical.operations.web.client.operation.view;
 
 import static org.siemac.metamac.statistical.operations.web.client.OperationsWeb.getConstants;
+import static org.siemac.metamac.statistical.operations.web.client.OperationsWeb.getMessages;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -194,7 +195,6 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
 
             @Override
             public void onClick(ClickEvent event) {
-
                 getUiHandlers().retrieveUsersAccessControl();
             }
         });
@@ -745,7 +745,31 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         productionDescriptorsEditionForm = new GroupDynamicForm(getConstants().operationProductionDescriptors());
         technicianInCharge = new CustomSelectItem(OperationDS.TECHNICIAN_IN_CHARGE, getConstants().operationTechnicianInCharge());
 
+        technicianInCharge.setValidators(new CustomRequiredValidator() {
+
+            @Override
+            protected boolean condition(Object value) {
+                return CommonUtils.isUsernameRepeat(technicianInCharge.getValueAsString(), assistantTechnician.getValueAsString());
+            }
+
+            @Override
+            public void setErrorMessage(String errorMessage) {
+                super.setErrorMessage(getMessages().validatorMessageUsernameDuplicated());
+            }
+        });
+
         assistantTechnician = new CustomSelectItem(OperationDS.ASSISTANT_TECHNICIAN, getConstants().operationAssistantTechnician());
+        assistantTechnician.setValidators(new CustomRequiredValidator() {
+
+            @Override
+            protected boolean condition(Object value) {
+                return CommonUtils.isUsernameRepeat(assistantTechnician.getValueAsString(), technicianInCharge.getValueAsString());
+            }
+            @Override
+            public void setErrorMessage(String errorMessage) {
+                super.setErrorMessage(getMessages().validatorMessageUsernameDuplicated());
+            }
+        });
 
         final SearchSrmListItemWithSchemeFilterItem producerItem = createProducersItem();
         producerItem.setValidators(new CustomRequiredValidator() {

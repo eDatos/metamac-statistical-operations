@@ -18,7 +18,7 @@ actualización de la versión 1.0.0 a la 2.0.0.*
 
 * Es necesario ejecutar el script SQL contenido en la carpeta
   ```shell
-  etc/changes-from-release/3.0.1/db/statistical-operations/$BD/20220707_add-columns-to-tb_operations.sql
+  etc/changes-from-release/3.0.0/db/statistical-operations/20220707_add-columns-to-tb_operations.sql
   ```
   donde `$DBMS` se corresponde con el sistema de gestión de base de datos que esté utilizando.
 

@@ -23,7 +23,6 @@ public class MetamacApisLocator {
     @PostConstruct
     public void initService() throws Exception {
         String baseApi = configurationService.retrieveCommonMetadataExternalApiUrlBase();
-        String accessControlInternalApi = configurationService.retrieveAccessControlInternalApiUrlBase();
         commonMetadataRestExternalFacadeV10 = JAXRSClientFactory.create(baseApi, CommonMetadataV1_0.class, null, true); // true to do thread safe
     }
 

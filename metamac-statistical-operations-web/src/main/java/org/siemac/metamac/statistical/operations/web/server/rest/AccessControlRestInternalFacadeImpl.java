@@ -9,7 +9,7 @@ import org.siemac.metamac.rest.access_control.v1_0.domain.User;
 import org.siemac.metamac.rest.access_control.v1_0.domain.Users;
 import org.siemac.metamac.rest.exception.RestException;
 import org.siemac.metamac.rest.exception.utils.RestExceptionUtils;
-import org.siemac.metamac.statistical_operations.rest.internal.invocation.MetamacApisLocator;
+import org.siemac.metamac.statistical.operations.web.server.rest.utils.RestQueryUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,26 +18,36 @@ import org.springframework.stereotype.Component;
 @Component("accessControlRestInternalFacade")
 public class AccessControlRestInternalFacadeImpl implements AccessControlRestInternalFacade {
 
-    private final Logger       logger = LoggerFactory.getLogger(AccessControlRestInternalFacadeImpl.class);
+    private final Logger   logger = LoggerFactory.getLogger(AccessControlRestInternalFacadeImpl.class);
 
     @Autowired
-    private MetamacApisLocator restApiLocator;
+    private RestApiLocator restApiLocator;
 
     @Override
-    public List<User> findAllUsers() throws RestException {
+    public List<User> findAllUsers() {
+        return getAccessFindUsers(null);
+    }
+    @Override
+    public String findFullnameUserByUsername(String username) {
+        String query = RestQueryUtils.createQueryForFindUser(username);
+        User user = getAccessFindUsers(query).get(0);
 
+        return user.getName() + " " + user.getSurname() + " - " + user.getUsername();
+    }
+
+    private List<User> getAccessFindUsers(String query) throws RestException {
+        String limit = "1000";
+        int offset = 0;
         try {
-            String limit = "1000";
-            int offset = 0;
             List<User> results = new ArrayList<>();
+
             Users users = null;
             do {
-                users = restApiLocator.getAccessControlRestInternalFacadeV1_0().findUsers(null, limit, String.valueOf(offset));
+                users = restApiLocator.getAccessControlRestInternalFacadeV1_0().findUsers(query, limit, String.valueOf(offset));
                 results.addAll(users.getUsers());
                 offset += users.getUsers().size(); // next page
             } while (users.getTotal().intValue() != results.size());
             return results;
-
         } catch (ServerWebApplicationException e) {
             throw toRestException(e);
         }
@@ -47,4 +57,5 @@ public class AccessControlRestInternalFacadeImpl implements AccessControlRestInt
         logger.error("Error", e);
         return RestExceptionUtils.toRestException(e, WebClient.client(restApiLocator.getAccessControlRestInternalFacadeV1_0()));
     }
+
 }

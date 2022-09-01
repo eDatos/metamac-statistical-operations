@@ -31,8 +31,10 @@ public class GetUsersAccessControlListActionHandler extends SecurityActionHandle
         try {
 
             List<User> users = accessControlRestInternalFacade.findAllUsers();
+            String userFullname = "";
+            usersByUsername.put(new String(), new String());
             for (User user : users) {
-                String userFullname = user.getName() + " " + user.getSurname() + " - " + user.getUsername();
+                userFullname = user.getName() + " " + user.getSurname() + " - " + user.getUsername();
                 usersByUsername.put(user.getUsername(), userFullname);
             }
         } catch (RestException e) {

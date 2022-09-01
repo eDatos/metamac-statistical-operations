@@ -77,6 +77,10 @@ public class CommonUtils {
         return false;
     }
 
+    public static boolean isUsernameRepeat(String username, String usernameRepeat) {
+        return username == null || !username.equalsIgnoreCase(usernameRepeat) ? true : false;
+    }
+
     public static ExternalItemDto create(OperationBaseDto operationBaseDto) {
         ExternalItemDto externalItemDto = new ExternalItemDto();
         externalItemDto.setId(operationBaseDto.getId());

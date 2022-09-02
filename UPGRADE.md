@@ -20,7 +20,6 @@ actualización de la versión 1.0.0 a la 2.0.0.*
   ```shell
   etc/changes-from-release/3.0.0/db/statistical-operations/postgresql/20220707_add-columns-to-tb_operations.sql
   ```
-  donde `$DBMS` se corresponde con el sistema de gestión de base de datos que esté utilizando.
 
 ## 2.6.1 a 3.0.0
 

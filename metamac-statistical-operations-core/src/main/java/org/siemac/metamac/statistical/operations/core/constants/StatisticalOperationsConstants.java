@@ -19,8 +19,6 @@ public class StatisticalOperationsConstants {
 
     public static final String TSV_HEADER_OBJECTIVE                      = "objective";
     public static final String TSV_HEADER_DESCRIPTION                    = "description";
-
-    public static final String TSV_HEADER_TEC                            = "description";
     public static final String TSV_HEADER_STATISTICAL_OPERATION_TYPE     = "statistical_operation_type";
     public static final String TSV_HEADER_OFFICIALITY_TYPE               = "officiality_type";
     public static final String TSV_HEADER_INDICATOR_SYSTEM               = "indicator_system";

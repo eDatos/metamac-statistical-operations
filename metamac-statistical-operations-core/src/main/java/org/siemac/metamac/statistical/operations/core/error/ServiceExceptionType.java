@@ -17,6 +17,8 @@ public class ServiceExceptionType extends CommonServiceExceptionType {
     public static final CommonServiceExceptionType OPERATION_CODE_NOT_FOUND                = create("exception.operations.operation_code.not_found");
     public static final CommonServiceExceptionType OPERATION_ALREADY_EXIST_CODE_DUPLICATED = create("exception.operations.operation.already_exist.code_duplicated");
 
+    public static final CommonServiceExceptionType OPERATION_TEC_IN_CHARGE_EQUALS_ASSISTANT_TEC = create("operation.tec_in_charge_equals_assistant_tec");
+
     public static final CommonServiceExceptionType INSTANCE_INCORRECT_OPERATION_ID                 = create("exception.operations.instance.incorrect_operation_id");
     public static final CommonServiceExceptionType INSTANCE_INCORRECT_OPERATION_PROC_STATUS        = create("exception.operations.instance.incorrect_operation_proc_status");
     public static final CommonServiceExceptionType INSTANCE_NOT_FOUND                              = create("exception.operations.instance.not_found");
@@ -33,8 +35,6 @@ public class ServiceExceptionType extends CommonServiceExceptionType {
     public static final CommonServiceExceptionType SOURCE_DATA_NOT_FOUND      = create("exception.operations.list.sources_data.not_found");
     public static final CommonServiceExceptionType OFFICIALITY_TYPE_NOT_FOUND = create("exception.operations.list.officiality_types.not_found");
     public static final CommonServiceExceptionType COST_NOT_FOUND             = create("exception.operations.list.cost.not_found");
-
-    public static final CommonServiceExceptionType OPERATION_TEC_IN_CHARGE_EQUALS_ASSISTANT_TEC = create("exception.operations.tec_in_charge_assistant_tec.equals");
 
     public static final CommonServiceExceptionType SECURITY_ACCESS_OPERATION_NOT_ALLOWED = create("exception.operations.security.access_operation_not_allowed");
 

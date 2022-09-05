@@ -88,6 +88,7 @@ import com.smartgwt.client.widgets.events.HasClickHandlers;
 import com.smartgwt.client.widgets.form.DynamicForm;
 import com.smartgwt.client.widgets.form.FormItemIfFunction;
 import com.smartgwt.client.widgets.form.fields.FormItem;
+import com.smartgwt.client.widgets.form.validator.CustomValidator;
 import com.smartgwt.client.widgets.grid.ListGridRecord;
 import com.smartgwt.client.widgets.grid.events.HasRecordClickHandlers;
 import com.smartgwt.client.widgets.grid.events.SelectionChangedHandler;
@@ -745,31 +746,10 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         productionDescriptorsEditionForm = new GroupDynamicForm(getConstants().operationProductionDescriptors());
         technicianInCharge = new CustomSelectItem(OperationDS.TECHNICIAN_IN_CHARGE, getConstants().operationTechnicianInCharge());
 
-        technicianInCharge.setValidators(new CustomRequiredValidator() {
-
-            @Override
-            protected boolean condition(Object value) {
-                return CommonUtils.isUsernameRepeat(technicianInCharge.getValueAsString(), assistantTechnician.getValueAsString());
-            }
-
-            @Override
-            public void setErrorMessage(String errorMessage) {
-                super.setErrorMessage(getMessages().validatorMessageUsernameDuplicated());
-            }
-        });
+        technicianInCharge.setValidators(getTechnicianInChargeUserNotTheSameAsAssistantTechnicianUserValidator());
 
         assistantTechnician = new CustomSelectItem(OperationDS.ASSISTANT_TECHNICIAN, getConstants().operationAssistantTechnician());
-        assistantTechnician.setValidators(new CustomRequiredValidator() {
-
-            @Override
-            protected boolean condition(Object value) {
-                return CommonUtils.isUsernameRepeat(assistantTechnician.getValueAsString(), technicianInCharge.getValueAsString());
-            }
-            @Override
-            public void setErrorMessage(String errorMessage) {
-                super.setErrorMessage(getMessages().validatorMessageUsernameDuplicated());
-            }
-        });
+        assistantTechnician.setValidators(getTechnicianInChargeUserNotTheSameAsAssistantTechnicianUserValidator());
 
         final SearchSrmListItemWithSchemeFilterItem producerItem = createProducersItem();
         producerItem.setValidators(new CustomRequiredValidator() {
@@ -995,8 +975,8 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
 
         // PRODUCTION DESCRIPTORS
 
-        technicianInCharge.setValue(operationDto.getTechnicianInCharge() != null ? operationDto.getTechnicianInCharge() : null);
-        assistantTechnician.setValue(operationDto.getAssistantTechnician() != null ? operationDto.getAssistantTechnician() : null);
+        technicianInCharge.setValue(operationDto.getTechnicianInCharge() != null ? CommonUtils.getUsernameUser(operationDto.getTechnicianInCharge()) : null);
+        assistantTechnician.setValue(operationDto.getAssistantTechnician() != null ? CommonUtils.getUsernameUser(operationDto.getAssistantTechnician()) : null);
         ((ExternalItemListItem) productionDescriptorsEditionForm.getItem(OperationDS.PRODUCER)).setExternalItems(operationDto.getProducer());
         ((ExternalItemListItem) productionDescriptorsEditionForm.getItem(OperationDS.REG_RESPONSIBLE)).setExternalItems(operationDto.getRegionalResponsible());
         ((ExternalItemListItem) productionDescriptorsEditionForm.getItem(OperationDS.REG_CONTRIBUTOR)).setExternalItems(operationDto.getRegionalContributor());
@@ -1376,5 +1356,21 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
                 return getUiHandlers();
             }
         };
+    }
+
+    // ------------------------------------------------------------------------------------------------------------
+    // VALIDATORS
+    // ------------------------------------------------------------------------------------------------------------
+    private CustomValidator getTechnicianInChargeUserNotTheSameAsAssistantTechnicianUserValidator() {
+        CustomValidator customValidator = new CustomValidator() {
+
+            @Override
+            protected boolean condition(Object value) {
+                return CommonUtils.isTechnicianInChargeUserNotTheSameAsAssistantTechnicianUser(technicianInCharge.getValueAsString(), assistantTechnician.getValueAsString());
+            }
+        };
+
+        customValidator.setErrorMessage(getMessages().validatorMessageTechnicianInChargeEqualsAssitantTechnician());
+        return customValidator;
     }
 }

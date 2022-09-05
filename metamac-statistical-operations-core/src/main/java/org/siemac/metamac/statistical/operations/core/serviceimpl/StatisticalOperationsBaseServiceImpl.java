@@ -345,6 +345,7 @@ public class StatisticalOperationsBaseServiceImpl extends StatisticalOperationsB
 
         // Validations
         validateOperationCodeUnique(ctx, operation.getCode(), null);
+        validateOperationTechnicianInChargeUserNotTheSameAsAssistantTechnicianUser(operation.getTechnicianInCharge(), operation.getAssistantTechnician());
         CheckMandatoryMetadataUtil.checkCreateOperation(operation);
 
         // Repository operation
@@ -358,6 +359,7 @@ public class StatisticalOperationsBaseServiceImpl extends StatisticalOperationsB
             // We don't need to update the instances URN because we can't create instances in a draft operation
             operation.setUrn(GeneratorUrnUtils.generateSiemacStatisticalOperationUrn(operation.getCode()));
             validateOperationCodeUnique(ctx, operation.getCode(), operation.getId());
+            validateOperationTechnicianInChargeUserNotTheSameAsAssistantTechnicianUser(operation.getTechnicianInCharge(), operation.getAssistantTechnician());
             CheckMandatoryMetadataUtil.checkCreateOperation(operation);
         }
 
@@ -787,6 +789,12 @@ public class StatisticalOperationsBaseServiceImpl extends StatisticalOperationsB
                     throw new MetamacException(ServiceExceptionType.UNKNOWN, "More than one instance with code " + code);
                 }
             }
+        }
+    }
+
+    private void validateOperationTechnicianInChargeUserNotTheSameAsAssistantTechnicianUser(String tecnicianInCharge, String assistantTechnician) throws MetamacException {
+        if (tecnicianInCharge == null || !tecnicianInCharge.equalsIgnoreCase(assistantTechnician)) {
+            throw new MetamacException(ServiceExceptionType.TEC_IN_CHARGE_EQUALS_ASSISTANT_TEC, tecnicianInCharge);
         }
     }
 }

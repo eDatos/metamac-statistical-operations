@@ -7,13 +7,13 @@ import org.siemac.metamac.statistical.operations.core.dto.FamilyBaseDto;
 import org.siemac.metamac.statistical.operations.core.dto.InstanceBaseDto;
 import org.siemac.metamac.statistical.operations.core.dto.OperationDto;
 import org.siemac.metamac.statistical.operations.core.serviceapi.StatisticalOperationsServiceFacade;
+import org.siemac.metamac.statistical.operations.web.server.handlers.utils.HandlersUtils;
 import org.siemac.metamac.statistical.operations.web.server.rest.AccessControlRestInternalFacade;
 import org.siemac.metamac.statistical.operations.web.shared.GetOperationAndInstancesAction;
 import org.siemac.metamac.statistical.operations.web.shared.GetOperationAndInstancesResult;
 import org.siemac.metamac.web.common.server.ServiceContextHolder;
 import org.siemac.metamac.web.common.server.handlers.SecurityActionHandler;
 import org.siemac.metamac.web.common.server.utils.WebExceptionUtils;
-import org.siemac.metamac.web.common.shared.exception.MetamacWebException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -37,7 +37,7 @@ public class GetOperationAndInstancesActionHandler extends SecurityActionHandler
     public GetOperationAndInstancesResult executeSecurityAction(GetOperationAndInstancesAction action) throws ActionException {
         try {
             OperationDto operationDto = statisticalOperationsServiceFacade.findOperationByUrn(ServiceContextHolder.getCurrentServiceContext(), action.getOperationUrn());
-            setFullnameUserByUsername(operationDto);
+            HandlersUtils.setFullnameUserByUsername(operationDto, accessControlRestInternalFacade);
             List<FamilyBaseDto> familyBaseDtos = statisticalOperationsServiceFacade.findFamiliesForOperation(ServiceContextHolder.getCurrentServiceContext(), operationDto.getId());
             List<InstanceBaseDto> instanceDtos = statisticalOperationsServiceFacade.findInstancesForOperation(ServiceContextHolder.getCurrentServiceContext(), operationDto.getId());
             return new GetOperationAndInstancesResult(operationDto, instanceDtos, familyBaseDtos);
@@ -50,10 +50,4 @@ public class GetOperationAndInstancesActionHandler extends SecurityActionHandler
     public void undo(GetOperationAndInstancesAction action, GetOperationAndInstancesResult result, ExecutionContext context) throws ActionException {
 
     }
-
-    private void setFullnameUserByUsername(OperationDto operationDto) throws MetamacWebException {
-        operationDto.setAssistantTechnician(operationDto.getAssistantTechnician() != null ? accessControlRestInternalFacade.findFullnameUserByUsername(operationDto.getAssistantTechnician()) : null);
-        operationDto.setTechnicianInCharge(operationDto.getTechnicianInCharge() != null ? accessControlRestInternalFacade.findFullnameUserByUsername(operationDto.getTechnicianInCharge()) : null);
-    }
-
 }

@@ -117,7 +117,6 @@ public class RestCriteria2SculptorCriteriaMapperImpl implements RestCriteria2Scu
                             Operation.class), PropertyTypeEnum.DATE, propertyRestriction);
                 case TECHNICIAN_IN_CHARGE:
                     return buildSculptorPropertyCriteria(OperationProperties.technicianInCharge(), PropertyTypeEnum.STRING, propertyRestriction);
-
                 case ASSISTANT_TECHNICIAN:
                     return buildSculptorPropertyCriteria(OperationProperties.assistantTechnician(), PropertyTypeEnum.STRING, propertyRestriction);
                 default:

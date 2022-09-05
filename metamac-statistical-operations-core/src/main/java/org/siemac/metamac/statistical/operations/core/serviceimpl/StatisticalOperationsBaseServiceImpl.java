@@ -792,9 +792,9 @@ public class StatisticalOperationsBaseServiceImpl extends StatisticalOperationsB
         }
     }
 
-    private void validateOperationTechnicianInChargeUserNotTheSameAsAssistantTechnicianUser(String tecnicianInCharge, String assistantTechnician) throws MetamacException {
-        if (tecnicianInCharge == null || !tecnicianInCharge.equalsIgnoreCase(assistantTechnician)) {
-            throw new MetamacException(ServiceExceptionType.TEC_IN_CHARGE_EQUALS_ASSISTANT_TEC, tecnicianInCharge);
+    private void validateOperationTechnicianInChargeUserNotTheSameAsAssistantTechnicianUser(String technicianInCharge, String assistantTechnician) throws MetamacException {
+        if (technicianInCharge == null || !technicianInCharge.equalsIgnoreCase(assistantTechnician)) {
+            throw new MetamacException(ServiceExceptionType.TEC_IN_CHARGE_EQUALS_ASSISTANT_TEC, technicianInCharge);
         }
     }
 }

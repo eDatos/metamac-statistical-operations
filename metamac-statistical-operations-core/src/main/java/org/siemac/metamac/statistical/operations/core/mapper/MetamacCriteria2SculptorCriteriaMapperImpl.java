@@ -142,6 +142,10 @@ public class MetamacCriteria2SculptorCriteriaMapperImpl implements MetamacCriter
                     return new SculptorPropertyCriteria(OperationProperties.families().code(), propertyRestriction.getStringValue(), propertyRestriction.getOperationType());
                 case FAMILY_ID:
                     return new SculptorPropertyCriteria(OperationProperties.families().id(), propertyRestriction.getLongValue(), propertyRestriction.getOperationType());
+                case TECHNICIAN_IN_CHARGE:
+                    return new SculptorPropertyCriteria(OperationProperties.technicianInCharge(), propertyRestriction.getStringValue(), propertyRestriction.getOperationType());
+                case ASSISTANT_TECHNICIAN:
+                    return new SculptorPropertyCriteria(OperationProperties.assistantTechnician(), propertyRestriction.getStringValue(), propertyRestriction.getOperationType());
                 default:
                     throw new MetamacException(ServiceExceptionType.PARAMETER_INCORRECT, propertyRestriction.getPropertyName());
             }

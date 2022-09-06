@@ -219,6 +219,7 @@ public class OperationListPresenter extends Presenter<OperationListPresenter.Ope
     @Override
     public void exportOperationsTsv() {
         dispatcher.execute(new ExportOperationListAction(getView().getOperations()), new WaitingAsyncCallbackHandlingError<ExportOperationListResult>(this) {
+
             @Override
             public void onWaitSuccess(ExportOperationListResult result) {
                 CommonUtils.downloadFile(result.getFileName());

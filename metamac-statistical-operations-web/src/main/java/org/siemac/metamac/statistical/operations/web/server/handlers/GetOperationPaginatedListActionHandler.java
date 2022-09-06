@@ -60,6 +60,8 @@ public class GetOperationPaginatedListActionHandler extends SecurityActionHandle
                 disjuction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.TITLE.name(), action.getOperation(), OperationType.ILIKE));
                 disjuction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.DESCRIPTION.name(), action.getOperation(), OperationType.ILIKE));
                 disjuction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.ACRONYM.name(), action.getOperation(), OperationType.ILIKE));
+                disjuction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.TECHNICIAN_IN_CHARGE.name(), action.getOperation(), OperationType.ILIKE));
+                disjuction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.ASSISTANT_TECHNICIAN.name(), action.getOperation(), OperationType.ILIKE));
             }
             criteria.setRestriction(disjuction);
 

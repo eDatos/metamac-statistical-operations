@@ -70,6 +70,8 @@ public class RecordUtils {
         record.setProcStatus(CommonUtils.getProcStatusName(operationBaseDto.getProcStatus()));
         record.setStatus(CommonUtils.getStatusName(operationBaseDto.getStatus()));
         record.setPublicationStreamStatus(operationBaseDto.getStreamMessageStatus());
+        record.setTechnicianInCharge(operationBaseDto.getTechnicianInCharge());
+        record.setAssistantTechnician(operationBaseDto.getAssistantTechnician());
         record.setOperationBaseDto(operationBaseDto);
         return record;
     }

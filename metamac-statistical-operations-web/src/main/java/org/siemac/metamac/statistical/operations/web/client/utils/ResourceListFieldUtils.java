@@ -78,8 +78,11 @@ public class ResourceListFieldUtils {
         publicationStreamStatus.setType(ListGridFieldType.IMAGE);
         publicationStreamStatus.setAlign(Alignment.CENTER);
 
+        CustomListGridField technicianInCharge = new CustomListGridField(OperationDS.TECHNICIAN_IN_CHARGE, getConstants().operationTechnicianInCharge());
+        CustomListGridField assistantTechnician = new CustomListGridField(OperationDS.ASSISTANT_TECHNICIAN, getConstants().operationAssistantTechnician());
+
         return new CustomListGridField[]{code, urn, title, acronym, subjectArea, surveyType, officialityType, indicatorsSystem, createdDate, internalInventoryDate, currentlyActive, procStatus, status,
-                publicationStreamStatus};
+                publicationStreamStatus, technicianInCharge, assistantTechnician};
     }
 
     public static CustomListGridField[] getInstanceFields() {

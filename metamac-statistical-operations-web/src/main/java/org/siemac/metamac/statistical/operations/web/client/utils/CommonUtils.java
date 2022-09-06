@@ -31,6 +31,7 @@ public class CommonUtils {
     private static LinkedHashMap<String, String>                         statusEnumHashMap;
 
     private static final EnumMap<StreamMessageStatusEnum, ImageResource> ICON_STREAM_MESSAGE_STATUS = new EnumMap(StreamMessageStatusEnum.class);
+
     static {
         ICON_STREAM_MESSAGE_STATUS.put(StreamMessageStatusEnum.FAILED, GlobalResources.RESOURCE.errorSmart());
         ICON_STREAM_MESSAGE_STATUS.put(StreamMessageStatusEnum.PENDING, GlobalResources.RESOURCE.warn());
@@ -62,6 +63,13 @@ public class CommonUtils {
         return StringUtils.EMPTY;
     }
 
+    public static String getUsernameUser(String fullname) {
+        if (fullname.split("- ").length > 0) {
+            return fullname.split("- ")[1].toString();
+        }
+        return fullname;
+    }
+
     public static boolean isInternallyOrExternallyPublished(OperationDto operationDto) {
         return isInternallyOrExternallyPublished(operationDto.getProcStatus());
     }
@@ -75,6 +83,10 @@ public class CommonUtils {
             return true;
         }
         return false;
+    }
+
+    public static boolean isTechnicianInChargeUserNotTheSameAsAssistantTechnicianUser(String username, String usernameRepeat) {
+        return username == null || !username.equalsIgnoreCase(usernameRepeat);
     }
 
     public static ExternalItemDto create(OperationBaseDto operationBaseDto) {

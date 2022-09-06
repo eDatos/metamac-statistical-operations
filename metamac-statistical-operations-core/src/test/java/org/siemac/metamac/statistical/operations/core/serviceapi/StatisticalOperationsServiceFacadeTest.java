@@ -3550,7 +3550,7 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
         Set<String> expectedLines = getFileLines(expectedBufferedReader);
         assertEquals(operationsId.size(), lines.size());
 
-        int indexCreatedDate = 26;
+        int indexCreatedDate = 28;
         List<String> rows = new ArrayList<>(lines);
         Collections.sort(rows);
         List<String> row0 = Arrays.asList(rows.get(0).split("\t"));
@@ -3561,6 +3561,10 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
         row2.set(indexCreatedDate, "");
         List<String> row3 = Arrays.asList(rows.get(3).split("\t"));
         row3.set(indexCreatedDate, "");
+        List<String> row4 = Arrays.asList(rows.get(4).split("\t"));
+        row4.set(indexCreatedDate, "");
+        List<String> row5 = Arrays.asList(rows.get(5).split("\t"));
+        row5.set(indexCreatedDate, "");
 
         List<String> expectedRows = new ArrayList<>(expectedLines);
         Collections.sort(expectedRows);
@@ -3572,11 +3576,17 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
         expectedRow2.set(indexCreatedDate, "");
         List<String> expectedRow3 = Arrays.asList(expectedRows.get(3).split("\t"));
         expectedRow3.set(indexCreatedDate, "");
+        List<String> expectedRow4 = Arrays.asList(expectedRows.get(4).split("\t"));
+        expectedRow4.set(indexCreatedDate, "");
+        List<String> expectedRow5 = Arrays.asList(expectedRows.get(5).split("\t"));
+        expectedRow5.set(indexCreatedDate, "");
 
         assertEquals(row0, expectedRow0);
         assertEquals(row1, expectedRow1);
         assertEquals(row2, expectedRow2);
         assertEquals(row3, expectedRow3);
+        assertEquals(row4, expectedRow4);
+        assertEquals(row5, expectedRow5);
 
         expectedBufferedReader.close();
         bufferedReader.close();
@@ -3795,6 +3805,27 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
         return operationDto;
     }
 
+    private OperationDto createOperationDtoWithTechnicianInChargeAndAssistantTechnician() throws MetamacException {
+        OperationDto operationDto = createOperationDto();
+
+        // TECHNICIAN IN CHARGE
+        operationDto.setTechnicianInCharge("admin");
+
+        // ASSISTANT TECHNICIAN
+        operationDto.setAssistantTechnician("auxiliar");
+
+        return operationDto;
+    }
+
+    private OperationDto createOperationDtoWithTechnicianInCharge() throws MetamacException {
+        OperationDto operationDto = createOperationDto();
+
+        // TECHNICIAN IN CHARGE
+        operationDto.setTechnicianInCharge("admin");
+
+        return operationDto;
+    }
+
     private InstanceDto createInstanceDto() throws MetamacException {
         InstanceDto instanceDto = new InstanceDto();
 
@@ -3884,9 +3915,17 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
         operationDtoWithOfficialityType.setCode("CODE03eXp");
         operationsId.add(statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), operationDtoWithOfficialityType).getId());
 
-        OperationDto operationDto = createOperationDtoWithOfficialityType();
+        OperationDto operationDto = createOperationDto();
         operationDto.setCode("CODE04eXp");
         operationsId.add(statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), operationDto).getId());
+
+        OperationDto operationDtoWithTechnicianInChargeAndAssistantTechnician = createOperationDtoWithTechnicianInChargeAndAssistantTechnician();
+        operationDtoWithTechnicianInChargeAndAssistantTechnician.setCode("CODE05eXp");
+        operationsId.add(statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), operationDtoWithTechnicianInChargeAndAssistantTechnician).getId());
+
+        OperationDto operationDtoWithTechnicianInCharge = createOperationDtoWithTechnicianInCharge();
+        operationDtoWithTechnicianInCharge.setCode("CODE06eXp");
+        operationsId.add(statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), operationDtoWithTechnicianInCharge).getId());
 
         return operationsId;
     }

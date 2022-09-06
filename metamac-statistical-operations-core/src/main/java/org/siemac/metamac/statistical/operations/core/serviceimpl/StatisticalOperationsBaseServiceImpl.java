@@ -793,7 +793,7 @@ public class StatisticalOperationsBaseServiceImpl extends StatisticalOperationsB
     }
 
     private void validateOperationTechnicianInChargeUserNotTheSameAsAssistantTechnicianUser(String technicianInCharge, String assistantTechnician) throws MetamacException {
-        if (technicianInCharge == null || !technicianInCharge.equalsIgnoreCase(assistantTechnician)) {
+        if (!(technicianInCharge == null && assistantTechnician == null) && technicianInCharge.equalsIgnoreCase(assistantTechnician)) {
             throw new MetamacException(ServiceExceptionType.OPERATION_TEC_IN_CHARGE_EQUALS_ASSISTANT_TEC);
         }
     }

@@ -115,6 +115,10 @@ public class RestCriteria2SculptorCriteriaMapperImpl implements RestCriteria2Scu
                 case INVENTORY_DATE:
                     return buildSculptorPropertyCriteria(new LeafProperty<Operation>(OperationProperties.inventoryDate().getName(), CoreCommonConstants.CRITERIA_DATETIME_COLUMN_DATETIME, true,
                             Operation.class), PropertyTypeEnum.DATE, propertyRestriction);
+                case TECHNICIAN_IN_CHARGE:
+                    return buildSculptorPropertyCriteria(OperationProperties.technicianInCharge(), PropertyTypeEnum.STRING, propertyRestriction);
+                case ASSISTANT_TECHNICIAN:
+                    return buildSculptorPropertyCriteria(OperationProperties.assistantTechnician(), PropertyTypeEnum.STRING, propertyRestriction);
                 default:
                     throw toRestExceptionParameterIncorrect(propertyNameCriteria.name());
             }

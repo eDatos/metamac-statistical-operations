@@ -329,6 +329,12 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
         // INACTIVE_DATE
         // Not necessary. It can't be manually modified
 
+        // TECHNICIAN IN CHARGE
+        target.setTechnicianInCharge(source.getTechnicianInCharge());
+
+        // ASSITANT TECHNICIAN
+        target.setAssistantTechnician(source.getAssistantTechnician());
+
         // STATUS
         target.setStatus(source.getStatus());
 

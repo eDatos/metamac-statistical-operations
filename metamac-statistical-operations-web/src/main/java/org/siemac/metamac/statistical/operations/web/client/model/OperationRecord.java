@@ -101,4 +101,13 @@ public class OperationRecord extends ListGridRecord {
     public void setPublicationStreamStatus(StreamMessageStatusEnum status) {
         setAttribute(OperationDS.PUBLISH_MSG_STATUS_KAFKA, StreamMessageStatusEnum.PENDING.equals(status) ? null : CommonUtils.getPublicationStreamStatusIcon(status));
     }
+
+    public void setTechnicianInCharge(String value) {
+        setAttribute(OperationDS.TECHNICIAN_IN_CHARGE, value);
+    }
+
+    public void setAssistantTechnician(String value) {
+        setAttribute(OperationDS.ASSISTANT_TECHNICIAN, value);
+    }
+
 }

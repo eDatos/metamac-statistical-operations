@@ -7,6 +7,8 @@ import org.siemac.metamac.statistical.operations.core.dto.FamilyBaseDto;
 import org.siemac.metamac.statistical.operations.core.dto.InstanceBaseDto;
 import org.siemac.metamac.statistical.operations.core.dto.OperationDto;
 import org.siemac.metamac.statistical.operations.core.serviceapi.StatisticalOperationsServiceFacade;
+import org.siemac.metamac.statistical.operations.web.server.handlers.utils.HandlersUtils;
+import org.siemac.metamac.statistical.operations.web.server.rest.AccessControlRestInternalFacade;
 import org.siemac.metamac.statistical.operations.web.shared.GetOperationAndInstancesAction;
 import org.siemac.metamac.statistical.operations.web.shared.GetOperationAndInstancesResult;
 import org.siemac.metamac.web.common.server.ServiceContextHolder;
@@ -24,6 +26,9 @@ public class GetOperationAndInstancesActionHandler extends SecurityActionHandler
     @Autowired
     private StatisticalOperationsServiceFacade statisticalOperationsServiceFacade;
 
+    @Autowired
+    private AccessControlRestInternalFacade    accessControlRestInternalFacade;
+
     public GetOperationAndInstancesActionHandler() {
         super(GetOperationAndInstancesAction.class);
     }
@@ -32,6 +37,7 @@ public class GetOperationAndInstancesActionHandler extends SecurityActionHandler
     public GetOperationAndInstancesResult executeSecurityAction(GetOperationAndInstancesAction action) throws ActionException {
         try {
             OperationDto operationDto = statisticalOperationsServiceFacade.findOperationByUrn(ServiceContextHolder.getCurrentServiceContext(), action.getOperationUrn());
+            HandlersUtils.setFullnameUserByUsername(operationDto, accessControlRestInternalFacade);
             List<FamilyBaseDto> familyBaseDtos = statisticalOperationsServiceFacade.findFamiliesForOperation(ServiceContextHolder.getCurrentServiceContext(), operationDto.getId());
             List<InstanceBaseDto> instanceDtos = statisticalOperationsServiceFacade.findInstancesForOperation(ServiceContextHolder.getCurrentServiceContext(), operationDto.getId());
             return new GetOperationAndInstancesResult(operationDto, instanceDtos, familyBaseDtos);
@@ -44,5 +50,4 @@ public class GetOperationAndInstancesActionHandler extends SecurityActionHandler
     public void undo(GetOperationAndInstancesAction action, GetOperationAndInstancesResult result, ExecutionContext context) throws ActionException {
 
     }
-
 }

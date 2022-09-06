@@ -412,12 +412,17 @@ Application StatisticalOperations {
        		- @InternationalString specificDataSharing cascade="all" nullable databaseColumn="SPECIFIC_DATA_SHARING_FK";
        		// CONFIDENCIALITY_POLICY: It comes from AppCommonMetadata
        		// CONFIDENCIALITY_DATA_TREATMENT: It comes from AppCommonMetadata
-       		
+
+            "Metadata TECHNICIAN_IN_CHARGE"
+            String technicianInCharge nullable length="255";
+            "Metadata ASSISTANT_TECHNICIAN"
+            String assistantTechnician nullable length="255";
+
        		"Metadata COMMENT"
        		- @InternationalString comment cascade="all" nullable databaseColumn="COMMENT_FK";
        		"Metadata NOTES"
        		- @InternationalString notes cascade="all" nullable databaseColumn="NOTES_FK";
-       		
+
        		"Last update to optimistic locking"
 			DateTimeTZ updateDate nullable;
 

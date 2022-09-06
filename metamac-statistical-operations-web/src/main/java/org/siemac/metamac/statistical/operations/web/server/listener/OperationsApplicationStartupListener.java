@@ -32,6 +32,7 @@ public class OperationsApplicationStartupListener extends InternalApplicationSta
         checkRequiredProperty(ConfigurationConstants.ENDPOINT_STATISTICAL_OPERATIONS_INTERNAL_API);
         checkRequiredProperty(ConfigurationConstants.ENDPOINT_SRM_INTERNAL_API);
         checkRequiredProperty(ConfigurationConstants.ENDPOINT_COMMON_METADATA_EXTERNAL_API);
+        checkRequiredProperty(ConfigurationConstants.ENDPOINT_ACCESS_CONTROL_INTERNAL_API);
     }
 
     @Override

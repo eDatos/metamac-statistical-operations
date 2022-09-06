@@ -45,8 +45,9 @@
         <metamac-sso.version>4.0.0</metamac-sso.version>
         <metamac-web-common.version>5.0.0</metamac-web-common.version>
         <metamac-common-metadata.version>3.0.0</metamac-common-metadata.version>
+        <metamac-access-control.version>3.0.0</metamac-access-control.version>
 
-        
+
         <!-- WEB -->
         <jstl.version>1.2</jstl.version>
     </properties>

@@ -145,6 +145,8 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         target.setParentLink(this.toOperationParentLink());
         target.setChildLinks(this.toOperationChildLinks(source));
         target.setManagementAppLink(this.toOperationManagementApplicationLink(source.getCode()));
+        target.setTechnicianInCharge(source.getTechnicianInCharge());
+        target.setAssistantTechnician(source.getAssistantTechnician());
         target.setGenderPerspective(this.toInternationalString(source.getGenderPerspective()));
         return target;
     }

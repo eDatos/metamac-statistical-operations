@@ -341,6 +341,9 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
         // PROC_STATUS
         // Not necessary. It can't be manually modified
 
+        // GENDER_PERSPECTIVE
+        target.setGenderPerspective(internationalStringToEntity(source.getGenderPerspective(), target.getGenderPerspective(), ServiceExceptionParameters.OPERATION_GENDER_PERSPECTIVE));
+
         // PUBLISHER
         target.getPublisher().addAll(externalItemListToEntity(source.getPublisher(), target.getPublisher(), ServiceExceptionParameters.OPERATION_PUBLISHER));
 

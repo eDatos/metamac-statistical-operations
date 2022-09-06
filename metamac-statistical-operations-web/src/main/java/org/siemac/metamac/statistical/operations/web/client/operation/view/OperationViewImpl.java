@@ -440,6 +440,8 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         operationDto.setCurrentlyActive(currentlyActiveItem.getValueAsBoolean());
         operationDto.setStatus(statusItem.getValueAsString() != null ? StatusEnum.valueOf(statusItem.getValueAsString()) : null);
 
+        operationDto.setGenderPerspective(productionDescriptorsEditionForm.getValueAsInternationalStringDto(OperationDS.GENDER_PERSPECTIVE));
+
         // DIFFUSION AND PUBLICATION
 
         List<ExternalItemDto> publishers = ((ExternalItemListItem) diffusionEditionForm.getItem(OperationDS.PUBLISHER)).getExternalItemDtos();
@@ -620,8 +622,11 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         ViewTextItem currentlyActive = new ViewTextItem(OperationDS.CURRENTLY_ACTIVE, getConstants().operationCurrentlyActive());
         ViewTextItem status = new ViewTextItem(OperationDS.STATUS, getConstants().operationStatus());
         ViewTextItem procStatus = new ViewTextItem(OperationDS.PROC_STATUS, getConstants().operationProcStatus());
-        productionDescriptorsForm.setFields(techinicianInCharge, assistantTechnician, producer, regionalResposible, regionalContibutor, createdDate, inventoryDate, currentlyActive, status,
-                procStatus);
+
+        ViewMultiLanguageTextItem genderPerspective = new ViewMultiLanguageTextItem(OperationDS.GENDER_PERSPECTIVE, getConstants().operationGenderPerspective());
+
+        productionDescriptorsForm.setFields(techinicianInCharge, assistantTechnician, producer, regionalResposible, regionalContibutor, createdDate, inventoryDate, currentlyActive, status, procStatus,
+                genderPerspective);
 
         // Diffusion Descriptors
         diffusionForm = new GroupDynamicForm(getConstants().operationDiffusionAndPublication());
@@ -788,8 +793,11 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         ViewTextItem procStatus = new ViewTextItem(OperationDS.PROC_STATUS, getConstants().operationProcStatus());
         ViewTextItem staticProcStatus = new ViewTextItem(OperationDS.PROC_STATUS_VIEW, getConstants().operationProcStatus());
         staticProcStatus.setShowIfCondition(FormItemUtils.getFalseFormItemIfFunction());
+
+        MultiLanguageTextItem genderPerspective = new MultiLanguageTextItem(OperationDS.GENDER_PERSPECTIVE, getConstants().operationGenderPerspective());
+
         productionDescriptorsEditionForm.setFields(technicianInCharge, assistantTechnician, producerItem, regionalResponsibleItem, regionalContributorItem, createdDate, internalInventoryDate,
-                currentlyActiveItem, statusItem, staticProcStatus, procStatus);
+                currentlyActiveItem, statusItem, staticProcStatus, procStatus, genderPerspective);
 
         // DIFFUSION AND PUBLICATION
 
@@ -893,6 +901,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
                 (operationDto.getCurrentlyActive() != null && operationDto.getCurrentlyActive()) ? MetamacWebCommon.getConstants().yes() : MetamacWebCommon.getConstants().no());
         productionDescriptorsForm.setValue(OperationDS.STATUS, CommonUtils.getStatusName(operationDto.getStatus()));
         productionDescriptorsForm.setValue(OperationDS.PROC_STATUS, CommonUtils.getProcStatusName(operationDto.getProcStatus()));
+        productionDescriptorsForm.setValue(OperationDS.GENDER_PERSPECTIVE, operationDto.getGenderPerspective());
 
         // DIFFUSION AND PUBLICATION
 
@@ -986,6 +995,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         statusItem.setValue(operationDto.getStatus() == null ? null : operationDto.getStatus().toString());
         productionDescriptorsEditionForm.setValue(OperationDS.PROC_STATUS, CommonUtils.getProcStatusName(operationDto.getProcStatus()));
         productionDescriptorsEditionForm.setValue(OperationDS.PROC_STATUS_VIEW, operationDto.getProcStatus().toString());
+        productionDescriptorsEditionForm.setValue(OperationDS.GENDER_PERSPECTIVE, operationDto.getGenderPerspective());
 
         productionDescriptorsEditionForm.setRequiredTitleSuffix(requiredFieldsToNextProcStatus);
         productionDescriptorsEditionForm.markForRedraw();
@@ -1099,6 +1109,8 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         identifiersEditionForm.setTranslationsShowed(translationsShowed);
         contentViewForm.setTranslationsShowed(translationsShowed);
         contentEditionForm.setTranslationsShowed(translationsShowed);
+        productionDescriptorsForm.setTranslationsShowed(translationsShowed);
+        productionDescriptorsEditionForm.setTranslationsShowed(translationsShowed);
         diffusionForm.setTranslationsShowed(translationsShowed);
         diffusionEditionForm.setTranslationsShowed(translationsShowed);
         annotationsViewForm.setTranslationsShowed(translationsShowed);

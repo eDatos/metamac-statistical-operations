@@ -3909,6 +3909,17 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
 
         OperationDto operationDtoWithProducer = createOperationDtoWithProducer();
         operationDtoWithProducer.setCode("CODE02eXp");
+        // Gender perspective
+        InternationalStringDto genderPerspective = new InternationalStringDto();
+        LocalisedStringDto genderPerspective_es = new LocalisedStringDto();
+        genderPerspective_es.setLabel("Perspectiva de género");
+        genderPerspective_es.setLocale("es");
+        LocalisedStringDto genderPerspective_en = new LocalisedStringDto();
+        genderPerspective_en.setLabel("Gender perspective");
+        genderPerspective_en.setLocale("en");
+        genderPerspective.addText(genderPerspective_es);
+        genderPerspective.addText(genderPerspective_en);
+        operationDtoWithProducer.setGenderPerspective(genderPerspective);
         operationsId.add(statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), operationDtoWithProducer).getId());
 
         OperationDto operationDtoWithOfficialityType = createOperationDtoWithOfficialityType();

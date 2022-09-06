@@ -35,6 +35,8 @@ public class StatisticalOperationsConstants {
     public static final String TSV_HEADER_STATUS                         = "status";
     public static final String TSV_HEADER_PROC_STATUS                    = "proc_status";
 
+    public static final String TSV_HEADER_GENDER_PERSPECTIVE             = "gender_perspective";
+
     public static final String TSV_HEADER_PUBLISHER                      = "publisher";
     public static final String TSV_HEADER_COMMON_METADATA                = "common_metadata";
     public static final String TSV_HEADER_REL_POL_US_AC                  = "rel_pol_us_ac";

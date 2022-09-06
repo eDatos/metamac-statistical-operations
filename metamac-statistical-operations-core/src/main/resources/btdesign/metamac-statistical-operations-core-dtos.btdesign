@@ -124,6 +124,8 @@ Application StatisticalOperationsDto {
 
             String technicianInCharge nullable;
             String assistantTechnician nullable;
+
+            - @InternationalStringDto genderPerspective nullable;
         }
 
         "Dto for OperationBaseDto"

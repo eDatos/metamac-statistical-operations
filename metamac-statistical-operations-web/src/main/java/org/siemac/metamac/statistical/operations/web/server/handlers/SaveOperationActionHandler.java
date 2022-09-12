@@ -35,7 +35,6 @@ public class SaveOperationActionHandler extends SecurityActionHandler<SaveOperat
             // Create operation
             try {
                 OperationDto operationDto = statisticalOperationsServiceFacade.createOperation(ServiceContextHolder.getCurrentServiceContext(), operationToSave);
-                HandlersUtils.setFullnameUserByUsername(operationDto, accessControlRestInternalFacade);
                 return new SaveOperationResult(operationDto);
             } catch (MetamacException e) {
                 throw WebExceptionUtils.createMetamacWebException(e);

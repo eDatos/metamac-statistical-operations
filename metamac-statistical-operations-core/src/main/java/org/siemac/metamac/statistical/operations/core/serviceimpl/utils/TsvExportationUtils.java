@@ -84,7 +84,7 @@ public class TsvExportationUtils {
                 writeStringSingleItem(writer, operation.getReleaseCalendarAccess());
                 writeExternalItemListItem(writer, operation.getUpdateFrequency());
                 writeStringSingleItem(writer, getCurrentInternalInstance(operation.getInstances()) == null ? null : getCurrentInternalInstance(operation.getInstances()).getCode());
-                writeStringSingleItem(writer, getCurrentInstance(operation.getInstances()) == null ? null : getCurrentInternalInstance(operation.getInstances()).getCode());
+                writeStringSingleItem(writer, getCurrentInstance(operation.getInstances()) == null ? null : getCurrentInstance(operation.getInstances()).getCode());
                 writeDateItem(writer, operation.getInventoryDate());
 
                 // Marco legal

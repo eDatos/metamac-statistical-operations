@@ -51,7 +51,7 @@ public class TsvExportationUtils {
                 writeItemInternationalString(writer, operation.getAcronym(), languages);
 
                 // Clasificadores de contenido
-                writeStringSingleItem(writer, operation.getSubjectArea().getCode());
+                writeStringSingleItem(writer, operation.getSubjectArea() == null ? null : operation.getSubjectArea().getCode());
                 writeExternalItemListItem(writer, operation.getSecondarySubjectAreas());
 
                 // Descriptores de contenido

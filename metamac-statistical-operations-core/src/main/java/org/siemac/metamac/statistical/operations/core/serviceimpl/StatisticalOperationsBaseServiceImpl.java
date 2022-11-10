@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.fornax.cartridges.sculptor.framework.accessapi.ConditionalCriteria;
 import org.fornax.cartridges.sculptor.framework.domain.PagedResult;
 import org.fornax.cartridges.sculptor.framework.domain.PagingParameter;
@@ -793,7 +794,7 @@ public class StatisticalOperationsBaseServiceImpl extends StatisticalOperationsB
     }
 
     private void validateOperationTechnicianInChargeUserNotTheSameAsAssistantTechnicianUser(String technicianInCharge, String assistantTechnician) throws MetamacException {
-        if (!(technicianInCharge == null && assistantTechnician == null) && technicianInCharge.equalsIgnoreCase(assistantTechnician)) {
+        if (!(StringUtils.isEmpty(technicianInCharge) && StringUtils.isEmpty(assistantTechnician)) && technicianInCharge.equalsIgnoreCase(assistantTechnician)) {
             throw new MetamacException(ServiceExceptionType.OPERATION_TEC_IN_CHARGE_EQUALS_ASSISTANT_TEC);
         }
     }

@@ -86,7 +86,10 @@ public class CommonUtils {
     }
 
     public static boolean isTechnicianInChargeUserNotTheSameAsAssistantTechnicianUser(String username, String usernameRepeat) {
-        return username == null || !username.equalsIgnoreCase(usernameRepeat);
+        if (StringUtils.isEmpty(username) && StringUtils.isEmpty(usernameRepeat)) {
+            return false;
+        }
+        return !username.equalsIgnoreCase(usernameRepeat);
     }
 
     public static ExternalItemDto create(OperationBaseDto operationBaseDto) {

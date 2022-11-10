@@ -1,6 +1,8 @@
 package org.siemac.metamac.statistical.operations.web.server.rest;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.apache.cxf.jaxrs.client.ServerWebApplicationException;
@@ -47,6 +49,16 @@ public class AccessControlRestInternalFacadeImpl implements AccessControlRestInt
                 results.addAll(users.getUsers());
                 offset += users.getUsers().size(); // next page
             } while (users.getTotal().intValue() != results.size());
+            Collections.sort(results, new Comparator<User>() {
+
+                @Override
+                public int compare(User user1, User user2) {
+                    if (user1.equals(user2)) {
+                        return 0;
+                    }
+                    return user1.getName().compareTo(user2.getName());
+                }
+            });
             return results;
         } catch (ServerWebApplicationException e) {
             throw toRestException(e);
@@ -57,5 +69,4 @@ public class AccessControlRestInternalFacadeImpl implements AccessControlRestInt
         logger.error("Error", e);
         return RestExceptionUtils.toRestException(e, WebClient.client(restApiLocator.getAccessControlRestInternalFacadeV1_0()));
     }
-
 }

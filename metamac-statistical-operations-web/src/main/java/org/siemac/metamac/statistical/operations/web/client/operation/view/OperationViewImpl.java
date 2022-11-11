@@ -750,7 +750,6 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         // PRODUCTION DESCRIPTORS
         productionDescriptorsEditionForm = new GroupDynamicForm(getConstants().operationProductionDescriptors());
         technicianInCharge = new CustomSelectItem(OperationDS.TECHNICIAN_IN_CHARGE, getConstants().operationTechnicianInCharge());
-
         technicianInCharge.setValidators(getTechnicianInChargeUserNotTheSameAsAssistantTechnicianUserValidator());
 
         assistantTechnician = new CustomSelectItem(OperationDS.ASSISTANT_TECHNICIAN, getConstants().operationAssistantTechnician());

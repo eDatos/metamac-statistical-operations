@@ -6,8 +6,6 @@ import org.siemac.metamac.statistical.operations.web.server.rest.AccessControlRe
 
 public class HandlersUtils {
 
-    public static final String VOID = "";
-
     public static void setFullnameUserByUsername(OperationDto operationDto, AccessControlRestInternalFacade accessControlRestInternalFacade) {
         operationDto.setAssistantTechnician(
                 StringUtils.isNotEmpty(operationDto.getAssistantTechnician()) ? accessControlRestInternalFacade.findFullnameUserByUsername(operationDto.getAssistantTechnician()) : null);

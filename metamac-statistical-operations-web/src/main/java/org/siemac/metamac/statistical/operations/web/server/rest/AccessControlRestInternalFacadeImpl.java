@@ -56,7 +56,7 @@ public class AccessControlRestInternalFacadeImpl implements AccessControlRestInt
                     if (user1.equals(user2)) {
                         return 0;
                     }
-                    return user1.getName().compareTo(user2.getName());
+                    return user1.getName().toLowerCase().compareTo(user2.getName().toLowerCase());
                 }
             });
             return results;

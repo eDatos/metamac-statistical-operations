@@ -89,7 +89,6 @@ public class OperationListViewImpl extends ViewWithUiHandlers<OperationListUiHan
             }
         });
 
-        listGridToolStrip.getExportTsvButton().setVisibility(Visibility.VISIBLE);
         // Search
 
         searchSectionStack = new SearchSectionStack();
@@ -123,7 +122,6 @@ public class OperationListViewImpl extends ViewWithUiHandlers<OperationListUiHan
         operationListGrid.getListGrid().setAutoFitMaxRecords(OperationListPresenter.OPERATION_LIST_MAX_RESULTS);
         operationListGrid.getListGrid().setFields(ResourceListFieldUtils.getOperationFields());
         operationListGrid.getListGrid().addSelectionChangedHandler(new SelectionChangedHandler() {
-
 
             @Override
             public void onSelectionChanged(SelectionEvent event) {
@@ -192,12 +190,22 @@ public class OperationListViewImpl extends ViewWithUiHandlers<OperationListUiHan
                 operationListGrid.getListGrid().addData(RecordUtils.getOperationRecord(operationBaseDto));
             }
         }
+
+        showExportTsvButton(operationBaseDtos);
         operationListGrid.refreshPaginationInfo(firstResult, operationBaseDtos.size(), totalResults);
         listGridToolStrip.getDeleteButton().hide();
     }
 
+    private void showExportTsvButton(List<OperationBaseDto> operationBaseDtos) {
+        if (operationBaseDtos == null || operationBaseDtos.size() == 0) {
+            listGridToolStrip.getExportTsvButton().hide();
+        } else {
+            listGridToolStrip.getExportTsvButton().show();
+        }
+    }
+
     @Override
-    public List<Long> getOperations(){
+    public List<Long> getOperations() {
         List<Long> statisticalOperations = new ArrayList<Long>();
         if (operationListGrid.getListGrid().getRecords() != null) {
             ListGridRecord[] records = operationListGrid.getListGrid().getRecords();

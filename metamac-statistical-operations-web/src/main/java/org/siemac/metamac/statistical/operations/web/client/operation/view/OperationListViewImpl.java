@@ -81,14 +81,6 @@ public class OperationListViewImpl extends ViewWithUiHandlers<OperationListUiHan
         });
         listGridToolStrip.getNewButton().setVisibility(ClientSecurityUtils.canCreateOperation() ? Visibility.VISIBLE : Visibility.HIDDEN);
 
-        listGridToolStrip.getExportTsvButton().addClickHandler(new com.smartgwt.client.widgets.events.ClickHandler() {
-
-            @Override
-            public void onClick(com.smartgwt.client.widgets.events.ClickEvent event) {
-                getUiHandlers().exportOperationsTsv();
-            }
-        });
-
         // Search
 
         searchSectionStack = new SearchSectionStack();
@@ -107,6 +99,15 @@ public class OperationListViewImpl extends ViewWithUiHandlers<OperationListUiHan
                     getUiHandlers().retrieveOperationList(OperationListPresenter.OPERATION_LIST_FIRST_RESULT, OperationListPresenter.OPERATION_LIST_MAX_RESULTS,
                             searchSectionStack.getSearchCriteria());
                 }
+            }
+        });
+
+        // Export TSV search
+        listGridToolStrip.getExportTsvButton().addClickHandler(new com.smartgwt.client.widgets.events.ClickHandler() {
+
+            @Override
+            public void onClick(com.smartgwt.client.widgets.events.ClickEvent event) {
+                getUiHandlers().exportOperationsTsv(searchSectionStack.getSearchCriteria());
             }
         });
 
@@ -205,7 +206,11 @@ public class OperationListViewImpl extends ViewWithUiHandlers<OperationListUiHan
     }
 
     @Override
-    public List<Long> getOperations() {
+    public List<Long> getOperations(String operation) {
+        if (operation == null) {
+            return null;
+        }
+
         List<Long> statisticalOperations = new ArrayList<Long>();
         if (operationListGrid.getListGrid().getRecords() != null) {
             ListGridRecord[] records = operationListGrid.getListGrid().getRecords();
@@ -255,18 +260,6 @@ public class OperationListViewImpl extends ViewWithUiHandlers<OperationListUiHan
             for (int i = 0; i < records.length; i++) {
                 OperationRecord record = (OperationRecord) records[i];
                 selectedOperations.add(record.getId());
-            }
-        }
-        return selectedOperations;
-    }
-
-    public List<String> getSelectedOperationCodes() {
-        List<String> selectedOperations = new ArrayList<String>();
-        if (operationListGrid.getListGrid().getSelectedRecords() != null) {
-            ListGridRecord[] records = operationListGrid.getListGrid().getSelectedRecords();
-            for (int i = 0; i < records.length; i++) {
-                OperationRecord record = (OperationRecord) records[i];
-                selectedOperations.add(record.getCode());
             }
         }
         return selectedOperations;

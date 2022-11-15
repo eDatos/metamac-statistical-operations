@@ -81,15 +81,6 @@ public class OperationListViewImpl extends ViewWithUiHandlers<OperationListUiHan
         });
         listGridToolStrip.getNewButton().setVisibility(ClientSecurityUtils.canCreateOperation() ? Visibility.VISIBLE : Visibility.HIDDEN);
 
-        listGridToolStrip.getExportTsvButton().addClickHandler(new com.smartgwt.client.widgets.events.ClickHandler() {
-
-            @Override
-            public void onClick(com.smartgwt.client.widgets.events.ClickEvent event) {
-                getUiHandlers().exportOperationsTsv();
-            }
-        });
-
-        listGridToolStrip.getExportTsvButton().setVisibility(Visibility.VISIBLE);
         // Search
 
         searchSectionStack = new SearchSectionStack();
@@ -111,6 +102,15 @@ public class OperationListViewImpl extends ViewWithUiHandlers<OperationListUiHan
             }
         });
 
+        // Export TSV search
+        listGridToolStrip.getExportTsvButton().addClickHandler(new com.smartgwt.client.widgets.events.ClickHandler() {
+
+            @Override
+            public void onClick(com.smartgwt.client.widgets.events.ClickEvent event) {
+                getUiHandlers().exportOperationsTsv(searchSectionStack.getSearchCriteria());
+            }
+        });
+
         // Operation ListGrid
 
         operationListGrid = new PaginatedCheckListGrid(OperationListPresenter.OPERATION_LIST_MAX_RESULTS, new PaginatedAction() {
@@ -123,7 +123,6 @@ public class OperationListViewImpl extends ViewWithUiHandlers<OperationListUiHan
         operationListGrid.getListGrid().setAutoFitMaxRecords(OperationListPresenter.OPERATION_LIST_MAX_RESULTS);
         operationListGrid.getListGrid().setFields(ResourceListFieldUtils.getOperationFields());
         operationListGrid.getListGrid().addSelectionChangedHandler(new SelectionChangedHandler() {
-
 
             @Override
             public void onSelectionChanged(SelectionEvent event) {
@@ -192,12 +191,26 @@ public class OperationListViewImpl extends ViewWithUiHandlers<OperationListUiHan
                 operationListGrid.getListGrid().addData(RecordUtils.getOperationRecord(operationBaseDto));
             }
         }
+
+        showExportTsvButton(operationBaseDtos);
         operationListGrid.refreshPaginationInfo(firstResult, operationBaseDtos.size(), totalResults);
         listGridToolStrip.getDeleteButton().hide();
     }
 
+    private void showExportTsvButton(List<OperationBaseDto> operationBaseDtos) {
+        if (operationBaseDtos == null || operationBaseDtos.size() == 0) {
+            listGridToolStrip.getExportTsvButton().hide();
+        } else {
+            listGridToolStrip.getExportTsvButton().show();
+        }
+    }
+
     @Override
-    public List<Long> getOperations(){
+    public List<Long> getOperations(String operation) {
+        if (operation == null) {
+            return null;
+        }
+
         List<Long> statisticalOperations = new ArrayList<Long>();
         if (operationListGrid.getListGrid().getRecords() != null) {
             ListGridRecord[] records = operationListGrid.getListGrid().getRecords();
@@ -247,18 +260,6 @@ public class OperationListViewImpl extends ViewWithUiHandlers<OperationListUiHan
             for (int i = 0; i < records.length; i++) {
                 OperationRecord record = (OperationRecord) records[i];
                 selectedOperations.add(record.getId());
-            }
-        }
-        return selectedOperations;
-    }
-
-    public List<String> getSelectedOperationCodes() {
-        List<String> selectedOperations = new ArrayList<String>();
-        if (operationListGrid.getListGrid().getSelectedRecords() != null) {
-            ListGridRecord[] records = operationListGrid.getListGrid().getSelectedRecords();
-            for (int i = 0; i < records.length; i++) {
-                OperationRecord record = (OperationRecord) records[i];
-                selectedOperations.add(record.getCode());
             }
         }
         return selectedOperations;

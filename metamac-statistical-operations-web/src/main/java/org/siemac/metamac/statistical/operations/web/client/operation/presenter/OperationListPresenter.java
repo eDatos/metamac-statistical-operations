@@ -82,7 +82,7 @@ public class OperationListPresenter extends Presenter<OperationListPresenter.Ope
     public interface OperationListView extends View, HasUiHandlers<OperationListUiHandlers> {
 
         void setOperations(List<OperationBaseDto> operationBaseDtos, int firstResult, int totalResults);
-        List<Long> getOperations();
+        List<Long> getOperations(String operation);
         HasRecordClickHandlers getSelectedOperation();
         HasClickHandlers getSaveNewOperation();
         OperationDto getOperation();
@@ -217,8 +217,8 @@ public class OperationListPresenter extends Presenter<OperationListPresenter.Ope
     }
 
     @Override
-    public void exportOperationsTsv() {
-        dispatcher.execute(new ExportOperationListAction(getView().getOperations()), new WaitingAsyncCallbackHandlingError<ExportOperationListResult>(this) {
+    public void exportOperationsTsv(String operation) {
+        dispatcher.execute(new ExportOperationListAction(getView().getOperations(operation)), new WaitingAsyncCallbackHandlingError<ExportOperationListResult>(this) {
 
             @Override
             public void onWaitSuccess(ExportOperationListResult result) {

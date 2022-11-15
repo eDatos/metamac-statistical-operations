@@ -127,7 +127,7 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         commonMetadataToOperation(source.getCommonMetadata(), target);
         target.setLegalActs(toOperationLegalActs(source.getSpecificLegalActs(), null, target.getLegalActs()));
         target.setDataSharings(toOperationDataSharings(source.getSpecificDataSharing(), null, target.getDataSharings()));
-        target.setComment(toInternationalString(source.getComment()));
+        target.setNotes(toInternationalString(source.getNotes()));
         target.setParentLink(toOperationParentLink());
         target.setChildLinks(toOperationChildLinks(source));
         target.setGenderPerspective(toInternationalString(source.getGenderPerspective()));

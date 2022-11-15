@@ -750,7 +750,7 @@
                      "description":"Recurso de la API al que se puede acceder desde el recurso actual",
                      "$ref":"#/definitions/ChildLinks"
                   },
-                  "comment":{
+                  "notes":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },

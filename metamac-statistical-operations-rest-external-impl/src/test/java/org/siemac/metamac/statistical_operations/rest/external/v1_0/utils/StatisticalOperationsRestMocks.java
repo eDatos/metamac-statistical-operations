@@ -700,7 +700,7 @@ public class StatisticalOperationsRestMocks {
         operation.getDataSharings().getDataSharings().add(mockInternationalStringMetadata("dataSharing", "specific1"));
         operation.setConfidentialityPolicy(mockInternationalStringMetadata("confidentialityPolicy", "1"));
         operation.setConfidentialityDataTreatment(mockInternationalStringMetadata("confidentialityDataTreatment", "1"));
-        operation.setComment(mockInternationalStringMetadata("comment", subId));
+        operation.setNotes(mockInternationalStringMetadata("notes", subId));
         operation.setParentLink(MetamacRestMocks.mockResourceLink(StatisticalOperationsRestConstants.KIND_OPERATIONS, baseApi + "/operations"));
         operation.setChildLinks(new ChildLinks());
         operation.getChildLinks().setTotal(BigInteger.valueOf(2));

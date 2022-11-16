@@ -60,7 +60,7 @@ import com.smartgwt.client.widgets.grid.events.RecordClickHandler;
 public class OperationListPresenter extends Presenter<OperationListPresenter.OperationListView, OperationListPresenter.OperationsListProxy> implements OperationListUiHandlers {
 
     public final static int     OPERATION_LIST_FIRST_RESULT       = 0;
-    public final static int     OPERATION_LIST_MAX_RESULTS        = 30;
+    public final static int     OPERATION_LIST_MAX_RESULTS        = 50;
 
     private final DispatchAsync dispatcher;
     private final PlaceManager  placeManager;
@@ -82,7 +82,6 @@ public class OperationListPresenter extends Presenter<OperationListPresenter.Ope
     public interface OperationListView extends View, HasUiHandlers<OperationListUiHandlers> {
 
         void setOperations(List<OperationBaseDto> operationBaseDtos, int firstResult, int totalResults);
-        List<Long> getOperations(String operation);
         HasRecordClickHandlers getSelectedOperation();
         HasClickHandlers getSaveNewOperation();
         OperationDto getOperation();
@@ -218,7 +217,7 @@ public class OperationListPresenter extends Presenter<OperationListPresenter.Ope
 
     @Override
     public void exportOperationsTsv(String operation) {
-        dispatcher.execute(new ExportOperationListAction(getView().getOperations(operation)), new WaitingAsyncCallbackHandlingError<ExportOperationListResult>(this) {
+        dispatcher.execute(new ExportOperationListAction(operation), new WaitingAsyncCallbackHandlingError<ExportOperationListResult>(this) {
 
             @Override
             public void onWaitSuccess(ExportOperationListResult result) {

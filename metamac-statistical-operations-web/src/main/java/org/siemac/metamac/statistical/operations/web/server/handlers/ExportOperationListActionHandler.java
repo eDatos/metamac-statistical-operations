@@ -1,6 +1,17 @@
 package org.siemac.metamac.statistical.operations.web.server.handlers;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+import org.siemac.metamac.core.common.criteria.MetamacCriteria;
+import org.siemac.metamac.core.common.criteria.MetamacCriteriaDisjunctionRestriction;
+import org.siemac.metamac.core.common.criteria.MetamacCriteriaPropertyRestriction;
+import org.siemac.metamac.core.common.criteria.shared.MetamacCriteriaOrder;
 import org.siemac.metamac.core.common.exception.MetamacException;
+import org.siemac.metamac.statistical.operations.core.criteria.OperationCriteriaOrderEnum;
+import org.siemac.metamac.statistical.operations.core.criteria.OperationCriteriaPropertyEnum;
+import org.siemac.metamac.statistical.operations.core.dto.OperationBaseDto;
 import org.siemac.metamac.statistical.operations.core.serviceapi.StatisticalOperationsServiceFacade;
 import org.siemac.metamac.statistical.operations.web.shared.ExportOperationListAction;
 import org.siemac.metamac.statistical.operations.web.shared.ExportOperationListResult;
@@ -28,7 +39,39 @@ public class ExportOperationListActionHandler extends SecurityActionHandler<Expo
         String fileName = null;
 
         try {
-            fileName = statisticalOperationsServiceFacade.exportOperationsTsv(ServiceContextHolder.getCurrentServiceContext(), action.getIdOperations());
+            MetamacCriteria criteria = new MetamacCriteria();
+            // Order
+            MetamacCriteriaOrder order = new MetamacCriteriaOrder();
+            order.setType(MetamacCriteriaOrder.OrderTypeEnum.DESC);
+            order.setPropertyName(OperationCriteriaOrderEnum.LAST_UPDATED.name());
+            List<MetamacCriteriaOrder> criteriaOrders = new ArrayList<MetamacCriteriaOrder>();
+            criteriaOrders.add(order);
+            criteria.setOrdersBy(criteriaOrders);
+
+            MetamacCriteriaDisjunctionRestriction disjuction = new MetamacCriteriaDisjunctionRestriction();
+            if (!StringUtils.isBlank(action.getOperation())) {
+                disjuction.getRestrictions()
+                        .add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.CODE.name(), action.getOperation(), MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
+                disjuction.getRestrictions()
+                        .add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.TITLE.name(), action.getOperation(), MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
+                disjuction.getRestrictions()
+                        .add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.DESCRIPTION.name(), action.getOperation(), MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
+                disjuction.getRestrictions()
+                        .add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.ACRONYM.name(), action.getOperation(), MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
+                disjuction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.TECHNICIAN_IN_CHARGE.name(), action.getOperation(),
+                        MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
+                disjuction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.ASSISTANT_TECHNICIAN.name(), action.getOperation(),
+                        MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
+            }
+            criteria.setRestriction(disjuction);
+
+            List<OperationBaseDto> operationBaseDtos = statisticalOperationsServiceFacade.findListOperationsByCondition(ServiceContextHolder.getCurrentServiceContext(), criteria);
+            List<Long> operationsId = new ArrayList<Long>();
+            for (OperationBaseDto operationBaseDto : operationBaseDtos) {
+                operationsId.add(operationBaseDto.getId());
+            }
+
+            fileName = statisticalOperationsServiceFacade.exportOperationsTsv(ServiceContextHolder.getCurrentServiceContext(), operationsId);
         } catch (MetamacException e) {
             throw WebExceptionUtils.createMetamacWebException(e);
         }

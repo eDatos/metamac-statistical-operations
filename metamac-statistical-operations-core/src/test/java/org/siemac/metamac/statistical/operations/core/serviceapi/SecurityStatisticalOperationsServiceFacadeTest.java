@@ -725,6 +725,17 @@ public class SecurityStatisticalOperationsServiceFacadeTest extends StatisticalO
         statisticalOperationsServiceFacade.findOperationsByCondition(getServiceContextTecnicoPlanificacion(), criteria);
         statisticalOperationsServiceFacade.findOperationsByCondition(getServiceContextTecnicoProduccion(), criteria);
     }
+    @Override
+    public void testFindListOperationsByCondition() throws Exception {
+        MetamacCriteria criteria = new MetamacCriteria();
+
+        statisticalOperationsServiceFacade.findListOperationsByCondition(getServiceContextTecnicoApoyoDifusion(), criteria);
+        statisticalOperationsServiceFacade.findListOperationsByCondition(getServiceContextTecnicoApoyoPlanificacion(), criteria);
+        statisticalOperationsServiceFacade.findListOperationsByCondition(getServiceContextTecnicoApoyoProduccion(), criteria);
+        statisticalOperationsServiceFacade.findListOperationsByCondition(getServiceContextTecnicoDifusion(), criteria);
+        statisticalOperationsServiceFacade.findListOperationsByCondition(getServiceContextTecnicoPlanificacion(), criteria);
+        statisticalOperationsServiceFacade.findListOperationsByCondition(getServiceContextTecnicoProduccion(), criteria);
+    }
 
     @Override
     @Test

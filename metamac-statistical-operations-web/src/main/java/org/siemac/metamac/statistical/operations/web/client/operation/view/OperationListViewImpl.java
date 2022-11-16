@@ -206,23 +206,6 @@ public class OperationListViewImpl extends ViewWithUiHandlers<OperationListUiHan
     }
 
     @Override
-    public List<Long> getOperations(String operation) {
-        if (operation == null) {
-            return null;
-        }
-
-        List<Long> statisticalOperations = new ArrayList<Long>();
-        if (operationListGrid.getListGrid().getRecords() != null) {
-            ListGridRecord[] records = operationListGrid.getListGrid().getRecords();
-            for (int i = 0; i < records.length; i++) {
-                OperationRecord record = (OperationRecord) records[i];
-                statisticalOperations.add(record.getId());
-            }
-        }
-        return statisticalOperations;
-    }
-
-    @Override
     public HasRecordClickHandlers getSelectedOperation() {
         return operationListGrid.getListGrid();
     }

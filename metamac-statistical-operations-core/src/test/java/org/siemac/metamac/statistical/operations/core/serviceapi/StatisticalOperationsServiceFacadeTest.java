@@ -1768,6 +1768,15 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
         MetamacCriteriaResult<OperationBaseDto> result = statisticalOperationsServiceFacade.findOperationsByCondition(getServiceContextAdministrador(), criteria);
         assertTrue(result.getResults().size() >= 2);
     }
+    @Override
+    public void testFindListOperationsByCondition() throws Exception {
+        statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), createOperationDto());
+        statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), createOperationDto());
+        MetamacCriteria criteria = new MetamacCriteria();
+
+        List<OperationBaseDto> result = statisticalOperationsServiceFacade.findListOperationsByCondition(getServiceContextAdministrador(), criteria);
+        assertTrue(result.size() >= 2);
+    }
 
     @Test
     @Transactional

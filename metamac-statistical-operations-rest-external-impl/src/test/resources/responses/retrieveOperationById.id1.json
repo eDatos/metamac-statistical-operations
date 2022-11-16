@@ -554,10 +554,10 @@
       }
     ]
   },
-  "comment": {
+  "notes": {
     "text": [
       {
-        "value": "comment1 en Español",
+        "value": "notes1 en Español",
         "lang": "es"
       }
     ]

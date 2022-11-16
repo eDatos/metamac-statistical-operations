@@ -255,7 +255,7 @@
     <operations:confidentialityDataTreatment>
         <cdomain:text xml:lang="es">confidentialityDataTreatment1 en Español</cdomain:text>
     </operations:confidentialityDataTreatment>
-    <operations:comment>
-        <cdomain:text xml:lang="es">comment1 en Español</cdomain:text>
-    </operations:comment>
+    <operations:notes>
+        <cdomain:text xml:lang="es">notes1 en Español</cdomain:text>
+    </operations:notes>
 </operations:operation>

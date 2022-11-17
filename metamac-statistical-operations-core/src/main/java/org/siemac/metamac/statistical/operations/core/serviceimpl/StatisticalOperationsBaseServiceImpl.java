@@ -466,9 +466,8 @@ public class StatisticalOperationsBaseServiceImpl extends StatisticalOperationsB
         // Security check
         StatisticalOperationsValidationUtils.checkParameterRequired(operationsId, ServiceExceptionParameters.ID, new ArrayList<MetamacExceptionItem>());
 
-        List<Operation> operations = new ArrayList<Operation>();
         List<ConditionalCriteria> conditions = criteriaFor(Operation.class).withProperty(org.siemac.metamac.statistical.operations.core.domain.OperationProperties.id()).in(operationsId).build();
-        operations = operationRepository.findByCondition(conditions);
+        List<Operation> operations = operationRepository.findByCondition(conditions);
 
         List<String> languages = configurationService.retrieveLanguages();
 

@@ -11,7 +11,6 @@ import org.siemac.metamac.core.common.criteria.shared.MetamacCriteriaOrder;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.statistical.operations.core.criteria.OperationCriteriaOrderEnum;
 import org.siemac.metamac.statistical.operations.core.criteria.OperationCriteriaPropertyEnum;
-import org.siemac.metamac.statistical.operations.core.dto.OperationBaseDto;
 import org.siemac.metamac.statistical.operations.core.serviceapi.StatisticalOperationsServiceFacade;
 import org.siemac.metamac.statistical.operations.web.shared.ExportOperationListAction;
 import org.siemac.metamac.statistical.operations.web.shared.ExportOperationListResult;
@@ -65,13 +64,7 @@ public class ExportOperationListActionHandler extends SecurityActionHandler<Expo
             }
             criteria.setRestriction(disjuction);
 
-            List<OperationBaseDto> operationBaseDtos = statisticalOperationsServiceFacade.findListOperationsByCondition(ServiceContextHolder.getCurrentServiceContext(), criteria);
-            List<Long> operationsId = new ArrayList<Long>();
-            for (OperationBaseDto operationBaseDto : operationBaseDtos) {
-                operationsId.add(operationBaseDto.getId());
-            }
-
-            fileName = statisticalOperationsServiceFacade.exportOperationsTsv(ServiceContextHolder.getCurrentServiceContext(), operationsId);
+            fileName = statisticalOperationsServiceFacade.exportOperationsTsv(ServiceContextHolder.getCurrentServiceContext(), criteria);
         } catch (MetamacException e) {
             throw WebExceptionUtils.createMetamacWebException(e);
         }

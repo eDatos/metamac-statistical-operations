@@ -66,7 +66,6 @@ Application StatisticalOperations {
        		deleteOperation(Long operationId) throws MetamacException;
        		List<@OperationBaseDto> findAllOperations  throws MetamacException;
        		MetamacCriteriaResult<@OperationBaseDto> findOperationsByCondition(MetamacCriteria criteria)  throws MetamacException;
-       		List<@OperationBaseDto> findListOperationsByCondition(MetamacCriteria criteria)  throws MetamacException;
        		@OperationDto findOperationById(Long id) throws MetamacException;
        		@OperationDto findOperationByCode(String code) throws MetamacException;
        		@OperationDto findOperationByUrn(String urn) throws MetamacException;
@@ -93,7 +92,7 @@ Application StatisticalOperations {
        		@InstanceDto publishExternallyInstance(Long instanceId) throws MetamacException;
        		@OperationBaseDto findOperationForInstance(Long instanceId) throws MetamacException;
 
-       		String exportOperationsTsv(List<Long> operationsId) throws MetamacException;
+       		String exportOperationsTsv(MetamacCriteria criteria) throws MetamacException;
 	   }
 
 		Service StreamMessagingServiceFacade {
@@ -146,7 +145,7 @@ Application StatisticalOperations {
 			PagedResult<@Operation> findOperationByCondition(List<ConditionalCriteria> condition, PagingParameter pagingParameter) throws MetamacException;
 			@Operation publishInternallyOperation(Long operationId) throws MetamacException;
        		@Operation publishExternallyOperation(Long operationId) throws MetamacException;
-			String exportOperationsTsv(List<Long> operationsId) throws MetamacException;
+			String exportOperationsTsv(List<@Operation> operations) throws MetamacException;
 
 			"Instance"
 			@Instance findInstanceById(Long id) throws MetamacException;

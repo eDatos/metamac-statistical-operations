@@ -504,25 +504,6 @@ public class StatisticalOperationsServiceFacadeImpl extends StatisticalOperation
     }
 
     @Override
-    public List<OperationBaseDto> findListOperationsByCondition(ServiceContext ctx, MetamacCriteria criteria) throws MetamacException {
-
-        // Security
-        SecurityUtils.checkServiceOperationAllowed(ctx, StatisticalOperationsRoleEnum.ANY_ROLE_ALLOWED);
-
-        // Transform
-        SculptorCriteria sculptorCriteria = metamacCriteria2SculptorCriteriaMapper.getOperationCriteriaMapper().metamacCriteria2SculptorCriteria(criteria);
-
-        // Service call
-        List<Operation> operations = getStatisticalOperationsBaseService().findOperationByCondition(ctx, sculptorCriteria.getConditions());
-
-        // Transform to Dto
-        List<OperationBaseDto> operationsDto = operationsListDo2BaseDto(operations);
-
-        // Return
-        return operationsDto;
-    }
-
-    @Override
     public OperationDto findOperationById(ServiceContext ctx, Long identifier) throws MetamacException {
         // Security
         SecurityUtils.checkServiceOperationAllowed(ctx, StatisticalOperationsRoleEnum.ANY_ROLE_ALLOWED);
@@ -894,12 +875,18 @@ public class StatisticalOperationsServiceFacadeImpl extends StatisticalOperation
     }
 
     @Override
-    public String exportOperationsTsv(ServiceContext ctx, List<Long> operationsId) throws MetamacException {
+    public String exportOperationsTsv(ServiceContext ctx, MetamacCriteria criteria) throws MetamacException {
         // Security
         SecurityUtils.checkServiceOperationAllowed(ctx, StatisticalOperationsRoleEnum.ANY_ROLE_ALLOWED);
 
+        // Transform
+        SculptorCriteria sculptorCriteria = metamacCriteria2SculptorCriteriaMapper.getOperationCriteriaMapper().metamacCriteria2SculptorCriteria(criteria);
+
+        // Service call
+        List<Operation> operations = getStatisticalOperationsBaseService().findOperationByCondition(ctx, sculptorCriteria.getConditions());
+
         // Export
-        return getStatisticalOperationsBaseService().exportOperationsTsv(ctx, operationsId);
+        return getStatisticalOperationsBaseService().exportOperationsTsv(ctx, operations);
     }
 
     @Override

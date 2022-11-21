@@ -462,13 +462,7 @@ public class StatisticalOperationsBaseServiceImpl extends StatisticalOperationsB
     }
 
     @Override
-    public String exportOperationsTsv(ServiceContext ctx, List<Long> operationsId) throws MetamacException {
-        // Security check
-        StatisticalOperationsValidationUtils.checkParameterRequired(operationsId, ServiceExceptionParameters.ID, new ArrayList<MetamacExceptionItem>());
-
-        List<ConditionalCriteria> conditions = criteriaFor(Operation.class).withProperty(org.siemac.metamac.statistical.operations.core.domain.OperationProperties.id()).in(operationsId).build();
-        List<Operation> operations = operationRepository.findByCondition(conditions);
-
+    public String exportOperationsTsv(ServiceContext ctx, List<Operation> operations) throws MetamacException {
         List<String> languages = configurationService.retrieveLanguages();
 
         // Export

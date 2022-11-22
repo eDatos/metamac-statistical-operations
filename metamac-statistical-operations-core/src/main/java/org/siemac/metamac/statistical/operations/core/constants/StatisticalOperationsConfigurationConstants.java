@@ -9,7 +9,6 @@ public class StatisticalOperationsConfigurationConstants extends ConfigurationCo
     // Configuration
 
     public static final String HELP_URL       = "metamac.statistical_operations.help.url";
-    public static final String DOCS_PATH      = "metamac.data.docs.statistical_operations.path";
 
     // DataSource
 

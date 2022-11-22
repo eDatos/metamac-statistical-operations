@@ -6,6 +6,4 @@ import org.siemac.metamac.core.common.exception.MetamacException;
 public interface StatisticalOperationsConfigurationService extends ConfigurationService {
 
     public String retrieveHelpUrl() throws MetamacException;
-
-    public String retrieveDocsPath() throws MetamacException;
 }

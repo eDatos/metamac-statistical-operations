@@ -88,7 +88,7 @@ public class OperationListViewImpl extends ViewWithUiHandlers<OperationListUiHan
 
             @Override
             public void onFormItemClick(FormItemIconClickEvent event) {
-                getUiHandlers().retrieveOperationList(OperationListPresenter.OPERATION_LIST_FIRST_RESULT, OperationListPresenter.OPERATION_LIST_MAX_RESULTS, searchSectionStack.getSearchCriteria());
+                getUiHandlers().retrieveOperationList(OperationListPresenter.OPERATION_LIST_FIRST_RESULT, CommonWebConstants.MAIN_LIST_MAX_RESULTS, searchSectionStack.getSearchCriteria());
             }
         });
         searchSectionStack.addSearchItemKeyPressHandler(new KeyPressHandler() {
@@ -96,8 +96,7 @@ public class OperationListViewImpl extends ViewWithUiHandlers<OperationListUiHan
             @Override
             public void onKeyPress(KeyPressEvent event) {
                 if (StringUtils.equals(event.getKeyName(), CommonWebConstants.ENTER_KEY)) {
-                    getUiHandlers().retrieveOperationList(OperationListPresenter.OPERATION_LIST_FIRST_RESULT, OperationListPresenter.OPERATION_LIST_MAX_RESULTS,
-                            searchSectionStack.getSearchCriteria());
+                    getUiHandlers().retrieveOperationList(OperationListPresenter.OPERATION_LIST_FIRST_RESULT, CommonWebConstants.MAIN_LIST_MAX_RESULTS, searchSectionStack.getSearchCriteria());
                 }
             }
         });
@@ -113,14 +112,14 @@ public class OperationListViewImpl extends ViewWithUiHandlers<OperationListUiHan
 
         // Operation ListGrid
 
-        operationListGrid = new PaginatedCheckListGrid(OperationListPresenter.OPERATION_LIST_MAX_RESULTS, new PaginatedAction() {
+        operationListGrid = new PaginatedCheckListGrid(CommonWebConstants.MAIN_LIST_MAX_RESULTS, new PaginatedAction() {
 
             @Override
             public void retrieveResultSet(int firstResult, int maxResults) {
                 getUiHandlers().retrieveOperationList(firstResult, maxResults, null);
             }
         });
-        operationListGrid.getListGrid().setAutoFitMaxRecords(OperationListPresenter.OPERATION_LIST_MAX_RESULTS);
+        operationListGrid.getListGrid().setAutoFitMaxRecords(CommonWebConstants.MAIN_LIST_MAX_RESULTS);
         operationListGrid.getListGrid().setFields(ResourceListFieldUtils.getOperationFields());
         operationListGrid.getListGrid().addSelectionChangedHandler(new SelectionChangedHandler() {
 

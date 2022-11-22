@@ -29,6 +29,7 @@ import org.siemac.metamac.statistical.operations.web.shared.SaveOperationResult;
 import org.siemac.metamac.statistical.operations.web.shared.external.GetExternalResourcesAction;
 import org.siemac.metamac.statistical.operations.web.shared.external.GetExternalResourcesResult;
 import org.siemac.metamac.statistical.operations.web.shared.external.RestWebCriteriaUtils;
+import org.siemac.metamac.web.common.client.constants.CommonWebConstants;
 import org.siemac.metamac.web.common.client.events.ShowMessageEvent;
 import org.siemac.metamac.web.common.client.utils.WaitingAsyncCallbackHandlingError;
 import org.siemac.metamac.web.common.shared.criteria.SrmExternalResourceRestCriteria;
@@ -60,7 +61,6 @@ import com.smartgwt.client.widgets.grid.events.RecordClickHandler;
 public class OperationListPresenter extends Presenter<OperationListPresenter.OperationListView, OperationListPresenter.OperationsListProxy> implements OperationListUiHandlers {
 
     public final static int     OPERATION_LIST_FIRST_RESULT       = 0;
-    public final static int     OPERATION_LIST_MAX_RESULTS        = 50;
 
     private final DispatchAsync dispatcher;
     private final PlaceManager  placeManager;
@@ -150,7 +150,7 @@ public class OperationListPresenter extends Presenter<OperationListPresenter.Ope
     @Override
     protected void onReset() {
         super.onReset();
-        retrieveOperationList(OPERATION_LIST_FIRST_RESULT, OPERATION_LIST_MAX_RESULTS, null);
+        retrieveOperationList(OPERATION_LIST_FIRST_RESULT, CommonWebConstants.FORM_LIST_MAX_RESULTS, null);
     }
 
     @Override
@@ -179,7 +179,7 @@ public class OperationListPresenter extends Presenter<OperationListPresenter.Ope
             @Override
             public void onWaitSuccess(SaveOperationResult result) {
                 getView().closeOperationWindow();
-                retrieveOperationList(OPERATION_LIST_FIRST_RESULT, OPERATION_LIST_MAX_RESULTS, getView().getOperationCriteria());
+                retrieveOperationList(OPERATION_LIST_FIRST_RESULT, CommonWebConstants.MAIN_LIST_MAX_RESULTS, getView().getOperationCriteria());
                 ShowMessageEvent.fireSuccessMessage(OperationListPresenter.this, getMessages().operationSaved());
             }
         });
@@ -210,7 +210,7 @@ public class OperationListPresenter extends Presenter<OperationListPresenter.Ope
 
             @Override
             protected void afterResult() {
-                retrieveOperationList(OPERATION_LIST_FIRST_RESULT, OPERATION_LIST_MAX_RESULTS, getView().getOperationCriteria());
+                retrieveOperationList(OPERATION_LIST_FIRST_RESULT, CommonWebConstants.MAIN_LIST_MAX_RESULTS, getView().getOperationCriteria());
             }
         });
     }

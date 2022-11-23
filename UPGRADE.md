@@ -18,6 +18,11 @@ actualización de la versión 1.0.0 a la 2.0.0.*
 
 * Es necesario ejecutar el script SQL contenido en la carpeta
   ```shell
+  etc/changes-from-release/3.0.0/db/common-metadata/postgresql/20221116_deprecate_metamac_statistical_operations_data_path.sql
+  ```
+
+* Es necesario ejecutar el script SQL contenido en la carpeta
+  ```shell
   etc/changes-from-release/3.0.0/db/statistical-operations/postgresql/20220707_add-columns-to-tb_operations.sql
   etc/changes-from-release/3.0.0/db/statistical-operations/postgresql/20220816_add-column-gender-perspective-to-tb_operations.sql
   ```

@@ -1,17 +1,9 @@
 package org.siemac.metamac.statistical.operations.web.server.handlers;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
 import org.siemac.metamac.core.common.criteria.MetamacCriteria;
-import org.siemac.metamac.core.common.criteria.MetamacCriteriaDisjunctionRestriction;
-import org.siemac.metamac.core.common.criteria.MetamacCriteriaPropertyRestriction;
-import org.siemac.metamac.core.common.criteria.shared.MetamacCriteriaOrder;
 import org.siemac.metamac.core.common.exception.MetamacException;
-import org.siemac.metamac.statistical.operations.core.criteria.OperationCriteriaOrderEnum;
-import org.siemac.metamac.statistical.operations.core.criteria.OperationCriteriaPropertyEnum;
 import org.siemac.metamac.statistical.operations.core.serviceapi.StatisticalOperationsServiceFacade;
+import org.siemac.metamac.statistical.operations.web.server.handlers.utils.HandlersCriteriaUtils;
 import org.siemac.metamac.statistical.operations.web.shared.ExportOperationListAction;
 import org.siemac.metamac.statistical.operations.web.shared.ExportOperationListResult;
 import org.siemac.metamac.web.common.server.ServiceContextHolder;
@@ -40,29 +32,8 @@ public class ExportOperationListActionHandler extends SecurityActionHandler<Expo
         try {
             MetamacCriteria criteria = new MetamacCriteria();
             // Order
-            MetamacCriteriaOrder order = new MetamacCriteriaOrder();
-            order.setType(MetamacCriteriaOrder.OrderTypeEnum.DESC);
-            order.setPropertyName(OperationCriteriaOrderEnum.LAST_UPDATED.name());
-            List<MetamacCriteriaOrder> criteriaOrders = new ArrayList<MetamacCriteriaOrder>();
-            criteriaOrders.add(order);
-            criteria.setOrdersBy(criteriaOrders);
-
-            MetamacCriteriaDisjunctionRestriction disjuction = new MetamacCriteriaDisjunctionRestriction();
-            if (!StringUtils.isBlank(action.getOperation())) {
-                disjuction.getRestrictions()
-                        .add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.CODE.name(), action.getOperation(), MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
-                disjuction.getRestrictions()
-                        .add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.TITLE.name(), action.getOperation(), MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
-                disjuction.getRestrictions()
-                        .add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.DESCRIPTION.name(), action.getOperation(), MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
-                disjuction.getRestrictions()
-                        .add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.ACRONYM.name(), action.getOperation(), MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
-                disjuction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.TECHNICIAN_IN_CHARGE.name(), action.getOperation(),
-                        MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
-                disjuction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.ASSISTANT_TECHNICIAN.name(), action.getOperation(),
-                        MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
-            }
-            criteria.setRestriction(disjuction);
+            HandlersCriteriaUtils.defaultCriteriaOrder(criteria);
+            HandlersCriteriaUtils.defaultCriteriaDisjunctionRestrictionOperations(criteria, action.getOperation());
 
             fileName = statisticalOperationsServiceFacade.exportOperationsTsv(ServiceContextHolder.getCurrentServiceContext(), criteria);
         } catch (MetamacException e) {

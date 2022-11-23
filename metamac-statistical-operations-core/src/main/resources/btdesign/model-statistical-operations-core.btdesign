@@ -145,7 +145,7 @@ Application StatisticalOperations {
 			PagedResult<@Operation> findOperationByCondition(List<ConditionalCriteria> condition, PagingParameter pagingParameter) throws MetamacException;
 			@Operation publishInternallyOperation(Long operationId) throws MetamacException;
        		@Operation publishExternallyOperation(Long operationId) throws MetamacException;
-			String exportOperationsTsv(List<@Operation> operations) throws MetamacException;
+			String exportOperationsTsv(List<ConditionalCriteria> condition) throws MetamacException;
 
 			"Instance"
 			@Instance findInstanceById(Long id) throws MetamacException;

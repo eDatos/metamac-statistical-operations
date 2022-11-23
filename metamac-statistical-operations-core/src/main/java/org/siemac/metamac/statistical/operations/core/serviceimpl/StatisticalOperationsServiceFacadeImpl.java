@@ -882,11 +882,8 @@ public class StatisticalOperationsServiceFacadeImpl extends StatisticalOperation
         // Transform
         SculptorCriteria sculptorCriteria = metamacCriteria2SculptorCriteriaMapper.getOperationCriteriaMapper().metamacCriteria2SculptorCriteria(criteria);
 
-        // Service call
-        List<Operation> operations = getStatisticalOperationsBaseService().findOperationByCondition(ctx, sculptorCriteria.getConditions());
-
         // Export
-        return getStatisticalOperationsBaseService().exportOperationsTsv(ctx, operations);
+        return getStatisticalOperationsBaseService().exportOperationsTsv(ctx, sculptorCriteria.getConditions());
     }
 
     @Override

@@ -462,8 +462,11 @@ public class StatisticalOperationsBaseServiceImpl extends StatisticalOperationsB
     }
 
     @Override
-    public String exportOperationsTsv(ServiceContext ctx, List<Operation> operations) throws MetamacException {
+    public String exportOperationsTsv(ServiceContext ctx, List<ConditionalCriteria> condition) throws MetamacException {
         List<String> languages = configurationService.retrieveLanguages();
+
+        // Service call
+        List<Operation> operations = findOperationByCondition(ctx, condition);
 
         // Export
         return TsvExportationUtils.exportStatisticalOperations(operations, languages);

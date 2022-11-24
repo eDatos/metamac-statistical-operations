@@ -3531,8 +3531,8 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
     @Transactional
     public void testExportOperationsTsv() throws Exception {
         // Create operation
-        List<Long> operationsId = createListOperationsId();
-        String fileName = statisticalOperationsServiceFacade.exportOperationsTsv(getServiceContextAdministrador(), operationsId);
+        MetamacCriteria criteria = new MetamacCriteria();
+        String fileName = statisticalOperationsServiceFacade.exportOperationsTsv(getServiceContextAdministrador(), criteria);
         assertNotNull(fileName);
 
         // Check headers
@@ -3548,7 +3548,6 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
         // Check information
         Set<String> lines = getFileLines(bufferedReader);
         Set<String> expectedLines = getFileLines(expectedBufferedReader);
-        assertEquals(operationsId.size(), lines.size());
 
         int indexCreatedDate = 28;
         List<String> rows = new ArrayList<>(lines);

@@ -1,7 +1,9 @@
 package org.siemac.metamac.statistical.operations.web.server.handlers;
 
+import org.siemac.metamac.core.common.criteria.MetamacCriteria;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.statistical.operations.core.serviceapi.StatisticalOperationsServiceFacade;
+import org.siemac.metamac.statistical.operations.web.server.handlers.utils.HandlersCriteriaUtils;
 import org.siemac.metamac.statistical.operations.web.shared.ExportOperationListAction;
 import org.siemac.metamac.statistical.operations.web.shared.ExportOperationListResult;
 import org.siemac.metamac.web.common.server.ServiceContextHolder;
@@ -28,7 +30,12 @@ public class ExportOperationListActionHandler extends SecurityActionHandler<Expo
         String fileName = null;
 
         try {
-            fileName = statisticalOperationsServiceFacade.exportOperationsTsv(ServiceContextHolder.getCurrentServiceContext(), action.getIdOperations());
+            MetamacCriteria criteria = new MetamacCriteria();
+            // Order
+            HandlersCriteriaUtils.defaultCriteriaOrder(criteria);
+            HandlersCriteriaUtils.defaultCriteriaDisjunctionRestrictionOperations(criteria, action.getOperation());
+
+            fileName = statisticalOperationsServiceFacade.exportOperationsTsv(ServiceContextHolder.getCurrentServiceContext(), criteria);
         } catch (MetamacException e) {
             throw WebExceptionUtils.createMetamacWebException(e);
         }

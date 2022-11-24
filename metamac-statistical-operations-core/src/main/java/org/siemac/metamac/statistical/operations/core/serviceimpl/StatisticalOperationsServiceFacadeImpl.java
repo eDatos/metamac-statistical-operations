@@ -875,12 +875,15 @@ public class StatisticalOperationsServiceFacadeImpl extends StatisticalOperation
     }
 
     @Override
-    public String exportOperationsTsv(ServiceContext ctx, List<Long> operationsId) throws MetamacException {
-        //Security
-        SecurityUtils.checkServiceOperationAllowed(ctx,StatisticalOperationsRoleEnum.ANY_ROLE_ALLOWED);
+    public String exportOperationsTsv(ServiceContext ctx, MetamacCriteria criteria) throws MetamacException {
+        // Security
+        SecurityUtils.checkServiceOperationAllowed(ctx, StatisticalOperationsRoleEnum.ANY_ROLE_ALLOWED);
+
+        // Transform
+        SculptorCriteria sculptorCriteria = metamacCriteria2SculptorCriteriaMapper.getOperationCriteriaMapper().metamacCriteria2SculptorCriteria(criteria);
 
         // Export
-        return getStatisticalOperationsBaseService().exportOperationsTsv(ctx, operationsId);
+        return getStatisticalOperationsBaseService().exportOperationsTsv(ctx, sculptorCriteria.getConditions());
     }
 
     @Override

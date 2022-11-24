@@ -1537,13 +1537,13 @@ public class SecurityStatisticalOperationsServiceFacadeTest extends StatisticalO
     @Override
     @Test
     public void testExportOperationsTsv() throws Exception {
-        List<Long> operationsId = createListOperationsId();
-        statisticalOperationsServiceFacade.exportOperationsTsv(getServiceContextTecnicoApoyoDifusion(), operationsId);
-        statisticalOperationsServiceFacade.exportOperationsTsv(getServiceContextTecnicoApoyoPlanificacion(), operationsId);
-        statisticalOperationsServiceFacade.exportOperationsTsv(getServiceContextTecnicoApoyoProduccion(), operationsId);
-        statisticalOperationsServiceFacade.exportOperationsTsv(getServiceContextTecnicoDifusion(), operationsId);
-        statisticalOperationsServiceFacade.exportOperationsTsv(getServiceContextTecnicoPlanificacion(), operationsId);
-        statisticalOperationsServiceFacade.exportOperationsTsv(getServiceContextTecnicoProduccion(), operationsId);
+        MetamacCriteria criteria = new MetamacCriteria();
+        statisticalOperationsServiceFacade.exportOperationsTsv(getServiceContextTecnicoApoyoDifusion(), criteria);
+        statisticalOperationsServiceFacade.exportOperationsTsv(getServiceContextTecnicoApoyoPlanificacion(), criteria);
+        statisticalOperationsServiceFacade.exportOperationsTsv(getServiceContextTecnicoApoyoProduccion(), criteria);
+        statisticalOperationsServiceFacade.exportOperationsTsv(getServiceContextTecnicoDifusion(), criteria);
+        statisticalOperationsServiceFacade.exportOperationsTsv(getServiceContextTecnicoPlanificacion(), criteria);
+        statisticalOperationsServiceFacade.exportOperationsTsv(getServiceContextTecnicoProduccion(), criteria);
     }
 
     /**************************************************************************
@@ -1705,14 +1705,6 @@ public class SecurityStatisticalOperationsServiceFacadeTest extends StatisticalO
         instanceDto.setInstanceType(statisticalOperationsServiceFacade.findInstanceTypeById(getServiceContextAdministrador(), Long.valueOf(1)));
 
         return instanceDto;
-    }
-
-    private List<Long> createListOperationsId() throws MetamacException {
-        List<Long> operationsId = new ArrayList<Long>();
-        for (int i = 0; i <= getRandomNumber(5, 25); i++) {
-            operationsId.add(statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), createOperationDtoForInternalPublishing()).getId());
-        }
-        return operationsId;
     }
 
     private int getRandomNumber(int min, int max) {

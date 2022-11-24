@@ -1537,6 +1537,7 @@ public class SecurityStatisticalOperationsServiceFacadeTest extends StatisticalO
     @Override
     @Test
     public void testExportOperationsTsv() throws Exception {
+        createListOperations();
         MetamacCriteria criteria = new MetamacCriteria();
         statisticalOperationsServiceFacade.exportOperationsTsv(getServiceContextTecnicoApoyoDifusion(), criteria);
         statisticalOperationsServiceFacade.exportOperationsTsv(getServiceContextTecnicoApoyoPlanificacion(), criteria);
@@ -1707,6 +1708,11 @@ public class SecurityStatisticalOperationsServiceFacadeTest extends StatisticalO
         return instanceDto;
     }
 
+    private void createListOperations() throws MetamacException {
+        for (int i = 0; i <= getRandomNumber(5, 25); i++) {
+            statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), createOperationDtoForInternalPublishing());
+        }
+    }
     private int getRandomNumber(int min, int max) {
         return (int) ((Math.random() * (max - min)) + min);
     }

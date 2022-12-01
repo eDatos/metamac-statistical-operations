@@ -39,6 +39,8 @@ public class ListGridToolStrip extends ToolStrip {
             }
         });
 
+        exportTsvButton.setVisibility(Visibility.HIDDEN);
+
         addButton(newButton);
         addButton(exportTsvButton);
         addSeparator();

@@ -30,7 +30,6 @@ public class NewOperationForm extends CustomDynamicForm {
 
     private RequiredTextItem                          identifier;
     private RequiredTextItem                          title;
-    private CustomCheckboxItem                        releaseCalendar;
     private SearchSrmItemLinkItemWithSchemeFilterItem subjectAreasItem;
     private CustomCheckboxItem                        indSystem;
     private CustomButtonItem                          saveButton;
@@ -49,9 +48,6 @@ public class NewOperationForm extends CustomDynamicForm {
         title = new RequiredTextItem("op-title", getConstants().operationTitle());
         title.setWidth(FORM_ITEM_CUSTOM_WIDTH);
 
-        releaseCalendar = new CustomCheckboxItem("op-release-cal", getConstants().operationReleaseCalendar());
-        releaseCalendar.setWidth(FORM_ITEM_CUSTOM_WIDTH);
-
         subjectAreasItem = createSubjectAreaItem("op-subject", getConstants().operationSubjectArea());
         subjectAreasItem.setRequired(true);
 
@@ -68,14 +64,14 @@ public class NewOperationForm extends CustomDynamicForm {
         setMargin(5);
         setErrorOrientation(FormErrorOrientation.RIGHT);
         setLayoutAlign(VerticalAlignment.BOTTOM);
-        setFields(identifier, title, subjectAreasItem, releaseCalendar, indSystem, saveButton);
+        setFields(identifier, title, subjectAreasItem, indSystem, saveButton);
     }
 
     public OperationDto getOperation() {
         OperationDto operationDto = new OperationDto();
         operationDto.setCode(identifier.getValueAsString());
         operationDto.setTitle(InternationalStringUtils.updateInternationalString(new InternationalStringDto(), title.getValueAsString()));
-        operationDto.setReleaseCalendar(releaseCalendar.getValueAsBoolean());
+        operationDto.setReleaseCalendar(false);
         operationDto.setProcStatus(ProcStatusEnum.DRAFT);
         operationDto.setSubjectArea(subjectAreasItem.getExternalItemDto());
         operationDto.setIndicatorSystem(indSystem.getValueAsBoolean() == null ? false : indSystem.getValueAsBoolean());

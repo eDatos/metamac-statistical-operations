@@ -1,6 +1,7 @@
 package org.siemac.metamac.statistical.operations.web.client.operation.view;
 
 import static org.siemac.metamac.statistical.operations.web.client.OperationsWeb.getConstants;
+import static org.siemac.metamac.statistical.operations.web.client.OperationsWeb.getMessages;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,7 @@ import org.siemac.metamac.statistical.operations.web.client.widgets.ListGridTool
 import org.siemac.metamac.statistical.operations.web.client.widgets.ModalWindow;
 import org.siemac.metamac.statistical.operations.web.client.widgets.NewInstanceForm;
 import org.siemac.metamac.statistical.operations.web.client.widgets.OperationMainFormLayout;
+import org.siemac.metamac.statistical.operations.web.shared.external.GetUsersAccessControlListResult;
 import org.siemac.metamac.web.common.client.MetamacWebCommon;
 import org.siemac.metamac.web.common.client.utils.CommonWebUtils;
 import org.siemac.metamac.web.common.client.utils.CustomRequiredValidator;
@@ -86,6 +88,7 @@ import com.smartgwt.client.widgets.events.HasClickHandlers;
 import com.smartgwt.client.widgets.form.DynamicForm;
 import com.smartgwt.client.widgets.form.FormItemIfFunction;
 import com.smartgwt.client.widgets.form.fields.FormItem;
+import com.smartgwt.client.widgets.form.validator.CustomValidator;
 import com.smartgwt.client.widgets.grid.ListGridRecord;
 import com.smartgwt.client.widgets.grid.events.HasRecordClickHandlers;
 import com.smartgwt.client.widgets.grid.events.SelectionChangedHandler;
@@ -125,6 +128,8 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
     private CustomCheckboxItem                        indSystem;
 
     // PRODUCTION DESCRIPTORS
+    private CustomSelectItem                          technicianInCharge;
+    private CustomSelectItem                          assistantTechnician;
     private GroupDynamicForm                          productionDescriptorsForm;
     private GroupDynamicForm                          productionDescriptorsEditionForm;
     private CustomCheckboxItem                        currentlyActiveItem;
@@ -187,6 +192,13 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
             }
         });
         createViewForm();
+        mainFormLayout.getEditToolStripButton().addClickHandler(new ClickHandler() {
+
+            @Override
+            public void onClick(ClickEvent event) {
+                getUiHandlers().retrieveUsersAccessControl();
+            }
+        });
         createEditionForm();
 
         // INSTANCES
@@ -370,6 +382,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         mainFormLayout.setOperationCode(operationDto.getCode());
         instancesOrderFormLayout.setCanEdit(ClientSecurityUtils.canUpdateInstancesOrder(operationDto.getCode()));
         instanceListGridToolStrip.getNewButton().setVisibility(ClientSecurityUtils.canCreateInstance(operationDto.getCode()) ? Visibility.VISIBLE : Visibility.HIDDEN);
+        instanceListGridToolStrip.getExportTsvButton().setVisibility(Visibility.HIDDEN);
         editFamiliesToolStripButton.setVisibility(ClientSecurityUtils.canAddFamilyToOperation(operationDto.getCode()) ? Visibility.VISIBLE : Visibility.HIDDEN);
 
         // Operation
@@ -411,7 +424,8 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         operationDto.setIndicatorSystem(indSystem.getValueAsBoolean() == null ? false : indSystem.getValueAsBoolean());
 
         // PRODUCTION DESCRIPTORS
-
+        operationDto.setTechnicianInCharge(technicianInCharge.getValueAsString() != null ? technicianInCharge.getValue().toString() : null);
+        operationDto.setAssistantTechnician(assistantTechnician.getValueAsString() != null ? assistantTechnician.getValue().toString() : null);
         List<ExternalItemDto> producers = ((ExternalItemListItem) productionDescriptorsEditionForm.getItem(OperationDS.PRODUCER)).getExternalItemDtos();
         operationDto.getProducer().clear();
         operationDto.getProducer().addAll(producers);
@@ -426,6 +440,8 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
 
         operationDto.setCurrentlyActive(currentlyActiveItem.getValueAsBoolean());
         operationDto.setStatus(statusItem.getValueAsString() != null ? StatusEnum.valueOf(statusItem.getValueAsString()) : null);
+
+        operationDto.setGenderPerspective(productionDescriptorsEditionForm.getValueAsInternationalStringDto(OperationDS.GENDER_PERSPECTIVE));
 
         // DIFFUSION AND PUBLICATION
 
@@ -596,6 +612,8 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         classForm.setFields(survey, officiality, indSystem);
 
         // Production descriptors
+        ViewTextItem techinicianInCharge = new ViewTextItem(OperationDS.TECHNICIAN_IN_CHARGE, getConstants().operationTechnicianInCharge());
+        ViewTextItem assistantTechnician = new ViewTextItem(OperationDS.ASSISTANT_TECHNICIAN, getConstants().operationAssistantTechnician());
         productionDescriptorsForm = new GroupDynamicForm(getConstants().operationProductionDescriptors());
         ExternalItemListItem producer = new ExternalItemListItem(OperationDS.PRODUCER, getConstants().operationProducers(), false);
         ExternalItemListItem regionalResposible = new ExternalItemListItem(OperationDS.REG_RESPONSIBLE, getConstants().operationRegionalResponsibles(), false);
@@ -605,7 +623,11 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         ViewTextItem currentlyActive = new ViewTextItem(OperationDS.CURRENTLY_ACTIVE, getConstants().operationCurrentlyActive());
         ViewTextItem status = new ViewTextItem(OperationDS.STATUS, getConstants().operationStatus());
         ViewTextItem procStatus = new ViewTextItem(OperationDS.PROC_STATUS, getConstants().operationProcStatus());
-        productionDescriptorsForm.setFields(producer, regionalResposible, regionalContibutor, createdDate, inventoryDate, currentlyActive, status, procStatus);
+
+        ViewMultiLanguageTextItem genderPerspective = new ViewMultiLanguageTextItem(OperationDS.GENDER_PERSPECTIVE, getConstants().operationGenderPerspective());
+
+        productionDescriptorsForm.setFields(techinicianInCharge, assistantTechnician, producer, regionalResposible, regionalContibutor, createdDate, inventoryDate, currentlyActive, status, procStatus,
+                genderPerspective);
 
         // Diffusion Descriptors
         diffusionForm = new GroupDynamicForm(getConstants().operationDiffusionAndPublication());
@@ -727,8 +749,12 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         classDescriptorsEditionForm.setFields(surveyType, officialityType, indSystem);
 
         // PRODUCTION DESCRIPTORS
-
         productionDescriptorsEditionForm = new GroupDynamicForm(getConstants().operationProductionDescriptors());
+        technicianInCharge = new CustomSelectItem(OperationDS.TECHNICIAN_IN_CHARGE, getConstants().operationTechnicianInCharge());
+        technicianInCharge.setValidators(getTechnicianInChargeUserNotTheSameAsAssistantTechnicianUserValidator());
+
+        assistantTechnician = new CustomSelectItem(OperationDS.ASSISTANT_TECHNICIAN, getConstants().operationAssistantTechnician());
+        assistantTechnician.setValidators(getTechnicianInChargeUserNotTheSameAsAssistantTechnicianUserValidator());
 
         final SearchSrmListItemWithSchemeFilterItem producerItem = createProducersItem();
         producerItem.setValidators(new CustomRequiredValidator() {
@@ -767,8 +793,11 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         ViewTextItem procStatus = new ViewTextItem(OperationDS.PROC_STATUS, getConstants().operationProcStatus());
         ViewTextItem staticProcStatus = new ViewTextItem(OperationDS.PROC_STATUS_VIEW, getConstants().operationProcStatus());
         staticProcStatus.setShowIfCondition(FormItemUtils.getFalseFormItemIfFunction());
-        productionDescriptorsEditionForm.setFields(producerItem, regionalResponsibleItem, regionalContributorItem, createdDate, internalInventoryDate, currentlyActiveItem, statusItem,
-                staticProcStatus, procStatus);
+
+        MultiLanguageTextItem genderPerspective = new MultiLanguageTextItem(OperationDS.GENDER_PERSPECTIVE, getConstants().operationGenderPerspective());
+
+        productionDescriptorsEditionForm.setFields(technicianInCharge, assistantTechnician, producerItem, regionalResponsibleItem, regionalContributorItem, createdDate, internalInventoryDate,
+                currentlyActiveItem, statusItem, staticProcStatus, procStatus, genderPerspective);
 
         // DIFFUSION AND PUBLICATION
 
@@ -831,7 +860,6 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
     }
 
     private void setOperationViewMode(OperationDto operationDto) {
-
         // IDENTIFIERS
 
         identifiersForm.setValue(OperationDS.CODE, operationDto.getCode());
@@ -862,6 +890,8 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
 
         // PRODUCTION DESCRIPTORS
 
+        productionDescriptorsForm.setValue(OperationDS.TECHNICIAN_IN_CHARGE, operationDto.getTechnicianInCharge() == null ? "" : operationDto.getTechnicianInCharge());
+        productionDescriptorsForm.setValue(OperationDS.ASSISTANT_TECHNICIAN, operationDto.getAssistantTechnician() == null ? "" : operationDto.getAssistantTechnician());
         ((ExternalItemListItem) productionDescriptorsForm.getItem(OperationDS.PRODUCER)).setExternalItems(operationDto.getProducer());
         ((ExternalItemListItem) productionDescriptorsForm.getItem(OperationDS.REG_RESPONSIBLE)).setExternalItems(operationDto.getRegionalResponsible());
         ((ExternalItemListItem) productionDescriptorsForm.getItem(OperationDS.REG_CONTRIBUTOR)).setExternalItems(operationDto.getRegionalContributor());
@@ -871,6 +901,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
                 (operationDto.getCurrentlyActive() != null && operationDto.getCurrentlyActive()) ? MetamacWebCommon.getConstants().yes() : MetamacWebCommon.getConstants().no());
         productionDescriptorsForm.setValue(OperationDS.STATUS, CommonUtils.getStatusName(operationDto.getStatus()));
         productionDescriptorsForm.setValue(OperationDS.PROC_STATUS, CommonUtils.getProcStatusName(operationDto.getProcStatus()));
+        productionDescriptorsForm.setValue(OperationDS.GENDER_PERSPECTIVE, operationDto.getGenderPerspective());
 
         // DIFFUSION AND PUBLICATION
 
@@ -953,6 +984,8 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
 
         // PRODUCTION DESCRIPTORS
 
+        technicianInCharge.setValue(operationDto.getTechnicianInCharge() != null ? CommonUtils.getUsernameUser(operationDto.getTechnicianInCharge()) : null);
+        assistantTechnician.setValue(operationDto.getAssistantTechnician() != null ? CommonUtils.getUsernameUser(operationDto.getAssistantTechnician()) : null);
         ((ExternalItemListItem) productionDescriptorsEditionForm.getItem(OperationDS.PRODUCER)).setExternalItems(operationDto.getProducer());
         ((ExternalItemListItem) productionDescriptorsEditionForm.getItem(OperationDS.REG_RESPONSIBLE)).setExternalItems(operationDto.getRegionalResponsible());
         ((ExternalItemListItem) productionDescriptorsEditionForm.getItem(OperationDS.REG_CONTRIBUTOR)).setExternalItems(operationDto.getRegionalContributor());
@@ -962,6 +995,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         statusItem.setValue(operationDto.getStatus() == null ? null : operationDto.getStatus().toString());
         productionDescriptorsEditionForm.setValue(OperationDS.PROC_STATUS, CommonUtils.getProcStatusName(operationDto.getProcStatus()));
         productionDescriptorsEditionForm.setValue(OperationDS.PROC_STATUS_VIEW, operationDto.getProcStatus().toString());
+        productionDescriptorsEditionForm.setValue(OperationDS.GENDER_PERSPECTIVE, operationDto.getGenderPerspective());
 
         productionDescriptorsEditionForm.setRequiredTitleSuffix(requiredFieldsToNextProcStatus);
         productionDescriptorsEditionForm.markForRedraw();
@@ -1036,7 +1070,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
 
     /**
      * Select Instance in ListGrid
-     * 
+     *
      * @param id
      */
     private void selectInstance(Long id) {
@@ -1075,6 +1109,8 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         identifiersEditionForm.setTranslationsShowed(translationsShowed);
         contentViewForm.setTranslationsShowed(translationsShowed);
         contentEditionForm.setTranslationsShowed(translationsShowed);
+        productionDescriptorsForm.setTranslationsShowed(translationsShowed);
+        productionDescriptorsEditionForm.setTranslationsShowed(translationsShowed);
         diffusionForm.setTranslationsShowed(translationsShowed);
         diffusionEditionForm.setTranslationsShowed(translationsShowed);
         annotationsViewForm.setTranslationsShowed(translationsShowed);
@@ -1107,6 +1143,11 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
             windowToAddFamiliesToOperation.setResources(families);
             windowToAddFamiliesToOperation.refreshSourcePaginationInfo(firstResult, families.size(), totalResults);
         }
+    }
+    @Override
+    public void setUsersAccessControl(GetUsersAccessControlListResult result) {
+        technicianInCharge.setValueMap(result.getUsers());
+        assistantTechnician.setValueMap(result.getUsers());
     }
 
     // ------------------------------------------------------------------------------------------------------------
@@ -1327,5 +1368,21 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
                 return getUiHandlers();
             }
         };
+    }
+
+    // ------------------------------------------------------------------------------------------------------------
+    // VALIDATORS
+    // ------------------------------------------------------------------------------------------------------------
+    private CustomValidator getTechnicianInChargeUserNotTheSameAsAssistantTechnicianUserValidator() {
+        CustomValidator customValidator = new CustomValidator() {
+
+            @Override
+            protected boolean condition(Object value) {
+                return CommonUtils.isTechnicianInChargeUserNotTheSameAsAssistantTechnicianUser(technicianInCharge.getValueAsString(), assistantTechnician.getValueAsString());
+            }
+        };
+
+        customValidator.setErrorMessage(getMessages().validatorMessageTechnicianInChargeEqualsAssitantTechnician());
+        return customValidator;
     }
 }

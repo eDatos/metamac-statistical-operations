@@ -750,7 +750,7 @@
                      "description":"Recurso de la API al que se puede acceder desde el recurso actual",
                      "$ref":"#/definitions/ChildLinks"
                   },
-                  "comment":{
+                  "notes":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
@@ -973,6 +973,13 @@
                      },
                      "description":"urn del recurso",
                      "type":"string"
+                  },
+                  "genderPerspective":{
+                     "xml":{
+                        "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
+                     },
+                     "description":"Perspectiva de género",
+                     "type":"#/definitions/InternationalString"
                   }
                }
             }
@@ -1841,7 +1848,7 @@
             "description":"Permite obtener una instancia en particular de una operación estadística",
             "operationId":"resource_StatisticalOperationsV1_0_retrieveInstanceById_GET",
             "produces":[
-               "application/xml", "application/json"	
+               "application/xml", "application/json"
             ],
             "parameters":[
                {

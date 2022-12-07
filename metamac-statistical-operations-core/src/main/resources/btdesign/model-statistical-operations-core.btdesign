@@ -91,6 +91,8 @@ Application StatisticalOperations {
        		@InstanceDto publishInternallyInstance(Long instanceId) throws MetamacException;
        		@InstanceDto publishExternallyInstance(Long instanceId) throws MetamacException;
        		@OperationBaseDto findOperationForInstance(Long instanceId) throws MetamacException;
+
+       		String exportOperationsTsv(MetamacCriteria criteria) throws MetamacException;
 	   }
 
 		Service StreamMessagingServiceFacade {
@@ -143,8 +145,9 @@ Application StatisticalOperations {
 			PagedResult<@Operation> findOperationByCondition(List<ConditionalCriteria> condition, PagingParameter pagingParameter) throws MetamacException;
 			@Operation publishInternallyOperation(Long operationId) throws MetamacException;
        		@Operation publishExternallyOperation(Long operationId) throws MetamacException;
-			
-			"Instance"		
+			String exportOperationsTsv(List<ConditionalCriteria> condition) throws MetamacException;
+
+			"Instance"
 			@Instance findInstanceById(Long id) throws MetamacException;
 			@Instance findInstanceByCode(String code) throws MetamacException;
 			@Instance findInstanceByUrn(String urn) throws MetamacException;
@@ -157,6 +160,7 @@ Application StatisticalOperations {
 			PagedResult<@Instance> findInstanceByCondition(List<ConditionalCriteria> condition, PagingParameter pagingParameter) throws MetamacException;
 			@Instance publishInternallyInstance(Long instanceId) throws MetamacException;
        		@Instance publishExternallyInstance(Long instanceId) throws MetamacException;
+
 	   }
 	   
 	   
@@ -409,16 +413,24 @@ Application StatisticalOperations {
        		- @InternationalString specificDataSharing cascade="all" nullable databaseColumn="SPECIFIC_DATA_SHARING_FK";
        		// CONFIDENCIALITY_POLICY: It comes from AppCommonMetadata
        		// CONFIDENCIALITY_DATA_TREATMENT: It comes from AppCommonMetadata
-       		
+
+            "Metadata TECHNICIAN_IN_CHARGE"
+            String technicianInCharge nullable length="255";
+            "Metadata ASSISTANT_TECHNICIAN"
+            String assistantTechnician nullable length="255";
+
        		"Metadata COMMENT"
        		- @InternationalString comment cascade="all" nullable databaseColumn="COMMENT_FK";
        		"Metadata NOTES"
        		- @InternationalString notes cascade="all" nullable databaseColumn="NOTES_FK";
-       		
+
        		"Last update to optimistic locking"
 			DateTimeTZ updateDate nullable;
 
 			- @StreamMessageStatusEnum streamMessageStatus;
+
+            "Metadata GENDER_PERSPECTIVE"
+            - @InternationalString genderPerspective cascade="all" nullable databaseColumn="GENDER_PERSPECTIVE_FK";
        		
 			Repository OperationRepository {
 				findById;

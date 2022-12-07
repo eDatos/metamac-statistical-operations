@@ -1,15 +1,19 @@
 package org.siemac.metamac.statistical.operations.core.serviceimpl;
 
+import static org.fornax.cartridges.sculptor.framework.accessapi.ConditionalCriteriaBuilder.criteriaFor;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.fornax.cartridges.sculptor.framework.accessapi.ConditionalCriteria;
 import org.fornax.cartridges.sculptor.framework.domain.PagedResult;
 import org.fornax.cartridges.sculptor.framework.domain.PagingParameter;
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
 import org.joda.time.DateTime;
+import org.siemac.metamac.core.common.conf.ConfigurationService;
 import org.siemac.metamac.core.common.criteria.utils.CriteriaUtils;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.core.common.exception.MetamacExceptionItem;
@@ -29,14 +33,12 @@ import org.siemac.metamac.statistical.operations.core.error.ServiceExceptionType
 import org.siemac.metamac.statistical.operations.core.exception.FamilyNotFoundException;
 import org.siemac.metamac.statistical.operations.core.exception.InstanceNotFoundException;
 import org.siemac.metamac.statistical.operations.core.exception.OperationNotFoundException;
-import org.siemac.metamac.statistical.operations.core.serviceapi.StreamMessagingServiceFacade;
 import org.siemac.metamac.statistical.operations.core.serviceimpl.utils.CheckMandatoryMetadataUtil;
 import org.siemac.metamac.statistical.operations.core.serviceimpl.utils.StatisticalOperationsValidationUtils;
+import org.siemac.metamac.statistical.operations.core.serviceimpl.utils.TsvExportationUtils;
 import org.siemac.metamac.statistical.operations.core.serviceimpl.utils.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import static org.fornax.cartridges.sculptor.framework.accessapi.ConditionalCriteriaBuilder.criteriaFor;
 
 /**
  * Implementation of StatisticalOperationsBaseService.
@@ -45,14 +47,16 @@ import static org.fornax.cartridges.sculptor.framework.accessapi.ConditionalCrit
 public class StatisticalOperationsBaseServiceImpl extends StatisticalOperationsBaseServiceImplBase {
 
     @Autowired
-    private FamilyRepository familyRepository;
+    private FamilyRepository     familyRepository;
 
     @Autowired
-    private OperationRepository operationRepository;
+    private OperationRepository  operationRepository;
 
     @Autowired
-    private InstanceRepository instanceRepository;
+    private InstanceRepository   instanceRepository;
 
+    @Autowired
+    private ConfigurationService configurationService;
 
     public StatisticalOperationsBaseServiceImpl() {
     }
@@ -342,6 +346,7 @@ public class StatisticalOperationsBaseServiceImpl extends StatisticalOperationsB
 
         // Validations
         validateOperationCodeUnique(ctx, operation.getCode(), null);
+        validateOperationTechnicianInChargeUserNotTheSameAsAssistantTechnicianUser(operation.getTechnicianInCharge(), operation.getAssistantTechnician());
         CheckMandatoryMetadataUtil.checkCreateOperation(operation);
 
         // Repository operation
@@ -355,6 +360,7 @@ public class StatisticalOperationsBaseServiceImpl extends StatisticalOperationsB
             // We don't need to update the instances URN because we can't create instances in a draft operation
             operation.setUrn(GeneratorUrnUtils.generateSiemacStatisticalOperationUrn(operation.getCode()));
             validateOperationCodeUnique(ctx, operation.getCode(), operation.getId());
+            validateOperationTechnicianInChargeUserNotTheSameAsAssistantTechnicianUser(operation.getTechnicianInCharge(), operation.getAssistantTechnician());
             CheckMandatoryMetadataUtil.checkCreateOperation(operation);
         }
 
@@ -453,6 +459,17 @@ public class StatisticalOperationsBaseServiceImpl extends StatisticalOperationsB
 
         // Save
         return updateOperation(ctx, operation);
+    }
+
+    @Override
+    public String exportOperationsTsv(ServiceContext ctx, List<ConditionalCriteria> condition) throws MetamacException {
+        List<String> languages = configurationService.retrieveLanguages();
+
+        // Service call
+        List<Operation> operations = findOperationByCondition(ctx, condition);
+
+        // Export
+        return TsvExportationUtils.exportStatisticalOperations(operations, languages);
     }
 
     // --------------------------------------------------------------------------------------------------------------
@@ -771,6 +788,12 @@ public class StatisticalOperationsBaseServiceImpl extends StatisticalOperationsB
                     throw new MetamacException(ServiceExceptionType.UNKNOWN, "More than one instance with code " + code);
                 }
             }
+        }
+    }
+
+    private void validateOperationTechnicianInChargeUserNotTheSameAsAssistantTechnicianUser(String technicianInCharge, String assistantTechnician) throws MetamacException {
+        if (!(StringUtils.isEmpty(technicianInCharge) && StringUtils.isEmpty(assistantTechnician)) && technicianInCharge.equalsIgnoreCase(assistantTechnician)) {
+            throw new MetamacException(ServiceExceptionType.OPERATION_TEC_IN_CHARGE_EQUALS_ASSISTANT_TEC);
         }
     }
 }

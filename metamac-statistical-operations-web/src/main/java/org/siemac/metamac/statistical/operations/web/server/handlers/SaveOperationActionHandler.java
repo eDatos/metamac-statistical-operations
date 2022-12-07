@@ -3,6 +3,8 @@ package org.siemac.metamac.statistical.operations.web.server.handlers;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.statistical.operations.core.dto.OperationDto;
 import org.siemac.metamac.statistical.operations.core.serviceapi.StatisticalOperationsServiceFacade;
+import org.siemac.metamac.statistical.operations.web.server.handlers.utils.HandlersUtils;
+import org.siemac.metamac.statistical.operations.web.server.rest.AccessControlRestInternalFacade;
 import org.siemac.metamac.statistical.operations.web.shared.SaveOperationAction;
 import org.siemac.metamac.statistical.operations.web.shared.SaveOperationResult;
 import org.siemac.metamac.web.common.server.ServiceContextHolder;
@@ -18,6 +20,9 @@ public class SaveOperationActionHandler extends SecurityActionHandler<SaveOperat
 
     @Autowired
     private StatisticalOperationsServiceFacade statisticalOperationsServiceFacade;
+
+    @Autowired
+    private AccessControlRestInternalFacade    accessControlRestInternalFacade;
 
     public SaveOperationActionHandler() {
         super(SaveOperationAction.class);
@@ -38,6 +43,7 @@ public class SaveOperationActionHandler extends SecurityActionHandler<SaveOperat
             // Update operation
             try {
                 OperationDto operationDto = statisticalOperationsServiceFacade.updateOperation(ServiceContextHolder.getCurrentServiceContext(), operationToSave);
+                HandlersUtils.setFullnameUserByUsername(operationDto, accessControlRestInternalFacade);
                 return new SaveOperationResult(operationDto);
             } catch (MetamacException e) {
                 throw WebExceptionUtils.createMetamacWebException(e);

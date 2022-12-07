@@ -638,6 +638,11 @@ public class StatisticalOperationsBaseServiceTest extends StatisticalOperationsB
         // This test is in *ServiceFacade
     }
 
+    @Override
+    public void testExportOperationsTsv() throws Exception {
+        // This test is in *ServiceFacade
+    }
+
     /**************************************************************************
      * Instance Tests
      **************************************************************************/

@@ -3,6 +3,7 @@ package org.siemac.metamac.statistical.operations.web.server;
 import org.siemac.metamac.statistical.operations.web.server.handlers.DeleteFamilyListActionHandler;
 import org.siemac.metamac.statistical.operations.web.server.handlers.DeleteInstanceListActionHandler;
 import org.siemac.metamac.statistical.operations.web.server.handlers.DeleteOperationListActionHandler;
+import org.siemac.metamac.statistical.operations.web.server.handlers.ExportOperationListActionHandler;
 import org.siemac.metamac.statistical.operations.web.server.handlers.GetFamilyActionHandler;
 import org.siemac.metamac.statistical.operations.web.server.handlers.GetFamilyAndOperationsActionHandler;
 import org.siemac.metamac.statistical.operations.web.server.handlers.GetFamilyPaginatedListActionHandler;
@@ -28,9 +29,11 @@ import org.siemac.metamac.statistical.operations.web.server.handlers.UpdateOpera
 import org.siemac.metamac.statistical.operations.web.server.handlers.ValidateTicketActionHandler;
 import org.siemac.metamac.statistical.operations.web.server.handlers.external.GetCommonMetadataConfigurationsActionHandler;
 import org.siemac.metamac.statistical.operations.web.server.handlers.external.GetExternalResourcesActionHandler;
+import org.siemac.metamac.statistical.operations.web.server.handlers.external.GetUsersAccessControlListActionHandler;
 import org.siemac.metamac.statistical.operations.web.shared.DeleteFamilyListAction;
 import org.siemac.metamac.statistical.operations.web.shared.DeleteInstanceListAction;
 import org.siemac.metamac.statistical.operations.web.shared.DeleteOperationListAction;
+import org.siemac.metamac.statistical.operations.web.shared.ExportOperationListAction;
 import org.siemac.metamac.statistical.operations.web.shared.GetFamilyAction;
 import org.siemac.metamac.statistical.operations.web.shared.GetFamilyAndOperationsAction;
 import org.siemac.metamac.statistical.operations.web.shared.GetFamilyPaginatedListAction;
@@ -55,6 +58,7 @@ import org.siemac.metamac.statistical.operations.web.shared.UpdateInstancesOrder
 import org.siemac.metamac.statistical.operations.web.shared.UpdateOperationFamiliesAction;
 import org.siemac.metamac.statistical.operations.web.shared.external.GetCommonMetadataConfigurationsAction;
 import org.siemac.metamac.statistical.operations.web.shared.external.GetExternalResourcesAction;
+import org.siemac.metamac.statistical.operations.web.shared.external.GetUsersAccessControlListAction;
 import org.siemac.metamac.web.common.server.handlers.CloseSessionActionHandler;
 import org.siemac.metamac.web.common.server.handlers.GetLoginPageUrlActionHandler;
 import org.siemac.metamac.web.common.server.handlers.GetNavigationBarUrlActionHandler;
@@ -98,6 +102,7 @@ public class ServerModule extends HandlerModule {
         bindHandler(SaveOperationAction.class, SaveOperationActionHandler.class);
         bindHandler(GetOperationAndInstancesAction.class, GetOperationAndInstancesActionHandler.class);
         bindHandler(DeleteOperationListAction.class, DeleteOperationListActionHandler.class);
+        bindHandler(ExportOperationListAction.class, ExportOperationListActionHandler.class);
         bindHandler(UpdateOperationFamiliesAction.class, UpdateOperationFamiliesActionHandler.class);
         bindHandler(PublishInternallyOperationAction.class, PublishInternallyOperationActionHandler.class);
         bindHandler(PublishExternallyOperationAction.class, PublishExternallyOperationActionHandler.class);
@@ -116,6 +121,8 @@ public class ServerModule extends HandlerModule {
 
         // External
         bindHandler(GetExternalResourcesAction.class, GetExternalResourcesActionHandler.class);
+
+        bindHandler(GetUsersAccessControlListAction.class, GetUsersAccessControlListActionHandler.class);
 
         bindHandler(ValidateTicketAction.class, ValidateTicketActionHandler.class);
         bindHandler(GetLoginPageUrlAction.class, GetLoginPageUrlActionHandler.class);

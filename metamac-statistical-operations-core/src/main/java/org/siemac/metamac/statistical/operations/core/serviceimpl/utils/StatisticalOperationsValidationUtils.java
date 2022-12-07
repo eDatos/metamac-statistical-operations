@@ -150,4 +150,5 @@ public class StatisticalOperationsValidationUtils extends ValidationUtils {
         }
         return isEmpty(parameter.getCode()) || isEmpty(parameter.getUri()) || isEmpty(parameter.getType());
     }
+
 }

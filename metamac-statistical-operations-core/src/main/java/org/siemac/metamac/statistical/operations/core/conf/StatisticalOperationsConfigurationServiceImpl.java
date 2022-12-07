@@ -10,9 +10,4 @@ public class StatisticalOperationsConfigurationServiceImpl extends Configuration
     public String retrieveHelpUrl() throws MetamacException {
         return retrieveProperty(StatisticalOperationsConfigurationConstants.HELP_URL);
     }
-
-    @Override
-    public String retrieveDocsPath() throws MetamacException {
-        return retrieveProperty(StatisticalOperationsConfigurationConstants.DOCS_PATH);
-    }
 }

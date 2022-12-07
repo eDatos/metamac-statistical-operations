@@ -1534,6 +1534,19 @@ public class SecurityStatisticalOperationsServiceFacadeTest extends StatisticalO
         statisticalOperationsServiceFacade.findOperationForInstance(getServiceContextTecnicoProduccion(), instanceId);
     }
 
+    @Override
+    @Test
+    public void testExportOperationsTsv() throws Exception {
+        createListOperations();
+        MetamacCriteria criteria = new MetamacCriteria();
+        statisticalOperationsServiceFacade.exportOperationsTsv(getServiceContextTecnicoApoyoDifusion(), criteria);
+        statisticalOperationsServiceFacade.exportOperationsTsv(getServiceContextTecnicoApoyoPlanificacion(), criteria);
+        statisticalOperationsServiceFacade.exportOperationsTsv(getServiceContextTecnicoApoyoProduccion(), criteria);
+        statisticalOperationsServiceFacade.exportOperationsTsv(getServiceContextTecnicoDifusion(), criteria);
+        statisticalOperationsServiceFacade.exportOperationsTsv(getServiceContextTecnicoPlanificacion(), criteria);
+        statisticalOperationsServiceFacade.exportOperationsTsv(getServiceContextTecnicoProduccion(), criteria);
+    }
+
     /**************************************************************************
      * PRIVATE UTILS
      **************************************************************************/
@@ -1693,5 +1706,14 @@ public class SecurityStatisticalOperationsServiceFacadeTest extends StatisticalO
         instanceDto.setInstanceType(statisticalOperationsServiceFacade.findInstanceTypeById(getServiceContextAdministrador(), Long.valueOf(1)));
 
         return instanceDto;
+    }
+
+    private void createListOperations() throws MetamacException {
+        for (int i = 0; i <= getRandomNumber(5, 25); i++) {
+            statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), createOperationDtoForInternalPublishing());
+        }
+    }
+    private int getRandomNumber(int min, int max) {
+        return (int) ((Math.random() * (max - min)) + min);
     }
 }

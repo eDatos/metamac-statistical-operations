@@ -16,9 +16,12 @@ import org.siemac.metamac.statistical.operations.core.dto.OperationDto;
 import org.siemac.metamac.statistical.operations.core.enume.domain.ProcStatusEnum;
 import org.siemac.metamac.statistical.operations.core.enume.domain.StatusEnum;
 import org.siemac.metamac.statistical.operations.core.enume.domain.StreamMessageStatusEnum;
+import org.siemac.metamac.statistical.operations.web.client.OperationsWeb;
 import org.siemac.metamac.statistical.operations.web.client.constants.StatisticalOperationsWebConstants;
 import org.siemac.metamac.web.common.client.resources.GlobalResources;
+import org.siemac.metamac.web.common.shared.utils.SharedTokens;
 
+import com.google.gwt.http.client.URL;
 import com.google.gwt.resources.client.ImageResource;
 import com.smartgwt.client.widgets.form.fields.FormItemIcon;
 import com.smartgwt.client.widgets.form.validator.LengthRangeValidator;
@@ -28,6 +31,7 @@ public class CommonUtils {
     private static LinkedHashMap<String, String>                         statusEnumHashMap;
 
     private static final EnumMap<StreamMessageStatusEnum, ImageResource> ICON_STREAM_MESSAGE_STATUS = new EnumMap(StreamMessageStatusEnum.class);
+
     static {
         ICON_STREAM_MESSAGE_STATUS.put(StreamMessageStatusEnum.FAILED, GlobalResources.RESOURCE.errorSmart());
         ICON_STREAM_MESSAGE_STATUS.put(StreamMessageStatusEnum.PENDING, GlobalResources.RESOURCE.warn());
@@ -59,6 +63,13 @@ public class CommonUtils {
         return StringUtils.EMPTY;
     }
 
+    public static String getUsernameUser(String fullname) {
+        if (fullname.split("- ").length > 0) {
+            return fullname.split("- ")[1].toString();
+        }
+        return fullname;
+    }
+
     public static boolean isInternallyOrExternallyPublished(OperationDto operationDto) {
         return isInternallyOrExternallyPublished(operationDto.getProcStatus());
     }
@@ -72,6 +83,13 @@ public class CommonUtils {
             return true;
         }
         return false;
+    }
+
+    public static boolean isTechnicianInChargeUserNotTheSameAsAssistantTechnicianUser(String username, String usernameRepeat) {
+        if (StringUtils.isEmpty(username) && StringUtils.isEmpty(usernameRepeat)) {
+            return true;
+        }
+        return username == null ? !usernameRepeat.equalsIgnoreCase(username) : !username.equalsIgnoreCase(usernameRepeat);
     }
 
     public static ExternalItemDto create(OperationBaseDto operationBaseDto) {
@@ -179,5 +197,18 @@ public class CommonUtils {
 
         return icon;
     }
+
+    // EXPORTATION UTILS
+
+    public static void downloadFile(String fileName) {
+        StringBuffer url = new StringBuffer();
+        url.append(URL.encode(OperationsWeb.getRelativeURL(SharedTokens.FILE_DOWNLOAD_DIR_PATH)));
+        url.append("?").append(URL.encode(SharedTokens.PARAM_FILE_NAME)).append("=").append(URL.encode(fileName));
+        downloadUrl(url.toString());
+    }
+
+    private static native void downloadUrl(String url) /*-{
+		$wnd.location = url;
+    }-*/;
 
 }

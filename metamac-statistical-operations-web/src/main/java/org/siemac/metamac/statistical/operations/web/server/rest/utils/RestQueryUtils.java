@@ -1,14 +1,12 @@
 package org.siemac.metamac.statistical.operations.web.server.rest.utils;
 
-import static org.siemac.metamac.rest.api.utils.RestCriteriaUtils.appendConditionToQuery;
-import static org.siemac.metamac.rest.api.utils.RestCriteriaUtils.fieldComparison;
-
 import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.siemac.metamac.core.common.enume.domain.TypeExternalArtefactsEnum;
+import org.siemac.metamac.rest.access_control.v1_0.domain.UserCriteriaPropertyRestriction;
 import org.siemac.metamac.rest.common.v1_0.domain.ComparisonOperator;
 import org.siemac.metamac.rest.common.v1_0.domain.LogicalOperator;
 import org.siemac.metamac.rest.common_metadata.v1_0.domain.CommonMetadataStatus;
@@ -25,6 +23,7 @@ import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.Organis
 import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.OrganisationSchemeType;
 import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.OrganisationType;
 import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.ProcStatus;
+import org.siemac.metamac.statistical.operations.web.server.rest.constants.RestQueryConstants;
 import org.siemac.metamac.statistical.operations.web.shared.external.ConceptSchemeTypeEnum;
 import org.siemac.metamac.statistical.operations.web.shared.external.OrganisationRestCriteria;
 import org.siemac.metamac.statistical.operations.web.shared.external.OrganisationSchemeRestCriteria;
@@ -607,5 +606,35 @@ public class RestQueryUtils {
             default:
                 return null;
         }
+    }
+
+    // USER ACCESS CONTROL
+    public static String createQueryForFindUser(String username) {
+        StringBuilder query = new StringBuilder();
+
+        // Add filter: by username
+        if (!StringUtils.isEmpty(username)) {
+            appendConditionToQuery(query, fieldComparison(UserCriteriaPropertyRestriction.USERNAME, ComparisonOperator.EQ, username));
+        }
+        return query.toString();
+    }
+
+    public static void appendConditionToQuery(StringBuilder queryBuilder, String condition) {
+        if (queryBuilder.length() > 0) {
+            queryBuilder.append(RestQueryConstants.BLANK).append(LogicalOperator.AND.name()).append(RestQueryConstants.BLANK);
+        }
+        queryBuilder.append(condition);
+    }
+
+    @SuppressWarnings("rawtypes")
+    public static String fieldComparison(Enum field, ComparisonOperator operator, Object value) {
+        StringBuilder conditionBuilder = new StringBuilder();
+        conditionBuilder.append(field).append(RestQueryConstants.BLANK).append(operator.name()).append(RestQueryConstants.BLANK);
+        if (ComparisonOperator.IN.equals(operator)) {
+            conditionBuilder.append(RestQueryConstants.LEFT_PARENTHESIS).append(value).append(RestQueryConstants.RIGHT_PARENTHESIS);
+        } else if (!ComparisonOperator.IS_NULL.equals(operator) && !ComparisonOperator.IS_NOT_NULL.equals(operator)) {
+            conditionBuilder.append(RestQueryConstants.SINGLE_QUOTE).append(value).append(RestQueryConstants.SINGLE_QUOTE);
+        }
+        return conditionBuilder.toString();
     }
 }

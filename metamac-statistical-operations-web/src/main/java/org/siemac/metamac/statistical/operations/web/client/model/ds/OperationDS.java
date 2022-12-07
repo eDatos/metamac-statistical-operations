@@ -9,7 +9,7 @@ public class OperationDS extends DataSource {
     public static final String ID                         = "op-id";
     public static final String CODE                       = "op-code";
     public static final String URN                        = "op-urn";
-    public static final String CODE_VIEW                  = "op-code-view";       // Not mapped in DTO
+    public static final String CODE_VIEW                  = "op-code-view";                // Not mapped in DTO
     public static final String TITLE                      = "op-title";
     public static final String ACRONYM                    = "op-acron";
     public static final String PUBLICATION_STREAM_STATUS  = "op-publication-stream-status";
@@ -31,8 +31,10 @@ public class OperationDS extends DataSource {
     public static final String CURRENTLY_ACTIVE           = "op-currently-active";
     public static final String STATUS                     = "op-status";
     public static final String PROC_STATUS                = "op-proc-status";
-    public static final String PROC_STATUS_VIEW           = "op-proc-status-view"; // Not mapped in DTO
+    public static final String PROC_STATUS_VIEW           = "op-proc-status-view";         // Not mapped in DTO
     public static final String CREATED_DATE               = "op-created-date";
+    public static final String TECHNICIAN_IN_CHARGE       = "op-tech-in-charge";
+    public static final String ASSISTANT_TECHNICIAN       = "op-tech-assistant";
     // DIFUSSION DESCRIPTORS
     public static final String PUBLISHER                  = "op-publisherItem";
     public static final String RE_POL_US_AC               = "op-pol-us";
@@ -52,6 +54,8 @@ public class OperationDS extends DataSource {
     // ANNOTATIONS
     public static final String COMMENTS                   = "op-com";
     public static final String NOTES                      = "op-not";
+
+    public static final String GENDER_PERSPECTIVE         = "op-gen-pers";
 
     public static final String DTO                        = "operation-dto";
 

@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.siemac.metamac.metamac-statistical-operations</groupId>
         <artifactId>metamac-statistical-operations-parent</artifactId>
-        <version>3.0.1-SNAPSHOT</version>
+        <version>3.1.0</version>
         <relativePath>metamac-statistical-operations-parent/pom.xml</relativePath>
     </parent>
 
@@ -18,7 +18,7 @@
         <connection>scm:git:http://git.arte-consultores.com/istac/metamac-statistical-operations</connection>
         <developerConnection>scm:git:http://git.arte-consultores.com/istac/metamac-statistical-operations</developerConnection>
         <url>http://git.arte-consultores.com/istac/metamac-statistical-operations</url>
-        <tag>HEAD</tag>
+        <tag>20221209-0835-v3.1.0</tag>
     </scm>
 
     <modules>

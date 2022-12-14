@@ -14,7 +14,7 @@ actualización de la versión 1.0.0 a la 2.0.0.*
 
 *Se deberá realizar primero la actualización de la versión 1.0.0 a la 2.0.0 y luego desde la 2.0.0 a la 3.0.0*
 
-## 3.0.0 a 3.0.1-SNAPSHOT
+## 3.0.0 a 3.1.0
 
 * Es necesario ejecutar el script SQL contenido en la carpeta
   ```shell

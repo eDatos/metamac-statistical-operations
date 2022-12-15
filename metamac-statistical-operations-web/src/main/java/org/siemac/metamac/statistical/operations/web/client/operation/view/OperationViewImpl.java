@@ -382,7 +382,6 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         mainFormLayout.setOperationCode(operationDto.getCode());
         instancesOrderFormLayout.setCanEdit(ClientSecurityUtils.canUpdateInstancesOrder(operationDto.getCode()));
         instanceListGridToolStrip.getNewButton().setVisibility(ClientSecurityUtils.canCreateInstance(operationDto.getCode()) ? Visibility.VISIBLE : Visibility.HIDDEN);
-        instanceListGridToolStrip.getExportTsvButton().setVisibility(Visibility.HIDDEN);
         editFamiliesToolStripButton.setVisibility(ClientSecurityUtils.canAddFamilyToOperation(operationDto.getCode()) ? Visibility.VISIBLE : Visibility.HIDDEN);
 
         // Operation

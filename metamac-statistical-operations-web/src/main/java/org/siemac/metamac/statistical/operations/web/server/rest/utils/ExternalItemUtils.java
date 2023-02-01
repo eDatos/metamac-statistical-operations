@@ -47,10 +47,10 @@ public class ExternalItemUtils extends org.siemac.metamac.web.common.client.util
     }
 
     // Categories
-
+    @SuppressWarnings("unchecked")
     public static ExternalItemsResult getCategoriesAsExternalItemsResult(Categories categories) {
         ExternalItemsResult result = getListBaseAsExternalItemsResult(categories);
-        result.setExternalItemDtos(getExternalItemDtosFromItemResourceInternals(categories.getCategories()));
+        result.setExternalItemDtos(getExternalItemDtosFromItemResourceInternals((List<ItemResourceInternal>)(List<?>)categories.getCategories()));
         return result;
     }
 
@@ -60,9 +60,10 @@ public class ExternalItemUtils extends org.siemac.metamac.web.common.client.util
 
     // Codelist
 
+    @SuppressWarnings("unchecked")
     public static ExternalItemsResult getCodelistsAsExternalItemsResult(Codelists codelists) {
         ExternalItemsResult result = getListBaseAsExternalItemsResult(codelists);
-        result.setExternalItemDtos(getExternalItemDtosFromResourceInternals(codelists.getCodelists()));
+        result.setExternalItemDtos(getExternalItemDtosFromResourceInternals((List<ResourceInternal>)(List<?>)codelists.getCodelists()));
         return result;
     }
 

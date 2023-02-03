@@ -911,7 +911,7 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
 
     private List<Resource> srmConceptSchemeToResourceConcepts(ExternalItem conceptSchemeSource) {
         // Return from API
-        List<org.siemac.metamac.rest.structural_resources.v1_0.domain.ItemResource> conceptSources = srmRestExternalFacade.retrieveConceptsByConceptScheme(conceptSchemeSource.getUrn());
+        List<org.siemac.metamac.rest.structural_resources.v1_0.domain.ConceptResource> conceptSources = srmRestExternalFacade.retrieveConceptsByConceptScheme(conceptSchemeSource.getUrn());
 
         // Transform
         List<Resource> targets = new ArrayList<Resource>(conceptSources.size());

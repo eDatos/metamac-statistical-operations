@@ -89,9 +89,10 @@ public class ExternalItemUtils extends org.siemac.metamac.web.common.client.util
 
     // Concepts
 
+    @SuppressWarnings("unchecked")
     public static ExternalItemsResult getConceptsAsExternalItemsResult(Concepts concepts) {
         ExternalItemsResult result = getListBaseAsExternalItemsResult(concepts);
-        result.setExternalItemDtos(getExternalItemDtosFromItemResourceInternals(concepts.getConcepts()));
+        result.setExternalItemDtos(getExternalItemDtosFromItemResourceInternals((List<ItemResourceInternal>)(List<?>)concepts.getConcepts()));
         return result;
     }
 

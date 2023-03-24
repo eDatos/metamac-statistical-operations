@@ -378,7 +378,7 @@
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Descripción del proceso de recolección y  tratamiento de datos (por ejemplo: método de muestreo, validación e imputación, tratamieto de la falta de respuesta, ponderación y calibración, uso de modelos, etc. )",
+                     "description":"Descripción del proceso de recolección y tratamiento de datos (por ejemplo: método de muestreo, validación e imputación, tratamiento de la falta de respuesta, ponderación y calibración, uso de modelos, etc. )",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "dataDescription":{
@@ -817,7 +817,7 @@
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Indica si una operación estadística genera un sistema de indicadores. La información del sistema de indicadores asociado se puede consultar en la API indicators",
+                     "description":"Indica si una operación estadística genera un sistema de indicadores. La información del sistema de indicadores asociado se puede consultar en la API de indicadores",
                      "type":"boolean"
                   },
                   "inventoryDate":{
@@ -915,7 +915,7 @@
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Politica general de la revisión de datos de la operación estadística",
+                     "description":"Política general de la revisión de datos de la operación estadística",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "revPractice":{
@@ -1329,7 +1329,7 @@
                         "attribute":true,
                         "namespace":""
                      },
-                     "description":"Dado que se trata de un resultado páginado, este enlace nos permite desplazarnos a la primera página. Si no se muestra es porque ya estamos en ella. Tener en cuenta que cuando sólo existe una página, no existirá ni primera ni última",
+                     "description":"Dado que se trata de un resultado paginado, este enlace nos permite desplazarnos a la primera página. Si no se muestra es porque ya estamos en ella. Tener en cuenta que cuando sólo existe una página, no existirá ni primera ni última",
                      "type":"string"
                   },
                   "kind":{
@@ -1345,7 +1345,7 @@
                         "attribute":true,
                         "namespace":""
                      },
-                     "description":"Dado que se trata de un resultado páginado, este enlace nos permite desplazarnos a la última página. Si no se muestra es porque ya estamos en ella. Tener en cuenta que cuando sólo existe una página, no existirá ni primera ni última",
+                     "description":"Dado que se trata de un resultado paginado, este enlace nos permite desplazarnos a la última página. Si no se muestra es porque ya estamos en ella. Tener en cuenta que cuando sólo existe una página, no existirá ni primera ni última",
                      "type":"string"
                   },
                   "limit":{
@@ -1361,7 +1361,7 @@
                         "attribute":true,
                         "namespace":""
                      },
-                     "description":"Dado que se trata de un resultado páginado, este enlace nos permite desplazarnos a la página siguiente a la que nos encontramos. Si no se muestra es porque no existe siguiente",
+                     "description":"Dado que se trata de un resultado paginado, este enlace nos permite desplazarnos a la página siguiente a la que nos encontramos. Si no se muestra es porque no existe siguiente",
                      "type":"string"
                   },
                   "offset":{
@@ -1377,7 +1377,7 @@
                         "attribute":true,
                         "namespace":""
                      },
-                     "description":"Dado que se trata de un resultado páginado, este enlace nos permite desplazarnos a la página anterior a la que nos encontramos. Si no se muestra es porque no existe siguiente",
+                     "description":"Dado que se trata de un resultado paginado, este enlace nos permite desplazarnos a la página anterior a la que nos encontramos. Si no se muestra es porque no existe siguiente",
                      "type":"string"
                   },
                   "selfLink":{

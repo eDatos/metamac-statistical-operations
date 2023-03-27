@@ -329,7 +329,7 @@
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Identificación de las clasificaciones utilizadas en la instancia de la operación. Las clasificaciones identificadas se vinculan con las distribuidas en la API structural-resources de e-Semántica",
+                     "description":"Identificación de las clasificaciones utilizadas en la instancia de la operación. Las clasificaciones identificadas se vinculan con las distribuidas en la API de recursos estructurales de e-Semántica",
                      "$ref":"#/definitions/ClassSystems"
                   },
                   "classSystemsDescription":{
@@ -525,7 +525,7 @@
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Identificación de los conceptos utilizados en la instancia de la operación. Los conceptos identificados se vinculan con los distribuidos en la API structural-resources de e-Semántica",
+                     "description":"Identificación de los conceptos utilizados en la instancia de la operación. Los conceptos identificados se vinculan con los distribuidos en la API de recursos estructurales de e-Semántica",
                      "$ref":"#/definitions/StatConcDefs"
                   },
                   "statConcDefsDescription":{

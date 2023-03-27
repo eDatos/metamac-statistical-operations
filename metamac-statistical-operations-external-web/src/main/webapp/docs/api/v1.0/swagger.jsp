@@ -817,7 +817,7 @@
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Indica si una operación estadística genera un sistema de indicadores. La información del sistema de indicadores asociado se puede consultar en la API de indicadores",
+                     "description":"Indica si una operación estadística genera un sistema de indicadores. La información del sistema de indicadores asociado se puede consultar en la API de e-Indicadores",
                      "type":"boolean"
                   },
                   "inventoryDate":{

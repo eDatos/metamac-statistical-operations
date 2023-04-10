@@ -17,7 +17,6 @@ public class OperationsApplicationStartupListener extends InternalApplicationSta
         checkRequiredProperty(StatisticalOperationsConfigurationConstants.DB_URL);
         checkRequiredProperty(StatisticalOperationsConfigurationConstants.DB_USERNAME);
         checkRequiredProperty(StatisticalOperationsConfigurationConstants.DB_PASSWORD);
-        checkRequiredProperty(StatisticalOperationsConfigurationConstants.DB_DIALECT);
     }
 
     @Override

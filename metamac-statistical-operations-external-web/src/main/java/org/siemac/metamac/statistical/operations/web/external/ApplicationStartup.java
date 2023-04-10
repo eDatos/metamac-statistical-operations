@@ -40,7 +40,6 @@ public class ApplicationStartup extends ApplicationStartupListener {
         checkRequiredProperty(StatisticalOperationsConfigurationConstants.DB_URL);
         checkRequiredProperty(StatisticalOperationsConfigurationConstants.DB_USERNAME);
         checkRequiredProperty(StatisticalOperationsConfigurationConstants.DB_PASSWORD);
-        checkRequiredProperty(StatisticalOperationsConfigurationConstants.DB_DIALECT);
 
         // Api
         checkRequiredProperty(StatisticalOperationsConfigurationConstants.ENDPOINT_STATISTICAL_OPERATIONS_EXTERNAL_API);

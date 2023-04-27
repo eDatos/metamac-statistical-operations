@@ -15,9 +15,9 @@
     <description>METAMAC :: STATISTICAL OPERATIONS</description>
 
     <scm>
-        <connection>scm:git:http://git.arte-consultores.com/istac/metamac-statistical-operations</connection>
-        <developerConnection>scm:git:http://git.arte-consultores.com/istac/metamac-statistical-operations</developerConnection>
-        <url>http://git.arte-consultores.com/istac/metamac-statistical-operations</url>
+        <connection>scm:git:https://git.arte-consultores.com/istac/metamac-statistical-operations</connection>
+        <developerConnection>scm:git:https://git.arte-consultores.com/istac/metamac-statistical-operations</developerConnection>
+        <url>https://git.arte-consultores.com/istac/metamac-statistical-operations</url>
         <tag>HEAD</tag>
     </scm>
 

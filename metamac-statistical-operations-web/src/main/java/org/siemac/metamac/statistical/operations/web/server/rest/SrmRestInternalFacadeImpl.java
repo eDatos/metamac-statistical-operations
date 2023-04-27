@@ -73,7 +73,7 @@ public class SrmRestInternalFacadeImpl implements SrmRestInternalFacade {
         String query = RestQueryUtils.buildCategoryQuery(itemWebCriteria);
 
         try {
-            Categories categories = restApiLocator.getSrmRestInternalFacadeV10().findCategories(WILDCARD_ALL, WILDCARD_ALL, WILDCARD_ALL, query, orderBy, limit, offset);
+            Categories categories = restApiLocator.getSrmRestInternalFacadeV10().findCategories(WILDCARD_ALL, WILDCARD_ALL, WILDCARD_ALL, query, orderBy, limit, offset, null);
             return ExternalItemUtils.getCategoriesAsExternalItemsResult(categories);
         } catch (Exception e) {
             throw manageSrmInternalRestException(serviceContext, e);
@@ -114,7 +114,7 @@ public class SrmRestInternalFacadeImpl implements SrmRestInternalFacade {
         String fields = null;
 
         try {
-            Codes codes = restApiLocator.getSrmRestInternalFacadeV10().findCodes(WILDCARD_ALL, WILDCARD_ALL, WILDCARD_ALL, query, orderBy, limit, offset, null, null, fields);
+            Codes codes = restApiLocator.getSrmRestInternalFacadeV10().findCodes(WILDCARD_ALL, WILDCARD_ALL, WILDCARD_ALL, query, orderBy, limit, offset, null, null, null, null, fields);
             return ExternalItemUtils.getCodesAsExternalItemsResult(codes);
         } catch (Exception e) {
             throw manageSrmInternalRestException(serviceContext, e);
@@ -194,7 +194,7 @@ public class SrmRestInternalFacadeImpl implements SrmRestInternalFacade {
         String query = RestQueryUtils.buildOrganisationQuery(itemWebCriteria);
 
         try {
-            OrganisationUnits organisationUnits = restApiLocator.getSrmRestInternalFacadeV10().findOrganisationUnits(WILDCARD_ALL, WILDCARD_ALL, WILDCARD_ALL, query, orderBy, limit, offset);
+            OrganisationUnits organisationUnits = restApiLocator.getSrmRestInternalFacadeV10().findOrganisationUnits(WILDCARD_ALL, WILDCARD_ALL, WILDCARD_ALL, query, orderBy, limit, offset, null);
             return ExternalItemUtils.getOrganisationUnitsAsExternalItemsResult(organisationUnits);
         } catch (Exception e) {
             throw manageSrmInternalRestException(serviceContext, e);
@@ -235,7 +235,7 @@ public class SrmRestInternalFacadeImpl implements SrmRestInternalFacade {
 
         try {
 
-            DataProviders dataProviders = restApiLocator.getSrmRestInternalFacadeV10().findDataProviders(WILDCARD_ALL, WILDCARD_ALL, WILDCARD_ALL, query, orderBy, limit, offset);
+            DataProviders dataProviders = restApiLocator.getSrmRestInternalFacadeV10().findDataProviders(WILDCARD_ALL, WILDCARD_ALL, WILDCARD_ALL, query, orderBy, limit, offset, null);
             return ExternalItemUtils.getDataProvidersAsExternalItemsResult(dataProviders);
         } catch (Exception e) {
             throw manageSrmInternalRestException(serviceContext, e);
@@ -276,7 +276,7 @@ public class SrmRestInternalFacadeImpl implements SrmRestInternalFacade {
 
         try {
 
-            Organisations organisations = restApiLocator.getSrmRestInternalFacadeV10().findOrganisations(WILDCARD_ALL, WILDCARD_ALL, WILDCARD_ALL, query, orderBy, limit, offset);
+            Organisations organisations = restApiLocator.getSrmRestInternalFacadeV10().findOrganisations(WILDCARD_ALL, WILDCARD_ALL, WILDCARD_ALL, query, orderBy, limit, offset, null);
             return ExternalItemUtils.getOrganisationsAsExternalItemsResult(organisations);
         } catch (ServerWebApplicationException e) {
             throw manageSrmInternalRestException(serviceContext, e);

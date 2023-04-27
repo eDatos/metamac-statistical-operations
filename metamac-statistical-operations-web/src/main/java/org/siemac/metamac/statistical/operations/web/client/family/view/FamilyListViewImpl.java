@@ -78,7 +78,6 @@ public class FamilyListViewImpl extends ViewWithUiHandlers<FamilyListUiHandlers>
             }
         });
         listGridToolStrip.getNewButton().setVisibility(ClientSecurityUtils.canCreateFamily() ? Visibility.VISIBLE : Visibility.HIDDEN);
-        listGridToolStrip.getExportTsvButton().setVisibility(Visibility.HIDDEN);
 
         // Search
 

@@ -3531,8 +3531,9 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
     @Transactional
     public void testExportOperationsTsv() throws Exception {
         // Create operation
-        List<Long> operationsId = createListOperationsId();
-        String fileName = statisticalOperationsServiceFacade.exportOperationsTsv(getServiceContextAdministrador(), operationsId);
+        List<OperationDto> operationsDto = createListOperations();
+        MetamacCriteria criteria = new MetamacCriteria();
+        String fileName = statisticalOperationsServiceFacade.exportOperationsTsv(getServiceContextAdministrador(), criteria);
         assertNotNull(fileName);
 
         // Check headers
@@ -3548,7 +3549,7 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
         // Check information
         Set<String> lines = getFileLines(bufferedReader);
         Set<String> expectedLines = getFileLines(expectedBufferedReader);
-        assertEquals(operationsId.size(), lines.size());
+        assertEquals(operationsDto.size(), lines.size());
 
         int indexCreatedDate = 28;
         List<String> rows = new ArrayList<>(lines);
@@ -3900,12 +3901,12 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
         metamacCriteria.getOrdersBy().add(order);
     }
 
-    private List<Long> createListOperationsId() throws MetamacException, ParseException {
-        List<Long> operationsId = new ArrayList<Long>();
+    private List<OperationDto> createListOperations() throws MetamacException, ParseException {
+        List<OperationDto> operationsDto = new ArrayList<OperationDto>();
 
         OperationDto operationDtoForInternalPublishing = createOperationDtoForInternalPublishing();
         operationDtoForInternalPublishing.setCode("CODE01eXp");
-        operationsId.add(statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), operationDtoForInternalPublishing).getId());
+        operationsDto.add(statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), operationDtoForInternalPublishing));
 
         OperationDto operationDtoWithProducer = createOperationDtoWithProducer();
         operationDtoWithProducer.setCode("CODE02eXp");
@@ -3920,25 +3921,25 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
         genderPerspective.addText(genderPerspective_es);
         genderPerspective.addText(genderPerspective_en);
         operationDtoWithProducer.setGenderPerspective(genderPerspective);
-        operationsId.add(statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), operationDtoWithProducer).getId());
+        operationsDto.add(statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), operationDtoWithProducer));
 
         OperationDto operationDtoWithOfficialityType = createOperationDtoWithOfficialityType();
         operationDtoWithOfficialityType.setCode("CODE03eXp");
-        operationsId.add(statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), operationDtoWithOfficialityType).getId());
+        operationsDto.add(statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), operationDtoWithOfficialityType));
 
         OperationDto operationDto = createOperationDto();
         operationDto.setCode("CODE04eXp");
-        operationsId.add(statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), operationDto).getId());
+        operationsDto.add(statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), operationDto));
 
         OperationDto operationDtoWithTechnicianInChargeAndAssistantTechnician = createOperationDtoWithTechnicianInChargeAndAssistantTechnician();
         operationDtoWithTechnicianInChargeAndAssistantTechnician.setCode("CODE05eXp");
-        operationsId.add(statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), operationDtoWithTechnicianInChargeAndAssistantTechnician).getId());
+        operationsDto.add(statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), operationDtoWithTechnicianInChargeAndAssistantTechnician));
 
         OperationDto operationDtoWithTechnicianInCharge = createOperationDtoWithTechnicianInCharge();
         operationDtoWithTechnicianInCharge.setCode("CODE06eXp");
-        operationsId.add(statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), operationDtoWithTechnicianInCharge).getId());
+        operationsDto.add(statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), operationDtoWithTechnicianInCharge));
 
-        return operationsId;
+        return operationsDto;
     }
 
     private BufferedReader getBufferedReader(File file) throws Exception {

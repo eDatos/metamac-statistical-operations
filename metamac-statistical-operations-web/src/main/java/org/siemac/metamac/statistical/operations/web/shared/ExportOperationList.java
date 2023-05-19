@@ -1,7 +1,5 @@
 package org.siemac.metamac.statistical.operations.web.shared;
 
-import java.util.List;
-
 import com.gwtplatform.dispatch.annotation.GenDispatch;
 import com.gwtplatform.dispatch.annotation.In;
 import com.gwtplatform.dispatch.annotation.Out;
@@ -10,9 +8,9 @@ import com.gwtplatform.dispatch.annotation.Out;
 public class ExportOperationList {
 
     @In(1)
-    List<Long> idOperations;
+    String operation;
 
     @Out(1)
-    String     fileName;
+    String fileName;
 
 }

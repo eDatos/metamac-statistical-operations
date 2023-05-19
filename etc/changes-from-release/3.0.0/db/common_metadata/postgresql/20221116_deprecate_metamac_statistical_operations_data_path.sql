@@ -4,5 +4,5 @@
 -- Se depreca la propiedad con el valor ${metamac.data.path}/%/docs
 -- --------------------------------------------------------------------------------------------------
 
-update tb_data_configurations set con_key = 'deprecated.metamac.data.docs.statistical_operations.path' where conf_key ='metamac.data.docs.statistical_operations.path';
+update tb_data_configurations set conf_key = 'deprecated.metamac.data.docs.statistical_operations.path' where conf_key ='metamac.data.docs.statistical_operations.path';
 commit;

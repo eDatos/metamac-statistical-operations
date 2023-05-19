@@ -1030,7 +1030,7 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
 
     private List<ResourceInternal> srmConceptSchemeToResourceInternalConcepts(ExternalItem conceptSchemeSource) {
         // Return from API
-        List<org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.ItemResourceInternal> conceptSources = this.srmRestInternalFacade
+        List<org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.ConceptResourceInternal> conceptSources = this.srmRestInternalFacade
                 .retrieveConceptsByConceptScheme(conceptSchemeSource.getUrn());
 
         // Transform

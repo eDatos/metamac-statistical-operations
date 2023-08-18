@@ -13,7 +13,7 @@
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
                 <property name="showSql" value="true" />
                 <property name="generateDdl" value="true" />
-                <property name="databasePlatform" value="${metamac.statistical_operations.db.dialect}" />
+                <property name="databasePlatform" value="org.hibernate.dialect.PostgreSQLDialect"/>
             </bean>
         </property>
         <property name="persistenceXmlLocation" value="META-INF/persistence-test.xml" />

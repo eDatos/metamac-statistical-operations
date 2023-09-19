@@ -18,6 +18,7 @@ actualización de la versión 1.0.0 a la 2.0.0.*
 * Es necesario ejecutar el script SQL contenido en la carpeta
   ```shell
   etc/changes-from-release/3.2.0/db/common-metadata/postgresql/20221122_delete_metamac_statistical_operations_data_path.sql
+  etc/changes-from-release/3.2.0/db/common-metadata/postgresql/20230413_deprecate_metamac_statistical_operations_dialect.sql
   ```
 
 ## 3.0.0 a 3.1.0

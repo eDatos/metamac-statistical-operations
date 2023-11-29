@@ -14,10 +14,15 @@ actualización de la versión 1.0.0 a la 2.0.0.*
 
 *Se deberá realizar primero la actualización de la versión 1.0.0 a la 2.0.0 y luego desde la 2.0.0 a la 3.0.0*
 
+## 3.3.0 a 3.3.1-SNAPSHOT
+* Se han realizado cambios en la base de datos PostgreSQL, por ello se proveen una serie de scripts SQL para adaptarse a la nueva versión.
+ Ejecutar los scripts de la siguiente ruta en el esquema correspondiente por orden de fecha: [etc/changes-from-release/3.3.0/db](etc/changes-from-release/3.3.0/db) 
+
 ## 3.2.0 a 3.3.0
 * Es necesario ejecutar el script SQL contenido en la carpeta
   ```shell
   etc/changes-from-release/3.2.0/db/common-metadata/postgresql/20221122_delete_metamac_statistical_operations_data_path.sql
+  etc/changes-from-release/3.2.0/db/common-metadata/postgresql/20230413_deprecate_metamac_statistical_operations_dialect.sql
   ```
 
 ## 3.0.0 a 3.1.0

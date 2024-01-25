@@ -1,7 +1,9 @@
 package org.siemac.metamac.statistical_operations.rest.external.v1_0.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.ws.rs.core.Response.Status;
 
@@ -48,6 +50,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static org.siemac.metamac.core.common.util.rest.RequestUtil.parseFields;
+
 @Service("statisticalOperationsRestExternalFacadeV10")
 public class StatisticalOperationsRestExternalFacadeV10Impl implements StatisticalOperationsV1_0 {
 
@@ -82,8 +86,10 @@ public class StatisticalOperationsRestExternalFacadeV10Impl implements Statistic
     }
 
     @Override
-    public Operations findOperations(String query, String orderBy, String limit, String offset) {
+    public Operations findOperations(String query, String orderBy, String limit, String offset, String fields) {
         try {
+            Set<String> parsedFields = parseFieldsOperationsListEndpoint(fields);
+
             // Retrieve operations by criteria
             SculptorCriteria sculptorCriteria = restCriteria2SculptorCriteriaMapper.getOperationCriteriaMapper().restCriteriaToSculptorCriteria(query, orderBy, limit, offset);
             // Find only published
@@ -99,12 +105,18 @@ public class StatisticalOperationsRestExternalFacadeV10Impl implements Statistic
                     serviceContextRestExternal, conditionalCriteria, sculptorCriteria.getPagingParameter());
 
             // Transform
-            Operations operations = do2RestExternalMapper.toOperations(operationsEntitiesResult, query, orderBy, sculptorCriteria.getLimit());
+            Operations operations = do2RestExternalMapper.toOperations(operationsEntitiesResult, query, orderBy, sculptorCriteria.getLimit(), parsedFields);
             return operations;
 
         } catch (Exception e) {
             throw manageException(e);
         }
+    }
+
+    private Set<String> parseFieldsOperationsListEndpoint(String fields) {
+        Set<String> validFields = new HashSet<>();
+        validFields.add(StatisticalOperationsRestConstants.FIELD_INCLUDE_SUBJECT_AREA);
+        return parseFields(fields, validFields);
     }
 
     @Override

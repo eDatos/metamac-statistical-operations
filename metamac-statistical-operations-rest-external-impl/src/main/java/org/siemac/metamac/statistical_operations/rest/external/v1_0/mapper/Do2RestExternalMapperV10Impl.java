@@ -140,7 +140,7 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
 
         // Values
         for (org.siemac.metamac.statistical.operations.core.domain.Operation source : sourcesPagedResult.getValues()) {
-            ResourceWithSubjectArea target = toResource(source, null);
+            ResourceWithSubjectArea target = toResource(source);
             targets.getOperations().add(target);
         }
         return targets;
@@ -440,6 +440,10 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
             target.setTotal(target.getTotal().add(BigInteger.ONE));
         }
         return target;
+    }
+
+    private ResourceWithSubjectArea toResource(org.siemac.metamac.statistical.operations.core.domain.Operation source) {
+        return toResource(source, null);
     }
 
     private ResourceWithSubjectArea toResource(org.siemac.metamac.statistical.operations.core.domain.Operation source, Set<String> parsedFields) {

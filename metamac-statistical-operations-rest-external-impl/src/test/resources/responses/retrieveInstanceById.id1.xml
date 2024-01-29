@@ -10,7 +10,7 @@
     <operations:acronym>
         <cdomain:text xml:lang="es">acronym1 en Español</cdomain:text>
     </operations:acronym>
-    <operations:statisticalOperation kind="statisticalOperations#operation">
+    <operations:statisticalOperation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="operations:ResourceWithSubjectArea" kind="statisticalOperations#operation">
         <cdomain:id>operation1</cdomain:id>
         <cdomain:urn>urn:siemac:org.siemac.metamac.infomodel.statisticaloperations.Operation=operation1</cdomain:urn>
         <cdomain:selfLink kind="statisticalOperations#operation" href="http://data.istac.es/apis/operations/v1.0/operations/operation1"/>

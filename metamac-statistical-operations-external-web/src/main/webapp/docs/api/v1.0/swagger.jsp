@@ -1000,7 +1000,7 @@
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
                      "description":"",
-                     "$ref":"#/definitions/Resource"
+                     "$ref":"#/definitions/ResourcesWithSubjectArea"
                   }
                }
             }
@@ -1481,6 +1481,75 @@
          ],
          "description":""
       },
+      "Resources":{
+         "type":"object",
+         "title":"Resources",
+         "allOf":[
+            {
+               "properties":{
+                  "total":{
+                     "xml":{
+                        "attribute":true,
+                        "namespace":""
+                     },
+                     "description":"",
+                     "type":"number"
+                  },
+                  "resource":{
+                     "xml":{
+                        "namespace":"http://www.siemac.org/metamac/rest/common/v1.0/domain"
+                     },
+                     "description":"",
+                     "$ref":"#/definitions/Resource"
+                  }
+               }
+            }
+         ],
+         "description":""
+      },
+      "ResourceWithSubjectArea":{
+         "type":"object",
+         "title":"ResourceWithSubjectArea",
+         "allOf":[
+            {
+               "$ref":"#/definitions/Resource"
+            },
+            {
+               "properties":{
+                  "subjectArea":{
+                     "description":"Area temática principal en las que está encuadrada la operación",
+                     "$ref":"#/definitions/Resource"
+                  },
+               }
+            }
+         ],
+      },
+      "ResourcesWithSubjectArea":{
+         "type":"object",
+         "title":"ResourcesWithSubjectArea",
+         "allOf":[
+            {
+               "properties":{
+                  "total":{
+                     "xml":{
+                        "attribute":true,
+                        "namespace":""
+                     },
+                     "description":"",
+                     "type":"number"
+                  },
+                  "resource":{
+                     "xml":{
+                        "namespace":"http://www.siemac.org/metamac/rest/common/v1.0/domain"
+                     },
+                     "description":"",
+                     "$ref":"#/definitions/ResourceWithSubjectArea"
+                  }
+               }
+            }
+         ],
+         "description":""
+      },
       "ResourceLink":{
          "type":"object",
          "title":"ResourceLink",
@@ -1709,6 +1778,12 @@
                   "in":"query",
                   "type":"string",
                   "description":"Permite realizar una búsqueda sobre los resultados. <br/>\r\n Los metadatos sobre los que se puede buscar son: ID, URN, TITLE, ACRONYM, SUBJECT_AREA_URN, SECONDARY_SUBJECT_AREA_URN, DESCRIPTION, STATISTICAL_OPERATION_TYPE_ID, OFFICIALITY_TYPE_ID, IS_INDICATORS_SYSTEM, PRODUCER_URN, CURRENTLY_ACTIVE, STATUS, PUBLISHER_URN e INVENTORY_DATE.<br/>\r\n Los operadores lógicos que se permite usar son: AND y OR.  <br/>\r\n Los operadores de comparación que se permite usar son: EQ, IEQ, LIKE, ILIKE, NE, LT, LE, GT, GE, IS_NULL, IS_NOT_NULL e IN.  <br/>\r\n Ejemplos: <br/>\r\n- ID LIKE \"E303\" <br/>\r\n- (ID LIKE \"E303\" AND CONTACT_URN LIKE \"urn:contact:1\") OR (CONTACT_URN EQ \"urn:contact:2\")"
+               }
+               {
+                  "name":"fields",
+                  "in":"fields",
+                  "type":"string",
+                  "description":"Permite personalizar la respuesta mediante la exclusión o inclusión de campos de la misma. Los posibles valores son \"+subjectArea\".<br/>Ejemplos: <br/>\r\n- fields=+subjectArea<br/>"
                }
             ],
             "responses":{

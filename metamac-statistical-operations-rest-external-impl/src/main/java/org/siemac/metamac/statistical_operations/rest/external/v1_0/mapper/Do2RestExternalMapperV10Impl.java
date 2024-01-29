@@ -26,34 +26,7 @@ import org.siemac.metamac.rest.common_metadata.v1_0.domain.Configuration;
 import org.siemac.metamac.rest.exception.RestException;
 import org.siemac.metamac.rest.exception.utils.RestExceptionUtils;
 import org.siemac.metamac.rest.search.criteria.mapper.SculptorCriteria2RestCriteria;
-import org.siemac.metamac.rest.statistical_operations.v1_0.domain.ClassSystems;
-import org.siemac.metamac.rest.statistical_operations.v1_0.domain.CollMethods;
-import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Costs;
-import org.siemac.metamac.rest.statistical_operations.v1_0.domain.DataSharings;
-import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Families;
-import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Family;
-import org.siemac.metamac.rest.statistical_operations.v1_0.domain.FreqColls;
-import org.siemac.metamac.rest.statistical_operations.v1_0.domain.GeographicGranularities;
-import org.siemac.metamac.rest.statistical_operations.v1_0.domain.InformationSuppliers;
-import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Instance;
-import org.siemac.metamac.rest.statistical_operations.v1_0.domain.InstanceTypes;
-import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Instances;
-import org.siemac.metamac.rest.statistical_operations.v1_0.domain.LegalActs;
-import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Measures;
-import org.siemac.metamac.rest.statistical_operations.v1_0.domain.OfficialityTypes;
-import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Operation;
-import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Operations;
-import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Producers;
-import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Publishers;
-import org.siemac.metamac.rest.statistical_operations.v1_0.domain.RegionalContributors;
-import org.siemac.metamac.rest.statistical_operations.v1_0.domain.RegionalResponsibles;
-import org.siemac.metamac.rest.statistical_operations.v1_0.domain.SecondarySubjectAreas;
-import org.siemac.metamac.rest.statistical_operations.v1_0.domain.StatConcDefs;
-import org.siemac.metamac.rest.statistical_operations.v1_0.domain.StatisticalOperationSources;
-import org.siemac.metamac.rest.statistical_operations.v1_0.domain.StatisticalOperationTypes;
-import org.siemac.metamac.rest.statistical_operations.v1_0.domain.StatisticalUnits;
-import org.siemac.metamac.rest.statistical_operations.v1_0.domain.TemporalGranularities;
-import org.siemac.metamac.rest.statistical_operations.v1_0.domain.UpdateFrequencies;
+import org.siemac.metamac.rest.statistical_operations.v1_0.domain.*;
 import org.siemac.metamac.rest.utils.RestUtils;
 import org.siemac.metamac.srm.rest.common.SrmRestConstants;
 import org.siemac.metamac.statistical.operations.core.domain.CollMethod;
@@ -70,6 +43,8 @@ import org.siemac.metamac.statistical_operations.rest.external.invocation.Common
 import org.siemac.metamac.statistical_operations.rest.external.invocation.SrmRestExternalFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import static org.siemac.metamac.core.common.util.rest.RequestUtil.containsField;
 
 @Component
 public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
@@ -135,7 +110,7 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
     }
 
     @Override
-    public Operations toOperations(PagedResult<org.siemac.metamac.statistical.operations.core.domain.Operation> sourcesPagedResult, String query, String orderBy, Integer limit) {
+    public Operations toOperations(PagedResult<org.siemac.metamac.statistical.operations.core.domain.Operation> sourcesPagedResult, String query, String orderBy, Integer limit, Set<String> parsedFields) {
 
         Operations targets = new Operations();
         targets.setKind(StatisticalOperationsRestConstants.KIND_OPERATIONS);
@@ -146,7 +121,7 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
 
         // Values
         for (org.siemac.metamac.statistical.operations.core.domain.Operation source : sourcesPagedResult.getValues()) {
-            Resource target = toResource(source);
+            ResourceWithSubjectArea target = toResource(source, parsedFields);
             targets.getOperations().add(target);
         }
         return targets;
@@ -165,7 +140,7 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
 
         // Values
         for (org.siemac.metamac.statistical.operations.core.domain.Operation source : sourcesPagedResult.getValues()) {
-            Resource target = toResource(source);
+            ResourceWithSubjectArea target = toResource(source);
             targets.getOperations().add(target);
         }
         return targets;
@@ -239,7 +214,7 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         target.setSelfLink(toInstanceSelfLink(source));
         target.setName(toInternationalString(source.getTitle()));
         target.setAcronym(toInternationalString(source.getAcronym()));
-        target.setStatisticalOperation(toResource(source.getOperation()));
+        target.setStatisticalOperation(toResource(source.getOperation(), null));
         target.setPredecessor(toResource(getInstanceInOrder(source.getOperation().getInstances(), source.getOrder() - 1)));
         target.setSuccessor(toResource(getInstanceInOrder(source.getOperation().getInstances(), source.getOrder() + 1)));
         target.setDataDescription(toInternationalString(source.getDataDescription()));
@@ -467,16 +442,24 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         return target;
     }
 
-    private Resource toResource(org.siemac.metamac.statistical.operations.core.domain.Operation source) {
+    private ResourceWithSubjectArea toResource(org.siemac.metamac.statistical.operations.core.domain.Operation source) {
+        return toResource(source, null);
+    }
+
+    private ResourceWithSubjectArea toResource(org.siemac.metamac.statistical.operations.core.domain.Operation source, Set<String> parsedFields) {
         if (source == null) {
             return null;
         }
-        Resource target = new Resource();
+        ResourceWithSubjectArea target = new ResourceWithSubjectArea();
         target.setId(source.getCode());
         target.setUrn(source.getUrn());
         target.setKind(StatisticalOperationsRestConstants.KIND_OPERATION);
         target.setSelfLink(toOperationSelfLink(source));
         target.setName(toInternationalString(source.getTitle()));
+        boolean includeSubjectArea = containsField(parsedFields, StatisticalOperationsRestConstants.FIELD_INCLUDE_SUBJECT_AREA);
+        if (includeSubjectArea) {
+            target.setSubjectArea(toResourceExternalItem(source.getSubjectArea(), srmApiExternalEndpoint));
+        }
         return target;
     }
 

@@ -1000,7 +1000,7 @@
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
                      "description":"",
-                     "$ref":"#/definitions/Resource"
+                     "$ref":"#/definitions/ResourcesWithSubjectArea"
                   }
                }
             }
@@ -1475,6 +1475,75 @@
                      },
                      "description":"urn del recurso",
                      "type":"string"
+                  }
+               }
+            }
+         ],
+         "description":""
+      },
+      "Resources":{
+         "type":"object",
+         "title":"Resources",
+         "allOf":[
+            {
+               "properties":{
+                  "total":{
+                     "xml":{
+                        "attribute":true,
+                        "namespace":""
+                     },
+                     "description":"",
+                     "type":"number"
+                  },
+                  "resource":{
+                     "xml":{
+                        "namespace":"http://www.siemac.org/metamac/rest/common/v1.0/domain"
+                     },
+                     "description":"",
+                     "$ref":"#/definitions/Resource"
+                  }
+               }
+            }
+         ],
+         "description":""
+      },
+      "ResourceWithSubjectArea":{
+         "type":"object",
+         "title":"ResourceWithSubjectArea",
+         "allOf":[
+            {
+               "$ref":"#/definitions/Resource"
+            },
+            {
+               "properties":{
+                  "subjectArea":{
+                     "description":"Area temática principal en las que está encuadrada la operación",
+                     "$ref":"#/definitions/Resource"
+                  },
+               }
+            }
+         ],
+      },
+      "ResourcesWithSubjectArea":{
+         "type":"object",
+         "title":"ResourcesWithSubjectArea",
+         "allOf":[
+            {
+               "properties":{
+                  "total":{
+                     "xml":{
+                        "attribute":true,
+                        "namespace":""
+                     },
+                     "description":"",
+                     "type":"number"
+                  },
+                  "resource":{
+                     "xml":{
+                        "namespace":"http://www.siemac.org/metamac/rest/common/v1.0/domain"
+                     },
+                     "description":"",
+                     "$ref":"#/definitions/ResourceWithSubjectArea"
                   }
                }
             }

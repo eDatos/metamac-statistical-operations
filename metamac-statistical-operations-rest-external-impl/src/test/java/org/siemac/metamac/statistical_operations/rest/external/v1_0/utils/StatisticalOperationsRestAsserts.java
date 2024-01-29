@@ -32,6 +32,8 @@ import org.siemac.metamac.rest.statistical_operations.v1_0.domain.StatisticalUni
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.TemporalGranularities;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.UpdateFrequencies;
 
+import java.util.Collections;
+
 public class StatisticalOperationsRestAsserts {
 
     public static void assertEqualsOperation(Operation expected, Operation actual) {
@@ -140,7 +142,7 @@ public class StatisticalOperationsRestAsserts {
             return;
         }
         MetamacRestAsserts.assertEqualsListBase(expected, actual);
-        MetamacRestAsserts.assertEqualsResources(expected.getOperations(), actual.getOperations());
+        MetamacRestAsserts.assertEqualsResources(Collections.unmodifiableList(expected.getOperations()), Collections.unmodifiableList(actual.getOperations()));
     }
 
     public static void assertEqualsFamilies(Families expected, Families actual) {

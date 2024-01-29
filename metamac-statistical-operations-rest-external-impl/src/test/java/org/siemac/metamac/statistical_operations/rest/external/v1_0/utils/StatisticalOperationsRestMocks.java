@@ -36,6 +36,7 @@ import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Producers;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Publishers;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.RegionalContributors;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.RegionalResponsibles;
+import org.siemac.metamac.rest.statistical_operations.v1_0.domain.ResourceWithSubjectArea;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.SecondarySubjectAreas;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.StatConcDefs;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.StatisticalOperationSources;
@@ -612,9 +613,9 @@ public class StatisticalOperationsRestMocks {
         return configuration;
     }
 
-    private Resource mockOperationResource(String subId) {
+    private ResourceWithSubjectArea mockOperationResource(String subId) {
         String operationId = "operation" + subId;
-        return mockResource(operationId, "urn:siemac:org.siemac.metamac.infomodel.statisticaloperations.Operation=" + operationId, StatisticalOperationsRestConstants.KIND_OPERATION,
+        return mockResourceWithSubjectArea(operationId, "urn:siemac:org.siemac.metamac.infomodel.statisticaloperations.Operation=" + operationId, StatisticalOperationsRestConstants.KIND_OPERATION,
                 statisticalOperationsExternalApiBase + "/operations/" + operationId);
     }
 
@@ -812,43 +813,43 @@ public class StatisticalOperationsRestMocks {
         return instance;
     }
 
-    private Resource mockOperation1Resource() {
+    private ResourceWithSubjectArea mockOperation1Resource() {
         return mockOperationResource("1");
     }
 
-    private Resource mockOperation2Resource() {
+    private ResourceWithSubjectArea mockOperation2Resource() {
         return mockOperationResource("2");
     }
 
-    private Resource mockOperation3Resource() {
+    private ResourceWithSubjectArea mockOperation3Resource() {
         return mockOperationResource("3");
     }
 
-    private Resource mockOperation4Resource() {
+    private ResourceWithSubjectArea mockOperation4Resource() {
         return mockOperationResource("4");
     }
 
-    private Resource mockOperation5Resource() {
+    private ResourceWithSubjectArea mockOperation5Resource() {
         return mockOperationResource("5");
     }
 
-    private Resource mockOperation6Resource() {
+    private ResourceWithSubjectArea mockOperation6Resource() {
         return mockOperationResource("6");
     }
 
-    private Resource mockOperation7Resource() {
+    private ResourceWithSubjectArea mockOperation7Resource() {
         return mockOperationResource("7");
     }
 
-    private Resource mockOperation8Resource() {
+    private ResourceWithSubjectArea mockOperation8Resource() {
         return mockOperationResource("8");
     }
 
-    private Resource mockOperation9Resource() {
+    private ResourceWithSubjectArea mockOperation9Resource() {
         return mockOperationResource("9");
     }
 
-    private Resource mockOperation10Resource() {
+    private ResourceWithSubjectArea mockOperation10Resource() {
         return mockOperationResource("10");
     }
 
@@ -937,6 +938,16 @@ public class StatisticalOperationsRestMocks {
 
     private Resource mockResource(String id, String urn, String kind, String selfLink) {
         Resource resource = new Resource();
+        resource.setId(id);
+        resource.setUrn(urn);
+        resource.setKind(kind);
+        resource.setSelfLink(MetamacRestMocks.mockResourceLink(kind, selfLink));
+        resource.setName(mockInternationalString("es", id + " en Español"));
+        return resource;
+    }
+
+    private ResourceWithSubjectArea mockResourceWithSubjectArea(String id, String urn, String kind, String selfLink) {
+        ResourceWithSubjectArea resource = new ResourceWithSubjectArea();
         resource.setId(id);
         resource.setUrn(urn);
         resource.setKind(kind);

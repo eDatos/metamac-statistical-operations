@@ -279,6 +279,16 @@ public class StatisticalOperationsRestExternalFacadeV10Test extends MetamacRestB
             StatisticalOperationsRestAsserts.assertEqualsOperations(statisticalOperationsRestMocks.mockOperations(statisticalOperationsApiExternalEndpointV10, limit, offset), operations);
         }
         {
+            // with subjectArea
+            String limit = null;
+            String offset = null;
+            String query = null;
+            String orderBy = null;
+            String fields = "+subjectArea";
+            Operations operations = getStatisticalOperationsRestExternalFacadeClientXml().findOperations(query, orderBy, limit, offset, fields);
+            StatisticalOperationsRestAsserts.assertEqualsOperationsWithSubjectArea(statisticalOperationsRestMocks.mockOperations(statisticalOperationsApiExternalEndpointV10, limit, offset), operations);
+        }
+        {
             // without limits, first page
             String limit = "10000";
             String offset = null;

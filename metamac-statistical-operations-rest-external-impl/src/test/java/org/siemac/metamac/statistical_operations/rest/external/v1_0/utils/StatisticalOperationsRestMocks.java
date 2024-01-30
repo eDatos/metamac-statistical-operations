@@ -953,6 +953,7 @@ public class StatisticalOperationsRestMocks {
         resource.setKind(kind);
         resource.setSelfLink(MetamacRestMocks.mockResourceLink(kind, selfLink));
         resource.setName(mockInternationalString("es", id + " en Español"));
+        resource.setSubjectArea(mockResourceFromExternalItemSrm("subjectArea1", "subjectAreas", "structuralResources#category"));
         return resource;
     }
 

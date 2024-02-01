@@ -1781,7 +1781,7 @@
                },
                {
                   "name":"fields",
-                  "in":"fields",
+                  "in":"query",
                   "type":"string",
                   "description":"Permite personalizar la respuesta mediante la exclusión o inclusión de campos de la misma. Los posibles valores son \"+subjectArea\".<br/>Ejemplos: <br/>\r\n- fields=+subjectArea<br/>"
                }

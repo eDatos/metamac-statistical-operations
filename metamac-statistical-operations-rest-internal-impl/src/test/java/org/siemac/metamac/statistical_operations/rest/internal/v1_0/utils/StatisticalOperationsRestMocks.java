@@ -652,7 +652,6 @@ public class StatisticalOperationsRestMocks {
         resource.setSelfLink(MetamacRestMocks.mockResourceLink(resource.getKind(), statisticalOperationsApiBaseV10 + "/operations/" + operationId));
         resource.setManagementAppLink(statisticalOperationsWebApplicationBase + "/#operations/operation;id=" + operationId);
         resource.setName(mockInternationalString("es", operationId + " en Español"));
-        resource.setSubjectArea(mockResourceFromExternalItemSrm("subjectArea1", "subjectAreas", "structuralResources#category"));
         return resource;
     }
 

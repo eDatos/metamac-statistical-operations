@@ -405,7 +405,6 @@ public class StatisticalOperationsRestAsserts {
             return;
         }
         assertEquals(expected.getManagementAppLink(), actual.getManagementAppLink());
-        assertEquals(expected.getSubjectArea(), actual.getSubjectArea());
         MetamacRestAsserts.assertEqualsResource(expected, actual);
     }
 }

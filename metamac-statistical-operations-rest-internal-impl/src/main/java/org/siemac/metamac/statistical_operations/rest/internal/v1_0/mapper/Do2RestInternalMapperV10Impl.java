@@ -74,6 +74,8 @@ import org.siemac.metamac.statistical_operations.rest.internal.v1_0.service.util
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import static org.siemac.metamac.core.common.util.rest.RequestUtil.containsField;
+
 @Component
 public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
 
@@ -152,7 +154,7 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
     }
 
     @Override
-    public Operations toOperations(PagedResult<org.siemac.metamac.statistical.operations.core.domain.Operation> sourcesPagedResult, String query, String orderBy, Integer limit) {
+    public Operations toOperations(PagedResult<org.siemac.metamac.statistical.operations.core.domain.Operation> sourcesPagedResult, String query, String orderBy, Integer limit, Set<String> parsedFields) {
 
         Operations targets = new Operations();
         targets.setKind(StatisticalOperationsRestConstants.KIND_OPERATIONS);
@@ -163,7 +165,7 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
 
         // Values
         for (org.siemac.metamac.statistical.operations.core.domain.Operation source : sourcesPagedResult.getValues()) {
-            ResourceInternal target = this.toResource(source);
+            ResourceInternal target = this.toResource(source, parsedFields);
             targets.getOperations().add(target);
         }
         return targets;
@@ -499,6 +501,11 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
 
     @Override
     public ResourceInternal toResource(org.siemac.metamac.statistical.operations.core.domain.Operation source) {
+        return toResource(source, null);
+    }
+
+    @Override
+    public ResourceInternal toResource(org.siemac.metamac.statistical.operations.core.domain.Operation source, Set<String> parsedFields) {
         if (source == null) {
             return null;
         }
@@ -509,6 +516,10 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         target.setSelfLink(this.toOperationSelfLink(source.getCode()));
         target.setManagementAppLink(this.toOperationManagementApplicationLink(source.getCode()));
         target.setName(this.toInternationalString(source.getTitle()));
+        boolean includeSubjectArea = containsField(parsedFields, StatisticalOperationsRestConstants.FIELD_INCLUDE_SUBJECT_AREA);
+        if (includeSubjectArea) {
+            target.setSubjectArea(toResourceExternalItemSrm(source.getSubjectArea()));
+        }
         return target;
     }
 

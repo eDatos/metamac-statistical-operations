@@ -269,7 +269,18 @@ public class StatisticalOperationsRestInternalFacadeV10Test extends MetamacRestB
             String offset = null;
             String query = null;
             String orderBy = null;
-            Operations operations = getStatisticalOperationsRestInternalFacadeClientXml().findOperations(query, orderBy, limit, offset);
+            String fields = null;
+            Operations operations = getStatisticalOperationsRestInternalFacadeClientXml().findOperations(query, orderBy, limit, offset, fields);
+            StatisticalOperationsRestAsserts.assertEqualsOperations(statisticalOperationsRestMocks.mockOperations(limit, offset), operations);
+        }
+        {
+            // with subjectArea
+            String limit = null;
+            String offset = null;
+            String query = null;
+            String orderBy = null;
+            String fields = "+subjectArea";
+            Operations operations = getStatisticalOperationsRestInternalFacadeClientXml().findOperations(query, orderBy, limit, offset, fields);
             StatisticalOperationsRestAsserts.assertEqualsOperations(statisticalOperationsRestMocks.mockOperations(limit, offset), operations);
         }
         {
@@ -278,7 +289,8 @@ public class StatisticalOperationsRestInternalFacadeV10Test extends MetamacRestB
             String offset = null;
             String query = null;
             String orderBy = null;
-            Operations operations = getStatisticalOperationsRestInternalFacadeClientXml().findOperations(query, orderBy, limit, offset);
+            String fields = null;
+            Operations operations = getStatisticalOperationsRestInternalFacadeClientXml().findOperations(query, orderBy, limit, offset, fields);
             StatisticalOperationsRestAsserts.assertEqualsOperations(statisticalOperationsRestMocks.mockOperations(limit, offset), operations);
         }
         {
@@ -287,7 +299,8 @@ public class StatisticalOperationsRestInternalFacadeV10Test extends MetamacRestB
             String offset = "0";
             String query = null;
             String orderBy = null;
-            Operations operations = getStatisticalOperationsRestInternalFacadeClientXml().findOperations(query, orderBy, limit, offset);
+            String fields = null;
+            Operations operations = getStatisticalOperationsRestInternalFacadeClientXml().findOperations(query, orderBy, limit, offset, fields);
             StatisticalOperationsRestAsserts.assertEqualsOperations(statisticalOperationsRestMocks.mockOperations(limit, offset), operations);
         }
         {
@@ -296,7 +309,8 @@ public class StatisticalOperationsRestInternalFacadeV10Test extends MetamacRestB
             String offset = "0";
             String query = null;
             String orderBy = null;
-            Operations operations = getStatisticalOperationsRestInternalFacadeClientXml().findOperations(query, orderBy, limit, offset);
+            String fields = null;
+            Operations operations = getStatisticalOperationsRestInternalFacadeClientXml().findOperations(query, orderBy, limit, offset, fields);
             StatisticalOperationsRestAsserts.assertEqualsOperations(statisticalOperationsRestMocks.mockOperations(limit, offset), operations);
         }
         {
@@ -305,7 +319,8 @@ public class StatisticalOperationsRestInternalFacadeV10Test extends MetamacRestB
             String offset = "2";
             String query = null;
             String orderBy = null;
-            Operations operations = getStatisticalOperationsRestInternalFacadeClientXml().findOperations(query, orderBy, limit, offset);
+            String fields = null;
+            Operations operations = getStatisticalOperationsRestInternalFacadeClientXml().findOperations(query, orderBy, limit, offset, fields);
             StatisticalOperationsRestAsserts.assertEqualsOperations(statisticalOperationsRestMocks.mockOperations(limit, offset), operations);
         }
         {
@@ -314,7 +329,8 @@ public class StatisticalOperationsRestInternalFacadeV10Test extends MetamacRestB
             String offset = "8";
             String query = null;
             String orderBy = null;
-            Operations operations = getStatisticalOperationsRestInternalFacadeClientXml().findOperations(query, orderBy, limit, offset);
+            String fields = null;
+            Operations operations = getStatisticalOperationsRestInternalFacadeClientXml().findOperations(query, orderBy, limit, offset, fields);
             StatisticalOperationsRestAsserts.assertEqualsOperations(statisticalOperationsRestMocks.mockOperations(limit, offset), operations);
         }
         {
@@ -323,7 +339,8 @@ public class StatisticalOperationsRestInternalFacadeV10Test extends MetamacRestB
             String offset = "9";
             String query = null;
             String orderBy = null;
-            Operations operations = getStatisticalOperationsRestInternalFacadeClientXml().findOperations(query, orderBy, limit, offset);
+            String fields = null;
+            Operations operations = getStatisticalOperationsRestInternalFacadeClientXml().findOperations(query, orderBy, limit, offset, fields);
             StatisticalOperationsRestAsserts.assertEqualsOperations(statisticalOperationsRestMocks.mockOperations(limit, offset), operations);
         }
 
@@ -334,7 +351,8 @@ public class StatisticalOperationsRestInternalFacadeV10Test extends MetamacRestB
             String offset = null;
             String query = QUERY_OPERATION_ID_LIKE_1; // operation1 and operation10
             String orderBy = null;
-            Operations operations = getStatisticalOperationsRestInternalFacadeClientXml().findOperations(query, orderBy, limit, offset);
+            String fields = null;
+            Operations operations = getStatisticalOperationsRestInternalFacadeClientXml().findOperations(query, orderBy, limit, offset, fields);
             StatisticalOperationsRestAsserts.assertEqualsOperations(statisticalOperationsRestMocks.mockOperations(limit, offset, query), operations);
         }
         {
@@ -343,7 +361,8 @@ public class StatisticalOperationsRestInternalFacadeV10Test extends MetamacRestB
             String offset = null;
             String query = QUERY_OPERATION_ID_LIKE_1_AND_INDICATORS_SYSTEM; // operation1
             String orderBy = null;
-            Operations operations = getStatisticalOperationsRestInternalFacadeClientXml().findOperations(query, orderBy, limit, offset);
+            String fields = null;
+            Operations operations = getStatisticalOperationsRestInternalFacadeClientXml().findOperations(query, orderBy, limit, offset, fields);
             StatisticalOperationsRestAsserts.assertEqualsOperations(statisticalOperationsRestMocks.mockOperations(limit, offset, query), operations);
         }
         {
@@ -352,7 +371,8 @@ public class StatisticalOperationsRestInternalFacadeV10Test extends MetamacRestB
             String offset = "0";
             String query = QUERY_OPERATION_ID_LIKE_1; // operation1 and operation10
             String orderBy = null;
-            Operations operations = getStatisticalOperationsRestInternalFacadeClientXml().findOperations(query, orderBy, limit, offset);
+            String fields = null;
+            Operations operations = getStatisticalOperationsRestInternalFacadeClientXml().findOperations(query, orderBy, limit, offset, fields);
             StatisticalOperationsRestAsserts.assertEqualsOperations(statisticalOperationsRestMocks.mockOperations(limit, offset, query), operations);
         }
     }

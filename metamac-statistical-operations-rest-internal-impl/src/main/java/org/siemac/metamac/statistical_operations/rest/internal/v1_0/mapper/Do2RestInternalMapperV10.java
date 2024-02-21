@@ -1,6 +1,7 @@
 package org.siemac.metamac.statistical_operations.rest.internal.v1_0.mapper;
 
 import java.util.List;
+import java.util.Set;
 
 import org.fornax.cartridges.sculptor.framework.domain.PagedResult;
 import org.siemac.metamac.rest.common.v1_0.domain.ResourceLink;
@@ -31,7 +32,7 @@ public interface Do2RestInternalMapperV10 {
     // --------------
     Operation toOperation(org.siemac.metamac.statistical.operations.core.domain.Operation source);
 
-    Operations toOperations(PagedResult<org.siemac.metamac.statistical.operations.core.domain.Operation> sources, String query, String orderBy, Integer limit);
+    Operations toOperations(PagedResult<org.siemac.metamac.statistical.operations.core.domain.Operation> sources, String query, String orderBy, Integer limit, Set<String> parsedFields);
 
     Operations toOperationsByFamily(org.siemac.metamac.statistical.operations.core.domain.Family family, PagedResult<org.siemac.metamac.statistical.operations.core.domain.Operation> sources,
             String query, String orderBy, Integer limit);
@@ -72,6 +73,7 @@ public interface Do2RestInternalMapperV10 {
     // Resources
     // -----------
     ResourceInternal toResource(org.siemac.metamac.statistical.operations.core.domain.Operation source);
+    ResourceInternal toResource(org.siemac.metamac.statistical.operations.core.domain.Operation source, Set<String> parsedFields);
 
     // -----------
     // Links

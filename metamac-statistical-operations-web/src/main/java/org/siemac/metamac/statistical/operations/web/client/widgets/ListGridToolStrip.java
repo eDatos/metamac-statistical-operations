@@ -27,7 +27,7 @@ public class ListGridToolStrip extends ToolStrip {
         deleteConfirmationWindow.setVisibility(Visibility.HIDDEN);
 
         newButton = new ToolStripButton(OperationsWeb.getConstants().actionNew(), GlobalResources.RESOURCE.newListGrid().getURL());
-        exportTsvButton =  new CustomToolStripButton(OperationsWeb.getConstants().actionExportTsv(), org.siemac.metamac.web.common.client.resources.GlobalResources.RESOURCE.exportResource().getURL());
+        exportTsvButton = new CustomToolStripButton(OperationsWeb.getConstants().actionExportTsv(), org.siemac.metamac.web.common.client.resources.GlobalResources.RESOURCE.exportResource().getURL());
 
         deleteButton = new ToolStripButton(OperationsWeb.getConstants().actionDelete(), GlobalResources.RESOURCE.deleteListGrid().getURL());
         deleteButton.setVisibility(Visibility.HIDDEN);
@@ -43,7 +43,6 @@ public class ListGridToolStrip extends ToolStrip {
 
         addButton(newButton);
         addButton(exportTsvButton);
-        addSeparator();
         addButton(deleteButton);
     }
 

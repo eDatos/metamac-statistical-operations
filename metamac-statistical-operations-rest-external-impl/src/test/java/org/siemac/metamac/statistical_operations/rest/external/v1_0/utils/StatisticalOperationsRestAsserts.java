@@ -1,8 +1,11 @@
 package org.siemac.metamac.statistical_operations.rest.external.v1_0.utils;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.siemac.metamac.rest.common.test.utils.MetamacRestAsserts;
+import org.siemac.metamac.rest.common.v1_0.domain.Resource;
+import org.siemac.metamac.rest.common_metadata.v1_0.domain.ResourceInternal;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.ClassSystems;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.CollMethods;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Costs;
@@ -24,6 +27,7 @@ import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Producers;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Publishers;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.RegionalContributors;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.RegionalResponsibles;
+import org.siemac.metamac.rest.statistical_operations.v1_0.domain.ResourceWithSubjectArea;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.SecondarySubjectAreas;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.StatConcDefs;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.StatisticalOperationSources;
@@ -31,6 +35,10 @@ import org.siemac.metamac.rest.statistical_operations.v1_0.domain.StatisticalOpe
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.StatisticalUnits;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.TemporalGranularities;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.UpdateFrequencies;
+import org.siemac.metamac.statistical_operations.rest.common.StatisticalOperationsRestConstants;
+
+import java.util.Collections;
+import java.util.List;
 
 public class StatisticalOperationsRestAsserts {
 
@@ -140,7 +148,16 @@ public class StatisticalOperationsRestAsserts {
             return;
         }
         MetamacRestAsserts.assertEqualsListBase(expected, actual);
-        MetamacRestAsserts.assertEqualsResources(expected.getOperations(), actual.getOperations());
+        MetamacRestAsserts.assertEqualsResources(Collections.unmodifiableList(expected.getOperations()), Collections.unmodifiableList(actual.getOperations()));
+    }
+
+    public static void assertEqualsOperationsWithSubjectArea(Operations expected, Operations actual) {
+        MetamacRestAsserts.assertEqualsNullability(expected, actual);
+        if (expected == null) {
+            return;
+        }
+        MetamacRestAsserts.assertEqualsListBase(expected, actual);
+        assertEqualsResourcesWithSubjectAreas(expected.getOperations(), actual.getOperations());
     }
 
     public static void assertEqualsFamilies(Families expected, Families actual) {
@@ -357,5 +374,16 @@ public class StatisticalOperationsRestAsserts {
         }
         MetamacRestAsserts.assertEqualsListBase(expected, actual);
         MetamacRestAsserts.assertEqualsResources(expected.getUpdateFrequencies(), actual.getUpdateFrequencies());
+    }
+
+    private static void assertEqualsResourcesWithSubjectAreas(List<ResourceWithSubjectArea> expecteds, List<ResourceWithSubjectArea> actuals) {
+        MetamacRestAsserts.assertEqualsResources(Collections.unmodifiableList(expecteds), Collections.unmodifiableList(actuals));
+        for (ResourceWithSubjectArea expected : expecteds) {
+            for (ResourceWithSubjectArea actual : actuals) {
+                if (expected.getId().equals(actual.getId())) {
+                    MetamacRestAsserts.assertEqualsResource(expected.getSubjectArea(), actual.getSubjectArea());
+                }
+            }
+        }
     }
 }

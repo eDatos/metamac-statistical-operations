@@ -1,6 +1,7 @@
 package org.siemac.metamac.statistical_operations.rest.external.v1_0.mapper;
 
 import java.util.List;
+import java.util.Set;
 
 import org.fornax.cartridges.sculptor.framework.domain.PagedResult;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.CollMethods;
@@ -26,7 +27,7 @@ public interface Do2RestExternalMapperV10 {
 
     // Operations
     public Operation toOperation(org.siemac.metamac.statistical.operations.core.domain.Operation source);
-    public Operations toOperations(PagedResult<org.siemac.metamac.statistical.operations.core.domain.Operation> sources, String query, String orderBy, Integer limit);
+    public Operations toOperations(PagedResult<org.siemac.metamac.statistical.operations.core.domain.Operation> sources, String query, String orderBy, Integer limit, Set<String> parsedFields);
     public Operations toOperationsByFamily(org.siemac.metamac.statistical.operations.core.domain.Family family, PagedResult<org.siemac.metamac.statistical.operations.core.domain.Operation> sources,
             String query, String orderBy, Integer limit);
 

@@ -343,6 +343,8 @@ Application StatisticalOperations {
 			
 			"Metadata CODE"
        		String code length="11";
+       		"Code in statistical plan"
+       		String statisticPlanCode length="255"
        		"URN"
        		String urn length="4000";
        		"Metadata TITLE"

@@ -75,6 +75,7 @@ Application StatisticalOperationsDto {
             - @ExternalItemDto commonMetadata nullable;
 
             String code;
+            String statisticPlanCode;
             String urn nullable;
             - @InternationalStringDto title;
             - @InternationalStringDto acronym nullable;

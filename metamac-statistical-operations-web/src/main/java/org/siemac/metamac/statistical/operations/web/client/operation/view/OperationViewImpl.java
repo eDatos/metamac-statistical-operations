@@ -585,11 +585,12 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         ViewTextItem identifier = new ViewTextItem(OperationDS.CODE, getConstants().operationCode());
         ViewMultiLanguageTextItem title = new ViewMultiLanguageTextItem(OperationDS.TITLE, getConstants().operationTitle());
         ViewMultiLanguageTextItem acronym = new ViewMultiLanguageTextItem(OperationDS.ACRONYM, getConstants().operationAcronym());
+        ViewTextItem statisticPlanCode = new ViewTextItem(OperationDS.STATISTIC_PLAN, getConstants().statisticPlanCode());
         ViewTextItem urn = new ViewTextItem(OperationDS.URN, getConstants().operationUrn());
         ViewTextItem publicationStreamStatus = new ViewTextItem(OperationDS.PUBLICATION_STREAM_STATUS, getConstants().lifeCycleStatisticalResourceStreamMsgStatus());
         publicationStreamStatus.setWidth(20);
 
-        identifiersForm.setFields(identifier, title, acronym, urn, publicationStreamStatus);
+        identifiersForm.setFields(identifier, statisticPlanCode, title, acronym, urn, publicationStreamStatus);
 
         // Content Classifiers
         contentClassifiersForm = new GroupDynamicForm(getConstants().operationContentClassifiers());

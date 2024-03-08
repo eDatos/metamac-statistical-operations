@@ -78,6 +78,7 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         target.setSelfLink(toOperationSelfLink(source));
         target.setName(toInternationalString(source.getTitle()));
         target.setAcronym(toInternationalString(source.getAcronym()));
+        target.setStatisticPlanCode(source.getStatisticPlanCode());
         target.setSubjectArea(toResourceExternalItemSrm(source.getSubjectArea()));
         target.setSecondarySubjectAreas(toSecondarySubjectAreas(source.getSecondarySubjectAreas()));
         target.setObjective(toInternationalString(source.getObjective()));

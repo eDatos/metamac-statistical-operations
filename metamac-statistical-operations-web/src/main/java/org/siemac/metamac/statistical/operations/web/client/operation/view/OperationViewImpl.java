@@ -18,6 +18,7 @@ import org.siemac.metamac.statistical.operations.core.dto.SurveyTypeDto;
 import org.siemac.metamac.statistical.operations.core.enume.domain.ProcStatusEnum;
 import org.siemac.metamac.statistical.operations.core.enume.domain.StatusEnum;
 import org.siemac.metamac.statistical.operations.core.enume.domain.StreamMessageStatusEnum;
+import com.smartgwt.client.widgets.form.fields.TextItem;
 import org.siemac.metamac.statistical.operations.web.client.OperationsWeb;
 import org.siemac.metamac.statistical.operations.web.client.constants.StatisticalOperationsWebConstants;
 import org.siemac.metamac.statistical.operations.web.client.enums.ToolStripButtonEnum;
@@ -400,6 +401,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         // IDENTIFIERS
 
         operationDto.setCode(identifiersEditionForm.getValueAsString(OperationDS.CODE));
+        operationDto.setStatisticPlanCode(identifiersEditionForm.getValueAsString(OperationDS.STATISTIC_PLAN));
         operationDto.setTitle(identifiersEditionForm.getValueAsInternationalStringDto(OperationDS.TITLE));
         operationDto.setAcronym(identifiersEditionForm.getValueAsInternationalStringDto(OperationDS.ACRONYM));
 
@@ -585,11 +587,12 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         ViewTextItem identifier = new ViewTextItem(OperationDS.CODE, getConstants().operationCode());
         ViewMultiLanguageTextItem title = new ViewMultiLanguageTextItem(OperationDS.TITLE, getConstants().operationTitle());
         ViewMultiLanguageTextItem acronym = new ViewMultiLanguageTextItem(OperationDS.ACRONYM, getConstants().operationAcronym());
+        ViewTextItem statisticPlanCode = new ViewTextItem(OperationDS.STATISTIC_PLAN, getConstants().statisticPlanCode());
         ViewTextItem urn = new ViewTextItem(OperationDS.URN, getConstants().operationUrn());
         ViewTextItem publicationStreamStatus = new ViewTextItem(OperationDS.PUBLICATION_STREAM_STATUS, getConstants().lifeCycleStatisticalResourceStreamMsgStatus());
         publicationStreamStatus.setWidth(20);
 
-        identifiersForm.setFields(identifier, title, acronym, urn, publicationStreamStatus);
+        identifiersForm.setFields(identifier, statisticPlanCode, title, acronym, urn, publicationStreamStatus);
 
         // Content Classifiers
         contentClassifiersForm = new GroupDynamicForm(getConstants().operationContentClassifiers());
@@ -674,6 +677,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         identifiersEditionForm = new GroupDynamicForm(getConstants().operationIdentifiers());
 
         RequiredTextItem code = new RequiredTextItem(OperationDS.CODE, getConstants().operationCode());
+        TextItem statisticPlan = new TextItem(OperationDS.STATISTIC_PLAN, getConstants().statisticPlanCode());
         code.setShowIfCondition(new FormItemIfFunction() {
 
             @Override
@@ -695,7 +699,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         title.setRequired(true);
         MultiLanguageTextItem acronym = new MultiLanguageTextItem(OperationDS.ACRONYM, getConstants().operationAcronym());
         ViewTextItem urn = new ViewTextItem(OperationDS.URN, getConstants().operationUrn());
-        identifiersEditionForm.setFields(staticCode, code, title, acronym, urn);
+        identifiersEditionForm.setFields(staticCode, code, statisticPlan, title, acronym, urn);
 
         // CONTENT CLASSIFIERS
 
@@ -862,6 +866,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         // IDENTIFIERS
 
         identifiersForm.setValue(OperationDS.CODE, operationDto.getCode());
+        identifiersForm.setValue(OperationDS.STATISTIC_PLAN, operationDto.getStatisticPlanCode());
         identifiersForm.setValue(OperationDS.TITLE, operationDto.getTitle());
         identifiersForm.setValue(OperationDS.ACRONYM, operationDto.getAcronym());
         identifiersForm.setValue(OperationDS.URN, operationDto.getUrn());
@@ -952,6 +957,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         // IDENTIFIERS
 
         identifiersEditionForm.setValue(OperationDS.CODE, operationDto.getCode());
+        identifiersEditionForm.setValue(OperationDS.STATISTIC_PLAN, operationDto.getStatisticPlanCode());
         identifiersEditionForm.setValue(OperationDS.CODE_VIEW, operationDto.getCode());
         identifiersEditionForm.setValue(OperationDS.TITLE, operationDto.getTitle());
         identifiersEditionForm.setValue(OperationDS.ACRONYM, operationDto.getAcronym());

@@ -268,6 +268,8 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
         // CODE
         target.setCode(source.getCode());
 
+        target.setStatisticPlanCode(source.getStatisticPlanCode());
+
         // URN
         // Not necessary. It can't be manually modified
 

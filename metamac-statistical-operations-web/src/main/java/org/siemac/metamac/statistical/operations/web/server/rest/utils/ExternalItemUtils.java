@@ -50,7 +50,15 @@ public class ExternalItemUtils extends org.siemac.metamac.web.common.client.util
     @SuppressWarnings("unchecked")
     public static ExternalItemsResult getCategoriesAsExternalItemsResult(Categories categories) {
         ExternalItemsResult result = getListBaseAsExternalItemsResult(categories);
-        result.setExternalItemDtos(getExternalItemDtosFromItemResourceInternals((List<ItemResourceInternal>)(List<?>)categories.getCategories()));
+        result.setExternalItemDtos(getExternalItemDtosFromItemResourceInternals((List<ItemResourceInternal>) (List<?>) categories.getCategories()));
+        return result;
+    }
+
+    // Categories
+    @SuppressWarnings("unchecked")
+    public static ExternalItemsResult getCategoryElementsAsExternalItemsResult(List<ResourceInternal> categoryElements) {
+        ExternalItemsResult result = new ExternalItemsResult();
+        result.setExternalItemDtos(getExternalItemDtosFromItemResourceInternals((List<ItemResourceInternal>) (List<?>) categoryElements));
         return result;
     }
 
@@ -63,7 +71,7 @@ public class ExternalItemUtils extends org.siemac.metamac.web.common.client.util
     @SuppressWarnings("unchecked")
     public static ExternalItemsResult getCodelistsAsExternalItemsResult(Codelists codelists) {
         ExternalItemsResult result = getListBaseAsExternalItemsResult(codelists);
-        result.setExternalItemDtos(getExternalItemDtosFromResourceInternals((List<ResourceInternal>)(List<?>)codelists.getCodelists()));
+        result.setExternalItemDtos(getExternalItemDtosFromResourceInternals((List<ResourceInternal>) (List<?>) codelists.getCodelists()));
         return result;
     }
 
@@ -92,7 +100,7 @@ public class ExternalItemUtils extends org.siemac.metamac.web.common.client.util
     @SuppressWarnings("unchecked")
     public static ExternalItemsResult getConceptsAsExternalItemsResult(Concepts concepts) {
         ExternalItemsResult result = getListBaseAsExternalItemsResult(concepts);
-        result.setExternalItemDtos(getExternalItemDtosFromItemResourceInternals((List<ItemResourceInternal>)(List<?>)concepts.getConcepts()));
+        result.setExternalItemDtos(getExternalItemDtosFromItemResourceInternals((List<ItemResourceInternal>) (List<?>) concepts.getConcepts()));
         return result;
     }
 

@@ -18,7 +18,6 @@ import org.siemac.metamac.statistical.operations.core.dto.SurveyTypeDto;
 import org.siemac.metamac.statistical.operations.core.enume.domain.ProcStatusEnum;
 import org.siemac.metamac.statistical.operations.core.enume.domain.StatusEnum;
 import org.siemac.metamac.statistical.operations.core.enume.domain.StreamMessageStatusEnum;
-import com.smartgwt.client.widgets.form.fields.TextItem;
 import org.siemac.metamac.statistical.operations.web.client.OperationsWeb;
 import org.siemac.metamac.statistical.operations.web.client.constants.StatisticalOperationsWebConstants;
 import org.siemac.metamac.statistical.operations.web.client.enums.ToolStripButtonEnum;
@@ -66,6 +65,8 @@ import org.siemac.metamac.web.common.client.widgets.form.fields.ViewMultiLanguag
 import org.siemac.metamac.web.common.client.widgets.form.fields.ViewTextItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.external.ExternalItemListItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.external.SearchExternalItemLinkItem;
+import org.siemac.metamac.web.common.client.widgets.form.fields.external.SearchExternalItemSimpleItem;
+import org.siemac.metamac.web.common.client.widgets.form.fields.external.SearchMultiExternalItemSimpleItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.external.SearchSingleCommonConfigurationItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.external.SearchSrmItemLinkItemWithSchemeFilterItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.external.SearchSrmListItemWithSchemeFilterItem;
@@ -89,6 +90,7 @@ import com.smartgwt.client.widgets.events.HasClickHandlers;
 import com.smartgwt.client.widgets.form.DynamicForm;
 import com.smartgwt.client.widgets.form.FormItemIfFunction;
 import com.smartgwt.client.widgets.form.fields.FormItem;
+import com.smartgwt.client.widgets.form.fields.TextItem;
 import com.smartgwt.client.widgets.form.validator.CustomValidator;
 import com.smartgwt.client.widgets.grid.ListGridRecord;
 import com.smartgwt.client.widgets.grid.events.HasRecordClickHandlers;
@@ -706,7 +708,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         contentClassifiersEditionForm = new GroupDynamicForm(getConstants().operationContentClassifiers());
         SearchExternalItemLinkItem subjectAreaItem = createSubjectAreaItem(OperationDS.SUBJECT_AREA, getConstants().operationSubjectArea());
         subjectAreaItem.setRequired(true);
-        SearchSrmListItemWithSchemeFilterItem secondarySubjectAreasItem = createSecondarySubjectAreasItem();
+        SearchMultiExternalItemSimpleItem secondarySubjectAreasItem = createSecondarySubjectAreasItem();
         contentClassifiersEditionForm.setFields(subjectAreaItem, secondarySubjectAreasItem);
 
         // CONTENT DESCRIPTORS
@@ -1192,11 +1194,10 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
     @Override
     public void setItems(String formItemName, ExternalItemsResult result) {
         if (StringUtils.equals(OperationDS.SUBJECT_AREA, formItemName)) {
-            ((SearchSrmItemLinkItemWithSchemeFilterItem) contentClassifiersEditionForm.getItem(formItemName)).setResources(result.getExternalItemDtos(), result.getFirstResult(),
-                    result.getExternalItemDtos().size(), result.getTotalResults());
+            ((SearchExternalItemSimpleItem) contentClassifiersEditionForm.getItem(formItemName)).setResources(result.getExternalItemDtos(), result.getFirstResult(), result.getTotalResults());
 
         } else if (StringUtils.equals(OperationDS.SECONDARY_SUBJECT_AREAS, formItemName)) {
-            ((SearchSrmListItemWithSchemeFilterItem) contentClassifiersEditionForm.getItem(formItemName)).setResources(result.getExternalItemDtos(), result.getFirstResult(), result.getTotalResults());
+            ((SearchMultiExternalItemSimpleItem) contentClassifiersEditionForm.getItem(formItemName)).setResources(result.getExternalItemDtos(), result.getFirstResult(), result.getTotalResults());
 
         } else if (StringUtils.equals(OperationDS.PRODUCER, formItemName)) {
             ((SearchSrmListItemWithSchemeFilterItem) productionDescriptorsEditionForm.getItem(formItemName)).setResources(result.getExternalItemDtos(), result.getFirstResult(),
@@ -1222,40 +1223,35 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
     // EXTERNAL RESOURCES ITEMS
     // ------------------------------------------------------------------------------------------------------------
 
-    private SearchSrmItemLinkItemWithSchemeFilterItem createSubjectAreaItem(final String name, String title) {
-        final SearchSrmItemLinkItemWithSchemeFilterItem item = new SearchSrmItemLinkItemWithSchemeFilterItem(name, title, StatisticalOperationsWebConstants.FORM_LIST_MAX_RESULTS) {
+    private SearchExternalItemSimpleItem createSubjectAreaItem(final String name, String title) {
+        return new SearchExternalItemSimpleItem(name, title, StatisticalOperationsWebConstants.FORM_LIST_MAX_RESULTS) {
 
             @Override
-            protected void retrieveItems(int firstResult, int maxResults, SrmItemRestCriteria webCriteria) {
-                webCriteria.setExternalArtifactType(TypeExternalArtefactsEnum.CATEGORY);
-                getUiHandlers().retrieveItems(name, webCriteria, firstResult, maxResults);
-            }
+            protected void retrieveResources(int firstResult, int maxResults, MetamacWebCriteria webCriteria) {
+                TypeExternalArtefactsEnum[] type = {TypeExternalArtefactsEnum.CATEGORY_ELEMENT};
 
-            @Override
-            protected void retrieveItemSchemes(int firstResult, int maxResults, SrmExternalResourceRestCriteria webCriteria) {
-                webCriteria.setExternalArtifactType(TypeExternalArtefactsEnum.CATEGORY_SCHEME);
-                getUiHandlers().retrieveItemSchemes(name, webCriteria, firstResult, maxResults);
+                SrmItemRestCriteria restCriteria = new SrmItemRestCriteria();
+                restCriteria.setExternalArtifactType(TypeExternalArtefactsEnum.CATEGORY_ELEMENT);
+                restCriteria.setCriteria(webCriteria.getCriteria());
+
+                getUiHandlers().retrieveItems(name, restCriteria, type, firstResult, maxResults);
             }
         };
-        return item;
     }
 
-    private SearchSrmListItemWithSchemeFilterItem createSecondarySubjectAreasItem() {
+    private SearchMultiExternalItemSimpleItem createSecondarySubjectAreasItem() {
         final String field = OperationDS.SECONDARY_SUBJECT_AREAS;
-        final SearchSrmListItemWithSchemeFilterItem item = new SearchSrmListItemWithSchemeFilterItem(field, getConstants().operationSubjectAreasSecondary(),
-                StatisticalOperationsWebConstants.FORM_LIST_MAX_RESULTS) {
+        return new SearchMultiExternalItemSimpleItem(field, getConstants().operationSubjectAreasSecondary(), StatisticalOperationsWebConstants.FORM_LIST_MAX_RESULTS) {
 
             @Override
-            protected void retrieveItemSchemes(int firstResult, int maxResults, SrmExternalResourceRestCriteria webCriteria) {
-                getUiHandlers().retrieveItemSchemes(field, webCriteria, new TypeExternalArtefactsEnum[]{TypeExternalArtefactsEnum.CATEGORY_SCHEME}, firstResult, maxResults);
-            }
-
-            @Override
-            protected void retrieveItems(int firstResult, int maxResults, SrmItemRestCriteria webCriteria) {
-                getUiHandlers().retrieveItems(field, webCriteria, new TypeExternalArtefactsEnum[]{TypeExternalArtefactsEnum.CATEGORY}, firstResult, maxResults);
+            protected void retrieveResources(int firstResult, int maxResults, MetamacWebCriteria webCriteria) {
+                TypeExternalArtefactsEnum[] type = {TypeExternalArtefactsEnum.CATEGORY_ELEMENT};
+                SrmItemRestCriteria restCriteria = new SrmItemRestCriteria();
+                restCriteria.setExternalArtifactType(TypeExternalArtefactsEnum.CATEGORY_ELEMENT);
+                restCriteria.setCriteria(webCriteria.getCriteria());
+                getUiHandlers().retrieveItems(field, restCriteria, type, firstResult, maxResults);
             }
         };
-        return item;
     }
 
     private SearchSrmListItemWithSchemeFilterItem createProducersItem() {

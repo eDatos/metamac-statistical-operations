@@ -1,5 +1,8 @@
 package org.siemac.metamac.statistical.operations.core.utils;
 
+import static org.mockito.Mockito.when;
+import static org.siemac.metamac.statistical.operations.core.utils.mocks.StatisticalOperationsMocks.mockExternalItem;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,25 +12,54 @@ import java.util.List;
 import java.util.Map;
 
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
+import org.junit.Before;
+import org.mockito.Matchers;
 import org.siemac.metamac.common.test.dbunit.MetamacDBUnitBaseTests;
+import org.siemac.metamac.core.common.ent.domain.ExternalItem;
+import org.siemac.metamac.core.common.enume.domain.TypeExternalArtefactsEnum;
+import org.siemac.metamac.core.common.exception.MetamacException;
+import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.CategoryResourceInternal;
 import org.siemac.metamac.sso.client.MetamacPrincipal;
 import org.siemac.metamac.sso.client.MetamacPrincipalAccess;
 import org.siemac.metamac.sso.client.SsoClientConstants;
 import org.siemac.metamac.statistical.operations.core.constants.StatisticalOperationsConstants;
 import org.siemac.metamac.statistical.operations.core.enume.domain.StatisticalOperationsRoleEnum;
+import org.siemac.metamac.statistical.operations.core.invocation.service.SrmRestInternalService;
+import org.siemac.metamac.statistical.operations.core.utils.mocks.StatisticalOperationsMocks;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 public abstract class StatisticalOperationsBaseTest extends MetamacDBUnitBaseTests {
 
     @Value("${metamac.statistical_operations.db.default_schema}")
-    private String      defaultSchema;
+    private String                 defaultSchema;
 
-    public final String OPERATION_01 = "C0025A";
-    public final String OPERATION_02 = "C0025B";
+    @Autowired
+    private SrmRestInternalService srmRestInternalService;
+
+    public final String            OPERATION_01 = "C0025A";
+    public final String            OPERATION_02 = "C0025B";
 
     // --------------------------------------------------------------------------------------------------------------
     // SERVICE CONTEXT
     // --------------------------------------------------------------------------------------------------------------
+
+    @Before
+    public void setUp() throws MetamacException {
+        mockCategoriesByCategoryElement();
+    }
+
+    private void mockCategoriesByCategoryElement() throws MetamacException {
+        Map<String, CategoryResourceInternal> categoriesByCategoryElement = new HashMap<String, CategoryResourceInternal>();
+        CategoryResourceInternal categoryResourceInternal = StatisticalOperationsMocks.mockCategoryResourceInternal("HEALTH", "/uri/test/category", "URN:CATEGORY:HEALTH",
+                "URN:CATEGORY:HEALTH:provider");
+        categoriesByCategoryElement.put("HEALTH", categoryResourceInternal);
+        when(srmRestInternalService.retrieveDefaultCategoriesByCategoryElementCode(Matchers.any(String.class))).thenReturn(categoriesByCategoryElement);
+    }
+
+    protected ExternalItem mockExternalItemHealthCategoryElement() {
+        return mockExternalItem("HEALTH", "/uri/test/categoryElement", "URN:CATEGORYELEMENT:HEALTH", "URN:CATEGORYELEMENT:HEALTH:provider", TypeExternalArtefactsEnum.CATEGORY_ELEMENT);
+    }
 
     protected ServiceContext getServiceContextAdministrador() {
         ServiceContext serviceContext = mockServiceContextWithoutPrincipal();

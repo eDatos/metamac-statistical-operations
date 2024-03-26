@@ -1,11 +1,11 @@
 package org.siemac.metamac.statistical_operations.rest.external.v1_0.utils;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+
+import java.util.Collections;
+import java.util.List;
 
 import org.siemac.metamac.rest.common.test.utils.MetamacRestAsserts;
-import org.siemac.metamac.rest.common.v1_0.domain.Resource;
-import org.siemac.metamac.rest.common_metadata.v1_0.domain.ResourceInternal;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.ClassSystems;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.CollMethods;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Costs;
@@ -35,10 +35,6 @@ import org.siemac.metamac.rest.statistical_operations.v1_0.domain.StatisticalOpe
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.StatisticalUnits;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.TemporalGranularities;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.UpdateFrequencies;
-import org.siemac.metamac.statistical_operations.rest.common.StatisticalOperationsRestConstants;
-
-import java.util.Collections;
-import java.util.List;
 
 public class StatisticalOperationsRestAsserts {
 
@@ -386,4 +382,5 @@ public class StatisticalOperationsRestAsserts {
             }
         }
     }
+
 }

@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Component("srmRestInternalFacade")
+@Component("srmRestExternalFacade")
 public class SrmRestExternalFacadeImpl implements SrmRestExternalFacade {
 
     private final Logger       logger = LoggerFactory.getLogger(SrmRestExternalFacadeImpl.class);

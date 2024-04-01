@@ -143,7 +143,9 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         Map<String, CategoryResource> categoriesResourceByCategoryElementCode = srmRestExternalFacade
                 .retrieveDefaultCategoriesByCategoryElementCode(configurationService.retrieveDefaultCategoryScheme());
 
-        if (!categoriesResourceByCategoryElementCode.isEmpty()) {
+        if (categoriesResourceByCategoryElementCode.isEmpty()) {
+           return;
+        }
             if (source.getSubjectArea() != null) {
                 target.setSubjectArea(srmResourceToResource(categoriesResourceByCategoryElementCode.get(source.getSubjectArea().getCode())));
 
@@ -158,7 +160,6 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
             if (!categories.isEmpty()) {
                 target.setSecondarySubjectAreas(toSecondarySubjectAreas(categories));
             }
-        }
     }
 
     private Resource getCategoryByCategoryElement(ExternalItem categoryElement) throws MetamacException {

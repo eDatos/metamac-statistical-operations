@@ -144,22 +144,22 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
                 .retrieveDefaultCategoriesByCategoryElementCode(configurationService.retrieveDefaultCategoryScheme());
 
         if (categoriesResourceByCategoryElementCode.isEmpty()) {
-           return;
+            return;
         }
-            if (source.getSubjectArea() != null) {
-                target.setSubjectArea(srmResourceToResource(categoriesResourceByCategoryElementCode.get(source.getSubjectArea().getCode())));
+        if (source.getSubjectArea() != null) {
+            target.setSubjectArea(srmResourceToResource(categoriesResourceByCategoryElementCode.get(source.getSubjectArea().getCode())));
 
+        }
+        List<Resource> categories = new ArrayList<Resource>();
+        for (ExternalItem categoryElement : source.getSecondarySubjectAreas()) {
+            Resource categoryResource = srmResourceToResource(categoriesResourceByCategoryElementCode.get(categoryElement.getCode()));
+            if (categoryResource != null) {
+                categories.add(categoryResource);
             }
-            List<Resource> categories = new ArrayList<Resource>();
-            for (ExternalItem categoryElement : source.getSecondarySubjectAreas()) {
-                Resource categoryResource = srmResourceToResource(categoriesResourceByCategoryElementCode.get(categoryElement.getCode()));
-                if (categoryResource != null) {
-                    categories.add(categoryResource);
-                }
-            }
-            if (!categories.isEmpty()) {
-                target.setSecondarySubjectAreas(toSecondarySubjectAreas(categories));
-            }
+        }
+        if (!categories.isEmpty()) {
+            target.setSecondarySubjectAreas(toSecondarySubjectAreas(categories));
+        }
     }
 
     private Resource getCategoryByCategoryElement(ExternalItem categoryElement) throws MetamacException {

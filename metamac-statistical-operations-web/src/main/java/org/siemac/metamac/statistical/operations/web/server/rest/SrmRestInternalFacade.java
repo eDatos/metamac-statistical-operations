@@ -5,6 +5,7 @@ import org.siemac.metamac.statistical.operations.web.shared.external.ConceptRest
 import org.siemac.metamac.statistical.operations.web.shared.external.ConceptSchemeRestCriteria;
 import org.siemac.metamac.statistical.operations.web.shared.external.OrganisationRestCriteria;
 import org.siemac.metamac.statistical.operations.web.shared.external.OrganisationSchemeRestCriteria;
+import org.siemac.metamac.web.common.shared.criteria.ExternalResourceWebCriteria;
 import org.siemac.metamac.web.common.shared.criteria.SrmExternalResourceRestCriteria;
 import org.siemac.metamac.web.common.shared.criteria.SrmItemRestCriteria;
 import org.siemac.metamac.web.common.shared.domain.ExternalItemsResult;
@@ -29,4 +30,7 @@ public interface SrmRestInternalFacade {
 
     ExternalItemsResult findOrganisationSchemes(ServiceContext serviceContext, OrganisationSchemeRestCriteria criteria, int firstResult, int maxResults) throws MetamacWebException;
     ExternalItemsResult findOrganisations(ServiceContext serviceContext, OrganisationRestCriteria itemWebCriteria, int firstResult, int maxResults) throws MetamacWebException;
+
+    ExternalItemsResult retrieveCategoryElementsByCategoryScheme(ServiceContext serviceContext, String categorySchemeUrn, ExternalResourceWebCriteria condition, int firstResult, int maxResults)
+            throws MetamacWebException;
 }

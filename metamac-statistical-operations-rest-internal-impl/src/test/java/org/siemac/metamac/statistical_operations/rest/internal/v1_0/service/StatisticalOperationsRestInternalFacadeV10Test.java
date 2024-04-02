@@ -7,7 +7,9 @@ import static org.mockito.Mockito.when;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -25,8 +27,7 @@ import org.fornax.cartridges.sculptor.framework.domain.PagingParameter;
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.siemac.metamac.core.common.conf.ConfigurationService;
-import org.siemac.metamac.core.common.constants.shared.ConfigurationConstants;
+import org.mockito.Matchers;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.core.common.util.ApplicationContextProvider;
 import org.siemac.metamac.rest.common.test.MetamacRestBaseTest;
@@ -50,6 +51,7 @@ import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Opera
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Operations;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.StatisticalOperationSources;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.StatisticalOperationTypes;
+import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.CategoryResourceInternal;
 import org.siemac.metamac.rest.utils.RestUtils;
 import org.siemac.metamac.statistical.operations.core.conf.StatisticalOperationsConfigurationService;
 import org.siemac.metamac.statistical.operations.core.domain.FamilyProperties;
@@ -100,9 +102,7 @@ public class StatisticalOperationsRestInternalFacadeV10Test extends MetamacRestB
     public static String                                      CONCEPT_SCHEME_3                                = "urn:sdmx:org.sdmx.infomodel.conceptscheme.ConceptScheme=SDMX:statConcDefList333(1.0)";
     public static String                                      QUERY_OPERATION_ID_LIKE_1                       = OperationCriteriaPropertyRestriction.ID + " " + ComparisonOperator.LIKE + " \"1\"";
     public static String                                      QUERY_OPERATION_ID_LIKE_1_AND_INDICATORS_SYSTEM = OperationCriteriaPropertyRestriction.ID + " " + ComparisonOperator.LIKE + " \"1\" "
-                                                                                                                      + LogicalOperator.AND + " "
-                                                                                                                      + OperationCriteriaPropertyRestriction.IS_INDICATORS_SYSTEM + " "
-                                                                                                                      + ComparisonOperator.EQ + " \"true\"";
+            + LogicalOperator.AND + " " + OperationCriteriaPropertyRestriction.IS_INDICATORS_SYSTEM + " " + ComparisonOperator.EQ + " \"true\"";
     public static String                                      QUERY_FAMILY_ID_LIKE_1                          = FamilyCriteriaPropertyRestriction.ID + " " + ComparisonOperator.LIKE + " \"1\"";
     public static String                                      QUERY_INSTANCE_ID_LIKE_1                        = InstanceCriteriaPropertyRestriction.ID + " " + ComparisonOperator.LIKE + " \"1\"";
 
@@ -159,7 +159,7 @@ public class StatisticalOperationsRestInternalFacadeV10Test extends MetamacRestB
         Operation operation = getStatisticalOperationsRestInternalFacadeClientXml().retrieveOperationById(OPERATION_1);
 
         // Validation
-        StatisticalOperationsRestAsserts.assertEqualsOperation(statisticalOperationsRestMocks.mockOperation1(), operation);
+        StatisticalOperationsRestAsserts.assertEqualsOperation(statisticalOperationsRestMocks.mockOperation1(), operation, statisticalOperationsRestMocks);
     }
 
     @Test
@@ -1192,6 +1192,21 @@ public class StatisticalOperationsRestInternalFacadeV10Test extends MetamacRestB
         when(srmRestInternalFacade.retrieveConceptsByConceptScheme(CONCEPT_SCHEME_2)).thenReturn(statisticalOperationsRestMocks.mockSrmInternalApiRetrieveConceptsByConceptScheme("statConcDefList22"));
         when(srmRestInternalFacade.retrieveConceptsByConceptScheme(CONCEPT_SCHEME_3))
                 .thenReturn(statisticalOperationsRestMocks.mockSrmInternalApiRetrieveConceptsByConceptScheme("statConcDefList333"));
+
+        mockCategoriesByCategoryElement(srmRestInternalFacade);
+    }
+
+    private static void mockCategoriesByCategoryElement(SrmRestInternalFacade srmRestInternalFacade) throws MetamacException {
+        Map<String, CategoryResourceInternal> categoriesByCategoryElement = new HashMap<String, CategoryResourceInternal>();
+        CategoryResourceInternal categoryResourceInternal1 = statisticalOperationsRestMocks.mockCategoryResourceInternal("subjectArea1");
+        categoriesByCategoryElement.put("subjectArea1", categoryResourceInternal1);
+        CategoryResourceInternal categoryResourceInternal2 = statisticalOperationsRestMocks.mockCategoryResourceInternal("secundarySubjectArea1");
+        categoriesByCategoryElement.put("secundarySubjectArea1", categoryResourceInternal2);
+        CategoryResourceInternal categoryResourceInternal3 = statisticalOperationsRestMocks.mockCategoryResourceInternal("secundarySubjectArea22");
+        categoriesByCategoryElement.put("secundarySubjectArea22", categoryResourceInternal3);
+        CategoryResourceInternal categoryResourceInternal4 = statisticalOperationsRestMocks.mockCategoryResourceInternal("secundarySubjectArea333");
+        categoriesByCategoryElement.put("secundarySubjectArea333", categoryResourceInternal4);
+        when(srmRestInternalFacade.retrieveDefaultCategoriesByCategoryElementCode(Matchers.any(String.class))).thenReturn(categoriesByCategoryElement);
     }
 
     private static void mockitoFindOperationByConditionByFamily(StatisticalOperationsBaseService statisticalOperationsBaseService, String family, int limit, int offset) throws MetamacException {
@@ -1204,9 +1219,8 @@ public class StatisticalOperationsRestInternalFacadeV10Test extends MetamacRestB
             fail("family non supported. Family = " + family);
         }
         // Mock
-        when(
-                statisticalOperationsBaseService.findOperationByCondition(any(ServiceContext.class), argThat(new FindOperationsByFamilyMatcher(family, null, null)),
-                        argThat(new PagingParameterMatcher(PagingParameter.rowAccess(offset, offset + limit, Boolean.TRUE))))).thenReturn(operations);
+        when(statisticalOperationsBaseService.findOperationByCondition(any(ServiceContext.class), argThat(new FindOperationsByFamilyMatcher(family, null, null)),
+                argThat(new PagingParameterMatcher(PagingParameter.rowAccess(offset, offset + limit, Boolean.TRUE))))).thenReturn(operations);
 
     }
 
@@ -1223,10 +1237,9 @@ public class StatisticalOperationsRestInternalFacadeV10Test extends MetamacRestB
             conditionalCriterias = ConditionalCriteriaBuilder.criteriaFor(org.siemac.metamac.statistical.operations.core.domain.Operation.class).withProperty(OperationProperties.code()).like("%1%")
                     .and().withProperty(OperationProperties.indicatorSystem()).eq(Boolean.TRUE).build();
         }
-        when(
-                statisticalOperationsBaseService.findOperationByCondition(any(ServiceContext.class), argThat(new FindOperationsMatcher(conditionalCriterias, null)),
-                        argThat(new PagingParameterMatcher(PagingParameter.rowAccess(offset, offset + limit, Boolean.TRUE))))).thenReturn(
-                statisticalOperationsCoreMocks.mockOperationsPagedResult(String.valueOf(limit), String.valueOf(offset), query));
+        when(statisticalOperationsBaseService.findOperationByCondition(any(ServiceContext.class), argThat(new FindOperationsMatcher(conditionalCriterias, null)),
+                argThat(new PagingParameterMatcher(PagingParameter.rowAccess(offset, offset + limit, Boolean.TRUE)))))
+                        .thenReturn(statisticalOperationsCoreMocks.mockOperationsPagedResult(String.valueOf(limit), String.valueOf(offset), query));
     }
 
     private static void mockitoFindFamilyByConditionByOperation(StatisticalOperationsBaseService statisticalOperationsBaseService, String operation) throws MetamacException {
@@ -1237,9 +1250,8 @@ public class StatisticalOperationsRestInternalFacadeV10Test extends MetamacRestB
             fail("Operation non supported. Operation = " + operation);
         }
         // Mock
-        when(
-                statisticalOperationsBaseService.findFamilyByCondition(any(ServiceContext.class), argThat(new FindFamiliesByOperationMatcher(operation)), argThat(new PagingParameterMatcher(
-                        PagingParameter.noLimits())))).thenReturn(pagedResult);
+        when(statisticalOperationsBaseService.findFamilyByCondition(any(ServiceContext.class), argThat(new FindFamiliesByOperationMatcher(operation)),
+                argThat(new PagingParameterMatcher(PagingParameter.noLimits())))).thenReturn(pagedResult);
     }
 
     private static void mockitoFindFamilyByCondition(StatisticalOperationsBaseService statisticalOperationsBaseService, int limit, int offset, String query) throws MetamacException {
@@ -1249,10 +1261,9 @@ public class StatisticalOperationsRestInternalFacadeV10Test extends MetamacRestB
         if (querySupported1.equals(query)) {
             conditionalCriterias = ConditionalCriteriaBuilder.criteriaFor(org.siemac.metamac.statistical.operations.core.domain.Family.class).withProperty(FamilyProperties.code()).like("%1%").build();
         }
-        when(
-                statisticalOperationsBaseService.findFamilyByCondition(any(ServiceContext.class), argThat(new FindFamiliesMatcher(conditionalCriterias, null)), argThat(new PagingParameterMatcher(
-                        PagingParameter.rowAccess(offset, offset + limit, Boolean.TRUE))))).thenReturn(
-                statisticalOperationsCoreMocks.mockFamiliesPagedResult(String.valueOf(limit), String.valueOf(offset), query));
+        when(statisticalOperationsBaseService.findFamilyByCondition(any(ServiceContext.class), argThat(new FindFamiliesMatcher(conditionalCriterias, null)),
+                argThat(new PagingParameterMatcher(PagingParameter.rowAccess(offset, offset + limit, Boolean.TRUE)))))
+                        .thenReturn(statisticalOperationsCoreMocks.mockFamiliesPagedResult(String.valueOf(limit), String.valueOf(offset), query));
     }
 
     private static void mockitoFindInstanceByConditionByOperation(StatisticalOperationsBaseService statisticalOperationsBaseService, String operation, int limit, int offset, String query)
@@ -1272,9 +1283,8 @@ public class StatisticalOperationsRestInternalFacadeV10Test extends MetamacRestB
             fail("Operation non supported. Operation = " + operation);
         }
         // Mock
-        when(
-                statisticalOperationsBaseService.findInstanceByCondition(any(ServiceContext.class), argThat(new FindInstancesByOperationMatcher(operation, conditionalCriterias, null)),
-                        argThat(new PagingParameterMatcher(PagingParameter.rowAccess(offset, offset + limit, Boolean.TRUE))))).thenReturn(pagedResult);
+        when(statisticalOperationsBaseService.findInstanceByCondition(any(ServiceContext.class), argThat(new FindInstancesByOperationMatcher(operation, conditionalCriterias, null)),
+                argThat(new PagingParameterMatcher(PagingParameter.rowAccess(offset, offset + limit, Boolean.TRUE))))).thenReturn(pagedResult);
     }
 
     private StatisticalOperationsRestInternalFacadeV10 getStatisticalOperationsRestInternalFacadeClientXml() {

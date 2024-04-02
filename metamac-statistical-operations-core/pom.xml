@@ -24,6 +24,11 @@
 
         <!-- METAMAC -->
         <dependency>
+            <groupId>org.siemac.metamac.metamac-srm</groupId>
+            <artifactId>metamac-srm-rest-internal-api</artifactId>
+            <version>${metamac-srm-rest-internal-api.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.siemac.metamac.metamac-sso</groupId>
             <artifactId>metamac-sso-client</artifactId>
             <version>${metamac-sso.version}</version>
@@ -382,6 +387,24 @@
             <version>${servlet-api.version}</version>
             <scope>test</scope>
         </dependency>
+        
+        <dependency>
+          <groupId>org.apache.cxf</groupId>
+          <artifactId>cxf-rt-frontend-jaxrs</artifactId>
+          <version>${cxf.version}</version>
+        </dependency>   
+                <!-- KAFKA -->
+	   <dependency>
+		<groupId>io.confluent</groupId>
+		<artifactId>kafka-avro-serializer</artifactId>
+		<version>${kafka-avro-serializer.version}</version>
+		<exclusions>
+			<exclusion>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-log4j12</artifactId>
+			</exclusion>
+		</exclusions>
+	  </dependency>
     </dependencies>
 
     <profiles>

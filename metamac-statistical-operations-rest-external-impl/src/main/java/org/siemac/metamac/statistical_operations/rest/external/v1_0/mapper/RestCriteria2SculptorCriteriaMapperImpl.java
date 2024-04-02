@@ -1,5 +1,6 @@
 package org.siemac.metamac.statistical_operations.rest.external.v1_0.mapper;
 
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.fornax.cartridges.sculptor.framework.domain.LeafProperty;
@@ -8,6 +9,7 @@ import org.siemac.metamac.core.common.constants.CoreCommonConstants;
 import org.siemac.metamac.core.common.util.CoreCommonUtil;
 import org.siemac.metamac.rest.common.query.domain.MetamacRestOrder;
 import org.siemac.metamac.rest.common.query.domain.MetamacRestQueryPropertyRestriction;
+import org.siemac.metamac.rest.exception.RestCommonServiceExceptionType;
 import org.siemac.metamac.rest.exception.RestException;
 import org.siemac.metamac.rest.exception.utils.RestExceptionUtils;
 import org.siemac.metamac.rest.search.criteria.SculptorPropertyCriteria;
@@ -21,6 +23,7 @@ import org.siemac.metamac.rest.statistical_operations.v1_0.domain.InstanceCriter
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.InstanceCriteriaPropertyRestriction;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.OperationCriteriaPropertyOrder;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.OperationCriteriaPropertyRestriction;
+import org.siemac.metamac.rest.structural_resources.v1_0.domain.Category;
 import org.siemac.metamac.statistical.operations.core.domain.Family;
 import org.siemac.metamac.statistical.operations.core.domain.FamilyProperties;
 import org.siemac.metamac.statistical.operations.core.domain.Instance;
@@ -29,8 +32,10 @@ import org.siemac.metamac.statistical.operations.core.domain.Operation;
 import org.siemac.metamac.statistical.operations.core.domain.OperationProperties;
 import org.siemac.metamac.statistical.operations.core.enume.domain.StatusEnum;
 import org.siemac.metamac.statistical_operations.rest.external.exception.RestServiceExceptionType;
+import org.siemac.metamac.statistical_operations.rest.external.invocation.SrmRestExternalFacade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -42,6 +47,9 @@ public class RestCriteria2SculptorCriteriaMapperImpl implements RestCriteria2Scu
     private PropertyValueRestToPropertyValueEntityInterface propertyValueRestToPropertyValueEntity = null;
 
     private final Logger                                    logger                                 = LoggerFactory.getLogger(RestCriteria2SculptorCriteriaMapperImpl.class);
+
+    @Autowired
+    private SrmRestExternalFacade                           srmRestExternalFacade;
 
     private enum PropertyTypeEnum {
         STRING, DATE, BOOLEAN, STATUS
@@ -73,6 +81,25 @@ public class RestCriteria2SculptorCriteriaMapperImpl implements RestCriteria2Scu
 
     private class OperationCriteriaCallback implements CriteriaCallback {
 
+        private RestException createInvalidParameterException(String parameter) throws RestException {
+            org.siemac.metamac.rest.common.v1_0.domain.Exception exception = RestExceptionUtils.getException(RestCommonServiceExceptionType.PARAMETER_INCORRECT, parameter);
+            return new RestException(exception, Response.Status.INTERNAL_SERVER_ERROR);
+        }
+
+        private String getCategoryElementByCategoryUrn(String categoryUrn, String parameter) throws RestException {
+            try {
+                Category category = srmRestExternalFacade.retrieveCategoryByUrn(categoryUrn);
+
+                if (category != null && category.getCategoryElement() != null) {
+                    return category.getCategoryElement().getUrn();
+                }
+            } catch (Exception e) {
+                logger.error("category element linked to category (SUBJECT_AREA_URN) " + categoryUrn + " not found in srm resource", e);
+                throw createInvalidParameterException(parameter);
+            }
+            return null;
+        }
+
         @Override
         public SculptorPropertyCriteria retrieveProperty(MetamacRestQueryPropertyRestriction propertyRestriction) throws RestException {
             OperationCriteriaPropertyRestriction propertyNameCriteria = OperationCriteriaPropertyRestriction.fromValue(propertyRestriction.getPropertyName());
@@ -86,8 +113,10 @@ public class RestCriteria2SculptorCriteriaMapperImpl implements RestCriteria2Scu
                 case ACRONYM:
                     return buildSculptorPropertyCriteria(OperationProperties.acronym().texts().label(), PropertyTypeEnum.STRING, propertyRestriction);
                 case SUBJECT_AREA_URN:
+                    propertyRestriction.setValue(getCategoryElementByCategoryUrn(propertyRestriction.getValue(), OperationCriteriaPropertyRestriction.SUBJECT_AREA_URN.name()));
                     return buildSculptorPropertyCriteria(OperationProperties.subjectArea().urn(), PropertyTypeEnum.STRING, propertyRestriction);
                 case SECONDARY_SUBJECT_AREA_URN:
+                    propertyRestriction.setValue(getCategoryElementByCategoryUrn(propertyRestriction.getValue(), OperationCriteriaPropertyRestriction.SECONDARY_SUBJECT_AREA_URN.name()));
                     return buildSculptorPropertyCriteria(OperationProperties.secondarySubjectAreas().urn(), PropertyTypeEnum.STRING, propertyRestriction);
                 case DESCRIPTION:
                     return buildSculptorPropertyCriteria(OperationProperties.description().texts().label(), PropertyTypeEnum.STRING, propertyRestriction);
@@ -106,8 +135,9 @@ public class RestCriteria2SculptorCriteriaMapperImpl implements RestCriteria2Scu
                 case PUBLISHER_URN:
                     return buildSculptorPropertyCriteria(OperationProperties.publisher().urn(), PropertyTypeEnum.STRING, propertyRestriction);
                 case INVENTORY_DATE:
-                    return buildSculptorPropertyCriteria(new LeafProperty<Operation>(OperationProperties.inventoryDate().getName(), CoreCommonConstants.CRITERIA_DATETIME_COLUMN_DATETIME, true,
-                            Operation.class), PropertyTypeEnum.DATE, propertyRestriction);
+                    return buildSculptorPropertyCriteria(
+                            new LeafProperty<Operation>(OperationProperties.inventoryDate().getName(), CoreCommonConstants.CRITERIA_DATETIME_COLUMN_DATETIME, true, Operation.class),
+                            PropertyTypeEnum.DATE, propertyRestriction);
                 default:
                     throw toRestExceptionParameterIncorrect(propertyNameCriteria.name());
             }
@@ -196,8 +226,9 @@ public class RestCriteria2SculptorCriteriaMapperImpl implements RestCriteria2Scu
                 case TEMPORAL_GRANULARITY_URN:
                     return buildSculptorPropertyCriteria(InstanceProperties.temporalGranularity().urn(), PropertyTypeEnum.STRING, propertyRestriction);
                 case INVENTORY_DATE:
-                    return buildSculptorPropertyCriteria(new LeafProperty<Instance>(InstanceProperties.inventoryDate().getName(), CoreCommonConstants.CRITERIA_DATETIME_COLUMN_DATETIME, true,
-                            Instance.class), PropertyTypeEnum.DATE, propertyRestriction);
+                    return buildSculptorPropertyCriteria(
+                            new LeafProperty<Instance>(InstanceProperties.inventoryDate().getName(), CoreCommonConstants.CRITERIA_DATETIME_COLUMN_DATETIME, true, Instance.class),
+                            PropertyTypeEnum.DATE, propertyRestriction);
                 default:
                     throw toRestExceptionParameterIncorrect(propertyNameCriteria.name());
             }

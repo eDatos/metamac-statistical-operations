@@ -1000,7 +1000,7 @@ public class StatisticalOperationsBaseServiceTest extends StatisticalOperationsB
         operation.setCurrentlyActive(false);
 
         // SUBJECT_AREA
-        operation.setSubjectArea(mockExternalItem("HEALTH", "/uri/test/category", "URN:CATEGORY:HEALTH", "URN:CATEGORY:HEALTH:provider", TypeExternalArtefactsEnum.CATEGORY));
+        operation.setSubjectArea(mockExternalItemHealthCategoryElement());
 
         // INDICATOR_SYSTEM
         operation.setIndicatorSystem(false);

@@ -4,14 +4,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.siemac.metamac.core.common.exception.MetamacException;
+
 /**
  * @param <D> Domain entity
  * @param <A> Avro entity
  */
 public interface Do2AvroMapper<D, A> {
-    A toAvro(D source);
 
-    default List<A> toAvros(Collection<D> source) {
+    A toAvro(D source) throws MetamacException;
+
+    default List<A> toAvros(Collection<D> source) throws MetamacException {
         if (source == null) {
             return new ArrayList<>();
         }

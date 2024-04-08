@@ -5,6 +5,7 @@ import static org.fornax.cartridges.sculptor.framework.accessapi.ConditionalCrit
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
@@ -18,6 +19,7 @@ import org.siemac.metamac.core.common.criteria.utils.CriteriaUtils;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.core.common.exception.MetamacExceptionItem;
 import org.siemac.metamac.core.common.util.GeneratorUrnUtils;
+import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.CategoryResourceInternal;
 import org.siemac.metamac.statistical.operations.core.domain.Family;
 import org.siemac.metamac.statistical.operations.core.domain.FamilyRepository;
 import org.siemac.metamac.statistical.operations.core.domain.Instance;
@@ -33,6 +35,7 @@ import org.siemac.metamac.statistical.operations.core.error.ServiceExceptionType
 import org.siemac.metamac.statistical.operations.core.exception.FamilyNotFoundException;
 import org.siemac.metamac.statistical.operations.core.exception.InstanceNotFoundException;
 import org.siemac.metamac.statistical.operations.core.exception.OperationNotFoundException;
+import org.siemac.metamac.statistical.operations.core.invocation.service.SrmRestInternalService;
 import org.siemac.metamac.statistical.operations.core.serviceimpl.utils.CheckMandatoryMetadataUtil;
 import org.siemac.metamac.statistical.operations.core.serviceimpl.utils.StatisticalOperationsValidationUtils;
 import org.siemac.metamac.statistical.operations.core.serviceimpl.utils.TsvExportationUtils;
@@ -47,16 +50,19 @@ import org.springframework.stereotype.Service;
 public class StatisticalOperationsBaseServiceImpl extends StatisticalOperationsBaseServiceImplBase {
 
     @Autowired
-    private FamilyRepository     familyRepository;
+    private FamilyRepository       familyRepository;
 
     @Autowired
-    private OperationRepository  operationRepository;
+    private OperationRepository    operationRepository;
 
     @Autowired
-    private InstanceRepository   instanceRepository;
+    private InstanceRepository     instanceRepository;
 
     @Autowired
-    private ConfigurationService configurationService;
+    private ConfigurationService   configurationService;
+
+    @Autowired
+    private SrmRestInternalService srmRestInternalService;
 
     public StatisticalOperationsBaseServiceImpl() {
     }
@@ -468,8 +474,12 @@ public class StatisticalOperationsBaseServiceImpl extends StatisticalOperationsB
         // Service call
         List<Operation> operations = findOperationByCondition(ctx, condition);
 
+        // get categories by category element code of default category schemes
+        String defaultCategoryScheme = configurationService.retrieveDefaultCategoryScheme();
+        Map<String, CategoryResourceInternal> categories = srmRestInternalService.retrieveDefaultCategoriesByCategoryElementCode(defaultCategoryScheme);
+
         // Export
-        return TsvExportationUtils.exportStatisticalOperations(operations, languages);
+        return TsvExportationUtils.exportStatisticalOperations(operations, languages, categories);
     }
 
     @Override

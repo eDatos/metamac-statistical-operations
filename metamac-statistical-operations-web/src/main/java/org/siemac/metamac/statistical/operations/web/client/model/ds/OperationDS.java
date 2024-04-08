@@ -8,6 +8,7 @@ public class OperationDS extends DataSource {
     // IDENTIFIERS
     public static final String ID                         = "op-id";
     public static final String CODE                       = "op-code";
+    public static final String STATISTIC_PLAN             = "op-statistic-plan";
     public static final String URN                        = "op-urn";
     public static final String CODE_VIEW                  = "op-code-view";                // Not mapped in DTO
     public static final String TITLE                      = "op-title";

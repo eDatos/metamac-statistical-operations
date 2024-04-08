@@ -12,8 +12,10 @@ import java.nio.file.Path;
 import java.security.AccessController;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
@@ -23,6 +25,7 @@ import org.siemac.metamac.core.common.ent.domain.ExternalItem;
 import org.siemac.metamac.core.common.ent.domain.InternationalString;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.core.common.exception.MetamacExceptionBuilder;
+import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.CategoryResourceInternal;
 import org.siemac.metamac.statistical.operations.core.constants.StatisticalOperationsConstants;
 import org.siemac.metamac.statistical.operations.core.domain.Instance;
 import org.siemac.metamac.statistical.operations.core.domain.Operation;
@@ -42,7 +45,7 @@ public class TsvExportationUtils {
      * OPERATIONS
      */
 
-    public static String exportStatisticalOperations(List<Operation> operations, List<String> languages) throws MetamacException {
+    public static String exportStatisticalOperations(List<Operation> operations, List<String> languages, Map<String, CategoryResourceInternal> categories) throws MetamacException {
         OutputStream outputStream = null;
         OutputStreamWriter writer = null;
         try {
@@ -60,8 +63,8 @@ public class TsvExportationUtils {
                 writeItemInternationalString(writer, operation.getAcronym(), languages);
 
                 // Clasificadores de contenido
-                writeStringSingleItem(writer, operation.getSubjectArea() == null ? null : operation.getSubjectArea().getCode());
-                writeExternalItemListItem(writer, operation.getSecondarySubjectAreas());
+                writeStringSingleItem(writer, operation.getSubjectArea() == null ? null : categories.get(operation.getSubjectArea().getCode()).getId());
+                writeCategoryResourceInternal(writer, getCategoryFromSecondarySubjectAreas(categories, operation.getSecondarySubjectAreas()));
 
                 // Descriptores de contenido
                 writeItemInternationalString(writer, operation.getObjective(), languages);
@@ -116,6 +119,19 @@ public class TsvExportationUtils {
         }
     }
 
+    private static List<CategoryResourceInternal> getCategoryFromSecondarySubjectAreas(Map<String, CategoryResourceInternal> categories, Set<ExternalItem> secondarySubjectAreas) {
+        List<CategoryResourceInternal> categoryResourceInternal = new ArrayList<CategoryResourceInternal>();
+
+        for (ExternalItem categoryElement : secondarySubjectAreas) {
+            CategoryResourceInternal category = categories.get(categoryElement.getCode());
+            if (category != null) {
+                categoryResourceInternal.add(category);
+            }
+        }
+        return categoryResourceInternal;
+
+    }
+
     public static void deleteTemporalFile(String fileName) {
         FileSystem fileSystem = FileSystems.getDefault();
         File tmpdir = new File(AccessController.doPrivileged(new GetPropertyAction("java.io.tmpdir")));
@@ -130,9 +146,7 @@ public class TsvExportationUtils {
                 logger.error(ex.getMessage());
             }
         }
-    }
-
-    private static void writeStatisticalOperationsHeader(OutputStreamWriter writer, List<String> languages) throws IOException {
+    }    private static void writeStatisticalOperationsHeader(OutputStreamWriter writer, List<String> languages) throws IOException {
         // Identificadores
         writer.write(StatisticalOperationsConstants.TSV_HEADER_CODE);
         writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
@@ -255,6 +269,18 @@ public class TsvExportationUtils {
             String value = null;
             for (ExternalItem item : list) {
                 values.add(item.getCode());
+            }
+            writer.write(values.toString().replaceAll("^\\[|\\]$", ""));
+        }
+    }
+
+    private static void writeCategoryResourceInternal(OutputStreamWriter writer, List<CategoryResourceInternal> list) throws IOException {
+        writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
+        if (list != null && list.size() > 0) {
+            Set<String> values = new HashSet<>();
+            String value = null;
+            for (CategoryResourceInternal item : list) {
+                values.add(item.getId());
             }
             writer.write(values.toString().replaceAll("^\\[|\\]$", ""));
         }

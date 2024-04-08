@@ -6,6 +6,7 @@ import org.siemac.metamac.core.common.ent.domain.ExternalItem;
 import org.siemac.metamac.core.common.ent.domain.InternationalString;
 import org.siemac.metamac.core.common.ent.domain.LocalisedString;
 import org.siemac.metamac.core.common.enume.domain.TypeExternalArtefactsEnum;
+import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.CategoryResourceInternal;
 
 public class StatisticalOperationsMocks extends MetamacMocks {
 
@@ -41,7 +42,6 @@ public class StatisticalOperationsMocks extends MetamacMocks {
         return target;
     }
 
-
     // -----------------------------------------------------------------
     // EXTERNAL ITEM
     // -----------------------------------------------------------------
@@ -72,6 +72,16 @@ public class StatisticalOperationsMocks extends MetamacMocks {
         target.setTitle(title);
         target.setManagementAppUrl(managementAppUrl);
         return target;
+    }
+
+    // SRM Category resource internal
+    public static CategoryResourceInternal mockCategoryResourceInternal(String code, String uri, String urn, String urnProvider) {
+        CategoryResourceInternal categoryResourceInternal = new CategoryResourceInternal();
+        categoryResourceInternal.setId(code);
+        categoryResourceInternal.setUrn(urn);
+        categoryResourceInternal.setUrnProvider(urnProvider);
+        categoryResourceInternal.setManagementAppLink(uri);
+        return categoryResourceInternal;
     }
 
     // -----------------------------------------------------------------

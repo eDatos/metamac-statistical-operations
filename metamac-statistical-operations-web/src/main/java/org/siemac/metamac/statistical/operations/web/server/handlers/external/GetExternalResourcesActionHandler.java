@@ -1,6 +1,8 @@
 package org.siemac.metamac.statistical.operations.web.server.handlers.external;
 
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
+import org.siemac.metamac.core.common.conf.ConfigurationService;
+import org.siemac.metamac.core.common.exception.CommonServiceExceptionType;
 import org.siemac.metamac.statistical.operations.web.server.rest.SrmRestInternalFacade;
 import org.siemac.metamac.statistical.operations.web.shared.external.ConceptRestCriteria;
 import org.siemac.metamac.statistical.operations.web.shared.external.ConceptSchemeRestCriteria;
@@ -10,6 +12,7 @@ import org.siemac.metamac.statistical.operations.web.shared.external.Organisatio
 import org.siemac.metamac.statistical.operations.web.shared.external.OrganisationSchemeRestCriteria;
 import org.siemac.metamac.web.common.server.ServiceContextHolder;
 import org.siemac.metamac.web.common.server.handlers.SecurityActionHandler;
+import org.siemac.metamac.web.common.server.utils.WebExceptionUtils;
 import org.siemac.metamac.web.common.shared.constants.CommonSharedConstants;
 import org.siemac.metamac.web.common.shared.criteria.SrmExternalResourceRestCriteria;
 import org.siemac.metamac.web.common.shared.criteria.SrmItemRestCriteria;
@@ -25,6 +28,9 @@ public class GetExternalResourcesActionHandler extends SecurityActionHandler<Get
 
     @Autowired
     private SrmRestInternalFacade srmRestInternalFacade;
+
+    @Autowired
+    private ConfigurationService  configurationService;
 
     public GetExternalResourcesActionHandler() {
         super(GetExternalResourcesAction.class);
@@ -66,8 +72,8 @@ public class GetExternalResourcesActionHandler extends SecurityActionHandler<Get
                 result = srmRestInternalFacade.findDataProviders(serviceContext, (SrmItemRestCriteria) action.getExternalResourceWebCriteria(), action.getFirstResult(), action.getMaxResults());
                 break;
             case CODELIST:
-                result = srmRestInternalFacade
-                        .findCodelists(serviceContext, (SrmExternalResourceRestCriteria) action.getExternalResourceWebCriteria(), action.getFirstResult(), action.getMaxResults());
+                result = srmRestInternalFacade.findCodelists(serviceContext, (SrmExternalResourceRestCriteria) action.getExternalResourceWebCriteria(), action.getFirstResult(),
+                        action.getMaxResults());
                 break;
             case CODE:
                 result = srmRestInternalFacade.findCodes(serviceContext, (SrmItemRestCriteria) action.getExternalResourceWebCriteria(), action.getFirstResult(), action.getMaxResults());
@@ -82,9 +88,21 @@ public class GetExternalResourcesActionHandler extends SecurityActionHandler<Get
                         action.getStatisticalOperationUrn());
                 result = srmRestInternalFacade.findConcepts(serviceContext, conceptRestCriteria, action.getFirstResult(), action.getMaxResults());
                 break;
+            case CATEGORY_ELEMENT:
+                result = srmRestInternalFacade.retrieveCategoryElementsByCategoryScheme(serviceContext, retrieveDefaultCategorySchemeProperty(serviceContext), action.getExternalResourceWebCriteria(),
+                        action.getFirstResult(), action.getMaxResults());
+                break;
             default:
                 throw new MetamacWebException(CommonSharedConstants.EXCEPTION_UNKNOWN, "An unknown exception has ocurred. Please contact system administrator.");
         }
         return new GetExternalResourcesResult(result);
+    }
+
+    private String retrieveDefaultCategorySchemeProperty(ServiceContext ctx) throws MetamacWebException {
+        try {
+            return configurationService.retrieveDefaultCategoryScheme();
+        } catch (Exception e) {
+            throw WebExceptionUtils.createMetamacWebExceptionTranslated(ctx, CommonServiceExceptionType.CONFIGURATION_PROPERTY_INVALID, e.getMessage());
+        }
     }
 }

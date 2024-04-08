@@ -3,4 +3,5 @@
 <properties>
     <comment>Configurations</comment>
     <entry key="metamac.statistical_operations.user_guide.file_name">Gestor_operaciones_estadisticas-Manual_usuario.pdf</entry>
+    <entry key="metamac.srm.default.category_scheme.urn">FILL_ME</entry>
 </properties>

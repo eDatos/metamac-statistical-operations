@@ -4,4 +4,5 @@
     <comment>Rest endpoints</comment>
     <entry key="metamac.statistical_operations.rest.external">http://data.istac.es/apis/operations</entry>
     <entry key="metamac.srm.rest.external">http://data.istac.es/apis/srm</entry>
+    <entry key="metamac.srm.default.category_scheme.urn">FILL_ME</entry>
 </properties>

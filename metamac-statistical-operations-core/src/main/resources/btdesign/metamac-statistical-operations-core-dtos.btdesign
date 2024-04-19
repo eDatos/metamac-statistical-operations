@@ -188,6 +188,7 @@ Application StatisticalOperationsDto {
             - @InternationalStringDto dataValidation nullable;
             - @InternationalStringDto dataCompilation nullable;
             - @InternationalStringDto adjustment nullable;
+            - @InternationalStringDto seasonalAdjustment nullable;
             - @InternationalStringDto costBurden nullable;
             - Set<@CostDto> cost;
 
@@ -204,7 +205,14 @@ Application StatisticalOperationsDto {
             - @InternationalStringDto accuracyOverall nullable;
             - @InternationalStringDto samplingErr nullable;
             - @InternationalStringDto nonsamplingErr nullable;
+            - @InternationalStringDto coverageErr nullable;
+            - @InternationalStringDto measurementErr nullable;
+            - @InternationalStringDto nonresponseErr nullable;
+            - @InternationalStringDto processingErr nullable;
+            - @InternationalStringDto modelErr nullable;
             - @InternationalStringDto coherXDomain nullable;
+            - @InternationalStringDto coherSubAnualAnual nullable;
+            - @InternationalStringDto coherNationalAccounts nullable;
             - @InternationalStringDto coherInternal nullable;
 
             - @InternationalStringDto comment nullable;

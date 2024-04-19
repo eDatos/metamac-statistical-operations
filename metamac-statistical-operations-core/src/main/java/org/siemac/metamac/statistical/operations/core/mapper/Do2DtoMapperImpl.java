@@ -499,6 +499,10 @@ public class Do2DtoMapperImpl extends BaseDo2DtoMapperImpl implements Do2DtoMapp
 
         // ADJUSTMENT
         target.setAdjustment(internationalStringToDto(source.getAdjustment()));
+
+        // SEASONAL ADJUSTMENT
+        target.setSeasonalAdjustment(internationalStringToDto(source.getSeasonalAdjustment()));
+
         // ADJUSTMENT_URL
         // Not necessary
 
@@ -568,8 +572,30 @@ public class Do2DtoMapperImpl extends BaseDo2DtoMapperImpl implements Do2DtoMapp
         // NONSAMPLING_ERR_URL
         // Not necessary
 
+        // COVERAGE_ERROR
+        target.setCoverageErr(internationalStringToDto(source.getCoverageErr()));
+
+        // MEASUREMENT_ERROR
+        target.setMeasurementErr(internationalStringToDto(source.getMeasurementErr()));
+
+        // NONRESPONSE_ERROR
+        target.setNonresponseErr(internationalStringToDto(source.getNonResponseErr()));
+
+        // PROCESSING_ERROR
+        target.setProcessingErr(internationalStringToDto(source.getProcessingErr()));
+
+        // MODEL_ERROR
+        target.setModelErr(internationalStringToDto(source.getModelErr()));
+
         // COHER_X_DOMAIN
         target.setCoherXDomain(internationalStringToDto(source.getCoherXDomain()));
+
+        // COHER_SUBANUAL_ANUAL
+        target.setCoherSubAnualAnual(internationalStringToDto(source.getCoherSubanualAnual()));
+
+        // COHER_NATIONAL_ACCOUNTS
+        target.setCoherNationalAccounts(internationalStringToDto(source.getCoherNationalAccounts()));
+
         // COHER_X_DOMAIN_URL
         // Not necessary
 

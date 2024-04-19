@@ -70,6 +70,7 @@ public class ServiceExceptionParameters extends CommonServiceExceptionParameters
     public static final String INSTANCE_DATA_VALIDATION          = "parameter.operations.instance.data_validation";
     public static final String INSTANCE_DATA_COMPILATION         = "parameter.operations.instance.data_compilation";
     public static final String INSTANCE_ADJUSTMENT               = "parameter.operations.instance.adjustment";
+    public static final String INSTANCE_SEASONAL_ADJUSTMENT      = "parameter.operations.instance.seasonal_adjustment";
     public static final String INSTANCE_COST_BURDEN              = "parameter.operations.instance.cost_burden";
     public static final String INSTANCE_QUALITY_DOC              = "parameter.operations.instance.quality_doc";
     public static final String INSTANCE_QUALITY_ASSURE           = "parameter.operations.instance.quality_assure";
@@ -82,7 +83,14 @@ public class ServiceExceptionParameters extends CommonServiceExceptionParameters
     public static final String INSTANCE_ACCURACY_OVERALL         = "parameter.operations.instance.accuracy_overall";
     public static final String INSTANCE_SAMPLING_ERR             = "parameter.operations.instance.sampling_err";
     public static final String INSTANCE_NONSAMPLING_ERR          = "parameter.operations.instance.nonsampling_err";
+    public static final String INSTANCE_COVERAGE_ERROR           = "parameter.operations.instance.coverage_err";
+    public static final String INSTANCE_MEASUREMENT_ERROR        = "parameter.operations.instance.measurement_err";
+    public static final String INSTANCE_NONRESPONSE_ERROR        = "parameter.operations.instance.nonresponse_err";
+    public static final String INSTANCE_PROCESSING_ERROR         = "parameter.operations.instance.processing_err";
+    public static final String INSTANCE_MODEL_ERROR              = "parameter.operations.instance.model_err";
     public static final String INSTANCE_COHER_X_DOMAIN           = "parameter.operations.instance.coher_x_domain";
+    public static final String INSTANCE_COHER_SUBANUAL_ANUAL     = "parameter.operations.instance.coher_anual_subanual_err";
+    public static final String INSTANCE_COHER_NATIONAL_ACCOUNTS  = "parameter.operations.instance.coher_national_err";
     public static final String INSTANCE_COHER_INTERNAL           = "parameter.operations.instance.coher_internal";
     public static final String INSTANCE_COMMENT                  = "parameter.operations.instance.comment";
     public static final String INSTANCE_NOTES                    = "parameter.operations.instance.notes";

@@ -89,7 +89,7 @@ public class ServiceExceptionParameters extends CommonServiceExceptionParameters
     public static final String INSTANCE_PROCESSING_ERROR         = "parameter.operations.instance.processing_err";
     public static final String INSTANCE_MODEL_ERROR              = "parameter.operations.instance.model_err";
     public static final String INSTANCE_COHER_X_DOMAIN           = "parameter.operations.instance.coher_x_domain";
-    public static final String INSTANCE_COHER_SUBANUAL_ANUAL     = "parameter.operations.instance.coher_anual_subanual_err";
+    public static final String INSTANCE_COHER_SUBANUAL_ANUAL     = "parameter.operations.instance.coher_subanual_anual_err";
     public static final String INSTANCE_COHER_NATIONAL_ACCOUNTS  = "parameter.operations.instance.coher_national_err";
     public static final String INSTANCE_COHER_INTERNAL           = "parameter.operations.instance.coher_internal";
     public static final String INSTANCE_COMMENT                  = "parameter.operations.instance.comment";

@@ -366,7 +366,7 @@
                      },
                      "description":"Descripción del grado en que las estadísticas de diferentes frecuencias son conciliables.",
                      "$ref":"#/definitions/InternationalString"
-                  }
+                  },
                   "coherXDom":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
@@ -399,7 +399,7 @@
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Descripción de la d"mivergencia entre la población marco y la población objetivo.",
+                     "description":"Descripción de la divergencia entre la población marco y la población objetivo.",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "dataCompilation":{
@@ -504,7 +504,7 @@
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Los errores de "sin respuesta" se producen cuando la encuesta no obtiene una respuesta a una, o posiblemente todas, las preguntas.",
+                     "description":"Los errores de sin respuesta se producen cuando la encuesta no obtiene una respuesta a una, o posiblemente todas, las preguntas.",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "nonsamplingErr":{

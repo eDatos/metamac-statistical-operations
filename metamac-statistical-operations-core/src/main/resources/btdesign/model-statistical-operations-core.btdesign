@@ -62,7 +62,7 @@ Application StatisticalOperations {
        		
        		"Operations"
        		@OperationDto createOperation(@OperationDto operationDto) throws MetamacException;
-       		@OperationDto updateOperation(@OperationDto operationDto) throws MetamacException;
+       		org.siemac.metamac.statistical.operations.core.serviceimpl.result.PublishExternallyOperationServiceResult updateOperation(@OperationDto operationDto) throws MetamacException;
        		deleteOperation(Long operationId) throws MetamacException;
        		List<@OperationBaseDto> findAllOperations  throws MetamacException;
        		MetamacCriteriaResult<@OperationBaseDto> findOperationsByCondition(MetamacCriteria criteria)  throws MetamacException;

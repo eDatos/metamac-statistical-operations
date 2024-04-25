@@ -304,7 +304,13 @@ public class OperationPresenter extends Presenter<OperationPresenter.OperationVi
 
             @Override
             public void onWaitSuccess(SaveOperationResult result) {
-                ShowMessageEvent.fireSuccessMessage(OperationPresenter.this, getMessages().operationSaved());
+
+                if (result.getNotificationException() != null) {
+                    ShowMessageEvent.fireWarningMessageWithError(OperationPresenter.this, getMessages().operationExternallyPublishedWithNotificationError(), result.getNotificationException());
+                } else {
+                    ShowMessageEvent.fireSuccessMessage(OperationPresenter.this, getMessages().operationSaved());
+                }
+
                 operationDto = result.getOperationSaved();
                 getView().onOperationSaved(operationDto);
 

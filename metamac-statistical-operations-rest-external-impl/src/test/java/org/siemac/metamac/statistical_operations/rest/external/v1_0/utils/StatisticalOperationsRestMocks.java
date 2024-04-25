@@ -794,6 +794,7 @@ public class StatisticalOperationsRestMocks {
         instance.setDataValidation(mockInternationalStringMetadata("dataValidation", subId));
         instance.setDataCompilation(mockInternationalStringMetadata("dataCompilation", subId));
         instance.setAdjustment(mockInternationalStringMetadata("adjustment", subId));
+        instance.setSeasonalAdjustment(mockInternationalStringMetadata("seasonalAdjustment", subId));
         instance.setInventoryDate(new DateTime(2013, 2, 4, 13, 15, 14, 0).toDate());
         instance.setQualityDoc(mockInternationalStringMetadata("qualityDoc", subId));
         instance.setQualityAssure(mockInternationalStringMetadata("qualityAssure", subId));
@@ -806,7 +807,14 @@ public class StatisticalOperationsRestMocks {
         instance.setAccuracyOverall(mockInternationalStringMetadata("accuracyOverall", subId));
         instance.setSamplingErr(mockInternationalStringMetadata("samplingErr", subId));
         instance.setNonsamplingErr(mockInternationalStringMetadata("nonsamplingErr", subId));
+        instance.setCoverageErr(mockInternationalStringMetadata("coverageErr", subId));
+        instance.setMeasurementErr(mockInternationalStringMetadata("measurementErr", subId));
+        instance.setNonResponseErr(mockInternationalStringMetadata("nonResponseErr", subId));
+        instance.setModelErr(mockInternationalStringMetadata("modelErr", subId));
+        instance.setProcessingErr(mockInternationalStringMetadata("processingErr", subId));
         instance.setCoherXDom(mockInternationalStringMetadata("coherXDom", subId));
+        instance.setCoherSubanualAnual(mockInternationalStringMetadata("coherSubanualAnual", subId));
+        instance.setCoherNationalAccounts(mockInternationalStringMetadata("coherNationalAccounts", subId));
         instance.setCoherInternal(mockInternationalStringMetadata("coherInternal", subId));
         instance.setComment(mockInternationalStringMetadata("comment", subId));
         instance.setParentLink(MetamacRestMocks.mockResourceLink(StatisticalOperationsRestConstants.KIND_OPERATION, baseApi + "/operations/" + operation));

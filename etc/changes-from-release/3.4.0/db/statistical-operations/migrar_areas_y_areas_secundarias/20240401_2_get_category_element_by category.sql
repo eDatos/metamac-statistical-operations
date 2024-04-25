@@ -6,6 +6,13 @@
 
 -- Paso 1 Obtener la información de cada elemento de tema que se encuentra en la tabla  temp_category_element_by_category previamente cargada con los valores básicos a partir de hoja excel de relaciones
 
+-- Paso 1.1 Coger la 6ª columna de la hoja excel que contiene los inserts con las relaciones informadas y volcarla sobre la tabla "temp_category_element_by_category" de la base de datos de srm
+--ATENCIÓN!! Asegurarse que los códigos puestos en la columna "Elementos de tema" no tienen espacios porque se ha detectado algún espacio al final en algún caso. 
+
+
+-- Paso 1.2 Terminar de rellenar los datos que faltan lanzando el siguiente update: 
+
+
 update temp_category_element_by_category
 set 
 urn_provider = ve.urn_provider,

@@ -21,6 +21,7 @@ import org.siemac.metamac.statistical.operations.core.dto.InstanceDto;
 import org.siemac.metamac.statistical.operations.core.dto.OperationDto;
 import org.siemac.metamac.statistical.operations.core.enume.domain.StatusEnum;
 import org.siemac.metamac.statistical.operations.core.error.ServiceExceptionType;
+import org.siemac.metamac.statistical.operations.core.serviceimpl.result.PublishExternallyOperationServiceResult;
 import org.siemac.metamac.statistical.operations.core.utils.StatisticalOperationsBaseTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
@@ -625,10 +626,14 @@ public class SecurityStatisticalOperationsServiceFacadeTest extends StatisticalO
         operationDto.setCode(OOEE_CODE_C0025A);
         operationDto = statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), operationDto);
 
-        operationDto = statisticalOperationsServiceFacade.updateOperation(getServiceContextTecnicoPlanificacion(), operationDto);
-        operationDto = statisticalOperationsServiceFacade.updateOperation(getServiceContextTecnicoProduccionOperation01(), operationDto);
-        operationDto = statisticalOperationsServiceFacade.updateOperation(getServiceContextTecnicoApoyoPlanificacion(), operationDto);
-        operationDto = statisticalOperationsServiceFacade.updateOperation(getServiceContextTecnicoProduccion(), operationDto);
+        PublishExternallyOperationServiceResult result = statisticalOperationsServiceFacade.updateOperation(getServiceContextTecnicoPlanificacion(), operationDto);
+        operationDto = result.getContent();
+        result = statisticalOperationsServiceFacade.updateOperation(getServiceContextTecnicoProduccionOperation01(), operationDto);
+        operationDto = result.getContent();
+        result = statisticalOperationsServiceFacade.updateOperation(getServiceContextTecnicoApoyoPlanificacion(), operationDto);
+        operationDto = result.getContent();
+        result = statisticalOperationsServiceFacade.updateOperation(getServiceContextTecnicoProduccion(), operationDto);
+        operationDto = result.getContent();
 
         try {
             statisticalOperationsServiceFacade.updateOperation(getServiceContextTecnicoApoyoDifusion(), operationDto);

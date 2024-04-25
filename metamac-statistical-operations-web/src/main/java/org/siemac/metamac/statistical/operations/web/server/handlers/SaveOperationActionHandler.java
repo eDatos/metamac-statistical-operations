@@ -1,15 +1,19 @@
 package org.siemac.metamac.statistical.operations.web.server.handlers;
 
+import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.statistical.operations.core.dto.OperationDto;
 import org.siemac.metamac.statistical.operations.core.serviceapi.StatisticalOperationsServiceFacade;
+import org.siemac.metamac.statistical.operations.core.serviceimpl.result.PublishExternallyOperationServiceResult;
 import org.siemac.metamac.statistical.operations.web.server.handlers.utils.HandlersUtils;
 import org.siemac.metamac.statistical.operations.web.server.rest.AccessControlRestInternalFacade;
+import org.siemac.metamac.statistical.operations.web.server.rest.NoticesRestInternalFacade;
 import org.siemac.metamac.statistical.operations.web.shared.SaveOperationAction;
 import org.siemac.metamac.statistical.operations.web.shared.SaveOperationResult;
 import org.siemac.metamac.web.common.server.ServiceContextHolder;
 import org.siemac.metamac.web.common.server.handlers.SecurityActionHandler;
 import org.siemac.metamac.web.common.server.utils.WebExceptionUtils;
+import org.siemac.metamac.web.common.shared.exception.MetamacWebException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +28,9 @@ public class SaveOperationActionHandler extends SecurityActionHandler<SaveOperat
     @Autowired
     private AccessControlRestInternalFacade    accessControlRestInternalFacade;
 
+    @Autowired
+    private NoticesRestInternalFacade          noticesRestInternalFacade;
+
     public SaveOperationActionHandler() {
         super(SaveOperationAction.class);
     }
@@ -35,19 +42,25 @@ public class SaveOperationActionHandler extends SecurityActionHandler<SaveOperat
             // Create operation
             try {
                 OperationDto operationDto = statisticalOperationsServiceFacade.createOperation(ServiceContextHolder.getCurrentServiceContext(), operationToSave);
-                return new SaveOperationResult(operationDto);
+                return new SaveOperationResult(operationDto, null);
             } catch (MetamacException e) {
                 throw WebExceptionUtils.createMetamacWebException(e);
             }
         } else {
             // Update operation
             try {
-                OperationDto operationDto = statisticalOperationsServiceFacade.updateOperation(ServiceContextHolder.getCurrentServiceContext(), operationToSave);
+                ServiceContext serviceContext = ServiceContextHolder.getCurrentServiceContext();
+
+                PublishExternallyOperationServiceResult result = statisticalOperationsServiceFacade.updateOperation(ServiceContextHolder.getCurrentServiceContext(), operationToSave);
+                OperationDto operationDto = result.getContent();
                 HandlersUtils.setFullnameUserByUsername(operationDto, accessControlRestInternalFacade);
-                return new SaveOperationResult(operationDto);
+
+                MetamacWebException operationException = HandlersUtils.getExceptionsPublishExternalOperation(serviceContext, result, noticesRestInternalFacade, false);
+                return new SaveOperationResult(operationDto, operationException);
             } catch (MetamacException e) {
                 throw WebExceptionUtils.createMetamacWebException(e);
             }
         }
     }
+
 }

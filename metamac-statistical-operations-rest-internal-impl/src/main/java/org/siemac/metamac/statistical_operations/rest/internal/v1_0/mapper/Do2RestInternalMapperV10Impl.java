@@ -324,6 +324,7 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         target.setDataValidation(this.toInternationalString(source.getDataValidation()));
         target.setDataCompilation(this.toInternationalString(source.getDataCompilation()));
         target.setAdjustment(this.toInternationalString(source.getAdjustment()));
+        target.setSeasonalAdjustment(toInternationalString(source.getSeasonalAdjustment()));
         target.setCostBurden(this.toInternationalString(source.getCostBurden()));
         target.setCosts(this.toCosts(source.getCost()));
         target.setInventoryDate(this.toDate(source.getInventoryDate()));
@@ -338,7 +339,14 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         target.setAccuracyOverall(this.toInternationalString(source.getAccuracyOverall()));
         target.setSamplingErr(this.toInternationalString(source.getSamplingErr()));
         target.setNonsamplingErr(this.toInternationalString(source.getNonsamplingErr()));
+        target.setCoverageErr(toInternationalString(source.getCoverageErr()));
+        target.setMeasurementErr(toInternationalString(source.getMeasurementErr()));
+        target.setNonResponseErr(toInternationalString(source.getNonResponseErr()));
+        target.setProcessingErr(toInternationalString(source.getProcessingErr()));
+        target.setModelErr(toInternationalString(source.getModelErr()));
         target.setCoherXDom(this.toInternationalString(source.getCoherXDomain()));
+        target.setCoherSubanualAnual(toInternationalString(source.getCoherSubanualAnual()));
+        target.setCoherNationalAccounts(toInternationalString(source.getCoherNationalAccounts()));
         target.setCoherInternal(this.toInternationalString(source.getCoherInternal()));
         target.setComment(this.toInternationalString(source.getComment()));
         target.setNotes(this.toInternationalString(source.getNotes()));

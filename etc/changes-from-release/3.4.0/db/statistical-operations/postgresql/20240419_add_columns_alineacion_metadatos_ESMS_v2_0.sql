@@ -1,0 +1,44 @@
+-- --------------------------------------------------------------------------------------------------
+-- EDATOS-3865 - Alinear el núcleo de metadatos con ESMS v2.0
+-- --------------------------------------------------------------------------------------------------
+
+-- Añade nuevas columnas a la tabla de instancias, necesarias para alinearse con ESMS v2.0
+
+
+ALTER TABLE TB_INSTANCES
+    ADD COLUMN coverage_error_fk BIGINT,
+    ADD COLUMN measurement_error_fk BIGINT,
+    ADD COLUMN nonresponse_error_fk BIGINT,
+    ADD COLUMN processing_error_fk BIGINT,
+    ADD COLUMN model_error_fk BIGINT,
+    ADD COLUMN coher_subanual_anual_fk BIGINT,
+    ADD COLUMN coher_national_accounts_fk BIGINT,
+    ADD COLUMN seasonal_adjustment_fk BIGINT;
+
+ALTER TABLE TB_INSTANCES ADD CONSTRAINT FK_TB_INSTANCES_COVERAGE_ERROR_FK
+    FOREIGN KEY (coverage_error_fk) REFERENCES TB_INTERNATIONAL_STRINGS (ID);
+
+ALTER TABLE TB_INSTANCES ADD CONSTRAINT FK_TB_INSTANCES_MEASUREMENT_ERROR_FK
+    FOREIGN KEY (measurement_error_fk) REFERENCES TB_INTERNATIONAL_STRINGS (ID);
+
+ALTER TABLE TB_INSTANCES ADD CONSTRAINT FK_TB_INSTANCES_NONRESPONSE_ERROR_FK
+    FOREIGN KEY (nonresponse_error_fk) REFERENCES TB_INTERNATIONAL_STRINGS (ID);
+
+ALTER TABLE TB_INSTANCES ADD CONSTRAINT FK_TB_INSTANCES_PROCESSING_ERROR_FK
+    FOREIGN KEY (processing_error_fk) REFERENCES TB_INTERNATIONAL_STRINGS (ID);
+
+ALTER TABLE TB_INSTANCES ADD CONSTRAINT FK_TB_INSTANCES_MODEL_ERROR_FK
+    FOREIGN KEY (model_error_fk) REFERENCES TB_INTERNATIONAL_STRINGS (ID);
+
+ALTER TABLE TB_INSTANCES ADD CONSTRAINT FK_TB_INSTANCES_COHER_SUBANUAL_FK
+    FOREIGN KEY (coher_subanual_anual_fk) REFERENCES TB_INTERNATIONAL_STRINGS (ID);
+
+ALTER TABLE TB_INSTANCES ADD CONSTRAINT FK_TB_INSTANCES_COHER_NATIONAL_FK
+    FOREIGN KEY (coher_national_accounts_fk) REFERENCES TB_INTERNATIONAL_STRINGS (ID);
+
+ALTER TABLE TB_INSTANCES ADD CONSTRAINT FK_TB_INSTANCES_SEASONAL_ADJUSTMENT_FK
+    FOREIGN KEY (seasonal_adjustment_fk) REFERENCES TB_INTERNATIONAL_STRINGS (ID);
+
+
+
+commit;

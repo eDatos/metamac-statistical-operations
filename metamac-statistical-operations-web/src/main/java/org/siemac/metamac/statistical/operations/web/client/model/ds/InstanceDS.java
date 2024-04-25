@@ -42,6 +42,7 @@ public class InstanceDS extends DataSource {
     public static final String DATA_VALIDATION              = "in-valid";
     public static final String DATA_COMPILATION             = "in-compil";
     public static final String ADJUSTMENT                   = "in-adjust";
+    public static final String SEASONAL_ADJUSTMENT          = "in-season-adjust";
     public static final String COST_BURDEN                  = "in-cost-burden";
     public static final String COST                         = "in-cost";
     public static final String CREATED_DATE                 = "in-created-date";
@@ -59,7 +60,15 @@ public class InstanceDS extends DataSource {
     public static final String ACCURACY_OVERALL             = "in-accu";
     public static final String SAMPLING_ERROR               = "in-samp";
     public static final String NONSAMPLING_ERR              = "in-nons";
+    public static final String COVERAGE_ERROR               = "in-cover";
+    public static final String MEASUREMENT_ERROR            = "in-measure";
+    public static final String NONRESPONSE_ERROR            = "in-nonresp";
+    public static final String PROCESSING_ERROR             = "in-process";
+    public static final String MODEL_ERROR                  = "in-model";
+
     public static final String COHER_X_DOM                  = "in-coher";
+    public static final String COHER_SUBANUAL_ANUAL         = "in-sub-anual";
+    public static final String COHER_NATIONAL_ACCOUNTS      = "in-nat";
     public static final String COHER_INTERNAL               = "in-intl";
     // ANNOTATIONS
     public static final String COMMENTS                     = "op-com";

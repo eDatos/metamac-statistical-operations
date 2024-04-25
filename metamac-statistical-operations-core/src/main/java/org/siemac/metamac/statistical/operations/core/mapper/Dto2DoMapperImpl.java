@@ -507,6 +507,9 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
         // ADJUSTMENT
         target.setAdjustment(internationalStringToEntity(source.getAdjustment(), target.getAdjustment(), ServiceExceptionParameters.INSTANCE_ADJUSTMENT));
 
+        // SEASONAL ADJUSTMENT
+        target.setSeasonalAdjustment(internationalStringToEntity(source.getSeasonalAdjustment(), target.getSeasonalAdjustment(), ServiceExceptionParameters.INSTANCE_SEASONAL_ADJUSTMENT));
+
         // COST_BURDEN
         target.setCostBurden(internationalStringToEntity(source.getCostBurden(), target.getCostBurden(), ServiceExceptionParameters.INSTANCE_COST_BURDEN));
 
@@ -549,8 +552,29 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
         // NONSAMPLING_ERR
         target.setNonsamplingErr(internationalStringToEntity(source.getNonsamplingErr(), target.getNonsamplingErr(), ServiceExceptionParameters.INSTANCE_NONSAMPLING_ERR));
 
+        // COVERAGE_ERROR
+        target.setCoverageErr(internationalStringToEntity(source.getCoverageErr(), target.getCoverageErr(), ServiceExceptionParameters.INSTANCE_COVERAGE_ERROR));
+
+        // MEASUREMENT_ERROR
+        target.setMeasurementErr(internationalStringToEntity(source.getMeasurementErr(), target.getMeasurementErr(), ServiceExceptionParameters.INSTANCE_MEASUREMENT_ERROR));
+
+        // NONRESPONSE_ERROR
+        target.setNonResponseErr(internationalStringToEntity(source.getNonresponseErr(), target.getNonResponseErr(), ServiceExceptionParameters.INSTANCE_NONRESPONSE_ERROR));
+
+        // PROCESSING_ERROR
+        target.setProcessingErr(internationalStringToEntity(source.getProcessingErr(), target.getProcessingErr(), ServiceExceptionParameters.INSTANCE_PROCESSING_ERROR));
+
+        // MODEL_ERROR
+        target.setModelErr(internationalStringToEntity(source.getModelErr(), target.getModelErr(), ServiceExceptionParameters.INSTANCE_MODEL_ERROR));
+
         // COHER_X_DOMAIN
         target.setCoherXDomain(internationalStringToEntity(source.getCoherXDomain(), target.getCoherXDomain(), ServiceExceptionParameters.INSTANCE_COHER_X_DOMAIN));
+
+        // COHER_SUBANUAL_ANUAL
+        target.setCoherSubanualAnual(internationalStringToEntity(source.getCoherSubAnualAnual(), target.getCoherSubanualAnual(), ServiceExceptionParameters.INSTANCE_COHER_SUBANUAL_ANUAL));
+
+        // COHER_NATIONAL_ACCOUNTS
+        target.setCoherNationalAccounts(internationalStringToEntity(source.getCoherNationalAccounts(), target.getCoherNationalAccounts(), ServiceExceptionParameters.INSTANCE_COHER_NATIONAL_ACCOUNTS));
 
         // COHER_INTERNAL
         target.setCoherInternal(internationalStringToEntity(source.getCoherInternal(), target.getCoherInternal(), ServiceExceptionParameters.INSTANCE_COHER_INTERNAL));

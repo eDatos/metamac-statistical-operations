@@ -281,6 +281,7 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
         instanceDto.setDataValidation(productionDescriptorsEditionForm.getValueAsInternationalStringDto(InstanceDS.DATA_VALIDATION));
         instanceDto.setDataCompilation(productionDescriptorsEditionForm.getValueAsInternationalStringDto(InstanceDS.DATA_COMPILATION));
         instanceDto.setAdjustment(productionDescriptorsEditionForm.getValueAsInternationalStringDto(InstanceDS.ADJUSTMENT));
+        instanceDto.setSeasonalAdjustment(productionDescriptorsEditionForm.getValueAsInternationalStringDto(InstanceDS.SEASONAL_ADJUSTMENT));
         instanceDto.setCostBurden(productionDescriptorsEditionForm.getValueAsInternationalStringDto(InstanceDS.COST_BURDEN));
         instanceDto.getCost().clear();
         instanceDto.getCost().addAll(OperationsListUtils.getCostDtos(costItem.getValues(), costDtos));
@@ -299,7 +300,16 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
         instanceDto.setAccuracyOverall(qualityEditionForm.getValueAsInternationalStringDto(InstanceDS.ACCURACY_OVERALL));
         instanceDto.setSamplingErr(qualityEditionForm.getValueAsInternationalStringDto(InstanceDS.SAMPLING_ERROR));
         instanceDto.setNonsamplingErr(qualityEditionForm.getValueAsInternationalStringDto(InstanceDS.NONSAMPLING_ERR));
+
+        instanceDto.setCoverageErr(qualityEditionForm.getValueAsInternationalStringDto(InstanceDS.COVERAGE_ERROR));
+        instanceDto.setMeasurementErr(qualityEditionForm.getValueAsInternationalStringDto(InstanceDS.MEASUREMENT_ERROR));
+        instanceDto.setNonresponseErr(qualityEditionForm.getValueAsInternationalStringDto(InstanceDS.NONRESPONSE_ERROR));
+        instanceDto.setProcessingErr(qualityEditionForm.getValueAsInternationalStringDto(InstanceDS.PROCESSING_ERROR));
+        instanceDto.setModelErr(qualityEditionForm.getValueAsInternationalStringDto(InstanceDS.MODEL_ERROR));
+
         instanceDto.setCoherXDomain(qualityEditionForm.getValueAsInternationalStringDto(InstanceDS.COHER_X_DOM));
+        instanceDto.setCoherSubAnualAnual(qualityEditionForm.getValueAsInternationalStringDto(InstanceDS.COHER_SUBANUAL_ANUAL));
+        instanceDto.setCoherNationalAccounts(qualityEditionForm.getValueAsInternationalStringDto(InstanceDS.COHER_NATIONAL_ACCOUNTS));
         instanceDto.setCoherInternal(qualityEditionForm.getValueAsInternationalStringDto(InstanceDS.COHER_INTERNAL));
 
         // ANNOTATIONS
@@ -365,10 +375,11 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
         ViewMultiLanguageTextItem staticDataValidationItem = new ViewMultiLanguageTextItem(InstanceDS.DATA_VALIDATION, getConstants().instanceDataValidation());
         ViewMultiLanguageTextItem staticDataCompilationItem = new ViewMultiLanguageTextItem(InstanceDS.DATA_COMPILATION, getConstants().instanceDataCompilation());
         ViewMultiLanguageTextItem staticAdjustmentItem = new ViewMultiLanguageTextItem(InstanceDS.ADJUSTMENT, getConstants().instanceAdjustment());
+        ViewMultiLanguageTextItem staticSeasonAdjustmentItem = new ViewMultiLanguageTextItem(InstanceDS.SEASONAL_ADJUSTMENT, getConstants().instanceSeasonalAdjustment());
         ViewMultiLanguageTextItem staticCostBurdenItem = new ViewMultiLanguageTextItem(InstanceDS.COST_BURDEN, getConstants().instanceCostBurden());
         ViewTextItem cost = new ViewTextItem(InstanceDS.COST, getConstants().instanceCost());
         productionDescriptorsForm.setFields(createdDate, internalInventoryDate, procStatus, staticDocMethodItem, surveySource, collMethod, informationSuppliers, freqColl, staticDataValidationItem,
-                staticDataCompilationItem, staticAdjustmentItem, staticCostBurdenItem, cost);
+                staticDataCompilationItem, staticAdjustmentItem, staticSeasonAdjustmentItem, staticCostBurdenItem, cost);
 
         // Diffusion and Publication
         diffusionViewForm = new GroupDynamicForm(getConstants().instanceDiffusionDescriptors());
@@ -387,11 +398,23 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
         ViewMultiLanguageTextItem staticPunctualityItem = new ViewMultiLanguageTextItem(InstanceDS.PUNCTUALITY, getConstants().instancePunctuality());
         ViewMultiLanguageTextItem staticAccuracyOverallItem = new ViewMultiLanguageTextItem(InstanceDS.ACCURACY_OVERALL, getConstants().instanceAccuracyOverall());
         ViewMultiLanguageTextItem staticSamplingErrItem = new ViewMultiLanguageTextItem(InstanceDS.SAMPLING_ERROR, getConstants().instanceSamplingErr());
-        ViewMultiLanguageTextItem statocNonSamplingErrItem = new ViewMultiLanguageTextItem(InstanceDS.NONSAMPLING_ERR, getConstants().instanceNonSamplingErr());
+        ViewMultiLanguageTextItem staticNonSamplingErrItem = new ViewMultiLanguageTextItem(InstanceDS.NONSAMPLING_ERR, getConstants().instanceNonSamplingErr());
+
+        ViewMultiLanguageTextItem staticCoverageErrItem = new ViewMultiLanguageTextItem(InstanceDS.COVERAGE_ERROR, getConstants().instanceCoverageErr());
+        ViewMultiLanguageTextItem staticMeasurementErrItem = new ViewMultiLanguageTextItem(InstanceDS.MEASUREMENT_ERROR, getConstants().instanceMeasurementErr());
+        ViewMultiLanguageTextItem staticNonResponseErrItem = new ViewMultiLanguageTextItem(InstanceDS.NONRESPONSE_ERROR, getConstants().instanceNonResponseErr());
+        ViewMultiLanguageTextItem staticProcessingErrItem = new ViewMultiLanguageTextItem(InstanceDS.PROCESSING_ERROR, getConstants().instanceProcessingErr());
+        ViewMultiLanguageTextItem staticModelItem = new ViewMultiLanguageTextItem(InstanceDS.MODEL_ERROR, getConstants().instanceModelErr());
+
         ViewMultiLanguageTextItem staticCoherXDomItem = new ViewMultiLanguageTextItem(InstanceDS.COHER_X_DOM, getConstants().instanceCoherXDom());
+
+        ViewMultiLanguageTextItem staticCoherSubAnualItem = new ViewMultiLanguageTextItem(InstanceDS.COHER_SUBANUAL_ANUAL, getConstants().instanceCoherSubAnual());
+        ViewMultiLanguageTextItem staticCoherNationalAccountsItem = new ViewMultiLanguageTextItem(InstanceDS.COHER_NATIONAL_ACCOUNTS, getConstants().instanceCoherNationalAccounts());
+
         ViewMultiLanguageTextItem staticCoherInternalItem = new ViewMultiLanguageTextItem(InstanceDS.COHER_INTERNAL, getConstants().instanceCoherInter());
         qualityViewForm.setFields(staticQualityDocItem, staticQualityAssureItem, staticQualityAssesmentItem, staticUserNeedsItem, staticUserSatItem, staticCompletenessItem, staticTimelinessItem,
-                staticPunctualityItem, staticAccuracyOverallItem, staticSamplingErrItem, statocNonSamplingErrItem, staticCoherXDomItem, staticCoherInternalItem);
+                staticPunctualityItem, staticAccuracyOverallItem, staticSamplingErrItem, staticNonSamplingErrItem, staticCoverageErrItem, staticMeasurementErrItem, staticNonResponseErrItem,
+                staticProcessingErrItem, staticModelItem, staticCoherXDomItem, staticCoherSubAnualItem, staticCoherNationalAccountsItem, staticCoherInternalItem);
 
         // Annotations
         annotationsViewForm = new GroupDynamicForm(getConstants().instanceAnnotations());
@@ -495,11 +518,12 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
         MultiLanguageRichTextEditorItem dataValidationItem = new MultiLanguageRichTextEditorItem(InstanceDS.DATA_VALIDATION, getConstants().instanceDataValidation());
         MultiLanguageRichTextEditorItem dataCompilationItem = new MultiLanguageRichTextEditorItem(InstanceDS.DATA_COMPILATION, getConstants().instanceDataCompilation());
         MultiLanguageRichTextEditorItem adjustmentItem = new MultiLanguageRichTextEditorItem(InstanceDS.ADJUSTMENT, getConstants().instanceAdjustment());
+        MultiLanguageRichTextEditorItem seasonAdjustmentItem = new MultiLanguageRichTextEditorItem(InstanceDS.SEASONAL_ADJUSTMENT, getConstants().instanceSeasonalAdjustment());
         MultiLanguageRichTextEditorItem costBurdenItem = new MultiLanguageRichTextEditorItem(InstanceDS.COST_BURDEN, getConstants().instanceCostBurden());
         costItem = new CustomSelectItem(InstanceDS.COST, getConstants().instanceCost());
         costItem.setMultiple(true);
         productionDescriptorsEditionForm.setFields(createdDate, internalInventoryDate, staticProcStatus, procStatus, docMethodItem, surveySourceItem, collMethodItem, informationSuppliersItem,
-                freqCollItem, dataValidationItem, dataCompilationItem, adjustmentItem, costBurdenItem, costItem);
+                freqCollItem, dataValidationItem, dataCompilationItem, adjustmentItem, seasonAdjustmentItem, costBurdenItem, costItem);
 
         // Diffusion and Publication
         diffusionEditionForm = new GroupDynamicForm(getConstants().instanceDiffusionDescriptors());
@@ -519,10 +543,20 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
         MultiLanguageRichTextEditorItem accuracyOverallItem = new MultiLanguageRichTextEditorItem(InstanceDS.ACCURACY_OVERALL, getConstants().instanceAccuracyOverall());
         MultiLanguageRichTextEditorItem samplingErrItem = new MultiLanguageRichTextEditorItem(InstanceDS.SAMPLING_ERROR, getConstants().instanceSamplingErr());
         MultiLanguageRichTextEditorItem nonSamplingErrItem = new MultiLanguageRichTextEditorItem(InstanceDS.NONSAMPLING_ERR, getConstants().instanceNonSamplingErr());
+
+        MultiLanguageRichTextEditorItem staticCoverageErrItem = new MultiLanguageRichTextEditorItem(InstanceDS.COVERAGE_ERROR, getConstants().instanceCoverageErr());
+        MultiLanguageRichTextEditorItem staticMeasurementErrItem = new MultiLanguageRichTextEditorItem(InstanceDS.MEASUREMENT_ERROR, getConstants().instanceMeasurementErr());
+        MultiLanguageRichTextEditorItem staticNonResponseErrItem = new MultiLanguageRichTextEditorItem(InstanceDS.NONRESPONSE_ERROR, getConstants().instanceNonResponseErr());
+        MultiLanguageRichTextEditorItem staticProcessingErrItem = new MultiLanguageRichTextEditorItem(InstanceDS.PROCESSING_ERROR, getConstants().instanceProcessingErr());
+        MultiLanguageRichTextEditorItem staticModelItem = new MultiLanguageRichTextEditorItem(InstanceDS.MODEL_ERROR, getConstants().instanceModelErr());
+
         MultiLanguageRichTextEditorItem coherXDomItem = new MultiLanguageRichTextEditorItem(InstanceDS.COHER_X_DOM, getConstants().instanceCoherXDom());
+        MultiLanguageRichTextEditorItem coherSubanualAnualItem = new MultiLanguageRichTextEditorItem(InstanceDS.COHER_SUBANUAL_ANUAL, getConstants().instanceCoherSubAnual());
+        MultiLanguageRichTextEditorItem coherNationalAccountsItem = new MultiLanguageRichTextEditorItem(InstanceDS.COHER_NATIONAL_ACCOUNTS, getConstants().instanceCoherNationalAccounts());
         MultiLanguageRichTextEditorItem coherInternalItem = new MultiLanguageRichTextEditorItem(InstanceDS.COHER_INTERNAL, getConstants().instanceCoherInter());
         qualityEditionForm.setFields(qualityDocItem, qualityAssureItem, qualityAssesmentItem, userNeedsItem, userSatItem, completenessItem, timelinessItem, punctualityItem, accuracyOverallItem,
-                samplingErrItem, nonSamplingErrItem, coherXDomItem, coherInternalItem);
+                samplingErrItem, nonSamplingErrItem, staticCoverageErrItem, staticMeasurementErrItem, staticNonResponseErrItem, staticProcessingErrItem, staticModelItem, coherXDomItem,
+                coherSubanualAnualItem, coherNationalAccountsItem, coherInternalItem);
 
         // Annotations
         annotationsEditionForm = new GroupDynamicForm(getConstants().instanceAnnotations());
@@ -597,6 +631,7 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
         productionDescriptorsForm.setValue(InstanceDS.DATA_VALIDATION, instanceDto.getDataValidation());
         productionDescriptorsForm.setValue(InstanceDS.DATA_COMPILATION, instanceDto.getDataCompilation());
         productionDescriptorsForm.setValue(InstanceDS.ADJUSTMENT, instanceDto.getAdjustment());
+        productionDescriptorsForm.setValue(InstanceDS.SEASONAL_ADJUSTMENT, instanceDto.getSeasonalAdjustment());
         productionDescriptorsForm.setValue(InstanceDS.COST_BURDEN, instanceDto.getCostBurden());
 
         productionDescriptorsForm.setValue(InstanceDS.COST, OperationsListUtils.getCostDtoListToString(instanceDto.getCost()));
@@ -617,8 +652,17 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
         qualityViewForm.setValue(InstanceDS.PUNCTUALITY, instanceDto.getPunctuality());
         qualityViewForm.setValue(InstanceDS.ACCURACY_OVERALL, instanceDto.getAccuracyOverall());
         qualityViewForm.setValue(InstanceDS.SAMPLING_ERROR, instanceDto.getSamplingErr());
+
         qualityViewForm.setValue(InstanceDS.NONSAMPLING_ERR, instanceDto.getNonsamplingErr());
+        qualityViewForm.setValue(InstanceDS.COVERAGE_ERROR, instanceDto.getCoverageErr());
+        qualityViewForm.setValue(InstanceDS.MEASUREMENT_ERROR, instanceDto.getMeasurementErr());
+        qualityViewForm.setValue(InstanceDS.NONRESPONSE_ERROR, instanceDto.getNonresponseErr());
+        qualityViewForm.setValue(InstanceDS.PROCESSING_ERROR, instanceDto.getProcessingErr());
+        qualityViewForm.setValue(InstanceDS.MODEL_ERROR, instanceDto.getModelErr());
+
         qualityViewForm.setValue(InstanceDS.COHER_X_DOM, instanceDto.getCoherXDomain());
+        qualityViewForm.setValue(InstanceDS.COHER_SUBANUAL_ANUAL, instanceDto.getCoherSubAnualAnual());
+        qualityViewForm.setValue(InstanceDS.COHER_NATIONAL_ACCOUNTS, instanceDto.getCoherNationalAccounts());
         qualityViewForm.setValue(InstanceDS.COHER_INTERNAL, instanceDto.getCoherInternal());
         qualityViewForm.redraw();
         qualityViewForm.setRedrawOnResize(true);
@@ -695,6 +739,9 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
         productionDescriptorsEditionForm.setValue(InstanceDS.DATA_VALIDATION, instanceDto.getDataValidation());
         productionDescriptorsEditionForm.setValue(InstanceDS.DATA_COMPILATION, instanceDto.getDataCompilation());
         productionDescriptorsEditionForm.setValue(InstanceDS.ADJUSTMENT, instanceDto.getAdjustment());
+
+        productionDescriptorsEditionForm.setValue(InstanceDS.SEASONAL_ADJUSTMENT, instanceDto.getSeasonalAdjustment());
+
         productionDescriptorsEditionForm.setValue(InstanceDS.COST_BURDEN, instanceDto.getCostBurden());
         costItem.setValues(getCostIds(instanceDto.getCost()));
         productionDescriptorsEditionForm.setRequiredTitleSuffix(requiredFieldsToNextProcStatus);
@@ -719,7 +766,18 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
         qualityEditionForm.setValue(InstanceDS.ACCURACY_OVERALL, instanceDto.getAccuracyOverall());
         qualityEditionForm.setValue(InstanceDS.SAMPLING_ERROR, instanceDto.getSamplingErr());
         qualityEditionForm.setValue(InstanceDS.NONSAMPLING_ERR, instanceDto.getNonsamplingErr());
+
+        qualityEditionForm.setValue(InstanceDS.COVERAGE_ERROR, instanceDto.getCoverageErr());
+        qualityEditionForm.setValue(InstanceDS.MEASUREMENT_ERROR, instanceDto.getMeasurementErr());
+        qualityEditionForm.setValue(InstanceDS.NONRESPONSE_ERROR, instanceDto.getNonresponseErr());
+        qualityEditionForm.setValue(InstanceDS.PROCESSING_ERROR, instanceDto.getProcessingErr());
+        qualityEditionForm.setValue(InstanceDS.MODEL_ERROR, instanceDto.getModelErr());
+
         qualityEditionForm.setValue(InstanceDS.COHER_X_DOM, instanceDto.getCoherXDomain());
+
+        qualityEditionForm.setValue(InstanceDS.COHER_SUBANUAL_ANUAL, instanceDto.getCoherSubAnualAnual());
+        qualityEditionForm.setValue(InstanceDS.COHER_NATIONAL_ACCOUNTS, instanceDto.getCoherNationalAccounts());
+
         qualityEditionForm.setValue(InstanceDS.COHER_INTERNAL, instanceDto.getCoherInternal());
         qualityEditionForm.setRequiredTitleSuffix(requiredFieldsToNextProcStatus);
         qualityEditionForm.markForRedraw();

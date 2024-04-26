@@ -715,6 +715,7 @@ public class StatisticalOperationsCoreMocks {
         instance.setDataValidation(mockInternationalStringMetadata("dataValidation", subCode));
         instance.setDataCompilation(mockInternationalStringMetadata("dataCompilation", subCode));
         instance.setAdjustment(mockInternationalStringMetadata("adjustment", subCode));
+        instance.setSeasonalAdjustment(mockInternationalStringMetadata("SeasonalAdjustment", subCode));
         instance.setCostBurden(mockInternationalStringMetadata("costBurden", subCode));
         instance.addCost(mockCost("cost1"));
         instance.addCost(mockCost("cost22"));
@@ -731,8 +732,15 @@ public class StatisticalOperationsCoreMocks {
         instance.setPunctuality(mockInternationalStringMetadata("punctuality", subCode));
         instance.setAccuracyOverall(mockInternationalStringMetadata("accuracyOverall", subCode));
         instance.setSamplingErr(mockInternationalStringMetadata("samplingErr", subCode));
+        instance.setCoverageErr(mockInternationalStringMetadata("coverageErr", subCode));
+        instance.setMeasurementErr(mockInternationalStringMetadata("measurementErr", subCode));
+        instance.setProcessingErr(mockInternationalStringMetadata("ProcessingErr", subCode));
+        instance.setNonResponseErr(mockInternationalStringMetadata("nonsResponseErr", subCode));
+        instance.setModelErr(mockInternationalStringMetadata("modelErr", subCode));
         instance.setNonsamplingErr(mockInternationalStringMetadata("nonsamplingErr", subCode));
         instance.setCoherXDomain(mockInternationalStringMetadata("coherXDom", subCode));
+        instance.setCoherSubanualAnual(mockInternationalStringMetadata("coherAnualSubanual", subCode));
+        instance.setCoherNationalAccounts(mockInternationalStringMetadata("coherXDom", subCode));
         instance.setCoherInternal(mockInternationalStringMetadata("coherInternal", subCode));
         instance.setComment(mockInternationalStringMetadata("comment", subCode));
         instance.setNotes(mockInternationalStringMetadata("notes", subCode));

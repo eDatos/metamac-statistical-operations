@@ -315,7 +315,7 @@
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Descripción de los procedimientos estadísticos utilizados para el ajuste estacional de las series de datos",
+                     "description":"La técnica estadística utilizada para eliminar los efectos del calendario estacional en una serie",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "basePeriod":{
@@ -357,14 +357,14 @@
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Descripción del grado en que las estadísticas son conciliables con las cuentas nacionales.",
+                     "description":"Descripción del grado en que las estadísticas son conciliables con las cuentas nacionales",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "coherSubanualAnual":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Descripción del grado en que las estadísticas de diferentes frecuencias son conciliables.",
+                     "description":"Descripción del grado en que las estadísticas de diferentes frecuencias son conciliables",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "coherXDom":{
@@ -399,7 +399,7 @@
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Descripción de la divergencia entre la población marco y la población objetivo.",
+                     "description":"Descripción de la divergencia entre la población marco y la población objetivo",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "dataCompilation":{
@@ -476,7 +476,7 @@
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Los errores de medida son errores que se producen durante la recolección de datos en los que los valores registrados son diferentes de los reales.",
+                     "description":"Los errores de medida son errores que se producen durante la recolección de datos en los que los valores registrados son diferentes de los reales",
                      "$ref":"#/definitions/Measures"
                   },
                   "measures":{
@@ -490,7 +490,7 @@
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Error debido a modelos específicos de dominio necesarios para definir el objetivo de la estimación.",
+                     "description":"Error debido a modelos específicos de dominio necesarios para definir el objetivo de la estimación",
                      "$ref":"#/definitions/Measures"
                   },
                   "name":{
@@ -504,7 +504,7 @@
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Los errores de sin respuesta se producen cuando la encuesta no obtiene una respuesta a una, o posiblemente todas, las preguntas.",
+                     "description":"Los errores de sin respuesta se producen cuando la encuesta no obtiene una respuesta a una, o posiblemente todas, las preguntas",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "nonsamplingErr":{
@@ -532,7 +532,7 @@
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"El error en el proceso final de recolección de datos debido a la incorrecta aplicación de métodos de implementación correctamente planificados.",
+                     "description":"El error en el proceso final de recolección de datos debido a la incorrecta aplicación de métodos de implementación correctamente planificados",
                      "$ref":"#/definitions/Resource"
                   },
                   "punctuality":{

@@ -1,10 +1,21 @@
 package org.siemac.metamac.statistical.operations.web.server.rest;
 
 import static org.siemac.metamac.rest.api.constants.RestApiConstants.WILDCARD_ALL;
+import static org.siemac.metamac.rest.api.utils.RestCriteriaUtils.appendConditionToQuery;
+import static org.siemac.metamac.rest.api.utils.RestCriteriaUtils.fieldComparison;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.cxf.jaxrs.client.ServerWebApplicationException;
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
+import org.siemac.metamac.core.common.util.shared.UrnUtils;
+import org.siemac.metamac.rest.common.v1_0.domain.ComparisonOperator;
+import org.siemac.metamac.rest.common.v1_0.domain.LogicalOperator;
 import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.Categories;
+import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.CategoryCriteriaPropertyRestriction;
+import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.CategoryResourceInternal;
 import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.CategorySchemes;
 import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.Codelists;
 import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.Codes;
@@ -16,6 +27,7 @@ import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.Organis
 import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.OrganisationUnitSchemes;
 import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.OrganisationUnits;
 import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.Organisations;
+import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.ResourceInternal;
 import org.siemac.metamac.statistical.operations.core.error.ServiceExceptionParameters;
 import org.siemac.metamac.statistical.operations.web.server.rest.utils.ExternalItemUtils;
 import org.siemac.metamac.statistical.operations.web.server.rest.utils.RestQueryUtils;
@@ -24,8 +36,11 @@ import org.siemac.metamac.statistical.operations.web.shared.external.ConceptSche
 import org.siemac.metamac.statistical.operations.web.shared.external.OrganisationRestCriteria;
 import org.siemac.metamac.statistical.operations.web.shared.external.OrganisationSchemeRestCriteria;
 import org.siemac.metamac.web.common.server.rest.utils.RestExceptionUtils;
+import org.siemac.metamac.web.common.shared.criteria.ExternalResourceWebCriteria;
+import org.siemac.metamac.web.common.shared.criteria.MetamacWebCriteria;
 import org.siemac.metamac.web.common.shared.criteria.SrmExternalResourceRestCriteria;
 import org.siemac.metamac.web.common.shared.criteria.SrmItemRestCriteria;
+import org.siemac.metamac.web.common.shared.criteria.base.HasSimpleCriteria;
 import org.siemac.metamac.web.common.shared.domain.ExternalItemsResult;
 import org.siemac.metamac.web.common.shared.exception.MetamacWebException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -280,6 +295,89 @@ public class SrmRestInternalFacadeImpl implements SrmRestInternalFacade {
             return ExternalItemUtils.getOrganisationsAsExternalItemsResult(organisations);
         } catch (ServerWebApplicationException e) {
             throw manageSrmInternalRestException(serviceContext, e);
+        }
+    }
+
+    private Categories retrieveCategoriesByCategoryScheme(ServiceContext serviceContext, String categorySchemeUrn, ExternalResourceWebCriteria condition, int firstResult, int maxResults)
+            throws MetamacWebException {
+        String limit = String.valueOf(maxResults);
+        String offset = String.valueOf(firstResult);
+        String orderBy = null;
+        String query = null;
+        if (condition != null) {
+            query = buildCategoryQueryCode(condition);
+        }
+
+        try {
+            String fields = "+categoryElement";
+
+            String[] params = UrnUtils.splitUrnItemScheme(categorySchemeUrn);
+            String agencyId = params[0];
+            String resourceId = params[1];
+            String version = params[2];
+
+            return restApiLocator.getSrmRestInternalFacadeV10().findCategories(agencyId, resourceId, version, query, orderBy, limit, offset, fields);
+        } catch (ServerWebApplicationException e) {
+            throw manageSrmInternalRestException(serviceContext, e);
+        }
+    }
+
+    @Override
+    public ExternalItemsResult retrieveCategoryElementsByCategoryScheme(ServiceContext serviceContext, String categorySchemeUrn, ExternalResourceWebCriteria condition, int firstResult, int maxResults)
+            throws MetamacWebException {
+
+        Categories categories = retrieveCategoriesByCategoryScheme(serviceContext, categorySchemeUrn, condition, firstResult, maxResults);
+
+        try {
+            List<ResourceInternal> categoryElements = new ArrayList<ResourceInternal>();
+
+            for (CategoryResourceInternal category : categories.getCategories()) {
+                if (category.getCategoryElement() != null) {
+                    categoryElements.add(category.getCategoryElement());
+                }
+            }
+
+            ExternalItemsResult result = ExternalItemUtils.getCategoryElementsAsExternalItemsResult(categoryElements);
+            result.setFirstResult(categories.getOffset() != null ? categories.getOffset().intValue() : 0);
+            result.setTotalResults(categories.getOffset() != null ? categories.getTotal().intValue() : 0);
+
+            return result;
+
+        } catch (Exception e) {
+            throw manageSrmInternalRestException(serviceContext, e);
+        }
+    }
+
+    public static String buildCategoryQueryCode(MetamacWebCriteria webCriteria) {
+        StringBuilder queryBuilder = new StringBuilder();
+        if (webCriteria != null) {
+            addSimpleRestCriteria(queryBuilder, webCriteria, CategoryCriteriaPropertyRestriction.CATEGORY_ELEMENT_SHORT_NAME, CategoryCriteriaPropertyRestriction.CATEGORY_ELEMENT_CODE,
+                    CategoryCriteriaPropertyRestriction.CATEGORY_ELEMENT_URN);
+        }
+        appendConditionToQuery(queryBuilder, "CATEGORY_ELEMENT_CODE IS_NOT_NULL");
+        return queryBuilder.toString();
+    }
+
+    @SuppressWarnings("rawtypes")
+    private static void addSimpleRestCriteria(StringBuilder queryBuilder, HasSimpleCriteria criteria, Enum... fields) {
+        String simpleCriteria = criteria.getCriteria();
+        if (StringUtils.isNotBlank(simpleCriteria)) {
+            StringBuilder conditionBuilder = new StringBuilder();
+
+            List<String> conditions = new ArrayList<String>();
+            for (Enum field : fields) {
+                conditions.add(fieldComparison(field, ComparisonOperator.ILIKE, simpleCriteria));
+            }
+
+            conditionBuilder.append("(");
+            for (int i = 0; i < conditions.size(); i++) {
+                if (i > 0) {
+                    conditionBuilder.append(" ").append(LogicalOperator.OR).append(" ");
+                }
+                conditionBuilder.append(conditions.get(i));
+            }
+            conditionBuilder.append(")");
+            appendConditionToQuery(queryBuilder, conditionBuilder.toString());
         }
     }
 

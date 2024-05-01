@@ -45,6 +45,7 @@ import org.siemac.metamac.rest.statistical_operations.v1_0.domain.StatisticalUni
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Status;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.TemporalGranularities;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.UpdateFrequencies;
+import org.siemac.metamac.rest.structural_resources.v1_0.domain.CategoryResource;
 import org.siemac.metamac.srm.rest.common.SrmRestConstants;
 import org.siemac.metamac.statistical_operations.rest.common.StatisticalOperationsRestConstants;
 import org.siemac.metamac.statistical_operations.rest.external.v1_0.service.StatisticalOperationsRestExternalFacadeV10Test;
@@ -640,13 +641,13 @@ public class StatisticalOperationsRestMocks {
         operation.setSelfLink(MetamacRestMocks.mockResourceLink(operation.getKind(), baseApi + "/operations/operation" + subId));
         operation.setName(mockInternationalStringMetadata("operation", subId));
         operation.setAcronym(mockInternationalStringMetadata("acronym", subId));
-        operation.setSubjectArea(mockResourceFromExternalItemSrm("subjectArea1", "subjectAreas", "structuralResources#category"));
+        operation.setSubjectArea(mockResourceFromCategoryResource("subjectArea1"));
         operation.setSecondarySubjectAreas(new SecondarySubjectAreas());
         operation.getSecondarySubjectAreas().setTotal(BigInteger.valueOf(3));
         operation.getSecondarySubjectAreas().setKind(SrmRestConstants.KIND_CATEGORIES);
-        operation.getSecondarySubjectAreas().getSecondarySubjectAreas().add(mockResourceFromExternalItemSrm("secundarySubjectArea1", "secundarySubjectAreas", "structuralResources#category"));
-        operation.getSecondarySubjectAreas().getSecondarySubjectAreas().add(mockResourceFromExternalItemSrm("secundarySubjectArea22", "secundarySubjectAreas", "structuralResources#category"));
-        operation.getSecondarySubjectAreas().getSecondarySubjectAreas().add(mockResourceFromExternalItemSrm("secundarySubjectArea333", "secundarySubjectAreas", "structuralResources#category"));
+        operation.getSecondarySubjectAreas().getSecondarySubjectAreas().add(mockResourceFromCategoryResource("secundarySubjectArea1"));
+        operation.getSecondarySubjectAreas().getSecondarySubjectAreas().add(mockResourceFromCategoryResource("secundarySubjectArea22"));
+        operation.getSecondarySubjectAreas().getSecondarySubjectAreas().add(mockResourceFromCategoryResource("secundarySubjectArea333"));
         operation.setObjective(mockInternationalStringMetadata("objetive", subId));
         operation.setDescription(mockInternationalStringMetadata("description", subId));
         operation.setStatisticalOperationType(mockItem("statisticalOperationIdentifier"));
@@ -793,6 +794,7 @@ public class StatisticalOperationsRestMocks {
         instance.setDataValidation(mockInternationalStringMetadata("dataValidation", subId));
         instance.setDataCompilation(mockInternationalStringMetadata("dataCompilation", subId));
         instance.setAdjustment(mockInternationalStringMetadata("adjustment", subId));
+        instance.setSeasonalAdjustment(mockInternationalStringMetadata("seasonalAdjustment", subId));
         instance.setInventoryDate(new DateTime(2013, 2, 4, 13, 15, 14, 0).toDate());
         instance.setQualityDoc(mockInternationalStringMetadata("qualityDoc", subId));
         instance.setQualityAssure(mockInternationalStringMetadata("qualityAssure", subId));
@@ -805,7 +807,14 @@ public class StatisticalOperationsRestMocks {
         instance.setAccuracyOverall(mockInternationalStringMetadata("accuracyOverall", subId));
         instance.setSamplingErr(mockInternationalStringMetadata("samplingErr", subId));
         instance.setNonsamplingErr(mockInternationalStringMetadata("nonsamplingErr", subId));
+        instance.setCoverageErr(mockInternationalStringMetadata("coverageErr", subId));
+        instance.setMeasurementErr(mockInternationalStringMetadata("measurementErr", subId));
+        instance.setNonResponseErr(mockInternationalStringMetadata("nonResponseErr", subId));
+        instance.setModelErr(mockInternationalStringMetadata("modelErr", subId));
+        instance.setProcessingErr(mockInternationalStringMetadata("processingErr", subId));
         instance.setCoherXDom(mockInternationalStringMetadata("coherXDom", subId));
+        instance.setCoherSubanualAnual(mockInternationalStringMetadata("coherSubanualAnual", subId));
+        instance.setCoherNationalAccounts(mockInternationalStringMetadata("coherNationalAccounts", subId));
         instance.setCoherInternal(mockInternationalStringMetadata("coherInternal", subId));
         instance.setComment(mockInternationalStringMetadata("comment", subId));
         instance.setParentLink(MetamacRestMocks.mockResourceLink(StatisticalOperationsRestConstants.KIND_OPERATION, baseApi + "/operations/" + operation));
@@ -953,7 +962,7 @@ public class StatisticalOperationsRestMocks {
         resource.setKind(kind);
         resource.setSelfLink(MetamacRestMocks.mockResourceLink(kind, selfLink));
         resource.setName(mockInternationalString("es", id + " en Español"));
-        resource.setSubjectArea(mockResourceFromExternalItemSrm("subjectArea1", "subjectAreas", "structuralResources#category"));
+        resource.setSubjectArea(mockResourceFromCategoryResource("subjectArea1"));
         return resource;
     }
 
@@ -962,5 +971,31 @@ public class StatisticalOperationsRestMocks {
         item.setId(id);
         item.setName(mockInternationalString("es", id + " en Español"));
         return item;
+    }
+
+    // SRM Category resource
+    public Resource mockResourceFromCategoryResource(String code) {
+        CategoryResource categoryResourceInternal = mockCategoryResource(code);
+
+        Resource resource = new ResourceInternal();
+        resource.setId(code);
+        resource.setUrn(categoryResourceInternal.getUrn());
+        resource.setKind(categoryResourceInternal.getKind());
+        resource.setSelfLink(categoryResourceInternal.getSelfLink());
+        resource.setName(categoryResourceInternal.getName());
+        resource.setNestedId(categoryResourceInternal.getNestedId());
+
+        return resource;
+    }
+
+    // SRM Category resource
+    public CategoryResource mockCategoryResource(String code) {
+        CategoryResource categoryResource = new CategoryResource();
+        categoryResource.setId(code);
+        categoryResource.setUrn("urn:" + code);
+        categoryResource.setKind(SrmRestConstants.KIND_CATEGORY);
+        categoryResource.setSelfLink(MetamacRestMocks.mockResourceLink(categoryResource.getKind(), srmExternalApiBase + "/categories/" + code));
+        categoryResource.setName(mockInternationalString("es", code + " en Español"));
+        return categoryResource;
     }
 }

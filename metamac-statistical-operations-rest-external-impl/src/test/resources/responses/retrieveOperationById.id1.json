@@ -1,566 +1,562 @@
 {
-  "id": "operation1",
-  "urn": "urn:siemac:org.siemac.metamac.infomodel.statisticaloperations.Operation=operation1",
-  "selfLink": {
-    "kind": "statisticalOperations#operation",
-    "href": "http://data.istac.es/apis/operations/v1.0/operations/operation1"
-  },
-  "parentLink": {
-    "kind": "statisticalOperations#operations",
-    "href": "http://data.istac.es/apis/operations/v1.0/operations"
-  },
-  "childLinks": {
-    "childLink": [
-      {
-        "kind": "statisticalOperations#instances",
-        "href": "http://data.istac.es/apis/operations/v1.0/operations/operation1/instances"
-      },
-      {
-        "kind": "statisticalOperations#families",
-        "href": "http://data.istac.es/apis/operations/v1.0/operations/operation1/families"
-      }
-    ],
-    "total": 2
-  },
-  "name": {
-    "text": [
-      {
-        "value": "operation1 en Español",
-        "lang": "es"
-      }
-    ]
-  },
-  "acronym": {
-    "text": [
-      {
-        "value": "acronym1 en Español",
-        "lang": "es"
-      }
-    ]
-  },
-  "subjectArea": {
-    "id": "subjectArea1",
-    "nestedId": "subjectArea1Nested",
-    "urn": "urn:subjectArea1",
-    "selfLink": {
-      "kind": "structuralResources#category",
-      "href": "http://data.istac.es/apis/srm/v1.0/subjectAreas/subjectArea1"
-    },
-    "name": {
-      "text": [
-        {
-          "value": "subjectArea1 en Español",
-          "lang": "es"
-        }
-      ]
-    },
-    "kind": "structuralResources#category"
-  },
-  "secondarySubjectAreas": {
-    "secondarySubjectArea": [
-      {
-        "id": "secundarySubjectArea1",
-        "nestedId": "secundarySubjectArea1Nested",
-        "urn": "urn:secundarySubjectArea1",
-        "selfLink": {
-          "kind": "structuralResources#category",
-          "href": "http://data.istac.es/apis/srm/v1.0/secundarySubjectAreas/secundarySubjectArea1"
-        },
-        "name": {
-          "text": [
-            {
-              "value": "secundarySubjectArea1 en Español",
-              "lang": "es"
-            }
-          ]
-        },
-        "kind": "structuralResources#category"
-      },
-      {
-        "id": "secundarySubjectArea22",
-        "nestedId": "secundarySubjectArea22Nested",
-        "urn": "urn:secundarySubjectArea22",
-        "selfLink": {
-          "kind": "structuralResources#category",
-          "href": "http://data.istac.es/apis/srm/v1.0/secundarySubjectAreas/secundarySubjectArea22"
-        },
-        "name": {
-          "text": [
-            {
-              "value": "secundarySubjectArea22 en Español",
-              "lang": "es"
-            }
-          ]
-        },
-        "kind": "structuralResources#category"
-      },
-      {
-        "id": "secundarySubjectArea333",
-        "nestedId": "secundarySubjectArea333Nested",
-        "urn": "urn:secundarySubjectArea333",
-        "selfLink": {
-          "kind": "structuralResources#category",
-          "href": "http://data.istac.es/apis/srm/v1.0/secundarySubjectAreas/secundarySubjectArea333"
-        },
-        "name": {
-          "text": [
-            {
-              "value": "secundarySubjectArea333 en Español",
-              "lang": "es"
-            }
-          ]
-        },
-        "kind": "structuralResources#category"
-      }
-    ],
-    "kind": "structuralResources#categories",
-    "total": 3
-  },
-  "objective": {
-    "text": [
-      {
-        "value": "objetive1 en Español",
-        "lang": "es"
-      }
-    ]
-  },
-  "description": {
-    "text": [
-      {
-        "value": "description1 en Español",
-        "lang": "es"
-      }
-    ]
-  },
-  "statisticalOperationType": {
-    "id": "statisticalOperationIdentifier",
-    "name": {
-      "text": [
-        {
-          "value": "statisticalOperationIdentifier en Español",
-          "lang": "es"
-        }
-      ]
-    }
-  },
-  "officialityType": {
-    "id": "officialityType",
-    "name": {
-      "text": [
-        {
-          "value": "officialityType en Español",
-          "lang": "es"
-        }
-      ]
-    }
-  },
-  "indicatorSystem": true,
-  "producers": {
-    "producer": [
-      {
-        "id": "producer22",
-        "nestedId": "producer22Nested",
-        "urn": "urn:producer22",
-        "selfLink": {
-          "kind": "structuralResources#agency",
-          "href": "http://data.istac.es/apis/srm/v1.0/producers/producer22"
-        },
-        "name": {
-          "text": [
-            {
-              "value": "producer22 en Español",
-              "lang": "es"
-            }
-          ]
-        },
-        "kind": "structuralResources#agency"
-      },
-      {
-        "id": "producer1",
-        "nestedId": "producer1Nested",
-        "urn": "urn:producer1",
-        "selfLink": {
-          "kind": "structuralResources#agency",
-          "href": "http://data.istac.es/apis/srm/v1.0/producers/producer1"
-        },
-        "name": {
-          "text": [
-            {
-              "value": "producer1 en Español",
-              "lang": "es"
-            }
-          ]
-        },
-        "kind": "structuralResources#agency"
-      }
-    ],
-    "kind": "structuralResources#organisationUnits",
-    "total": 2
-  },
-  "regionalResponsibles": {
-    "regionalResponsible": [
-      {
-        "id": "regionalResponsible1",
-        "nestedId": "regionalResponsible1Nested",
-        "urn": "urn:regionalResponsible1",
-        "selfLink": {
-          "kind": "structuralResources#agency",
-          "href": "http://data.istac.es/apis/srm/v1.0/regionalResponsibles/regionalResponsible1"
-        },
-        "name": {
-          "text": [
-            {
-              "value": "regionalResponsible1 en Español",
-              "lang": "es"
-            }
-          ]
-        },
-        "kind": "structuralResources#agency"
-      },
-      {
-        "id": "regionalResponsible333",
-        "nestedId": "regionalResponsible333Nested",
-        "urn": "urn:regionalResponsible333",
-        "selfLink": {
-          "kind": "structuralResources#agency",
-          "href": "http://data.istac.es/apis/srm/v1.0/regionalResponsibles/regionalResponsible333"
-        },
-        "name": {
-          "text": [
-            {
-              "value": "regionalResponsible333 en Español",
-              "lang": "es"
-            }
-          ]
-        },
-        "kind": "structuralResources#agency"
-      },
-      {
-        "id": "regionalResponsible22",
-        "nestedId": "regionalResponsible22Nested",
-        "urn": "urn:regionalResponsible22",
-        "selfLink": {
-          "kind": "structuralResources#agency",
-          "href": "http://data.istac.es/apis/srm/v1.0/regionalResponsibles/regionalResponsible22"
-        },
-        "name": {
-          "text": [
-            {
-              "value": "regionalResponsible22 en Español",
-              "lang": "es"
-            }
-          ]
-        },
-        "kind": "structuralResources#agency"
-      }
-    ],
-    "kind": "structuralResources#organisationUnits",
-    "total": 3
-  },
-  "regionalContributors": {
-    "regionalContributor": [
-      {
-        "id": "regionalContributor1",
-        "nestedId": "regionalContributor1Nested",
-        "urn": "urn:regionalContributor1",
-        "selfLink": {
-          "kind": "structuralResources#agency",
-          "href": "http://data.istac.es/apis/srm/v1.0/regionalContributors/regionalContributor1"
-        },
-        "name": {
-          "text": [
-            {
-              "value": "regionalContributor1 en Español",
-              "lang": "es"
-            }
-          ]
-        },
-        "kind": "structuralResources#agency"
-      },
-      {
-        "id": "regionalContributor22",
-        "nestedId": "regionalContributor22Nested",
-        "urn": "urn:regionalContributor22",
-        "selfLink": {
-          "kind": "structuralResources#agency",
-          "href": "http://data.istac.es/apis/srm/v1.0/regionalContributors/regionalContributor22"
-        },
-        "name": {
-          "text": [
-            {
-              "value": "regionalContributor22 en Español",
-              "lang": "es"
-            }
-          ]
-        },
-        "kind": "structuralResources#agency"
-      }
-    ],
-    "kind": "structuralResources#organisations",
-    "total": 2
-  },
-  "currentlyActive": false,
-  "status": "DESIGN",
-  "publishers": {
-    "publisher": [
-      {
-        "id": "publisher22",
-        "nestedId": "publisher22Nested",
-        "urn": "urn:publisher22",
-        "selfLink": {
-          "kind": "structuralResources#agency",
-          "href": "http://data.istac.es/apis/srm/v1.0/publishers/publisher22"
-        },
-        "name": {
-          "text": [
-            {
-              "value": "publisher22 en Español",
-              "lang": "es"
-            }
-          ]
-        },
-        "kind": "structuralResources#agency"
-      },
-      {
-        "id": "publisher1",
-        "nestedId": "publisher1Nested",
-        "urn": "urn:publisher1",
-        "selfLink": {
-          "kind": "structuralResources#agency",
-          "href": "http://data.istac.es/apis/srm/v1.0/publishers/publisher1"
-        },
-        "name": {
-          "text": [
-            {
-              "value": "publisher1 en Español",
-              "lang": "es"
-            }
-          ]
-        },
-        "kind": "structuralResources#agency"
-      },
-      {
-        "id": "publisher333",
-        "nestedId": "publisher333Nested",
-        "urn": "urn:publisher333",
-        "selfLink": {
-          "kind": "structuralResources#agency",
-          "href": "http://data.istac.es/apis/srm/v1.0/publishers/publisher333"
-        },
-        "name": {
-          "text": [
-            {
-              "value": "publisher333 en Español",
-              "lang": "es"
-            }
-          ]
-        },
-        "kind": "structuralResources#agency"
-      }
-    ],
-    "kind": "structuralResources#organisationUnits",
-    "total": 3
-  },
-  "relPolUsAc": {
-    "text": [
-      {
-        "value": "relPolUsAc1 en Español",
-        "lang": "es"
-      }
-    ]
-  },
-  "releaseCalendar": true,
-  "releaseCalendarAccess": "http://releaseCalendarAccess1",
-  "updateFrequencies": {
-    "updateFrequency": [
-      {
-        "id": "updateFrequency22",
-        "urn": "urn:updateFrequency22",
-        "selfLink": {
-          "kind": "structuralResources#code",
-          "href": "http://data.istac.es/apis/srm/v1.0/updateFrequencies/updateFrequency22"
-        },
-        "name": {
-          "text": [
-            {
-              "value": "updateFrequency22 en Español",
-              "lang": "es"
-            }
-          ]
-        },
-        "kind": "structuralResources#code"
-      },
-      {
-        "id": "updateFrequency333",
-        "urn": "urn:updateFrequency333",
-        "selfLink": {
-          "kind": "structuralResources#code",
-          "href": "http://data.istac.es/apis/srm/v1.0/updateFrequencies/updateFrequency333"
-        },
-        "name": {
-          "text": [
-            {
-              "value": "updateFrequency333 en Español",
-              "lang": "es"
-            }
-          ]
-        },
-        "kind": "structuralResources#code"
-      },
-      {
-        "id": "updateFrequency4444",
-        "urn": "urn:updateFrequency4444",
-        "selfLink": {
-          "kind": "structuralResources#code",
-          "href": "http://data.istac.es/apis/srm/v1.0/updateFrequencies/updateFrequency4444"
-        },
-        "name": {
-          "text": [
-            {
-              "value": "updateFrequency4444 en Español",
-              "lang": "es"
-            }
-          ]
-        },
-        "kind": "structuralResources#code"
-      },
-      {
-        "id": "updateFrequency1",
-        "urn": "urn:updateFrequency1",
-        "selfLink": {
-          "kind": "structuralResources#code",
-          "href": "http://data.istac.es/apis/srm/v1.0/updateFrequencies/updateFrequency1"
-        },
-        "name": {
-          "text": [
-            {
-              "value": "updateFrequency1 en Español",
-              "lang": "es"
-            }
-          ]
-        },
-        "kind": "structuralResources#code"
-      }
-    ],
-    "kind": "structuralResources#codes",
-    "total": 4
-  },
-  "currentInstance": {
-    "id": "instance333",
-    "urn": "urn:siemac:org.siemac.metamac.infomodel.statisticaloperations.Instance=operation1.instance333",
-    "selfLink": {
-      "kind": "statisticalOperations#instance",
-      "href": "http://data.istac.es/apis/operations/v1.0/operations/operation1/instances/instance333"
-    },
-    "name": {
-      "text": [
-        {
-          "value": "instance333 en Español",
-          "lang": "es"
-        }
-      ]
-    },
-    "kind": "statisticalOperations#instance"
-  },
-  "inventoryDate": "2013-02-04T13:15:14Z",
-  "revPolicy": {
-    "text": [
-      {
-        "value": "revPolicy1 en Español",
-        "lang": "es"
-      }
-    ]
-  },
-  "revPractice": {
-    "text": [
-      {
-        "value": "revPractice1 en Español",
-        "lang": "es"
-      }
-    ]
-  },
-  "contact": {
-    "id": "contact1",
-    "urn": "urn:sdmx:org.sdmx.infomodel.base.Agency=SDMX:AGENCIES(1.0).contact1",
-    "selfLink": {
-      "kind": "structuralResources#agency",
-      "href": "http://data.istac.es/apis/srm/v1.0/agencyschemes/SDMX/AGENCIES/1.0/agencies/contact1"
-    },
-    "name": {
-      "text": [
-        {
-          "value": "contact1 en Español",
-          "lang": "es"
-        }
-      ]
-    },
-    "kind": "structuralResources#agency"
-  },
-  "legalActs": {
-    "legalActs": [
-      {
-        "text": [
-          {
-            "value": "legalActscommon1 en Español",
-            "lang": "es"
-          }
-        ]
-      },
-      {
-        "text": [
-          {
-            "value": "legalActsspecific1 en Español",
-            "lang": "es"
-          }
-        ]
-      }
-    ],
-    "total": 2
-  },
-  "dataSharings": {
-    "dataSharing": [
-      {
-        "text": [
-          {
-            "value": "dataSharingcommon1 en Español",
-            "lang": "es"
-          }
-        ]
-      },
-      {
-        "text": [
-          {
-            "value": "dataSharingspecific1 en Español",
-            "lang": "es"
-          }
-        ]
-      }
-    ],
-    "total": 2
-  },
-  "confidentialityPolicy": {
-    "text": [
-      {
-        "value": "confidentialityPolicy1 en Español",
-        "lang": "es"
-      }
-    ]
-  },
-  "confidentialityDataTreatment": {
-    "text": [
-      {
-        "value": "confidentialityDataTreatment1 en Español",
-        "lang": "es"
-      }
-    ]
-  },
-  "notes": {
-    "text": [
-      {
-        "value": "notes1 en Español",
-        "lang": "es"
-      }
-    ]
-  },
-  "kind": "statisticalOperations#operation"
+	"id": "operation1",
+	"urn": "urn:siemac:org.siemac.metamac.infomodel.statisticaloperations.Operation=operation1",
+	"selfLink": {
+		"kind": "statisticalOperations#operation",
+		"href": "http://data.istac.es/apis/operations/v1.0/operations/operation1"
+	},
+	"parentLink": {
+		"kind": "statisticalOperations#operations",
+		"href": "http://data.istac.es/apis/operations/v1.0/operations"
+	},
+	"childLinks": {
+		"childLink": [
+			{
+				"kind": "statisticalOperations#instances",
+				"href": "http://data.istac.es/apis/operations/v1.0/operations/operation1/instances"
+			},
+			{
+				"kind": "statisticalOperations#families",
+				"href": "http://data.istac.es/apis/operations/v1.0/operations/operation1/families"
+			}
+		],
+		"total": 2
+	},
+	"name": {
+		"text": [
+			{
+				"value": "operation1 en Español",
+				"lang": "es"
+			}
+		]
+	},
+	"acronym": {
+		"text": [
+			{
+				"value": "acronym1 en Español",
+				"lang": "es"
+			}
+		]
+	},
+	"subjectArea": {
+		"id": "subjectArea1",
+		"urn": "urn:subjectArea1",
+		"selfLink": {
+			"kind": "structuralResources#category",
+			"href": "http://data.istac.es/apis/srm/categories/subjectArea1"
+		},
+		"name": {
+			"text": [
+				{
+					"value": "subjectArea1 en Español",
+					"lang": "es"
+				}
+			]
+		},
+		"kind": "structuralResources#category"
+	},
+	"secondarySubjectAreas": {
+		"secondarySubjectArea": [
+			{
+				"id": "secundarySubjectArea333",
+				"urn": "urn:secundarySubjectArea333",
+				"selfLink": {
+					"kind": "structuralResources#category",
+					"href": "http://data.istac.es/apis/srm/categories/secundarySubjectArea333"
+				},
+				"name": {
+					"text": [
+						{
+							"value": "secundarySubjectArea333 en Español",
+							"lang": "es"
+						}
+					]
+				},
+				"kind": "structuralResources#category"
+			},
+			{
+				"id": "secundarySubjectArea22",
+				"urn": "urn:secundarySubjectArea22",
+				"selfLink": {
+					"kind": "structuralResources#category",
+					"href": "http://data.istac.es/apis/srm/categories/secundarySubjectArea22"
+				},
+				"name": {
+					"text": [
+						{
+							"value": "secundarySubjectArea22 en Español",
+							"lang": "es"
+						}
+					]
+				},
+				"kind": "structuralResources#category"
+			},
+			{
+				"id": "secundarySubjectArea1",
+				"urn": "urn:secundarySubjectArea1",
+				"selfLink": {
+					"kind": "structuralResources#category",
+					"href": "http://data.istac.es/apis/srm/categories/secundarySubjectArea1"
+				},
+				"name": {
+					"text": [
+						{
+							"value": "secundarySubjectArea1 en Español",
+							"lang": "es"
+						}
+					]
+				},
+				"kind": "structuralResources#category"
+			}
+		],
+		"kind": "structuralResources#categories",
+		"total": 3
+	},
+	"objective": {
+		"text": [
+			{
+				"value": "objetive1 en Español",
+				"lang": "es"
+			}
+		]
+	},
+	"description": {
+		"text": [
+			{
+				"value": "description1 en Español",
+				"lang": "es"
+			}
+		]
+	},
+	"statisticalOperationType": {
+		"id": "statisticalOperationIdentifier",
+		"name": {
+			"text": [
+				{
+					"value": "statisticalOperationIdentifier en Español",
+					"lang": "es"
+				}
+			]
+		}
+	},
+	"officialityType": {
+		"id": "officialityType",
+		"name": {
+			"text": [
+				{
+					"value": "officialityType en Español",
+					"lang": "es"
+				}
+			]
+		}
+	},
+	"indicatorSystem": true,
+	"producers": {
+		"producer": [
+			{
+				"id": "producer1",
+				"nestedId": "producer1Nested",
+				"urn": "urn:producer1",
+				"selfLink": {
+					"kind": "structuralResources#agency",
+					"href": "http://data.istac.es/apis/srm/v1.0/producers/producer1"
+				},
+				"name": {
+					"text": [
+						{
+							"value": "producer1 en Español",
+							"lang": "es"
+						}
+					]
+				},
+				"kind": "structuralResources#agency"
+			},
+			{
+				"id": "producer22",
+				"nestedId": "producer22Nested",
+				"urn": "urn:producer22",
+				"selfLink": {
+					"kind": "structuralResources#agency",
+					"href": "http://data.istac.es/apis/srm/v1.0/producers/producer22"
+				},
+				"name": {
+					"text": [
+						{
+							"value": "producer22 en Español",
+							"lang": "es"
+						}
+					]
+				},
+				"kind": "structuralResources#agency"
+			}
+		],
+		"kind": "structuralResources#organisationUnits",
+		"total": 2
+	},
+	"regionalResponsibles": {
+		"regionalResponsible": [
+			{
+				"id": "regionalResponsible333",
+				"nestedId": "regionalResponsible333Nested",
+				"urn": "urn:regionalResponsible333",
+				"selfLink": {
+					"kind": "structuralResources#agency",
+					"href": "http://data.istac.es/apis/srm/v1.0/regionalResponsibles/regionalResponsible333"
+				},
+				"name": {
+					"text": [
+						{
+							"value": "regionalResponsible333 en Español",
+							"lang": "es"
+						}
+					]
+				},
+				"kind": "structuralResources#agency"
+			},
+			{
+				"id": "regionalResponsible22",
+				"nestedId": "regionalResponsible22Nested",
+				"urn": "urn:regionalResponsible22",
+				"selfLink": {
+					"kind": "structuralResources#agency",
+					"href": "http://data.istac.es/apis/srm/v1.0/regionalResponsibles/regionalResponsible22"
+				},
+				"name": {
+					"text": [
+						{
+							"value": "regionalResponsible22 en Español",
+							"lang": "es"
+						}
+					]
+				},
+				"kind": "structuralResources#agency"
+			},
+			{
+				"id": "regionalResponsible1",
+				"nestedId": "regionalResponsible1Nested",
+				"urn": "urn:regionalResponsible1",
+				"selfLink": {
+					"kind": "structuralResources#agency",
+					"href": "http://data.istac.es/apis/srm/v1.0/regionalResponsibles/regionalResponsible1"
+				},
+				"name": {
+					"text": [
+						{
+							"value": "regionalResponsible1 en Español",
+							"lang": "es"
+						}
+					]
+				},
+				"kind": "structuralResources#agency"
+			}
+		],
+		"kind": "structuralResources#organisationUnits",
+		"total": 3
+	},
+	"regionalContributors": {
+		"regionalContributor": [
+			{
+				"id": "regionalContributor22",
+				"nestedId": "regionalContributor22Nested",
+				"urn": "urn:regionalContributor22",
+				"selfLink": {
+					"kind": "structuralResources#agency",
+					"href": "http://data.istac.es/apis/srm/v1.0/regionalContributors/regionalContributor22"
+				},
+				"name": {
+					"text": [
+						{
+							"value": "regionalContributor22 en Español",
+							"lang": "es"
+						}
+					]
+				},
+				"kind": "structuralResources#agency"
+			},
+			{
+				"id": "regionalContributor1",
+				"nestedId": "regionalContributor1Nested",
+				"urn": "urn:regionalContributor1",
+				"selfLink": {
+					"kind": "structuralResources#agency",
+					"href": "http://data.istac.es/apis/srm/v1.0/regionalContributors/regionalContributor1"
+				},
+				"name": {
+					"text": [
+						{
+							"value": "regionalContributor1 en Español",
+							"lang": "es"
+						}
+					]
+				},
+				"kind": "structuralResources#agency"
+			}
+		],
+		"kind": "structuralResources#organisations",
+		"total": 2
+	},
+	"currentlyActive": false,
+	"status": "DESIGN",
+	"publishers": {
+		"publisher": [
+			{
+				"id": "publisher1",
+				"nestedId": "publisher1Nested",
+				"urn": "urn:publisher1",
+				"selfLink": {
+					"kind": "structuralResources#agency",
+					"href": "http://data.istac.es/apis/srm/v1.0/publishers/publisher1"
+				},
+				"name": {
+					"text": [
+						{
+							"value": "publisher1 en Español",
+							"lang": "es"
+						}
+					]
+				},
+				"kind": "structuralResources#agency"
+			},
+			{
+				"id": "publisher333",
+				"nestedId": "publisher333Nested",
+				"urn": "urn:publisher333",
+				"selfLink": {
+					"kind": "structuralResources#agency",
+					"href": "http://data.istac.es/apis/srm/v1.0/publishers/publisher333"
+				},
+				"name": {
+					"text": [
+						{
+							"value": "publisher333 en Español",
+							"lang": "es"
+						}
+					]
+				},
+				"kind": "structuralResources#agency"
+			},
+			{
+				"id": "publisher22",
+				"nestedId": "publisher22Nested",
+				"urn": "urn:publisher22",
+				"selfLink": {
+					"kind": "structuralResources#agency",
+					"href": "http://data.istac.es/apis/srm/v1.0/publishers/publisher22"
+				},
+				"name": {
+					"text": [
+						{
+							"value": "publisher22 en Español",
+							"lang": "es"
+						}
+					]
+				},
+				"kind": "structuralResources#agency"
+			}
+		],
+		"kind": "structuralResources#organisationUnits",
+		"total": 3
+	},
+	"relPolUsAc": {
+		"text": [
+			{
+				"value": "relPolUsAc1 en Español",
+				"lang": "es"
+			}
+		]
+	},
+	"releaseCalendar": true,
+	"releaseCalendarAccess": "http://releaseCalendarAccess1",
+	"updateFrequencies": {
+		"updateFrequency": [
+			{
+				"id": "updateFrequency1",
+				"urn": "urn:updateFrequency1",
+				"selfLink": {
+					"kind": "structuralResources#code",
+					"href": "http://data.istac.es/apis/srm/v1.0/updateFrequencies/updateFrequency1"
+				},
+				"name": {
+					"text": [
+						{
+							"value": "updateFrequency1 en Español",
+							"lang": "es"
+						}
+					]
+				},
+				"kind": "structuralResources#code"
+			},
+			{
+				"id": "updateFrequency333",
+				"urn": "urn:updateFrequency333",
+				"selfLink": {
+					"kind": "structuralResources#code",
+					"href": "http://data.istac.es/apis/srm/v1.0/updateFrequencies/updateFrequency333"
+				},
+				"name": {
+					"text": [
+						{
+							"value": "updateFrequency333 en Español",
+							"lang": "es"
+						}
+					]
+				},
+				"kind": "structuralResources#code"
+			},
+			{
+				"id": "updateFrequency4444",
+				"urn": "urn:updateFrequency4444",
+				"selfLink": {
+					"kind": "structuralResources#code",
+					"href": "http://data.istac.es/apis/srm/v1.0/updateFrequencies/updateFrequency4444"
+				},
+				"name": {
+					"text": [
+						{
+							"value": "updateFrequency4444 en Español",
+							"lang": "es"
+						}
+					]
+				},
+				"kind": "structuralResources#code"
+			},
+			{
+				"id": "updateFrequency22",
+				"urn": "urn:updateFrequency22",
+				"selfLink": {
+					"kind": "structuralResources#code",
+					"href": "http://data.istac.es/apis/srm/v1.0/updateFrequencies/updateFrequency22"
+				},
+				"name": {
+					"text": [
+						{
+							"value": "updateFrequency22 en Español",
+							"lang": "es"
+						}
+					]
+				},
+				"kind": "structuralResources#code"
+			}
+		],
+		"kind": "structuralResources#codes",
+		"total": 4
+	},
+	"currentInstance": {
+		"id": "instance333",
+		"urn": "urn:siemac:org.siemac.metamac.infomodel.statisticaloperations.Instance=operation1.instance333",
+		"selfLink": {
+			"kind": "statisticalOperations#instance",
+			"href": "http://data.istac.es/apis/operations/v1.0/operations/operation1/instances/instance333"
+		},
+		"name": {
+			"text": [
+				{
+					"value": "instance333 en Español",
+					"lang": "es"
+				}
+			]
+		},
+		"kind": "statisticalOperations#instance"
+	},
+	"inventoryDate": "2013-02-04T13:15:14Z",
+	"revPolicy": {
+		"text": [
+			{
+				"value": "revPolicy1 en Español",
+				"lang": "es"
+			}
+		]
+	},
+	"revPractice": {
+		"text": [
+			{
+				"value": "revPractice1 en Español",
+				"lang": "es"
+			}
+		]
+	},
+	"contact": {
+		"id": "contact1",
+		"urn": "urn:sdmx:org.sdmx.infomodel.base.Agency=SDMX:AGENCIES(1.0).contact1",
+		"selfLink": {
+			"kind": "structuralResources#agency",
+			"href": "http://data.istac.es/apis/srm/v1.0/agencyschemes/SDMX/AGENCIES/1.0/agencies/contact1"
+		},
+		"name": {
+			"text": [
+				{
+					"value": "contact1 en Español",
+					"lang": "es"
+				}
+			]
+		},
+		"kind": "structuralResources#agency"
+	},
+	"legalActs": {
+		"legalActs": [
+			{
+				"text": [
+					{
+						"value": "legalActscommon1 en Español",
+						"lang": "es"
+					}
+				]
+			},
+			{
+				"text": [
+					{
+						"value": "legalActsspecific1 en Español",
+						"lang": "es"
+					}
+				]
+			}
+		],
+		"total": 2
+	},
+	"dataSharings": {
+		"dataSharing": [
+			{
+				"text": [
+					{
+						"value": "dataSharingcommon1 en Español",
+						"lang": "es"
+					}
+				]
+			},
+			{
+				"text": [
+					{
+						"value": "dataSharingspecific1 en Español",
+						"lang": "es"
+					}
+				]
+			}
+		],
+		"total": 2
+	},
+	"confidentialityPolicy": {
+		"text": [
+			{
+				"value": "confidentialityPolicy1 en Español",
+				"lang": "es"
+			}
+		]
+	},
+	"confidentialityDataTreatment": {
+		"text": [
+			{
+				"value": "confidentialityDataTreatment1 en Español",
+				"lang": "es"
+			}
+		]
+	},
+	"notes": {
+		"text": [
+			{
+				"value": "notes1 en Español",
+				"lang": "es"
+			}
+		]
+	},
+	"kind": "statisticalOperations#operation"
 }

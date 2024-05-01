@@ -1,10 +1,13 @@
 package org.siemac.metamac.statistical_operations.rest.internal.v1_0.mapper;
 
+import static org.siemac.metamac.core.common.util.rest.RequestUtil.containsField;
+
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
@@ -55,6 +58,7 @@ import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Stati
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.StatisticalUnits;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.TemporalGranularities;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.UpdateFrequencies;
+import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.CategoryResourceInternal;
 import org.siemac.metamac.rest.utils.RestUtils;
 import org.siemac.metamac.srm.rest.common.SrmRestConstants;
 import org.siemac.metamac.statistical.operations.core.conf.StatisticalOperationsConfigurationService;
@@ -73,8 +77,6 @@ import org.siemac.metamac.statistical_operations.rest.internal.invocation.SrmRes
 import org.siemac.metamac.statistical_operations.rest.internal.v1_0.service.utils.InternalWebApplicationNavigation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import static org.siemac.metamac.core.common.util.rest.RequestUtil.containsField;
 
 @Component
 public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
@@ -103,7 +105,7 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
     }
 
     @Override
-    public Operation toOperation(org.siemac.metamac.statistical.operations.core.domain.Operation source) {
+    public Operation toOperation(org.siemac.metamac.statistical.operations.core.domain.Operation source) throws MetamacException {
         if (source == null) {
             return null;
         }
@@ -114,8 +116,7 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         target.setSelfLink(this.toOperationSelfLink(source.getCode()));
         target.setName(this.toInternationalString(source.getTitle()));
         target.setAcronym(this.toInternationalString(source.getAcronym()));
-        target.setSubjectArea(this.toResourceExternalItemSrm(source.getSubjectArea()));
-        target.setSecondarySubjectAreas(this.toSecondarySubjectAreas(source.getSecondarySubjectAreas()));
+        setSubjectAreas(source, target);
         target.setObjective(this.toInternationalString(source.getObjective()));
         target.setDescription(this.toInternationalString(source.getDescription()));
         target.setStatisticalOperationType(this.toItem(source.getSurveyType()));
@@ -153,8 +154,41 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         return target;
     }
 
+    private void setSubjectAreas(org.siemac.metamac.statistical.operations.core.domain.Operation source, Operation target) throws MetamacException {
+        Map<String, CategoryResourceInternal> categoriesResourceByCategoryElementCode = srmRestInternalFacade
+                .retrieveDefaultCategoriesByCategoryElementCode(configurationService.retrieveDefaultCategoryScheme());
+
+        if (!categoriesResourceByCategoryElementCode.isEmpty()) {
+            if (source.getSubjectArea() != null) {
+                target.setSubjectArea(srmResourceInternalToResourceInternal(categoriesResourceByCategoryElementCode.get(source.getSubjectArea().getCode())));
+
+            }
+            List<ResourceInternal> categories = new ArrayList<ResourceInternal>();
+            for (ExternalItem categoryElement : source.getSecondarySubjectAreas()) {
+                ResourceInternal categoryResource = srmResourceInternalToResourceInternal(categoriesResourceByCategoryElementCode.get(categoryElement.getCode()));
+                if (categoryResource != null) {
+                    categories.add(categoryResource);
+                }
+            }
+            if (!categories.isEmpty()) {
+                target.setSecondarySubjectAreas(toSecondarySubjectAreas(categories));
+            }
+        }
+    }
+
+    private ResourceInternal getCategoryByCategoryElement(ExternalItem categoryElement) throws MetamacException {
+
+        CategoryResourceInternal categoryResource = srmRestInternalFacade.retrieveCategoryByCategoryElement(configurationService.retrieveDefaultCategoryScheme(), categoryElement.getCode());
+        if (categoryResource != null) {
+            return srmResourceInternalToResourceInternal(categoryResource);
+        }
+        return null;
+
+    }
+
     @Override
-    public Operations toOperations(PagedResult<org.siemac.metamac.statistical.operations.core.domain.Operation> sourcesPagedResult, String query, String orderBy, Integer limit, Set<String> parsedFields) {
+    public Operations toOperations(PagedResult<org.siemac.metamac.statistical.operations.core.domain.Operation> sourcesPagedResult, String query, String orderBy, Integer limit,
+            Set<String> parsedFields) throws MetamacException {
 
         Operations targets = new Operations();
         targets.setKind(StatisticalOperationsRestConstants.KIND_OPERATIONS);
@@ -173,7 +207,7 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
 
     @Override
     public Operations toOperationsByFamily(org.siemac.metamac.statistical.operations.core.domain.Family family,
-            PagedResult<org.siemac.metamac.statistical.operations.core.domain.Operation> sourcesPagedResult, String query, String orderBy, Integer limit) {
+            PagedResult<org.siemac.metamac.statistical.operations.core.domain.Operation> sourcesPagedResult, String query, String orderBy, Integer limit) throws MetamacException {
 
         Operations targets = new Operations();
         targets.setKind(StatisticalOperationsRestConstants.KIND_OPERATIONS);
@@ -251,7 +285,7 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
     }
 
     @Override
-    public Instance toInstance(org.siemac.metamac.statistical.operations.core.domain.Instance source) {
+    public Instance toInstance(org.siemac.metamac.statistical.operations.core.domain.Instance source) throws MetamacException {
         if (source == null) {
             return null;
         }
@@ -290,6 +324,7 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         target.setDataValidation(this.toInternationalString(source.getDataValidation()));
         target.setDataCompilation(this.toInternationalString(source.getDataCompilation()));
         target.setAdjustment(this.toInternationalString(source.getAdjustment()));
+        target.setSeasonalAdjustment(toInternationalString(source.getSeasonalAdjustment()));
         target.setCostBurden(this.toInternationalString(source.getCostBurden()));
         target.setCosts(this.toCosts(source.getCost()));
         target.setInventoryDate(this.toDate(source.getInventoryDate()));
@@ -304,7 +339,14 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         target.setAccuracyOverall(this.toInternationalString(source.getAccuracyOverall()));
         target.setSamplingErr(this.toInternationalString(source.getSamplingErr()));
         target.setNonsamplingErr(this.toInternationalString(source.getNonsamplingErr()));
+        target.setCoverageErr(toInternationalString(source.getCoverageErr()));
+        target.setMeasurementErr(toInternationalString(source.getMeasurementErr()));
+        target.setNonResponseErr(toInternationalString(source.getNonResponseErr()));
+        target.setProcessingErr(toInternationalString(source.getProcessingErr()));
+        target.setModelErr(toInternationalString(source.getModelErr()));
         target.setCoherXDom(this.toInternationalString(source.getCoherXDomain()));
+        target.setCoherSubanualAnual(toInternationalString(source.getCoherSubanualAnual()));
+        target.setCoherNationalAccounts(toInternationalString(source.getCoherNationalAccounts()));
         target.setCoherInternal(this.toInternationalString(source.getCoherInternal()));
         target.setComment(this.toInternationalString(source.getComment()));
         target.setNotes(this.toInternationalString(source.getNotes()));
@@ -500,12 +542,12 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
     }
 
     @Override
-    public ResourceInternal toResource(org.siemac.metamac.statistical.operations.core.domain.Operation source) {
+    public ResourceInternal toResource(org.siemac.metamac.statistical.operations.core.domain.Operation source) throws MetamacException {
         return toResource(source, null);
     }
 
     @Override
-    public ResourceInternal toResource(org.siemac.metamac.statistical.operations.core.domain.Operation source, Set<String> parsedFields) {
+    public ResourceInternal toResource(org.siemac.metamac.statistical.operations.core.domain.Operation source, Set<String> parsedFields) throws MetamacException {
         if (source == null) {
             return null;
         }
@@ -518,7 +560,7 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         target.setName(this.toInternationalString(source.getTitle()));
         boolean includeSubjectArea = containsField(parsedFields, StatisticalOperationsRestConstants.FIELD_INCLUDE_SUBJECT_AREA);
         if (includeSubjectArea) {
-            target.setSubjectArea(toResourceExternalItemSrm(source.getSubjectArea()));
+            target.setSubjectArea(getCategoryByCategoryElement(source.getSubjectArea()));
         }
         return target;
     }
@@ -830,12 +872,12 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         }
     }
 
-    private SecondarySubjectAreas toSecondarySubjectAreas(Set<ExternalItem> sources) {
-        if (sources == null || sources.size() == 0) {
+    private SecondarySubjectAreas toSecondarySubjectAreas(List<ResourceInternal> categories) {
+        if (categories == null || categories.size() == 0) {
             return null;
         }
         SecondarySubjectAreas targets = new SecondarySubjectAreas();
-        this.toResourcesExternalItemsSrm(sources, targets.getSecondarySubjectAreas());
+        targets.getSecondarySubjectAreas().addAll(categories);
         targets.setKind(SrmRestConstants.KIND_CATEGORIES);
         targets.setTotal(BigInteger.valueOf(targets.getSecondarySubjectAreas().size()));
         return targets;

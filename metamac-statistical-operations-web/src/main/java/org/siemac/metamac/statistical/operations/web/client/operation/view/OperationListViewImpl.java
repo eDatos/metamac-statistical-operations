@@ -312,7 +312,7 @@ public class OperationListViewImpl extends ViewWithUiHandlers<OperationListUiHan
 
     @Override
     public void setItemSchemes(String formItemName, ExternalItemsResult result) {
-        newOperationForm.setItemSchemes(formItemName, result);
+        // without impl
     }
 
     @Override

@@ -38,14 +38,15 @@ import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Updat
 
 public class StatisticalOperationsRestAsserts {
 
-    public static void assertEqualsOperation(Operation expected, Operation actual) {
+    public static void assertEqualsOperation(Operation expected, Operation actual, StatisticalOperationsRestMocks statisticalOperationsRestMocks) {
+
         assertEquals(expected.getId(), actual.getId());
         assertEquals(expected.getUrn(), actual.getUrn());
         assertEquals(expected.getKind(), actual.getKind());
         MetamacRestAsserts.assertEqualsResourceLink(expected.getSelfLink(), actual.getSelfLink());
         MetamacRestAsserts.assertEqualsInternationalString(expected.getName(), actual.getName());
         MetamacRestAsserts.assertEqualsInternationalString(expected.getAcronym(), actual.getAcronym());
-        MetamacRestAsserts.assertEqualsResource(expected.getSubjectArea(), actual.getSubjectArea());
+        MetamacRestAsserts.assertEqualsResource(statisticalOperationsRestMocks.mockCategoryResourceInternal(expected.getSubjectArea().getId()), actual.getSubjectArea());
         assertEqualsSecondarySubjectAreas(expected.getSecondarySubjectAreas(), actual.getSecondarySubjectAreas());
         MetamacRestAsserts.assertEqualsInternationalString(expected.getObjective(), actual.getObjective());
         MetamacRestAsserts.assertEqualsInternationalString(expected.getDescription(), actual.getDescription());

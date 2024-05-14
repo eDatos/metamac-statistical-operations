@@ -27,10 +27,7 @@ from temp_category_element_by_category t, tb_cat_resource_elements tcre, tb_anno
 where 
 taa.code = t.code
 and tcre.tb_resource_elements = tre.id 
-and tre.identifiable_artefact_fk = taa.id 
-
-
-) ve
+and tre.identifiable_artefact_fk = taa.id ) ve
 where temp_category_element_by_category.category_element_urn = ve.category_element_urn;
 
 
@@ -47,7 +44,6 @@ select
 'INSERT INTO TB_INTERNATIONAL_STRINGS (ID, VERSION) VALUES (GET_NEXT_SEQUENCE_VALUE(''I18NSTRS''), 1);  
 INSERT INTO TB_LOCALISED_STRINGS (ID, LABEL, LOCALE, INTERNATIONAL_STRING_FK, VERSION) values (GET_NEXT_SEQUENCE_VALUE(''L10NSTRS''), ''' || replace(t.label_es, '''', '''''')  || ''', ''es'', GET_NEXT_SEQUENCE_VALUE(''I18NSTRS''), 1);
 UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = ''L10NSTRS'';'
-
 || case when (t.label_ca is not null and t.label_ca <> '') then '
 INSERT INTO TB_LOCALISED_STRINGS (ID, LABEL, LOCALE, INTERNATIONAL_STRING_FK, VERSION) values (GET_NEXT_SEQUENCE_VALUE(''L10NSTRS''), ''' || replace(t.label_ca, '''', '''''')   || ''', ''ca'', GET_NEXT_SEQUENCE_VALUE(''I18NSTRS''), 1);
 UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = ''L10NSTRS'';' else '' end
@@ -98,7 +94,7 @@ and tei.urn = t.category_urn;
 ----6.2 Ejecutar los scripts generados en el paso anterior.
 
 ---- 6.3 Comprobar que todo ha ido bien si la consulta siguiente no devuelve resultados
-select count(*) from tb_ei_secondary_areas tesa where secun_subject_areas_fk  is  null
+select count(*) from tb_ei_secondary_areas tesa where secun_subject_areas_fk  is  null;
 
 
 --7. Borrar tabla temporal de statistical-operations

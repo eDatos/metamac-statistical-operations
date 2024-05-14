@@ -707,6 +707,7 @@ public class StatisticalOperationsCoreMocks {
         instance.setDataValidation(mockInternationalStringMetadata("dataValidation", subCode));
         instance.setDataCompilation(mockInternationalStringMetadata("dataCompilation", subCode));
         instance.setAdjustment(mockInternationalStringMetadata("adjustment", subCode));
+        instance.setSeasonalAdjustment(mockInternationalStringMetadata("seasonalAdjustment", subCode));
         instance.setCostBurden(mockInternationalStringMetadata("costBurden", subCode));
         instance.addCost(mockCost("cost1"));
         instance.addCost(mockCost("cost22"));
@@ -724,7 +725,15 @@ public class StatisticalOperationsCoreMocks {
         instance.setAccuracyOverall(mockInternationalStringMetadata("accuracyOverall", subCode));
         instance.setSamplingErr(mockInternationalStringMetadata("samplingErr", subCode));
         instance.setNonsamplingErr(mockInternationalStringMetadata("nonsamplingErr", subCode));
+        instance.setCoverageErr(mockInternationalStringMetadata("coverageErr", subCode));
+        instance.setMeasurementErr(mockInternationalStringMetadata("measurementErr", subCode));
+        instance.setNonResponseErr(mockInternationalStringMetadata("nonResponseErr", subCode));
+        instance.setModelErr(mockInternationalStringMetadata("modelErr", subCode));
+        instance.setProcessingErr(mockInternationalStringMetadata("processingErr", subCode));
+
         instance.setCoherXDomain(mockInternationalStringMetadata("coherXDom", subCode));
+        instance.setCoherSubanualAnual(mockInternationalStringMetadata("coherSubanualAnual", subCode));
+        instance.setCoherNationalAccounts(mockInternationalStringMetadata("coherNationalAccounts", subCode));
         instance.setCoherInternal(mockInternationalStringMetadata("coherInternal", subCode));
         instance.setComment(mockInternationalStringMetadata("comment", subCode));
         instance.setNotes(mockInternationalStringMetadata("notes", subCode));

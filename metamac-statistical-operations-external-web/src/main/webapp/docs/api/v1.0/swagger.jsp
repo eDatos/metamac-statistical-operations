@@ -311,6 +311,13 @@
                      "description":"Descripción de los procedimientos estadísticos utilizados para el ajuste de las series de datos (como métodos de ajuste estacional, descomposición de series de tiempo u otros métodos similares)",
                      "$ref":"#/definitions/InternationalString"
                   },
+                  "seasonalAdjustment":{
+                     "xml":{
+                        "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
+                     },
+                     "description":"La técnica estadística utilizada para eliminar los efectos del calendario estacional en una serie",
+                     "$ref":"#/definitions/InternationalString"
+                  },
                   "basePeriod":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
@@ -346,6 +353,20 @@
                      "description":"Descripción del grado de coherencia de los datos dentro de la instancia estadísticas y con los de otras instancias de la operación estadística",
                      "$ref":"#/definitions/InternationalString"
                   },
+                  "coherNationalAccounts":{
+                     "xml":{
+                        "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
+                     },
+                     "description":"Descripción del grado en que las estadísticas son conciliables con las cuentas nacionales",
+                     "$ref":"#/definitions/InternationalString"
+                  },
+                  "coherSubanualAnual":{
+                     "xml":{
+                        "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
+                     },
+                     "description":"Descripción del grado en que las estadísticas de diferentes frecuencias son conciliables",
+                     "$ref":"#/definitions/InternationalString"
+                  },
                   "coherXDom":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
@@ -372,6 +393,13 @@
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
                      "description":"Descripción de la medida en que todas los datos que se necesitan son aportados por la instancia estadística. Proporciona información sobre la exhaustividad en comparación con los reglamentos y directrices pertinentes",
+                     "$ref":"#/definitions/InternationalString"
+                  },
+                  "coverageError":{
+                     "xml":{
+                        "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
+                     },
+                     "description":"Descripción de la divergencia entre la población marco y la población objetivo",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "dataCompilation":{
@@ -444,6 +472,13 @@
                      "description":"Fecha en la que se hace pública la instancia estadística por primera vez",
                      "type":"string"
                   },
+                  "measurementError":{
+                     "xml":{
+                        "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
+                     },
+                     "description":"Los errores de medida son errores que se producen durante la recolección de datos en los que los valores registrados son diferentes de los reales",
+                     "$ref":"#/definitions/Measures"
+                  },
                   "measures":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
@@ -451,11 +486,25 @@
                      "description":"Conceptos de medida utilizados en la instancia de la operación",
                      "$ref":"#/definitions/Measures"
                   },
+                  "modelError":{
+                     "xml":{
+                        "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
+                     },
+                     "description":"Error debido a modelos específicos de dominio necesarios para definir el objetivo de la estimación",
+                     "$ref":"#/definitions/Measures"
+                  },
                   "name":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
                      "description":"Nombre de la instancia de la operación estadística",
+                     "$ref":"#/definitions/InternationalString"
+                  },
+                  "nonResponseError":{
+                     "xml":{
+                        "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
+                     },
+                     "description":"Los errores de sin respuesta se producen cuando la encuesta no obtiene una respuesta a una, o posiblemente todas, las preguntas",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "nonsamplingErr":{
@@ -477,6 +526,13 @@
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
                      "description":"Identificación de la instancia de operación predecesora, si la hubiera",
+                     "$ref":"#/definitions/Resource"
+                  },
+                  "processingError":{
+                     "xml":{
+                        "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
+                     },
+                     "description":"El error en el proceso final de recolección de datos debido a la incorrecta aplicación de métodos de implementación correctamente planificados",
                      "$ref":"#/definitions/Resource"
                   },
                   "punctuality":{

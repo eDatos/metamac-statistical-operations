@@ -62,7 +62,7 @@ Application StatisticalOperations {
        		
        		"Operations"
        		@OperationDto createOperation(@OperationDto operationDto) throws MetamacException;
-       		@OperationDto updateOperation(@OperationDto operationDto) throws MetamacException;
+       		org.siemac.metamac.statistical.operations.core.serviceimpl.result.PublishExternallyOperationServiceResult updateOperation(@OperationDto operationDto) throws MetamacException;
        		deleteOperation(Long operationId) throws MetamacException;
        		List<@OperationBaseDto> findAllOperations  throws MetamacException;
        		MetamacCriteriaResult<@OperationBaseDto> findOperationsByCondition(MetamacCriteria criteria)  throws MetamacException;
@@ -518,6 +518,8 @@ Application StatisticalOperations {
        		- @InternationalString dataCompilation cascade="all" nullable databaseColumn="DATA_COMPILATION_FK";
        		"Metadata ADJUSTMENT"
        		- @InternationalString adjustment cascade="all" nullable databaseColumn="ADJUSTMENT_FK";
+       		"Metadata SEASONAL_ADJUSTMENT"
+            - @InternationalString seasonalAdjustment cascade="all" nullable databaseColumn="SEASONAL_ADJUSTMENT_FK";
        		"Metadata COST_BURDEN"
        		- @InternationalString costBurden cascade="all" nullable databaseColumn="COST_BURDEN_FK";
        		"Metadata COST"
@@ -546,10 +548,25 @@ Application StatisticalOperations {
        		- @InternationalString accuracyOverall cascade="all" nullable databaseColumn="ACCURACY_OVERALL_FK";
        		"Metadata SAMPLING_ERR"
        		- @InternationalString samplingErr cascade="all" nullable databaseColumn="SAMPLING_ERR_FK";
-       		"Metadata NONSAMPLING_ERR"
+       		"Metadata COVERAGE_ERROR"
+       		- @InternationalString coverageErr cascade="all" nullable databaseColumn="COVERAGE_ERROR_FK";
+            "Metadata MEASUREMENT_ERROR"
+            - @InternationalString measurementErr cascade="all" nullable databaseColumn="MEASUREMENT_ERROR_FK";
+            "Metadata NONRESPONSE_ERROR"
+            - @InternationalString nonResponseErr cascade="all" nullable databaseColumn="NONRESPONSE_ERROR_FK";
+            "Metadata PROCESSING_ERROR"
+            - @InternationalString processingErr cascade="all" nullable databaseColumn="PROCESSING_ERROR_FK";
+            "Metadata MODEL_ERROR"
+            - @InternationalString modelErr cascade="all" nullable databaseColumn="MODEL_ERROR_FK";
+            "Metadata NONSAMPLING_ERR"
        		- @InternationalString nonsamplingErr cascade="all" nullable databaseColumn="NONSAMPLING_ERR_FK";
+       		"Metadata COHER_SUBANUAL_ANUAL"
+       		- @InternationalString coherSubanualAnual cascade="all" nullable databaseColumn="COHER_SUBANUAL_ANUAL_FK";
+            "Metadata COHER_NATIONAL_ACCOUNTS"
+            - @InternationalString coherNationalAccounts cascade="all" nullable databaseColumn="COHER_NATIONAL_ACCOUNTS_FK";
        		"Metadata COHER_X_DOMAIN"
        		- @InternationalString coherXDomain cascade="all" nullable databaseColumn="COHER_X_DOMAIN_FK";
+
        		"Metadata COHER_INTERNAL"
        		- @InternationalString coherInternal cascade="all" nullable databaseColumn="COHER_INTERNAL_FK";
        		

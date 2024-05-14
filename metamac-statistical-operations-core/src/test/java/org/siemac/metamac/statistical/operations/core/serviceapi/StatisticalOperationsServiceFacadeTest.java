@@ -61,6 +61,7 @@ import org.siemac.metamac.statistical.operations.core.enume.domain.ProcStatusEnu
 import org.siemac.metamac.statistical.operations.core.enume.domain.StatusEnum;
 import org.siemac.metamac.statistical.operations.core.error.ServiceExceptionParameters;
 import org.siemac.metamac.statistical.operations.core.error.ServiceExceptionType;
+import org.siemac.metamac.statistical.operations.core.serviceimpl.result.PublishExternallyOperationServiceResult;
 import org.siemac.metamac.statistical.operations.core.utils.StatisticalOperationsBaseTest;
 import org.siemac.metamac.statistical.operations.core.utils.asserts.StatisticalOperationsAsserts;
 import org.siemac.metamac.statistical.operations.core.utils.mocks.StatisticalOperationsMocks;
@@ -1341,8 +1342,8 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
         description.addText(description_en);
         operationDto.setDescription(description);
 
-        operationDto = statisticalOperationsServiceFacade.updateOperation(getServiceContextAdministrador(), operationDto);
-
+        PublishExternallyOperationServiceResult result = statisticalOperationsServiceFacade.updateOperation(getServiceContextAdministrador(), operationDto);
+        operationDto = result.getContent();
         assertNotNull(operationDto);
 
         // Check number of operations
@@ -1398,7 +1399,8 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
         // STATUS
         operationDto.setStatus(StatusEnum.DESIGN);
 
-        operationDto = statisticalOperationsServiceFacade.updateOperation(getServiceContextAdministrador(), operationDto);
+        PublishExternallyOperationServiceResult result = statisticalOperationsServiceFacade.updateOperation(getServiceContextAdministrador(), operationDto);
+        operationDto = result.getContent();
 
         assertNotNull(operationDto);
         assertEquals(StatusEnum.DESIGN, operationDto.getStatus());
@@ -1423,7 +1425,8 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
         externalItemsBefore = externalItemRepository.findAll().size();
 
         operationDto.addProducer(mockExternalItemDto("ISTAC", "/uri/test/agency?mod", "URN:AGENCY:ISTAC?MOD", null, TypeExternalArtefactsEnum.AGENCY));
-        operationDto = statisticalOperationsServiceFacade.updateOperation(getServiceContextAdministrador(), operationDto);
+        PublishExternallyOperationServiceResult result = statisticalOperationsServiceFacade.updateOperation(getServiceContextAdministrador(), operationDto);
+        operationDto = result.getContent();
 
         externalItemsAfter = externalItemRepository.findAll().size();
         assertEquals(externalItemsBefore + 1, externalItemsAfter);
@@ -1434,7 +1437,8 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
         operationDto.getProducer().clear();
         operationDto.addProducer(mockExternalItemDto("ISTAC", "/uri/test/agency", "URN:AGENCY:ISTAC?REMOVE", null, TypeExternalArtefactsEnum.AGENCY));
         operationDto.addProducer(mockExternalItemDto("INE", "/uri/test/agency", "URN:AGENCY:INE?REMOVE", null, TypeExternalArtefactsEnum.AGENCY));
-        operationDto = statisticalOperationsServiceFacade.updateOperation(getServiceContextAdministrador(), operationDto);
+        result = statisticalOperationsServiceFacade.updateOperation(getServiceContextAdministrador(), operationDto);
+        operationDto = result.getContent();
 
         externalItemsAfter = externalItemRepository.findAll().size();
         assertEquals(externalItemsBefore - 1, externalItemsAfter);
@@ -1443,7 +1447,8 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
         externalItemsBefore = externalItemRepository.findAll().size();
 
         operationDto.removeAllProducer();
-        operationDto = statisticalOperationsServiceFacade.updateOperation(getServiceContextAdministrador(), operationDto);
+        result = statisticalOperationsServiceFacade.updateOperation(getServiceContextAdministrador(), operationDto);
+        operationDto = result.getContent();
 
         externalItemsAfter = externalItemRepository.findAll().size();
         assertEquals(externalItemsBefore - 2, externalItemsAfter);
@@ -1476,7 +1481,8 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
         operationDto.getSecondarySubjectAreas().add(mockExternalItemDto("HEALTH5", "/uri/test/category5", "URN:CATEGORY:HEALTH5", null, TypeExternalArtefactsEnum.CATEGORY));
 
         // Update
-        operationDto = statisticalOperationsServiceFacade.updateOperation(getServiceContextAdministrador(), operationDto);
+        PublishExternallyOperationServiceResult result = statisticalOperationsServiceFacade.updateOperation(getServiceContextAdministrador(), operationDto);
+        operationDto = result.getContent();
         assertEquals(4, operationDto.getSecondarySubjectAreas().size());
         assertNotNull(getExternalItemDtoByCode(operationDto.getSecondarySubjectAreas(), "HEALTH1"));
         assertNotNull(getExternalItemDtoByCode(operationDto.getSecondarySubjectAreas(), "HEALTH3"));
@@ -1496,7 +1502,8 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
         operationDto.addRegionalContributor(mockExternalItemDto("ISTAC", "/uri/test/agency?remove", "URN:AGENCY:ISTAC?REMOVE", null, TypeExternalArtefactsEnum.AGENCY));
         operationDto.addRegionalContributor(mockExternalItemDto("INE", "/uri/test/agency?remove", "URN:AGENCY:INE?REMOVE", null, TypeExternalArtefactsEnum.AGENCY));
 
-        operationDto = statisticalOperationsServiceFacade.updateOperation(getServiceContextAdministrador(), operationDto);
+        PublishExternallyOperationServiceResult result = statisticalOperationsServiceFacade.updateOperation(getServiceContextAdministrador(), operationDto);
+        operationDto = result.getContent();
 
         int externalItemsAfter = externalItemRepository.findAll().size();
         assertEquals(externalItemsBefore + 2, externalItemsAfter);
@@ -1507,7 +1514,8 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
         operationDto.getRegionalContributor().clear();
         operationDto.getRegionalContributor().addAll(new ArrayList<ExternalItemDto>());
 
-        operationDto = statisticalOperationsServiceFacade.updateOperation(getServiceContextAdministrador(), operationDto);
+        result = statisticalOperationsServiceFacade.updateOperation(getServiceContextAdministrador(), operationDto);
+        operationDto = result.getContent();
 
         externalItemsAfter = externalItemRepository.findAll().size();
         assertEquals(externalItemsBefore - 2, externalItemsAfter);
@@ -1545,7 +1553,8 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
         int officialityTypesBefore = statisticalOperationsServiceFacade.findAllOfficialityTypes(getServiceContextAdministrador()).size();
 
         operationDto.setOfficialityType(statisticalOperationsServiceFacade.findOfficialityTypeById(getServiceContextAdministrador(), Long.valueOf(2)));
-        operationDto = statisticalOperationsServiceFacade.updateOperation(getServiceContextAdministrador(), operationDto);
+        PublishExternallyOperationServiceResult result = statisticalOperationsServiceFacade.updateOperation(getServiceContextAdministrador(), operationDto);
+        operationDto = result.getContent();
 
         int officialityTypesAfter = statisticalOperationsServiceFacade.findAllOfficialityTypes(getServiceContextAdministrador()).size();
         assertEquals(officialityTypesBefore, officialityTypesAfter);
@@ -1554,7 +1563,8 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
         officialityTypesBefore = statisticalOperationsServiceFacade.findAllOfficialityTypes(getServiceContextAdministrador()).size();
 
         operationDto.setOfficialityType(null);
-        operationDto = statisticalOperationsServiceFacade.updateOperation(getServiceContextAdministrador(), operationDto);
+        result = statisticalOperationsServiceFacade.updateOperation(getServiceContextAdministrador(), operationDto);
+        operationDto = result.getContent();
 
         officialityTypesAfter = statisticalOperationsServiceFacade.findAllOfficialityTypes(getServiceContextAdministrador()).size();
         assertEquals(officialityTypesBefore, officialityTypesAfter);
@@ -1580,7 +1590,10 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
         operationDtoSession2.setCode("newCode2");
 
         // Update operation - session 1
-        OperationDto operationDtoSession1AfterUpdate = statisticalOperationsServiceFacade.updateOperation(getServiceContextAdministrador(), operationDtoSession1);
+
+        PublishExternallyOperationServiceResult result = statisticalOperationsServiceFacade.updateOperation(getServiceContextAdministrador(), operationDtoSession1);
+        OperationDto operationDtoSession1AfterUpdate = result.getContent();
+
         assertEquals(Long.valueOf(1), operationDtoSession1AfterUpdate.getOptimisticLockingVersion());
 
         // Update operation - session 2
@@ -1595,7 +1608,9 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
 
         // Update operation - session 1
         operationDtoSession1AfterUpdate.setCode("code_2updat");
-        OperationDto operationDtoSession1AfterUpdate2 = statisticalOperationsServiceFacade.updateOperation(getServiceContextAdministrador(), operationDtoSession1AfterUpdate);
+        result = statisticalOperationsServiceFacade.updateOperation(getServiceContextAdministrador(), operationDtoSession1AfterUpdate);
+        OperationDto operationDtoSession1AfterUpdate2 = result.getContent();
+
         assertEquals(Long.valueOf(2), operationDtoSession1AfterUpdate2.getOptimisticLockingVersion());
     }
 

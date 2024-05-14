@@ -439,12 +439,14 @@ public class StatisticalOperationsServiceFacadeImpl extends StatisticalOperation
     }
 
     @Override
-    public OperationDto updateOperation(ServiceContext ctx, OperationDto operationDto) throws MetamacException {
+    public PublishExternallyOperationServiceResult updateOperation(ServiceContext ctx, OperationDto operationDto) throws MetamacException {
         // Security
         SecurityUtils.checkServiceOperationAllowed(ctx, StatisticalOperationsRoleEnum.TECNICO_PLANIFICACION, StatisticalOperationsRoleEnum.TECNICO_APOYO_PLANIFICACION,
                 StatisticalOperationsRoleEnum.TECNICO_PRODUCCION);
         checkAccessOperationByCode(ctx, operationDto.getCode(), StatisticalOperationsRoleEnum.TECNICO_PLANIFICACION, StatisticalOperationsRoleEnum.TECNICO_APOYO_PLANIFICACION,
                 StatisticalOperationsRoleEnum.TECNICO_PRODUCCION);
+
+        PublishExternallyOperationServiceResult result = new PublishExternallyOperationServiceResult();
 
         // Transform to Entity
         Operation operation = dto2DoMapper.operationDtoToEntity(operationDto, ctx);
@@ -455,8 +457,19 @@ public class StatisticalOperationsServiceFacadeImpl extends StatisticalOperation
         // Transform to Dto
         operationDto = operationToDto(ctx, operation);
 
+        result.setContent(operationDto);
+
+        if (ProcStatusEnum.PUBLISH_EXTERNALLY.equals(operationDto.getProcStatus())) {
+            SendStreamMessageResult sendStreamMessageResult = notifyOperationPublication(ctx, operation);
+            result.getExceptions().addAll(sendStreamMessageResult.getExceptions());
+        }
+
         // Return
-        return operationDto;
+        return result;
+    }
+
+    private SendStreamMessageResult notifyOperationPublication(ServiceContext ctx, Operation message) throws MetamacException {
+        return streamMessagingServiceFacade.sendMessage(ctx, message);
     }
 
     @Override

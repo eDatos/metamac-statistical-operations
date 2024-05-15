@@ -900,6 +900,11 @@ public class StatisticalOperationsServiceFacadeImpl extends StatisticalOperation
     }
 
     @Override
+    public void deleteTemporalFile(ServiceContext ctx, String fileName) throws MetamacException {
+        getStatisticalOperationsBaseService().deleteTemporalFile(ctx, fileName);
+    }
+
+    @Override
     public InstanceBaseDto findInstanceBaseById(ServiceContext ctx, Long id) throws MetamacException {
         // Security
         SecurityUtils.checkServiceOperationAllowed(ctx, StatisticalOperationsRoleEnum.ANY_ROLE_ALLOWED);

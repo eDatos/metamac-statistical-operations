@@ -482,6 +482,10 @@ public class StatisticalOperationsBaseServiceImpl extends StatisticalOperationsB
         return TsvExportationUtils.exportStatisticalOperations(operations, languages, categories);
     }
 
+    @Override
+    public void deleteTemporalFile(ServiceContext ctx, String fileName) {
+        TsvExportationUtils.deleteTemporalFile(fileName);
+    }
     // --------------------------------------------------------------------------------------------------------------
     // --------------------------------------------- INSTANCE SERVICES ----------------------------------------------
     // --------------------------------------------------------------------------------------------------------------

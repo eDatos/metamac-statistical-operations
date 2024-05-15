@@ -93,6 +93,7 @@ Application StatisticalOperations {
        		@OperationBaseDto findOperationForInstance(Long instanceId) throws MetamacException;
 
        		String exportOperationsTsv(MetamacCriteria criteria) throws MetamacException;
+       		void deleteTemporalFile(String Filename) throws MetamacException;
 	   }
 
 		Service StreamMessagingServiceFacade {
@@ -161,6 +162,7 @@ Application StatisticalOperations {
 			@Instance publishInternallyInstance(Long instanceId) throws MetamacException;
        		@Instance publishExternallyInstance(Long instanceId) throws MetamacException;
 
+            deleteTemporalFile(String Filename) throws MetamacException;
 	   }
 	   
 	   

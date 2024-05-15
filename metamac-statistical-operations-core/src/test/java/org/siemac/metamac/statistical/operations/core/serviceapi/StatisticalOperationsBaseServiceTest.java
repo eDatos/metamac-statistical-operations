@@ -908,6 +908,11 @@ public class StatisticalOperationsBaseServiceTest extends StatisticalOperationsB
 
     }
 
+    @Override
+    @Test
+    public void testDeleteTemporalFile() throws Exception {
+        
+    }
     /*********************************************************************
      * MOCKS
      *********************************************************************/

@@ -51,7 +51,9 @@ public class SrmRestExternalFacadeImpl implements SrmRestExternalFacade {
             String resourceId = params[1];
             String version = params[2];
 
-            Categories categories = restApiLocator.getSrmRestExternalFacadeV10().findCategories(agencyId, resourceId, version, null, null, null, null, fields);
+            String query = "CATEGORY_ELEMENT_CODE IS_NOT_NULL";
+
+            Categories categories = restApiLocator.getSrmRestExternalFacadeV10().findCategories(agencyId, resourceId, version, query, null, null, null, fields);
 
             if (categories != null) {
                 for (CategoryResource category : categories.getCategories()) {

@@ -75,7 +75,6 @@ public interface Do2RestInternalMapperV10 {
     // Resources
     // -----------
     ResourceInternal toResource(org.siemac.metamac.statistical.operations.core.domain.Operation source) throws MetamacException;
-    ResourceInternal toResource(org.siemac.metamac.statistical.operations.core.domain.Operation source, Set<String> parsedFields) throws MetamacException;
 
     // -----------
     // Links

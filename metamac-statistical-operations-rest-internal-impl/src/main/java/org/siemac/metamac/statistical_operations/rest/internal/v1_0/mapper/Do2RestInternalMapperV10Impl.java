@@ -197,9 +197,12 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         String baseLink = this.toOperationsLink();
         SculptorCriteria2RestCriteria.toPagedResult(sourcesPagedResult, targets, query, orderBy, limit, baseLink);
 
+        Map<String, CategoryResourceInternal> categoryResourceByDefaultCategoryScheme = srmRestInternalFacade
+                .retrieveDefaultCategoriesByCategoryElementCode(configurationService.retrieveDefaultCategoryScheme());
+
         // Values
         for (org.siemac.metamac.statistical.operations.core.domain.Operation source : sourcesPagedResult.getValues()) {
-            ResourceInternal target = this.toResource(source, parsedFields);
+            ResourceInternal target = this.toResource(source, parsedFields, categoryResourceByDefaultCategoryScheme);
             targets.getOperations().add(target);
         }
         return targets;
@@ -543,11 +546,11 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
 
     @Override
     public ResourceInternal toResource(org.siemac.metamac.statistical.operations.core.domain.Operation source) throws MetamacException {
-        return toResource(source, null);
+        return toResource(source, null, null);
     }
 
-    @Override
-    public ResourceInternal toResource(org.siemac.metamac.statistical.operations.core.domain.Operation source, Set<String> parsedFields) throws MetamacException {
+    private ResourceInternal toResource(org.siemac.metamac.statistical.operations.core.domain.Operation source, Set<String> parsedFields, Map<String, CategoryResourceInternal> categoryResourcesCache)
+            throws MetamacException {
         if (source == null) {
             return null;
         }
@@ -558,11 +561,24 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         target.setSelfLink(this.toOperationSelfLink(source.getCode()));
         target.setManagementAppLink(this.toOperationManagementApplicationLink(source.getCode()));
         target.setName(this.toInternationalString(source.getTitle()));
-        boolean includeSubjectArea = containsField(parsedFields, StatisticalOperationsRestConstants.FIELD_INCLUDE_SUBJECT_AREA);
-        if (includeSubjectArea) {
-            target.setSubjectArea(getCategoryByCategoryElement(source.getSubjectArea()));
-        }
+        target.setSubjectArea(getSubjectAreaFromCache(source.getSubjectArea(), parsedFields, categoryResourcesCache));
+
         return target;
+    }
+
+    private ResourceInternal getSubjectAreaFromCache(ExternalItem subjectArea, Set<String> parsedFields, Map<String, CategoryResourceInternal> categoryResourcesCache) throws MetamacException {
+        boolean includeSubjectArea = containsField(parsedFields, StatisticalOperationsRestConstants.FIELD_INCLUDE_SUBJECT_AREA);
+        ResourceInternal category = null;
+        if (includeSubjectArea) {
+            if (categoryResourcesCache != null && !categoryResourcesCache.isEmpty()) {
+                category = srmResourceInternalToResourceInternal(categoryResourcesCache.get(subjectArea.getCode()));
+            }
+
+            if (category == null) {
+                category = getCategoryByCategoryElement(subjectArea);
+            }
+        }
+        return category;
     }
 
     private ResourceInternal toResource(org.siemac.metamac.statistical.operations.core.domain.Family source) {

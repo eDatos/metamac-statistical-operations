@@ -183,9 +183,12 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         String baseLink = toOperationsLink();
         SculptorCriteria2RestCriteria.toPagedResult(sourcesPagedResult, targets, query, orderBy, limit, baseLink);
 
+        Map<String, CategoryResource> categoryResourceByDefaultCategoryScheme = srmRestExternalFacade
+                .retrieveDefaultCategoriesByCategoryElementCode(configurationService.retrieveDefaultCategoryScheme());
+
         // Values
         for (org.siemac.metamac.statistical.operations.core.domain.Operation source : sourcesPagedResult.getValues()) {
-            ResourceWithSubjectArea target = toResource(source, parsedFields);
+            ResourceWithSubjectArea target = toResource(source, parsedFields, categoryResourceByDefaultCategoryScheme);
             targets.getOperations().add(target);
         }
         return targets;
@@ -278,7 +281,7 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         target.setSelfLink(toInstanceSelfLink(source));
         target.setName(toInternationalString(source.getTitle()));
         target.setAcronym(toInternationalString(source.getAcronym()));
-        target.setStatisticalOperation(toResource(source.getOperation(), null));
+        target.setStatisticalOperation(toResource(source.getOperation(), null, null));
         target.setPredecessor(toResource(getInstanceInOrder(source.getOperation().getInstances(), source.getOrder() - 1)));
         target.setSuccessor(toResource(getInstanceInOrder(source.getOperation().getInstances(), source.getOrder() + 1)));
         target.setDataDescription(toInternationalString(source.getDataDescription()));
@@ -515,10 +518,11 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
     }
 
     private ResourceWithSubjectArea toResource(org.siemac.metamac.statistical.operations.core.domain.Operation source) throws MetamacException {
-        return toResource(source, null);
+        return toResource(source, null, null);
     }
 
-    private ResourceWithSubjectArea toResource(org.siemac.metamac.statistical.operations.core.domain.Operation source, Set<String> parsedFields) throws MetamacException {
+    private ResourceWithSubjectArea toResource(org.siemac.metamac.statistical.operations.core.domain.Operation source, Set<String> parsedFields, Map<String, CategoryResource> categoryResourcesCache)
+            throws MetamacException {
         if (source == null) {
             return null;
         }
@@ -528,11 +532,24 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         target.setKind(StatisticalOperationsRestConstants.KIND_OPERATION);
         target.setSelfLink(toOperationSelfLink(source));
         target.setName(toInternationalString(source.getTitle()));
-        boolean includeSubjectArea = containsField(parsedFields, StatisticalOperationsRestConstants.FIELD_INCLUDE_SUBJECT_AREA);
-        if (includeSubjectArea) {
-            target.setSubjectArea(getCategoryByCategoryElement(source.getSubjectArea()));
-        }
+        target.setSubjectArea(getSubjectAreaFromCache(source.getSubjectArea(), parsedFields, categoryResourcesCache));
+
         return target;
+    }
+
+    private Resource getSubjectAreaFromCache(ExternalItem subjectArea, Set<String> parsedFields, Map<String, CategoryResource> categoryResourcesCache) throws MetamacException {
+        boolean includeSubjectArea = containsField(parsedFields, StatisticalOperationsRestConstants.FIELD_INCLUDE_SUBJECT_AREA);
+        Resource category = null;
+        if (includeSubjectArea) {
+            if (categoryResourcesCache != null && !categoryResourcesCache.isEmpty()) {
+                category = srmResourceToResource(categoryResourcesCache.get(subjectArea.getCode()));
+            }
+
+            if (category == null) {
+                category = getCategoryByCategoryElement(subjectArea);
+            }
+        }
+        return category;
     }
 
     private Resource toResource(org.siemac.metamac.statistical.operations.core.domain.Family source) {

@@ -29,8 +29,6 @@ import org.siemac.metamac.statistical.operations.web.shared.SaveOperationAction;
 import org.siemac.metamac.statistical.operations.web.shared.SaveOperationResult;
 import org.siemac.metamac.statistical.operations.web.shared.external.GetExternalResourcesAction;
 import org.siemac.metamac.statistical.operations.web.shared.external.GetExternalResourcesResult;
-import org.siemac.metamac.statistical.operations.web.shared.DeleteTemporalFileAction;
-import org.siemac.metamac.statistical.operations.web.shared.DeleteTemporalFileResult;
 import org.siemac.metamac.statistical.operations.web.shared.external.RestWebCriteriaUtils;
 import org.siemac.metamac.web.common.client.events.ShowMessageEvent;
 import org.siemac.metamac.web.common.client.utils.WaitingAsyncCallbackHandlingError;
@@ -224,7 +222,6 @@ public class OperationListPresenter extends Presenter<OperationListPresenter.Ope
             @Override
             public void onWaitSuccess(ExportOperationListResult result) {
                 CommonUtils.downloadFile(result.getFileName());
-                deleteTemporalFile(result.getFileName());
             }
             @Override
             public void onWaitFailure(Throwable caught) {
@@ -234,20 +231,6 @@ public class OperationListPresenter extends Presenter<OperationListPresenter.Ope
         });
     }
 
-    private void deleteTemporalFile(String fileName) {
-        dispatcher.execute(new DeleteTemporalFileAction(fileName), new WaitingAsyncCallbackHandlingError<DeleteTemporalFileResult>(this) {
-            @Override
-            public void onWaitFailure(Throwable caught) {
-                ShowMessageEvent.fireErrorMessage(OperationListPresenter.this, caught);
-            }
-
-            @Override
-            public void onWaitSuccess(DeleteTemporalFileResult result) {
-                // TODO Auto-generated method stub
-                
-            }
-        });
-    }
     //
     // EXTERNAL RESOURCES
     //

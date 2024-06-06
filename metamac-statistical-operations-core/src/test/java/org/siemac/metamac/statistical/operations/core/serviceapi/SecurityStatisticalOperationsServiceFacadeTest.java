@@ -1553,11 +1553,6 @@ public class SecurityStatisticalOperationsServiceFacadeTest extends StatisticalO
         statisticalOperationsServiceFacade.exportOperationsTsv(getServiceContextTecnicoProduccion(), criteria);
     }
 
-    @Override
-    @Test
-    public void testDeleteTemporalFile() throws Exception {
-        
-    }
     /**************************************************************************
      * PRIVATE UTILS
      **************************************************************************/

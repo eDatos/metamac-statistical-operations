@@ -3,7 +3,6 @@ package org.siemac.metamac.statistical.operations.web.server;
 import org.siemac.metamac.statistical.operations.web.server.handlers.DeleteFamilyListActionHandler;
 import org.siemac.metamac.statistical.operations.web.server.handlers.DeleteInstanceListActionHandler;
 import org.siemac.metamac.statistical.operations.web.server.handlers.DeleteOperationListActionHandler;
-import org.siemac.metamac.statistical.operations.web.server.handlers.DeleteTemporalFileActionHandler;
 import org.siemac.metamac.statistical.operations.web.server.handlers.ExportOperationListActionHandler;
 import org.siemac.metamac.statistical.operations.web.server.handlers.GetFamilyActionHandler;
 import org.siemac.metamac.statistical.operations.web.server.handlers.GetFamilyAndOperationsActionHandler;
@@ -60,7 +59,6 @@ import org.siemac.metamac.statistical.operations.web.shared.UpdateOperationFamil
 import org.siemac.metamac.statistical.operations.web.shared.external.GetCommonMetadataConfigurationsAction;
 import org.siemac.metamac.statistical.operations.web.shared.external.GetExternalResourcesAction;
 import org.siemac.metamac.statistical.operations.web.shared.external.GetUsersAccessControlListAction;
-import org.siemac.metamac.statistical.operations.web.shared.DeleteTemporalFileAction;
 import org.siemac.metamac.web.common.server.handlers.CloseSessionActionHandler;
 import org.siemac.metamac.web.common.server.handlers.GetLoginPageUrlActionHandler;
 import org.siemac.metamac.web.common.server.handlers.GetNavigationBarUrlActionHandler;
@@ -104,7 +102,6 @@ public class ServerModule extends HandlerModule {
         bindHandler(SaveOperationAction.class, SaveOperationActionHandler.class);
         bindHandler(GetOperationAndInstancesAction.class, GetOperationAndInstancesActionHandler.class);
         bindHandler(DeleteOperationListAction.class, DeleteOperationListActionHandler.class);
-        bindHandler(DeleteTemporalFileAction.class, DeleteTemporalFileActionHandler.class);
         bindHandler(ExportOperationListAction.class, ExportOperationListActionHandler.class);
         bindHandler(UpdateOperationFamiliesAction.class, UpdateOperationFamiliesActionHandler.class);
         bindHandler(PublishInternallyOperationAction.class, PublishInternallyOperationActionHandler.class);

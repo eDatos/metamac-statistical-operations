@@ -3632,10 +3632,6 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
 
     }
 
-    @Override
-    @Test
-    public void testDeleteTemporalFile() {
-        
     }
     /**************************************************************************
      * PRIVATE UTILS

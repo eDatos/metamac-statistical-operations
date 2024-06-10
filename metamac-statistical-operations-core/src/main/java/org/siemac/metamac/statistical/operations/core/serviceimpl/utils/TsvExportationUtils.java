@@ -132,21 +132,7 @@ public class TsvExportationUtils {
 
     }
 
-    public static void deleteTemporalFile(String fileName) {
-        FileSystem fileSystem = FileSystems.getDefault();
-        File tmpdir = new File(AccessController.doPrivileged(new GetPropertyAction("java.io.tmpdir")));
-        Path path = fileSystem.getPath(tmpdir.getPath() + "/" + fileName);
-        try {
-            Files.delete(path);
-        } catch (IOException e) {
-            try {
-                Thread.sleep(5000);
-                Files.delete(path);
-            } catch (IOException | InterruptedException ex) {
-                logger.error(ex.getMessage());
-            }
-        }
-    }    private static void writeStatisticalOperationsHeader(OutputStreamWriter writer, List<String> languages) throws IOException {
+    private static void writeStatisticalOperationsHeader(OutputStreamWriter writer, List<String> languages) throws IOException {
         // Identificadores
         writer.write(StatisticalOperationsConstants.TSV_HEADER_CODE);
         writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);

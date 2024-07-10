@@ -3632,7 +3632,6 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
 
     }
 
-    }
     /**************************************************************************
      * PRIVATE UTILS
      **************************************************************************/

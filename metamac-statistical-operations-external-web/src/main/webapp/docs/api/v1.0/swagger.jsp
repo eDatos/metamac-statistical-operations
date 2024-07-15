@@ -5,8 +5,6 @@
 <%@page pageEncoding="UTF-8"%>
 <%
     String locale = InternationalizationUtils.getInstance().getCurrentLocale(request);
-    System.out.println("debug");
-    System.out.println("debug = "+locale);
     MessagesResourceBundle messagesResource = new MessagesResourceBundle(locale);
     pageContext.setAttribute("msg", messagesResource);
 
@@ -326,7 +324,7 @@
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"La técnica estadística utilizada para eliminar los efectos del calendario estacional en una serie",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.seasonalAdjustment']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "basePeriod":{
@@ -368,14 +366,14 @@
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Descripción del grado en que las estadísticas son conciliables con las cuentas nacionales",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.coherInternal.coherNationalAccounts']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "coherSubanualAnual":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Descripción del grado en que las estadísticas de diferentes frecuencias son conciliables",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.coherInternal.coherSubanualAnual']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "coherXDom":{
@@ -410,7 +408,7 @@
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Descripción de la divergencia entre la población marco y la población objetivo",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.coverageError']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "dataCompilation":{
@@ -487,7 +485,7 @@
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Los errores de medida son errores que se producen durante la recolección de datos en los que los valores registrados son diferentes de los reales",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.inventoryDate.measurementError']}",
                      "$ref":"#/definitions/Measures"
                   },
                   "measures":{
@@ -501,7 +499,7 @@
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Error debido a modelos específicos de dominio necesarios para definir el objetivo de la estimación",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.modelError']}",
                      "$ref":"#/definitions/Measures"
                   },
                   "name":{
@@ -515,7 +513,7 @@
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Los errores de sin respuesta se producen cuando la encuesta no obtiene una respuesta a una, o posiblemente todas, las preguntas",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.nonResponseError']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "nonsamplingErr":{
@@ -543,7 +541,7 @@
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"El error en el proceso final de recolección de datos debido a la incorrecta aplicación de métodos de implementación correctamente planificados",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.processingError']}",
                      "$ref":"#/definitions/Resource"
                   },
                   "punctuality":{
@@ -1240,7 +1238,7 @@
                }
             }
          ],
-         "description":"${msg['api.doc.swagger.paths.statisticalOperationTypes.get']}"
+         "description":"Tipos de operaciones estadísticas"
       },
       "StatisticalUnits":{
          "type":"object",
@@ -1272,7 +1270,7 @@
             "PRODUCTION",
             "OUT_OF_PRINT"
          ],
-         "description":"${msg['api.doc.swagger.definitions.operation.properties.status']}"
+         "description":"Estado de la operación estadística"
       },
       "TemporalGranularities":{
          "type":"object",
@@ -1293,7 +1291,7 @@
                }
             }
          ],
-         "description":"${msg['api.doc.swagger.definitions.instance.properties.temporalGranularity']}"
+         "description":"Granularidades temporales que contemplan los datos de la operación estadística"
       },
       "UpdateFrequencies":{
          "type":"object",
@@ -1314,7 +1312,7 @@
                }
             }
          ],
-         "description":"${msg['api.doc.swagger.definitions.operation.properties.updateFrequencies']}"
+         "description":"Frecuencias de acualización de los datos"
       },
       "ChildLinks":{
          "type":"object",
@@ -1340,7 +1338,7 @@
                }
             }
          ],
-         "description":"${msg['api.doc.swagger.definitions.childLinks.properties.total']}"
+         "description":"Recursos a los que se puede acceder desde el presente recurso"
       },
       "InternationalString":{
          "type":"object",
@@ -1358,7 +1356,7 @@
                }
             }
          ],
-         "description":"${msg['api.doc.swagger.definitions.internationalString.properties.text']}"
+         "description":"Texto en múltiples lenguajes"
       },
       "Item":{
          "type":"object",
@@ -1826,13 +1824,13 @@
                   "name":"limit",
                   "in":"query",
                   "type":"string",
-                  "description":"${msg['api.doc.swagger.definitions.listBase.properties.limit']}"
+                  "description":"${msg['api.doc.swagger.paths.families_operations.get.parameters.limit']}"
                },
                {
                   "name":"offset",
                   "in":"query",
                   "type":"string",
-                  "description":"${msg['api.doc.swagger.definitions.listBase.properties.offset']}"
+                  "description":"${msg['api.doc.swagger.path.families_operations.get.parameters.offset']}"
                },
                {
                   "name":"orderBy",
@@ -1850,7 +1848,7 @@
                   "name":"fields",
                   "in":"query",
                   "type":"string",
-                  "description":"Permite personalizar la respuesta mediante la exclusión o inclusión de campos de la misma. Los posibles valores son \"+subjectArea\".<br/>Ejemplos: <br/>\r\n- fields=+subjectArea<br/>"
+                  "description":"${msg['api.doc.swagger.paths.operations.operationId.instances.get.parameters.fields']}"
                }
             ],
             "responses":{

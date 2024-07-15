@@ -10,17 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.LocaleUtils;
 
-
-
 // https://stackoverflow.com/questions/7469223/jsp-and-resourcebundles
 public class MessagesResourceBundle extends ResourceBundle {
 
     private static final String MESSAGES_ATTRIBUTE_NAME = "msg";
-    private static final String MESSAGES_ES = "i18n.messages_es"; // Comes from folders and filename: i18n/messages-swagger.properties
-    private static final String MESSAGES_CA = "i18n.messages_ca";
-    public static final String LANG_ES = "es";
-    public static final String LANG_CA = "ca";
-    
+    private static final String MESSAGES_BASE_NAME      = "i18n.messages-swagger"; // Comes from folders and filename: i18n/messages-swagger.properties
+
     public MessagesResourceBundle(Locale locale) {
         setLocale(locale);
     }
@@ -40,11 +35,9 @@ public class MessagesResourceBundle extends ResourceBundle {
     }
 
     public void setLocale(Locale locale) {
-       if (LANG_ES.equals(String.valueOf(locale))) {
-          setParent(getBundle(MESSAGES_ES, locale, getNoFallbackControl(ResourceBundle.Control.FORMAT_DEFAULT)));
-       } else if (LANG_CA.equals(String.valueOf(locale))) {
-          setParent(getBundle(MESSAGES_CA, locale, getNoFallbackControl(ResourceBundle.Control.FORMAT_DEFAULT)));
-       }
+        if (parent == null || !parent.getLocale().equals(locale)) {
+            setParent(getBundle(MESSAGES_BASE_NAME, locale, getNoFallbackControl(ResourceBundle.Control.FORMAT_DEFAULT)));
+        }
     }
 
     public void setLocale(String locale) {

@@ -1665,7 +1665,7 @@
                   "name":"offset",
                   "in":"query",
                   "type":"string",
-                  "description":"${msg['api.doc.swagger.definitions.listBase.properties.offset']}"
+                  "description":"${msg['api.doc.swagger.paths.families_operations.get.parameters.offset']}"
                },
                {
                   "name":"orderBy",
@@ -1771,7 +1771,7 @@
                   "name":"offset",
                   "in":"query",
                   "type":"string",
-                  "description":"${msg['api.doc.swagger.definitions.listBase.properties.offset']}"
+                  "description":"${msg['api.doc.swagger.paths.families_operations.get.parameters.offset']}"
                },
                {
                   "name":"orderBy",
@@ -1830,7 +1830,7 @@
                   "name":"offset",
                   "in":"query",
                   "type":"string",
-                  "description":"${msg['api.doc.swagger.path.families_operations.get.parameters.offset']}"
+                  "description":"${msg['api.doc.swagger.paths.families_operations.get.parameters.offset']}"
                },
                {
                   "name":"orderBy",

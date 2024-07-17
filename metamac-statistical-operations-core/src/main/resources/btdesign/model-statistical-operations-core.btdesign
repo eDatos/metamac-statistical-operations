@@ -160,7 +160,6 @@ Application StatisticalOperations {
 			PagedResult<@Instance> findInstanceByCondition(List<ConditionalCriteria> condition, PagingParameter pagingParameter) throws MetamacException;
 			@Instance publishInternallyInstance(Long instanceId) throws MetamacException;
        		@Instance publishExternallyInstance(Long instanceId) throws MetamacException;
-
 	   }
 	   
 	   

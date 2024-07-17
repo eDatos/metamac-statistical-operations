@@ -115,7 +115,9 @@
 	</div>
 	
 	<c:if test="${!empty apiStyleFooterUrl}">
-	   <c:import charEncoding="UTF-8" url="${apiStyleFooterUrl}" />
+	   <c:import charEncoding="UTF-8" url="${apiStyleFooterUrl}">
+	      <c:param name="appId" value="statistical-operations-external"/>
+	   </c:import>
 	</c:if>
 </body>
 </html>

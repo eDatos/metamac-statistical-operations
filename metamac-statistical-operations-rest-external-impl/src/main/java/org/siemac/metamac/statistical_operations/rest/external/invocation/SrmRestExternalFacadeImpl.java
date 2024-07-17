@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.cxf.jaxrs.client.WebClient;
 import org.siemac.metamac.core.common.util.shared.UrnUtils;
+import org.siemac.metamac.rest.api.constants.RestApiConstants;
 import org.siemac.metamac.rest.exception.RestException;
 import org.siemac.metamac.rest.exception.utils.RestExceptionUtils;
 import org.siemac.metamac.rest.structural_resources.v1_0.domain.Categories;
@@ -51,7 +52,9 @@ public class SrmRestExternalFacadeImpl implements SrmRestExternalFacade {
             String resourceId = params[1];
             String version = params[2];
 
-            Categories categories = restApiLocator.getSrmRestExternalFacadeV10().findCategories(agencyId, resourceId, version, null, null, null, null, fields);
+            String query = "CATEGORY_ELEMENT_CODE IS_NOT_NULL";
+
+            Categories categories = restApiLocator.getSrmRestExternalFacadeV10().findCategories(agencyId, resourceId, version, query, null, RestApiConstants.MAXIMUM_LIMIT.toString(), null, fields);
 
             if (categories != null) {
                 for (CategoryResource category : categories.getCategories()) {

@@ -54,7 +54,7 @@
                }
             }
          ],
-         "description":"Clasificaciones usadas en la instancia de la operación estadística"
+         "description":"${msg['api.doc.swagger.definitions.classSystems']}"
       },
       "CollMethods":{
          "type":"object",
@@ -75,7 +75,7 @@
                }
             }
          ],
-         "description":"Valores aceptados para los métodos de recolección de los datos"
+         "description":"${msg['api.doc.swagger.definitions.collMethods']}"
       },
       "Costs":{
          "type":"object",
@@ -96,7 +96,7 @@
                }
             }
          ],
-         "description":"Valores aceptados para los tipos de costes asociados a la operación"
+         "description":"${msg['api.doc.swagger.definitions.costs']}"
       },
       "DataSharings":{
          "type":"object",
@@ -117,7 +117,7 @@
                }
             }
          ],
-         "description":"Acuerdos y convenios existentes entre organizaciones productoras de datos para la coordinación y compartición de los mismos. "
+         "description":"${msg['api.doc.swagger.definitions.dataSharings']}"
       },
       "Families":{
          "type":"object",
@@ -138,7 +138,7 @@
                }
             }
          ],
-         "description":"Listado de familias en las que se agrupan las diferentes operaciones estadísticas"
+         "description":"${msg['api.doc.swagger.definitions.families']}"
       },
       "Family":{
          "type":"object",
@@ -220,7 +220,7 @@
                }
             }
          ],
-         "description":"Familia de operaciones estadísticas"
+         "description":"${msg['api.doc.swagger.definitions.family']}"
       },
       "FreqColls":{
          "type":"object",
@@ -241,7 +241,7 @@
                }
             }
          ],
-         "description":"Frecuencias de recolección de los datos"
+         "description":"${msg['api.doc.swagger.definitions.freqColls']}"
       },
       "GeographicGranularities":{
          "type":"object",
@@ -262,7 +262,7 @@
                }
             }
          ],
-         "description":"Granularidades geográficas"
+         "description":"${msg['api.doc.swagger.definitions.geographicGranularities']}"
       },
       "InformationSuppliers":{
          "type":"object",
@@ -283,7 +283,7 @@
                }
             }
          ],
-         "description":"Organizaciones obligadas a suministrar información para la elaboración de la operación estadística"
+         "description":"${msg['api.doc.swagger.definitions.informationSuppliers']}"
       },
       "Instance":{
          "type":"object",
@@ -680,7 +680,7 @@
                }
             }
          ],
-         "description":"La instancia de operación estadística es cada una de las realizaciones de una misma operación estadística. Las instancias pueden ser de dos tipos: SERIE o SECCIÓN. Las instancias de tipo serie proveen información de una serie temporal completa y la instancia acaba cuando se produce una rotura de la serie. Las instancias de tipo sección proveen información de un único instante de tiempo"
+         "description":"${msg['api.doc.swagger.definitions.instance']}"
       },
       "InstanceTypes":{
          "type":"object",
@@ -701,7 +701,7 @@
                }
             }
          ],
-         "description":"Tipos de instancias"
+         "description":"${msg['api.doc.swagger.definitions.instanceTypes']}"
       },
       "Instances":{
          "type":"object",
@@ -722,7 +722,7 @@
                }
             }
          ],
-         "description":"Listados de instancias de operaciones estadísticas"
+         "description":"${msg['api.doc.swagger.definitions.instances']}"
       },
       "LegalActs":{
          "type":"object",
@@ -743,7 +743,7 @@
                }
             }
          ],
-         "description":"Leyes u otro tipo de convenios (formales o informales) que otorgan reponsabilidad y autoridad al organismo para la recolección, procesado y diseminación de la estadística"
+         "description":"${msg['api.doc.swagger.definitions.legalActs']}"
       },
       "Measures":{
          "type":"object",
@@ -764,7 +764,7 @@
                }
             }
          ],
-         "description":"Unidades en las que se miden los datos"
+         "description":"${msg['api.doc.swagger.definitions.measures']}"
       },
       "OfficialityTypes":{
          "type":"object",
@@ -785,7 +785,7 @@
                }
             }
          ],
-         "description":"Tipos de oficialidad que se le puede asignar a una operación estadística"
+         "description":"${msg['api.doc.swagger.definitions.officialityTypes']}"
       },
       "Operation":{
          "type":"object",
@@ -1050,7 +1050,7 @@
                }
             }
          ],
-         "description":"Conjunto de actividades, incluidas las preparatorias, que conducen a la obtención y/o difusión de resultados estadísticos sobre un determinado sector o tema o territorio. También se incluyen en el ámbito de esta definición los trabajos de infraestructura y de normalización estadística que posibilitan la coordinación, homogeneización e integración de las estadísticas, así como la recopilación de resultados y la confección de síntesis"
+         "description":"${msg['api.doc.swagger.definitions.operation']}"
       },
       "Operations":{
          "type":"object",
@@ -1071,7 +1071,7 @@
                }
             }
          ],
-         "description":"Listado de operaciones estadísticas"
+         "description":"${msg['api.doc.swagger.definitions.operations']}"
       },
       "Producers":{
          "type":"object",
@@ -1092,7 +1092,7 @@
                }
             }
          ],
-         "description":"Listado de organismos que colaboran en la producción de la estadística"
+         "description":"${msg['api.doc.swagger.definitions.producers']}"
       },
       "Publishers":{
          "type":"object",
@@ -1113,7 +1113,7 @@
                }
             }
          ],
-         "description":"Listado de organismos que difunden los resultados de la operación estadística"
+         "description":"${msg['api.doc.swagger.definitions.publishers']}"
       },
       "RegionalContributors":{
          "type":"object",
@@ -1134,7 +1134,7 @@
                }
             }
          ],
-         "description":"Organismos regionales colaboradores de la operación"
+         "description":"${msg['api.doc.swagger.definitions.regionalContributors']}"
       },
       "RegionalResponsibles":{
          "type":"object",
@@ -1155,7 +1155,7 @@
                }
             }
          ],
-         "description":"Organismos regionales responsables de la operación"
+         "description":"${msg['api.doc.swagger.definitions.regionalResponsibles']}"
       },
       "SecondarySubjectAreas":{
          "type":"object",
@@ -1176,7 +1176,7 @@
                }
             }
          ],
-         "description":"Áreas temáticas secundarias relacionadas con la operación"
+         "description":"${msg['api.doc.swagger.definitions.secondarySubjectAreas']}"
       },
       "StatConcDefs":{
          "type":"object",
@@ -1197,7 +1197,7 @@
                }
             }
          ],
-         "description":"Listado de conceptos que se manejan en la operación"
+         "description":"${msg['api.doc.swagger.definitions.statConcDefs']}"
       },
       "StatisticalOperationSources":{
          "type":"object",
@@ -1218,7 +1218,7 @@
                }
             }
          ],
-         "description":"Fuentes usadas para la elaboración de la operación estadística"
+         "description":"${msg['api.doc.swagger.definitions.statisticalOperationSources']}"
       },
       "StatisticalOperationTypes":{
          "type":"object",
@@ -1239,7 +1239,7 @@
                }
             }
          ],
-         "description":"Tipos de operaciones estadísticas"
+         "description":"${msg['api.doc.swagger.definitions.statisticalOperationTypes']}"
       },
       "StatisticalUnits":{
          "type":"object",
@@ -1260,7 +1260,7 @@
                }
             }
          ],
-         "description":"Unidades básicas de observación estadística para las que se proporcionan los datos"
+         "description":"${msg['api.doc.swagger.definitions.statisticalUnits']}"
       },
       "Status":{
          "type":"string",
@@ -1271,7 +1271,7 @@
             "PRODUCTION",
             "OUT_OF_PRINT"
          ],
-         "description":"Estado de la operación estadística"
+         "description":"${msg['api.doc.swagger.definitions.status']}"
       },
       "TemporalGranularities":{
          "type":"object",
@@ -1292,7 +1292,7 @@
                }
             }
          ],
-         "description":"Granularidades temporales que contemplan los datos de la operación estadística"
+         "description":"${msg['api.doc.swagger.definitions.temporalGranularities']}"
       },
       "UpdateFrequencies":{
          "type":"object",
@@ -1313,7 +1313,7 @@
                }
             }
          ],
-         "description":"Frecuencias de acualización de los datos"
+         "description":"${msg['api.doc.swagger.definitions.updateFrequencies']}"
       },
       "ChildLinks":{
          "type":"object",
@@ -1339,7 +1339,7 @@
                }
             }
          ],
-         "description":"Recursos a los que se puede acceder desde el presente recurso"
+         "description":"${msg['api.doc.swagger.definitions.childLinks']}"
       },
       "InternationalString":{
          "type":"object",
@@ -1357,7 +1357,7 @@
                }
             }
          ],
-         "description":"Texto en múltiples lenguajes"
+         "description":"${msg['api.doc.swagger.definitions.internationalString']}"
       },
       "Item":{
          "type":"object",
@@ -1491,7 +1491,7 @@
                }
             }
          ],
-         "description":"Texto en un idioma en particular"
+         "description":"${msg['api.doc.swagger.definitions.localisedString']}"
       },
       "Resource":{
          "type":"object",

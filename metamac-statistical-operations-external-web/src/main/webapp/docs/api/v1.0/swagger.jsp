@@ -1044,7 +1044,8 @@
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
                      "description":"${msg['api.doc.swagger.definitions.operation.properties.genderPerspective']}",
-                     "type":"#/definitions/InternationalString"
+                     "type":"object",
+                     "$ref":"#/definitions/InternationalString"
                   }
                }
             }
@@ -1683,7 +1684,6 @@
             "responses":{
                "200":{
                   "schema":{
-                     "description":"",
                      "$ref":"#/definitions/Families"
                   },
                   "headers":{
@@ -1718,13 +1718,13 @@
                   "name":"id",
                   "in":"path",
                   "type":"string",
-                  "description":"${msg['api.doc.swagger.paths.families.id.get.parameters.id']}"
+                  "description":"${msg['api.doc.swagger.paths.families.id.get.parameters.id']}",
+                  "required":true
                }
             ],
             "responses":{
                "200":{
                   "schema":{
-                     "description":"",
                      "$ref":"#/definitions/Family"
                   },
                   "headers":{
@@ -1759,7 +1759,8 @@
                   "name":"id",
                   "in":"path",
                   "type":"string",
-                  "description":"${msg['api.doc.swagger.paths.families.id.operations.get.parameters.id']}"
+                  "description":"${msg['api.doc.swagger.paths.families.id.operations.get.parameters.id']}",
+                  "required":true
                },
                {
                   "name":"limit",
@@ -1789,7 +1790,6 @@
             "responses":{
                "200":{
                   "schema":{
-                     "description":"",
                      "$ref":"#/definitions/Operations"
                   },
                   "headers":{
@@ -1854,7 +1854,6 @@
             "responses":{
                "200":{
                   "schema":{
-                     "description":"",
                      "$ref":"#/definitions/Operations"
                   },
                   "headers":{
@@ -1889,13 +1888,13 @@
                   "name":"id",
                   "in":"path",
                   "type":"string",
-                  "description":"${msg['api.doc.swagger.paths.operationsIdParam.idDescription']}"
+                  "description":"${msg['api.doc.swagger.paths.operationsIdParam.idDescription']}",
+                  "required":true
                }
             ],
             "responses":{
                "200":{
                   "schema":{
-                     "description":"",
                      "$ref":"#/definitions/Operation"
                   },
                   "headers":{
@@ -1930,7 +1929,8 @@
                   "name":"operationId",
                   "in":"path",
                   "type":"string",
-                  "description":"${msg['api.doc.swagger.paths.operationsIdParam.idDescription']}"
+                  "description":"${msg['api.doc.swagger.paths.operationsIdParam.idDescription']}",
+                  "required":true
                },
                {
                   "name":"limit",
@@ -1960,7 +1960,6 @@
             "responses":{
                "200":{
                   "schema":{
-                     "description":"",
                      "$ref":"#/definitions/Instances"
                   },
                   "headers":{
@@ -1995,19 +1994,20 @@
                   "name":"id",
                   "in":"path",
                   "type":"string",
-                  "description":"${msg['api.doc.swagger.paths.operations.operationId.instances.id.get.parameters.id']}"
+                  "description":"${msg['api.doc.swagger.paths.operations.operationId.instances.id.get.parameters.id']}",
+                  "required":true
                },
                {
                   "name":"operationId",
                   "in":"path",
                   "type":"string",
-                  "description":"${msg['api.doc.swagger.paths.operationsIdParam.idDescription']}"
+                  "description":"${msg['api.doc.swagger.paths.operationsIdParam.idDescription']}",
+                  "required":true
                }
             ],
             "responses":{
                "200":{
                   "schema":{
-                     "description":"",
                      "$ref":"#/definitions/Instance"
                   },
                   "headers":{
@@ -2042,13 +2042,13 @@
                   "name":"id",
                   "in":"path",
                   "type":"string",
-                  "description":"${msg['api.doc.swagger.paths.operationsIdParam.idDescription']}"
+                  "description":"${msg['api.doc.swagger.paths.operationsIdParam.idDescription']}",
+                  "required":true
                }
             ],
             "responses":{
                "200":{
                   "schema":{
-                     "description":"",
                      "$ref":"#/definitions/Families"
                   },
                   "headers":{
@@ -2084,7 +2084,6 @@
             "responses":{
                "200":{
                   "schema":{
-                     "description":"",
                      "$ref":"#/definitions/StatisticalOperationSources"
                   },
                   "headers":{
@@ -2120,7 +2119,6 @@
             "responses":{
                "200":{
                   "schema":{
-                     "description":"",
                      "$ref":"#/definitions/OfficialityTypes"
                   },
                   "headers":{
@@ -2156,7 +2154,6 @@
             "responses":{
                "200":{
                   "schema":{
-                     "description":"",
                      "$ref":"#/definitions/Costs"
                   },
                   "headers":{
@@ -2192,7 +2189,6 @@
             "responses":{
                "200":{
                   "schema":{
-                     "description":"",
                      "$ref":"#/definitions/CollMethods"
                   },
                   "headers":{
@@ -2228,7 +2224,6 @@
             "responses":{
                "200":{
                   "schema":{
-                     "description":"",
                      "$ref":"#/definitions/InstanceTypes"
                   },
                   "headers":{
@@ -2264,7 +2259,6 @@
             "responses":{
                "200":{
                   "schema":{
-                     "description":"",
                      "$ref":"#/definitions/StatisticalOperationTypes"
                   },
                   "headers":{

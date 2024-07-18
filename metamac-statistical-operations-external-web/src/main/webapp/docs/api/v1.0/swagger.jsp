@@ -1,13 +1,12 @@
 <%@page import="org.siemac.metamac.core.common.util.swagger.SwaggerUtils"%>
 <%@page import="java.util.ResourceBundle"%>
-<%@page import="org.siemac.metamac.statistical.operations.web.external.MessagesResourceBundle"%>
+<%@page import="org.siemac.metamac.core.common.util.MessagesResourceBundle"%>
 <%@page import="org.siemac.metamac.core.common.util.InternationalizationUtils"%>
 <%@page pageEncoding="UTF-8"%>
 <%
     String locale = InternationalizationUtils.getInstance().getCurrentLocale(request);
-    MessagesResourceBundle messagesResource = new MessagesResourceBundle(locale);
+    MessagesResourceBundle messagesResource = new MessagesResourceBundle(locale, "i18n.messages-swagger");
     pageContext.setAttribute("msg", messagesResource);
-
 %>
 {
    "swagger":"2.0",

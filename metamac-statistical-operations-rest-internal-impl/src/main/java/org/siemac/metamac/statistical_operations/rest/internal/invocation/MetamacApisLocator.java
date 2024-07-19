@@ -4,6 +4,7 @@ import javax.annotation.PostConstruct;
 
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
 import org.apache.cxf.jaxrs.client.WebClient;
+import org.siemac.edatos.core.common.constants.CoreCommonConstants;
 import org.siemac.metamac.common_metadata.rest.external.v1_0.service.CommonMetadataV1_0;
 import org.siemac.metamac.core.common.conf.ConfigurationService;
 import org.siemac.metamac.srm.rest.internal.v1_0.service.SrmRestInternalFacadeV10;
@@ -18,9 +19,12 @@ public class MetamacApisLocator {
 
     private CommonMetadataV1_0       commonMetadataRestExternalFacadeV10 = null;
     private SrmRestInternalFacadeV10 srmRestInternalFacadeV10            = null;
+    private String                   apiKey;
 
     @PostConstruct
     public void initService() throws Exception {
+        apiKey = configurationService.retrieveStatisticalOperationsApiKey();
+
         String commonMetadataExternalApi = configurationService.retrieveCommonMetadataExternalApiUrlBase();
         commonMetadataRestExternalFacadeV10 = JAXRSClientFactory.create(commonMetadataExternalApi, CommonMetadataV1_0.class, null, true); // true to do thread safe
 
@@ -39,7 +43,7 @@ public class MetamacApisLocator {
     public SrmRestInternalFacadeV10 getSrmRestInternalFacadeV10() {
         // reset thread context
         WebClient.client(srmRestInternalFacadeV10).reset();
-        WebClient.client(srmRestInternalFacadeV10).accept("application/xml");
+        WebClient.client(srmRestInternalFacadeV10).accept("application/xml").header(CoreCommonConstants.API_KEY_PARAMETER, apiKey);
 
         return srmRestInternalFacadeV10;
     }

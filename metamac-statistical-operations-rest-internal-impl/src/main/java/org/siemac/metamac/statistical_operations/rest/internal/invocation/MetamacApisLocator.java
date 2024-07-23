@@ -35,7 +35,7 @@ public class MetamacApisLocator {
     public CommonMetadataV1_0 getCommonMetadataRestExternalFacadeV10() {
         // reset thread context
         WebClient.client(commonMetadataRestExternalFacadeV10).reset();
-        WebClient.client(commonMetadataRestExternalFacadeV10).accept("application/xml");
+        WebClient.client(commonMetadataRestExternalFacadeV10).accept("application/xml").header(CoreCommonConstants.API_KEY_PARAMETER, apiKey);
 
         return commonMetadataRestExternalFacadeV10;
     }

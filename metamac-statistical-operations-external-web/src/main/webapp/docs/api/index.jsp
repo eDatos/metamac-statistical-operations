@@ -8,7 +8,7 @@
 <%
     String internationalizationCookie = InternationalizationUtils.getInstance().getInternationalizationCookieId();
     String locale = InternationalizationUtils.getInstance().getCurrentLocale(request);
-    String appName = ResourceBundle.getBundle("i18n.messages-swagger", LocaleUtils.toLocale(locale), getNoFallbackControl(ResourceBundle.Control.FORMAT_DEFAULT)).getString("app.name");
+    String appName = ResourceBundle.getBundle("i18n.messages-swagger", LocaleUtils.toLocale(locale), getNoFallbackControl(ResourceBundle.Control.FORMAT_DEFAULT)).getString("apps.api_catalog.name");
 %>
 <html>
 <head>
@@ -114,6 +114,8 @@
 	
 	<c:if test="${!empty apiStyleHeaderUrl}">
 	   <c:import charEncoding="UTF-8" url="${apiStyleHeaderUrl}">
+	      <c:param name="appName" value="<%= appName %>" />
+          <c:param name="<%= internationalizationCookie %>" value="<%= locale %>" />
 	      <c:param name="appId" value="statistical-operations-external"/>
 	   </c:import>
 	</c:if>

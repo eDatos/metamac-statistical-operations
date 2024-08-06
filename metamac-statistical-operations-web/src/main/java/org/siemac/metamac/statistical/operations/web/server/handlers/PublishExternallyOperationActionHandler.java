@@ -65,9 +65,10 @@ public class PublishExternallyOperationActionHandler extends SecurityActionHandl
         MetamacWebException metamacWebException = new MetamacWebException();
 
         // CommonMetadata should be always be externally published, so there is no need to check it
-        externalItemValidator.checkExternalItemIsExternallyPublished(serviceContext, ServiceExceptionParameters.OPERATION_SUBJECT_AREA, operationDto.getSubjectArea(), metamacWebException);
-        externalItemValidator.checkExternalItemsAreExternallyPublished(serviceContext, ServiceExceptionParameters.OPERATION_SECONDARY_SUBJECT_AREAS, operationDto.getSecondarySubjectAreas(),
-                metamacWebException);
+
+        // OPERATION_SUBJECT_AREA and OPERATION_SECONDARY_SUBJECT_AREAS are category elements and they are not published. The associated category scheme is in a constant and
+        // it is not selected by users. Because of this, it is externally published.
+
         externalItemValidator.checkExternalItemsAreExternallyPublished(serviceContext, ServiceExceptionParameters.OPERATION_PRODUCER, operationDto.getProducer(), metamacWebException);
         externalItemValidator.checkExternalItemsAreExternallyPublished(serviceContext, ServiceExceptionParameters.OPERATION_REGIONAL_RESPONSIBLE, operationDto.getRegionalResponsible(),
                 metamacWebException);

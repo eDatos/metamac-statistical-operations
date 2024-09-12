@@ -1004,6 +1004,7 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         target.setKind(source.getKind());
         target.setSelfLink(source.getSelfLink());
         target.setName(source.getName());
+        target.setNestedId(source.getNestedId());
         return target;
     }
 

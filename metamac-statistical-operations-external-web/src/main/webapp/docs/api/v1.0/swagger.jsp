@@ -1450,7 +1450,7 @@
                         "attribute":true,
                         "namespace":""
                      },
-                     "description":"${msg['api.doc.swagger.definitions.listBase.properties.selfLinkExtra']}",
+                     "description":"${msg['api.doc.swagger.definitions.listBase.properties.selfLink']}${msg['api.doc.swagger.definitions.listBase.properties.selfLinkExtra']}",
                      "type":"string"
                   },
                   "total":{

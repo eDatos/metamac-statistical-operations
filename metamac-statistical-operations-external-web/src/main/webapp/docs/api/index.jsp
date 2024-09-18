@@ -10,7 +10,7 @@
     String internationalizationCookie = InternationalizationUtils.getInstance().getInternationalizationCookieId();
     String locale = InternationalizationUtils.getInstance().getCurrentLocale(request);
     String appName = ResourceBundle.getBundle("i18n.messages-swagger", LocaleUtils.toLocale(locale), getNoFallbackControl(ResourceBundle.Control.FORMAT_DEFAULT)).getString("apps.api_catalog.name");
-    String appVersion = ResourceBundle.getBundle("i18n.messages-swagger", LocaleUtils.toLocale(locale), getNoFallbackControl(ResourceBundle.Control.FORMAT_DEFAULT)).getString("project.version");
+    String appVersion = ResourceBundle.getBundle("application").getString("app.version");
 %>
 <fmt:setLocale value="<%= locale %>"/>
 <fmt:setBundle basename="i18n.messages-swagger" var="i18n"/>

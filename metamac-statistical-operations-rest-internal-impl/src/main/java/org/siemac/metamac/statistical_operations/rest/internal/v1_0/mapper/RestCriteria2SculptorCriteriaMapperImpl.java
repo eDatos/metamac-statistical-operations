@@ -1,14 +1,19 @@
 package org.siemac.metamac.statistical_operations.rest.internal.v1_0.mapper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.fornax.cartridges.sculptor.framework.domain.LeafProperty;
 import org.fornax.cartridges.sculptor.framework.domain.Property;
+import org.siemac.metamac.core.common.conf.ConfigurationService;
 import org.siemac.metamac.core.common.constants.CoreCommonConstants;
 import org.siemac.metamac.core.common.util.CoreCommonUtil;
 import org.siemac.metamac.rest.common.query.domain.MetamacRestOrder;
 import org.siemac.metamac.rest.common.query.domain.MetamacRestQueryPropertyRestriction;
+import org.siemac.metamac.rest.common.query.domain.OperationTypeEnum;
 import org.siemac.metamac.rest.exception.RestCommonServiceExceptionType;
 import org.siemac.metamac.rest.exception.RestException;
 import org.siemac.metamac.rest.exception.utils.RestExceptionUtils;
@@ -24,7 +29,9 @@ import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Insta
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.OperationCriteriaPropertyOrder;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.OperationCriteriaPropertyRestriction;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.ProcStatus;
+import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.Categories;
 import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.Category;
+import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.CategoryResourceInternal;
 import org.siemac.metamac.statistical.operations.core.domain.Family;
 import org.siemac.metamac.statistical.operations.core.domain.FamilyProperties;
 import org.siemac.metamac.statistical.operations.core.domain.Instance;
@@ -52,6 +59,9 @@ public class RestCriteria2SculptorCriteriaMapperImpl implements RestCriteria2Scu
 
     @Autowired
     private SrmRestInternalFacade                           srmRestInternalFacade;
+
+    @Autowired
+    private ConfigurationService                            configurationService;
 
     private enum PropertyTypeEnum {
         STRING, DATE, BOOLEAN, PROC_STATUS, STATUS
@@ -102,6 +112,44 @@ public class RestCriteria2SculptorCriteriaMapperImpl implements RestCriteria2Scu
             return null;
         }
 
+        private List<String> getCategoriesElementByCategoryUrn(List<String> categoryUrn, OperationTypeEnum operationType, String parameter) throws RestException {
+            List<String> urnCategoryElements = new ArrayList<>();
+            try {
+
+                Categories categories = srmRestInternalFacade.retrieveCategoriesByUrn(configurationService.retrieveDefaultCategoryScheme(), categoryUrn, operationType);
+
+                if (categories != null && categories.getCategories() != null && !categories.getCategories().isEmpty()) {
+                    for (CategoryResourceInternal category : categories.getCategories()) {
+                        urnCategoryElements.add(category.getCategoryElement().getUrn());
+                    }
+                }
+            } catch (Exception e) {
+                logger.error("category element linked to category (SUBJECT_AREA_URN) " + categoryUrn + " not found in srm resource", e);
+                throw createInvalidParameterException(parameter);
+            }
+            return urnCategoryElements;
+        }
+
+        private void setPropertyRestrictionByOperationType(MetamacRestQueryPropertyRestriction propertyRestriction, String parameter) throws RestException {
+
+            switch (propertyRestriction.getOperationType()) {
+                case LIKE:
+                case ILIKE:
+                    List<String> categories = new ArrayList<>();
+                    categories.add(propertyRestriction.getValue());
+                    propertyRestriction.addValuesToValueList(getCategoriesElementByCategoryUrn(categories, propertyRestriction.getOperationType(), parameter));
+                    propertyRestriction.setOperationType(OperationTypeEnum.IN);
+                    propertyRestriction.setValue(null);
+                    break;
+                case IN:
+                    propertyRestriction.addValuesToValueList(getCategoriesElementByCategoryUrn(propertyRestriction.getValueList(), propertyRestriction.getOperationType(), parameter));
+                    break;
+                default:
+                    propertyRestriction.setValue(getCategoryElementByCategoryUrn(propertyRestriction.getValue(), parameter));
+            }
+
+        }
+
         @Override
         public SculptorPropertyCriteria retrieveProperty(MetamacRestQueryPropertyRestriction propertyRestriction) throws RestException {
             OperationCriteriaPropertyRestriction propertyNameCriteria = OperationCriteriaPropertyRestriction.fromValue(propertyRestriction.getPropertyName());
@@ -115,10 +163,10 @@ public class RestCriteria2SculptorCriteriaMapperImpl implements RestCriteria2Scu
                 case ACRONYM:
                     return buildSculptorPropertyCriteria(OperationProperties.acronym().texts().label(), PropertyTypeEnum.STRING, propertyRestriction);
                 case SUBJECT_AREA_URN:
-                    propertyRestriction.setValue(getCategoryElementByCategoryUrn(propertyRestriction.getValue(), OperationCriteriaPropertyRestriction.SUBJECT_AREA_URN.name()));
+                    setPropertyRestrictionByOperationType(propertyRestriction, OperationCriteriaPropertyRestriction.SUBJECT_AREA_URN.name());
                     return buildSculptorPropertyCriteria(OperationProperties.subjectArea().urn(), PropertyTypeEnum.STRING, propertyRestriction);
                 case SECONDARY_SUBJECT_AREA_URN:
-                    propertyRestriction.setValue(getCategoryElementByCategoryUrn(propertyRestriction.getValue(), OperationCriteriaPropertyRestriction.SECONDARY_SUBJECT_AREA_URN.name()));
+                    setPropertyRestrictionByOperationType(propertyRestriction, OperationCriteriaPropertyRestriction.SECONDARY_SUBJECT_AREA_URN.name());
                     return buildSculptorPropertyCriteria(OperationProperties.secondarySubjectAreas().urn(), PropertyTypeEnum.STRING, propertyRestriction);
                 case DESCRIPTION:
                     return buildSculptorPropertyCriteria(OperationProperties.description().texts().label(), PropertyTypeEnum.STRING, propertyRestriction);

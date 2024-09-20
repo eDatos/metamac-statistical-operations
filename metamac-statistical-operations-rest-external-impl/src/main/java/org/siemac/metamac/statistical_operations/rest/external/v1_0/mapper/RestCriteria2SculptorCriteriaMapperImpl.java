@@ -154,44 +154,6 @@ public class RestCriteria2SculptorCriteriaMapperImpl implements RestCriteria2Scu
 
         }
 
-        private List<String> getCategoriesElementByCategoryUrn(List<String> categoryUrn, OperationTypeEnum operationType, String parameter) throws RestException {
-            List<String> urnCategoryElements = new ArrayList<>();
-            try {
-
-                Categories categories = srmRestExternalFacade.retrieveCategoriesByUrn(configurationService.retrieveDefaultCategoryScheme(), categoryUrn, operationType);
-
-                if (categories != null && categories.getCategories() != null && !categories.getCategories().isEmpty()) {
-                    for (CategoryResource category : categories.getCategories()) {
-                        urnCategoryElements.add(category.getCategoryElement().getUrn());
-                    }
-                }
-            } catch (Exception e) {
-                logger.error("category element linked to category (SUBJECT_AREA_URN) " + categoryUrn + " not found in srm resource", e);
-                throw createInvalidParameterException(parameter);
-            }
-            return urnCategoryElements;
-        }
-
-        private void setPropertyRestrictionByOperationType(MetamacRestQueryPropertyRestriction propertyRestriction, String parameter) throws RestException {
-
-            switch (propertyRestriction.getOperationType()) {
-                case LIKE:
-                case ILIKE:
-                    List<String> categories = new ArrayList<>();
-                    categories.add(propertyRestriction.getValue());
-                    propertyRestriction.addValuesToValueList(getCategoriesElementByCategoryUrn(categories, propertyRestriction.getOperationType(), parameter));
-                    propertyRestriction.setOperationType(OperationTypeEnum.IN);
-                    propertyRestriction.setValue(null);
-                    break;
-                case IN:
-                    propertyRestriction.addValuesToValueList(getCategoriesElementByCategoryUrn(propertyRestriction.getValueList(), propertyRestriction.getOperationType(), parameter));
-                    break;
-                default:
-                    propertyRestriction.setValue(getCategoryElementByCategoryUrn(propertyRestriction.getValue(), parameter));
-            }
-
-        }
-
         @Override
         public SculptorPropertyCriteria retrieveProperty(MetamacRestQueryPropertyRestriction propertyRestriction) throws RestException {
             OperationCriteriaPropertyRestriction propertyNameCriteria = OperationCriteriaPropertyRestriction.fromValue(propertyRestriction.getPropertyName());

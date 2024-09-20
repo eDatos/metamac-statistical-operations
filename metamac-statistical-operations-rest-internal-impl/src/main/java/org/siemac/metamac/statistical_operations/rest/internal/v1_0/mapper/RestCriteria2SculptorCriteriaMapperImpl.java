@@ -108,7 +108,6 @@ public class RestCriteria2SculptorCriteriaMapperImpl implements RestCriteria2Scu
                 }
             } catch (Exception e) {
                 logger.error("category element linked to category (SUBJECT_AREA_URN) " + categoryUrn + " not found in srm resource", e);
-                throw createInvalidParameterException(parameter);
             }
             return NOT_FOUND;
         }
@@ -126,7 +125,6 @@ public class RestCriteria2SculptorCriteriaMapperImpl implements RestCriteria2Scu
                 }
             } catch (Exception e) {
                 logger.error("category element linked to category (SUBJECT_AREA_URN) " + categoryUrn + " not found in srm resource", e);
-                throw createInvalidParameterException(parameter);
             }
 
             if (urnCategoryElements.isEmpty()) {

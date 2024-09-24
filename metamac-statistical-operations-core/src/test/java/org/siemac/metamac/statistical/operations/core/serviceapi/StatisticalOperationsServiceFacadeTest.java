@@ -3207,6 +3207,78 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
 
     @Test
     @Transactional
+    public void testFindOperationByConditionStatisticalPlanCode() throws MetamacException {
+
+        // Insert data
+        OperationDto operationDto01 = createOperationDto();
+        String operation01Code = "ope01";
+        operationDto01.setCode(operation01Code);
+        operationDto01.setStatisticPlanCode(MetamacMocks.mockString(10) + "PlanCode test el Uno");
+
+        OperationDto operationDto02 = createOperationDto();
+        String operation02Code = "ope02";
+        operationDto02.setCode(operation02Code);
+        operationDto02.setStatisticPlanCode(MetamacMocks.mockString(10) + "PlanCodes con el Dos");
+
+        OperationDto operationDto03 = createOperationDto();
+        String operation03Code = "ope03";
+        operationDto03.setCode(operation03Code);
+        operationDto03.setStatisticPlanCode(MetamacMocks.mockString(10) + "PlanCodes con Tres");
+
+        statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), operationDto01);
+        statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), operationDto02);
+        statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), operationDto03);
+
+        // Find "Dos" or "Tres" --> operationDto02 and operationDto03
+        MetamacCriteria criteria = new MetamacCriteria();
+        MetamacCriteriaDisjunctionRestriction disjunction = new MetamacCriteriaDisjunctionRestriction();
+        disjunction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.STATISTIC_PLAN_CODE.name(), "Dos", OperationType.ILIKE));
+        disjunction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.STATISTIC_PLAN_CODE.name(), "Tres", OperationType.ILIKE));
+        criteria.setRestriction(disjunction);
+
+        MetamacCriteriaResult<OperationBaseDto> result = statisticalOperationsServiceFacade.findOperationsByCondition(getServiceContextAdministrador(), criteria);
+        assertEquals(2, result.getResults().size());
+
+        // Find "on" or "PlanCodes" --> operationDto02 and operationDto03
+        criteria = new MetamacCriteria();
+        disjunction = new MetamacCriteriaDisjunctionRestriction();
+        disjunction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.STATISTIC_PLAN_CODE.name(), "on", OperationType.ILIKE));
+        disjunction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.STATISTIC_PLAN_CODE.name(), "PlanCodes", OperationType.ILIKE));
+        criteria.setRestriction(disjunction);
+
+        result = statisticalOperationsServiceFacade.findOperationsByCondition(getServiceContextAdministrador(), criteria);
+        assertEquals(2, result.getResults().size());
+
+        // Find "PlanCodes" --> operationDto02 and operationDto03
+        criteria = new MetamacCriteria();
+        criteria.setRestriction(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.STATISTIC_PLAN_CODE.name(), "PlanCodes", OperationType.ILIKE));
+
+        result = statisticalOperationsServiceFacade.findOperationsByCondition(getServiceContextAdministrador(), criteria);
+        assertEquals(2, result.getResults().size());
+
+        // Find title "el" or "operationDto02"--> operationDto01 and operationDto02
+        criteria = new MetamacCriteria();
+        disjunction = new MetamacCriteriaDisjunctionRestriction();
+        disjunction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.CODE.name(), operation02Code, OperationType.ILIKE));
+        disjunction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.STATISTIC_PLAN_CODE.name(), "el", OperationType.ILIKE));
+        criteria.setRestriction(disjunction);
+
+        result = statisticalOperationsServiceFacade.findOperationsByCondition(getServiceContextAdministrador(), criteria);
+        assertEquals(2, result.getResults().size());
+
+        // Find title "Test" or "Uno"--> operationDto01
+        criteria = new MetamacCriteria();
+        disjunction = new MetamacCriteriaDisjunctionRestriction();
+        disjunction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.STATISTIC_PLAN_CODE.name(), "Test", OperationType.ILIKE));
+        disjunction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.STATISTIC_PLAN_CODE.name(), "Uno", OperationType.ILIKE));
+        criteria.setRestriction(disjunction);
+
+        result = statisticalOperationsServiceFacade.findOperationsByCondition(getServiceContextAdministrador(), criteria);
+        assertEquals(1, result.getResults().size());
+    }
+
+    @Test
+    @Transactional
     public void testFindInstanceByConditionDataDescription() throws MetamacException {
 
         // Operation 01 --> Instance 01 and Instance 02

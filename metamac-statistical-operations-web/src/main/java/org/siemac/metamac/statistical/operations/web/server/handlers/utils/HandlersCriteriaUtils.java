@@ -44,6 +44,7 @@ public class HandlersCriteriaUtils {
             disjuction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.ACRONYM.name(), operation, MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
             disjuction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.TECHNICIAN_IN_CHARGE.name(), operation, MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
             disjuction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.ASSISTANT_TECHNICIAN.name(), operation, MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
+            disjuction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.STATISTIC_PLAN_CODE.name(), operation, MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
             // @formatter:on
         }
         criteria.setRestriction(disjuction);

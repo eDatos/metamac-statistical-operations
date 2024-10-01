@@ -48,6 +48,9 @@ public class ResourceListFieldUtils {
         CustomListGridField acronym = new CustomListGridField(OperationDS.ACRONYM, getConstants().operationAcronym());
         acronym.setShowIfCondition(ListGridUtils.getFalseListGridFieldIfFunction());
 
+        CustomListGridField statisticPlanCode = new CustomListGridField(OperationDS.STATISTIC_PLAN, getConstants().statisticPlanCode());
+        statisticPlanCode.setShowIfCondition(ListGridUtils.getFalseListGridFieldIfFunction());
+
         CustomListGridField subjectArea = new CustomListGridField(OperationDS.SUBJECT_AREA, getConstants().operationSubjectArea());
         subjectArea.setShowIfCondition(ListGridUtils.getFalseListGridFieldIfFunction());
 
@@ -81,7 +84,7 @@ public class ResourceListFieldUtils {
         CustomListGridField technicianInCharge = new CustomListGridField(OperationDS.TECHNICIAN_IN_CHARGE, getConstants().operationTechnicianInCharge());
         CustomListGridField assistantTechnician = new CustomListGridField(OperationDS.ASSISTANT_TECHNICIAN, getConstants().operationAssistantTechnician());
 
-        return new CustomListGridField[]{code, urn, title, acronym, subjectArea, surveyType, officialityType, indicatorsSystem, createdDate, internalInventoryDate, currentlyActive, procStatus, status,
+        return new CustomListGridField[]{code, urn, title, acronym, statisticPlanCode, subjectArea, surveyType, officialityType, indicatorsSystem, createdDate, internalInventoryDate, currentlyActive, procStatus, status,
                 publicationStreamStatus, technicianInCharge, assistantTechnician};
     }
 

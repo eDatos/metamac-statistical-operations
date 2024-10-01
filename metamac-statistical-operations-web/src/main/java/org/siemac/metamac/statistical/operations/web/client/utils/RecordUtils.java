@@ -60,6 +60,7 @@ public class RecordUtils {
         record.setUrn(operationBaseDto.getUrn());
         record.setTitle(getLocalisedString(operationBaseDto.getTitle()));
         record.setAcronym(getLocalisedString(operationBaseDto.getAcronym()));
+        record.setStatisticPlanCode(operationBaseDto.getStatisticPlanCode());
         record.setSubjectArea(operationBaseDto.getSubjectArea());
         record.setSurveyType(operationBaseDto.getSurveyType());
         record.setOfficialityType(operationBaseDto.getOfficialityType());

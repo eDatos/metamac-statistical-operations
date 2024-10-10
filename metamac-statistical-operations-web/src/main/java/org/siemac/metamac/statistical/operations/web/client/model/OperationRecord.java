@@ -46,6 +46,10 @@ public class OperationRecord extends ListGridRecord {
         setAttribute(OperationDS.ACRONYM, value);
     }
 
+    public void setStatisticPlanCode(String value) {
+        setAttribute(OperationDS.STATISTIC_PLAN, value);
+    }
+
     public void setProcStatus(String value) {
         setAttribute(OperationDS.PROC_STATUS, value);
     }

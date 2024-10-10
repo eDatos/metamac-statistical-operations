@@ -54,6 +54,7 @@ public class RestCriteria2SculptorCriteriaMapperImpl implements RestCriteria2Scu
     private PropertyValueRestToPropertyValueEntityInterface propertyValueRestToPropertyValueEntity = null;
 
     private final Logger                                    logger                                 = LoggerFactory.getLogger(RestCriteria2SculptorCriteriaMapperImpl.class);
+    private static final String                             NOT_FOUND                              = "NOT_FOUND";
 
     @Autowired
     private SrmRestExternalFacade                           srmRestExternalFacade;
@@ -105,9 +106,8 @@ public class RestCriteria2SculptorCriteriaMapperImpl implements RestCriteria2Scu
                 }
             } catch (Exception e) {
                 logger.error("category element linked to category (SUBJECT_AREA_URN) " + categoryUrn + " not found in srm resource", e);
-                throw createInvalidParameterException(parameter);
             }
-            return null;
+            return NOT_FOUND;
         }
 
         private List<String> getCategoriesElementByCategoryUrn(List<String> categoryUrn, OperationTypeEnum operationType, String parameter) throws RestException {
@@ -123,8 +123,12 @@ public class RestCriteria2SculptorCriteriaMapperImpl implements RestCriteria2Scu
                 }
             } catch (Exception e) {
                 logger.error("category element linked to category (SUBJECT_AREA_URN) " + categoryUrn + " not found in srm resource", e);
-                throw createInvalidParameterException(parameter);
             }
+
+            if (urnCategoryElements.isEmpty()) {
+                urnCategoryElements.add(NOT_FOUND);
+            }
+
             return urnCategoryElements;
         }
 

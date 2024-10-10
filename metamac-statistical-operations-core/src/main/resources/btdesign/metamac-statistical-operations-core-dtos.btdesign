@@ -133,9 +133,9 @@ Application StatisticalOperationsDto {
         DataTransferObject OperationBaseDto extends @AuditableDto {
             String code;
             String urn nullable;
+            String statisticPlanCode nullable;
             - @InternationalStringDto title;
             - @InternationalStringDto acronym nullable;
-            
             - @InternationalStringDto description nullable;
             
             - @ProcStatusEnum procStatus required;

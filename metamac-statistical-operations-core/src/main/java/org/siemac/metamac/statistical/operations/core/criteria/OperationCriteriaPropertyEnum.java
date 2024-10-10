@@ -2,7 +2,7 @@ package org.siemac.metamac.statistical.operations.core.criteria;
 
 public enum OperationCriteriaPropertyEnum {
 
-    CODE, TITLE, ACRONYM, DESCRIPTION, PROC_STATUS, FAMILY_CODE, FAMILY_ID, TECHNICIAN_IN_CHARGE, ASSISTANT_TECHNICIAN;
+    CODE, TITLE, ACRONYM, DESCRIPTION, PROC_STATUS, FAMILY_CODE, FAMILY_ID, TECHNICIAN_IN_CHARGE, ASSISTANT_TECHNICIAN, STATISTIC_PLAN_CODE;
 
     public String value() {
         return name();

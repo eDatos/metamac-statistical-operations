@@ -14,6 +14,7 @@ import org.siemac.metamac.statistical.operations.web.shared.GetOperationAndInsta
 import org.siemac.metamac.web.common.server.ServiceContextHolder;
 import org.siemac.metamac.web.common.server.handlers.SecurityActionHandler;
 import org.siemac.metamac.web.common.server.utils.WebExceptionUtils;
+import org.siemac.metamac.web.common.shared.exception.MetamacWebException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -37,10 +38,14 @@ public class GetOperationAndInstancesActionHandler extends SecurityActionHandler
     public GetOperationAndInstancesResult executeSecurityAction(GetOperationAndInstancesAction action) throws ActionException {
         try {
             OperationDto operationDto = statisticalOperationsServiceFacade.findOperationByUrn(ServiceContextHolder.getCurrentServiceContext(), action.getOperationUrn());
-            HandlersUtils.setFullnameUserByUsername(operationDto, accessControlRestInternalFacade);
+            MetamacException exception = HandlersUtils.doesTechniciansFullnameExist(operationDto, accessControlRestInternalFacade);
             List<FamilyBaseDto> familyBaseDtos = statisticalOperationsServiceFacade.findFamiliesForOperation(ServiceContextHolder.getCurrentServiceContext(), operationDto.getId());
             List<InstanceBaseDto> instanceDtos = statisticalOperationsServiceFacade.findInstancesForOperation(ServiceContextHolder.getCurrentServiceContext(), operationDto.getId());
-            return new GetOperationAndInstancesResult(operationDto, instanceDtos, familyBaseDtos);
+
+            if (exception != null) {
+                return new GetOperationAndInstancesResult(operationDto, instanceDtos, familyBaseDtos, WebExceptionUtils.createMetamacWebException(exception));
+            }
+            return new GetOperationAndInstancesResult(operationDto, instanceDtos, familyBaseDtos, null);
         } catch (MetamacException e) {
             throw WebExceptionUtils.createMetamacWebException(e);
         }

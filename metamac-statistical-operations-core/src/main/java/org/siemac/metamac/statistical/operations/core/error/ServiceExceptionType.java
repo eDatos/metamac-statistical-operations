@@ -35,6 +35,7 @@ public class ServiceExceptionType extends CommonServiceExceptionType {
     public static final CommonServiceExceptionType SOURCE_DATA_NOT_FOUND                                      = create("exception.operations.list.sources_data.not_found");
     public static final CommonServiceExceptionType OFFICIALITY_TYPE_NOT_FOUND                                 = create("exception.operations.list.officiality_types.not_found");
     public static final CommonServiceExceptionType COST_NOT_FOUND                                             = create("exception.operations.list.cost.not_found");
+    public static final CommonServiceExceptionType TECHNICIAN_NOT_FOUND                                       = create("exception.operations.list.technician.not_found");
 
     public static final CommonServiceExceptionType SECURITY_ACCESS_OPERATION_NOT_ALLOWED                      = create("exception.operations.security.access_operation_not_allowed");
 

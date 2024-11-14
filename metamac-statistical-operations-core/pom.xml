@@ -79,12 +79,11 @@
             <version>${jsr250-api.version}</version>
             <scope>provided</scope>
         </dependency>
+        <!-- PERSISTENCE -->
         <dependency>
-            <groupId>javax.persistence</groupId>
-            <artifactId>persistence-api</artifactId>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.0-api</artifactId>
             <version>${jpa.version}</version>
-            <!-- Add scope provided when deployed in jboss -->
-            <!-- <scope>provided</scope> -->
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -235,7 +234,6 @@
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
-            <!-- <version>2.1</version> -->
             <version>${commons-lang.version}</version>
         </dependency>
         <dependency>
@@ -246,7 +244,6 @@
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
-            <!-- <version>1.7.0</version> -->
             <version>${commons-beanutils.version}</version>
             <exclusions>
                 <exclusion>

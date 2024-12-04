@@ -3,4 +3,5 @@
 <properties>
     <comment>Configurations</comment>
     <entry key="metamac.common_metadata.rest.external">MOCKED</entry>
+        <entry key="metamac.statistical_operations.rest.api_key">niQPxZJ656do4NhiptWLsz1DFFzyKvSAbamyrWsq8FC</entry>
 </properties>

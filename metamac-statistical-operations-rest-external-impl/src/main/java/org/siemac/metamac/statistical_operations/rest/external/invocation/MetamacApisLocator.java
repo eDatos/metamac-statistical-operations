@@ -4,6 +4,7 @@ import javax.annotation.PostConstruct;
 
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
 import org.apache.cxf.jaxrs.client.WebClient;
+import org.siemac.edatos.core.common.constants.CoreCommonConstants;
 import org.siemac.metamac.common_metadata.rest.external.v1_0.service.CommonMetadataV1_0;
 import org.siemac.metamac.core.common.conf.ConfigurationService;
 import org.siemac.metamac.srm.rest.external.v1_0.service.SrmRestExternalFacadeV10;
@@ -19,9 +20,11 @@ public class MetamacApisLocator {
     private CommonMetadataV1_0       commonMetadataRestExternalFacadeV10 = null;
 
     private SrmRestExternalFacadeV10 srmRestExternalFacadeV10            = null;
+    private String                   apiKey;
 
     @PostConstruct
     public void initService() throws Exception {
+        apiKey = configurationService.retrieveStatisticalOperationsApiKey();
         String baseApi = configurationService.retrieveCommonMetadataExternalApiUrlBase();
         commonMetadataRestExternalFacadeV10 = JAXRSClientFactory.create(baseApi, CommonMetadataV1_0.class, null, true); // true to do thread safe
 
@@ -32,7 +35,7 @@ public class MetamacApisLocator {
     public CommonMetadataV1_0 getCommonMetadataRestExternalFacadeV10() {
         // reset thread context
         WebClient.client(commonMetadataRestExternalFacadeV10).reset();
-        WebClient.client(commonMetadataRestExternalFacadeV10).accept("application/xml");
+        WebClient.client(commonMetadataRestExternalFacadeV10).accept("application/xml").header(CoreCommonConstants.API_KEY_PARAMETER, apiKey);
 
         return commonMetadataRestExternalFacadeV10;
     }
@@ -40,7 +43,7 @@ public class MetamacApisLocator {
     public SrmRestExternalFacadeV10 getSrmRestExternalFacadeV10() {
         // reset thread context
         WebClient.client(srmRestExternalFacadeV10).reset();
-        WebClient.client(srmRestExternalFacadeV10).accept("application/xml");
+        WebClient.client(srmRestExternalFacadeV10).accept("application/xml").header(CoreCommonConstants.API_KEY_PARAMETER, apiKey);
 
         return srmRestExternalFacadeV10;
     }

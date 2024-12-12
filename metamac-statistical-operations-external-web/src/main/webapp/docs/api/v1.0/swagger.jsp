@@ -1,11 +1,19 @@
 <%@page import="org.siemac.metamac.core.common.util.swagger.SwaggerUtils"%>
+<%@page import="java.util.ResourceBundle"%>
+<%@page import="org.siemac.metamac.core.common.util.MessagesResourceBundle"%>
+<%@page import="org.siemac.metamac.core.common.util.InternationalizationUtils"%>
 <%@page pageEncoding="UTF-8"%>
+<%
+    String locale = InternationalizationUtils.getInstance().getCurrentLocale(request);
+    MessagesResourceBundle messagesResource = new MessagesResourceBundle(locale, "i18n.messages-swagger");
+    pageContext.setAttribute("msg", messagesResource);
+%>
 {
    "swagger":"2.0",
    "info":{
-      "description":"Las operaciones estadísticas son la unidad básica de planificación de la actividad estadística. Todos los recursos que se publican guardan relación de manera directa o indirecta con alguna operación. Esta API permite consultar el inventario de operaciones estadísticas, las diferencias que existen entre las diferentes realizaciones de una misma operación estadística (instancias) y su agrupación en familias. Asi por ejemplo tenemos que el \"Censo de Población y Viviendas\" es una operación estadística de la que podremos encontrar distintas realizaciones o instanacias (Censo 2011, Censo 2001, Censo 1991, etc) y que podría agruparse con otras operaciones dentro de una famlia \"Estadísticas poblacionales\". Los datos de las operaciones estadísticas y de sus instancias están armonizados con la propuesta de Eurostat para el Sistema Estadístico Europeo y definida en el documento EURO-SDMX Metadata Structure (release 4, December 2014)",
+      "description":"${msg['api.doc.swagger.description']}",
       "version":"1.0",
-      "title":"API de operaciones estadísticas v1.0"
+      "title":"${msg['api.doc.swagger.title']}"
    },
    "host":"<%=SwaggerUtils.getApiBaseURLForSwagger()%>",
    "schemes":[
@@ -13,15 +21,15 @@
    ],
    "tags":[
       {
-         "name":"Familias de operaciones",
+         "name":"${msg['api.doc.swagger.tag.families']}",
          "description":""
       },
       {
-         "name":"Operaciones estadísticas",
+         "name":"${msg['api.doc.swagger.tag.operations']}",
          "description":""
       },
       {
-         "name":"Tablas de valores auxiliares",
+         "name":"${msg['api.doc.swagger.tag.auxiliaryValueTables']}",
          "description":""
       }
    ],
@@ -45,7 +53,7 @@
                }
             }
          ],
-         "description":"Clasificaciones usadas en la instancia de la operación estadística"
+         "description":"${msg['api.doc.swagger.definitions.classSystems']}"
       },
       "CollMethods":{
          "type":"object",
@@ -66,7 +74,7 @@
                }
             }
          ],
-         "description":"Valores aceptados para los métodos de recolección de los datos"
+         "description":"${msg['api.doc.swagger.definitions.collMethods']}"
       },
       "Costs":{
          "type":"object",
@@ -87,7 +95,7 @@
                }
             }
          ],
-         "description":"Valores aceptados para los tipos de costes asociados a la operación"
+         "description":"${msg['api.doc.swagger.definitions.costs']}"
       },
       "DataSharings":{
          "type":"object",
@@ -108,7 +116,7 @@
                }
             }
          ],
-         "description":"Acuerdos y convenios existentes entre organizaciones productoras de datos para la coordinación y compartición de los mismos. "
+         "description":"${msg['api.doc.swagger.definitions.dataSharings']}"
       },
       "Families":{
          "type":"object",
@@ -129,7 +137,7 @@
                }
             }
          ],
-         "description":"Listado de familias en las que se agrupan las diferentes operaciones estadísticas"
+         "description":"${msg['api.doc.swagger.definitions.families']}"
       },
       "Family":{
          "type":"object",
@@ -142,76 +150,76 @@
                         "attribute":true,
                         "namespace":""
                      },
-                     "description":"Tipo del recurso",
+                     "description":"${msg['api.doc.swagger.definitions.any.properties.kind']}",
                      "type":"string"
                   },
                   "acronym":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Acrónimo de la familia de operaciones",
+                     "description":"${msg['api.doc.swagger.definitions.family.properties.acronym']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "childLinks":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Recurso de la API al que se puede acceder desde el recurso actual",
+                     "description":"${msg['api.doc.swagger.definitions.any.properties.childLinks']}",
                      "$ref":"#/definitions/ChildLinks"
                   },
                   "description":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Descripción de la familia de operaciones",
+                     "description":"${msg['api.doc.swagger.definitions.family.properties.description']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "id":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Identificador del recurso",
+                     "description":"${msg['api.doc.swagger.definitions.any.properties.id']}",
                      "type":"string"
                   },
                   "inventoryDate":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Fecha en la que se hace pública la familia de operaciones por primera vez",
+                     "description":"${msg['api.doc.swagger.definitions.family.properties.inventoryDate']}",
                      "type":"string"
                   },
                   "name":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Nombre de la familia de operaciones",
+                     "description":"${msg['api.doc.swagger.definitions.family.properties.name']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "parentLink":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Enlace al recurso padre de la API",
+                     "description":"${msg['api.doc.swagger.definitions.any.properties.parentLink']}",
                      "$ref":"#/definitions/ResourceLink"
                   },
                   "selfLink":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Enlace al propio recurso",
+                     "description":"${msg['api.doc.swagger.definitions.any.properties.selfLink']}",
                      "$ref":"#/definitions/ResourceLink"
                   },
                   "urn":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"urn del recurso",
+                     "description":"${msg['api.doc.swagger.definitions.any.properties.urn']}",
                      "type":"string"
                   }
                }
             }
          ],
-         "description":"Familia de operaciones estadísticas"
+         "description":"${msg['api.doc.swagger.definitions.family']}"
       },
       "FreqColls":{
          "type":"object",
@@ -232,7 +240,7 @@
                }
             }
          ],
-         "description":"Frecuencias de recolección de los datos"
+         "description":"${msg['api.doc.swagger.definitions.freqColls']}"
       },
       "GeographicGranularities":{
          "type":"object",
@@ -253,7 +261,7 @@
                }
             }
          ],
-         "description":"Granularidades geográficas"
+         "description":"${msg['api.doc.swagger.definitions.geographicGranularities']}"
       },
       "InformationSuppliers":{
          "type":"object",
@@ -274,7 +282,7 @@
                }
             }
          ],
-         "description":"Organizaciones obligadas a suministrar información para la elaboración de la operación estadística"
+         "description":"${msg['api.doc.swagger.definitions.informationSuppliers']}"
       },
       "Instance":{
          "type":"object",
@@ -287,391 +295,391 @@
                         "attribute":true,
                         "namespace":""
                      },
-                     "description":"Tipo del recurso",
+                     "description":"${msg['api.doc.swagger.definitions.any.properties.kind']}",
                      "type":"string"
                   },
                   "accuracyOverall":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Evaluación de la exactitud de un conjunto de datos o de un dominio de análisis. Proporciona un resumen de las principales fuentes de error y una evaluación de la posibilidad de sesgo (signo y orden de magnitud ) para cada indicador clave en términos cuantitativos o cualitativos",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.accuracyOverall']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "acronym":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Acrónimo de la instancia de la operación estadística",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.acronym']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "adjustment":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Descripción de los procedimientos estadísticos utilizados para el ajuste de las series de datos (como métodos de ajuste estacional, descomposición de series de tiempo u otros métodos similares)",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.adjustment']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "seasonalAdjustment":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"La técnica estadística utilizada para eliminar los efectos del calendario estacional en una serie",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.seasonalAdjustment']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "basePeriod":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Período utilizado como base de un número de índice, o al que se refiere una serie constante",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.basePeriod']}",
                      "type":"string"
                   },
                   "childLinks":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Recurso de la API al que se puede acceder desde el recurso actual",
+                     "description":"${msg['api.doc.swagger.definitions.any.properties.childLinks']}",
                      "$ref":"#/definitions/ChildLinks"
                   },
                   "classSystems":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Identificación de las clasificaciones utilizadas en la instancia de la operación. Las clasificaciones identificadas se vinculan con las distribuidas en la API de recursos estructurales de e-Semántica",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.classSystems']}",
                      "$ref":"#/definitions/ClassSystems"
                   },
                   "classSystemsDescription":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Enumeración y descripción de las clasificacoines utilizadas",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.classSystemsDescription']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "coherInternal":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Descripción del grado de coherencia de los datos dentro de la instancia estadísticas y con los de otras instancias de la operación estadística",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.coherInternal']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "coherNationalAccounts":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Descripción del grado en que las estadísticas son conciliables con las cuentas nacionales",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.coherInternal.coherNationalAccounts']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "coherSubanualAnual":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Descripción del grado en que las estadísticas de diferentes frecuencias son conciliables",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.coherInternal.coherSubanualAnual']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "coherXDom":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Descripción del grado de coherencia de los datos con los de otras operaciones estadísticas del mismo dominio de análisis",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.coherXDom']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "collMethod":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Método principal de recogida de datos",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.collMethod']}",
                      "$ref":"#/definitions/Item"
                   },
                   "comment":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Observaciones y notas sobre la instancia estadística",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.comment']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "completeness":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Descripción de la medida en que todas los datos que se necesitan son aportados por la instancia estadística. Proporciona información sobre la exhaustividad en comparación con los reglamentos y directrices pertinentes",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.completeness']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "coverageError":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Descripción de la divergencia entre la población marco y la población objetivo",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.coverageError']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "dataCompilation":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Descripción del proceso de recolección y tratamiento de datos (por ejemplo: método de muestreo, validación e imputación, tratamiento de la falta de respuesta, ponderación y calibración, uso de modelos, etc. )",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.dataCompilation']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "dataDescription":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Describe, de una manera fácilmente comprensible, los principales datos e indicadores difundidos. Esta breve descripción debe ser entendida inmediatamente y fácilmente por los usuarios",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.dataDescription']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "dataValidation":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Descripción de los procedimientos de comprobación y validación de los datos recolectados",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.dataValidation']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "docMethod":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Descripción metodológica y referencias a documentos metodológicos disponibles. Indicar la disponibilidad de importantes documentos metodológicos, documentos de síntesis u otros manuales importantes",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.docMethod']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "freqColls":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Frecuencia de recogida de los datos (mensual, trimestral, anual, bianual, quinquenal, cada 10 años, etc.)",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.freqColls']}",
                      "$ref":"#/definitions/FreqColls"
                   },
                   "geographicComparability":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Descripción del grado en que las estadísticas son comparables entre zonas geográficas",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.geographicComparability']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "geographicGranularity":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Nivel más bajo de agregación territorial utilizado en la difusión de los datos",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.geographicGranularity']}",
                      "$ref":"#/definitions/GeographicGranularities"
                   },
                   "id":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Identificador del recurso",
+                     "description":"${msg['api.doc.swagger.definitions.any.properties.id']}",
                      "type":"string"
                   },
                   "informationSuppliers":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Entidades obligadas a suministrar información",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.informationSuppliers']}",
                      "$ref":"#/definitions/InformationSuppliers"
                   },
                   "inventoryDate":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Fecha en la que se hace pública la instancia estadística por primera vez",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.inventoryDate']}",
                      "type":"string"
                   },
                   "measurementError":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Los errores de medida son errores que se producen durante la recolección de datos en los que los valores registrados son diferentes de los reales",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.inventoryDate.measurementError']}",
                      "$ref":"#/definitions/Measures"
                   },
                   "measures":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Conceptos de medida utilizados en la instancia de la operación",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.measures']}",
                      "$ref":"#/definitions/Measures"
                   },
                   "modelError":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Error debido a modelos específicos de dominio necesarios para definir el objetivo de la estimación",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.modelError']}",
                      "$ref":"#/definitions/Measures"
                   },
                   "name":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Nombre de la instancia de la operación estadística",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.name']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "nonResponseError":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Los errores de sin respuesta se producen cuando la encuesta no obtiene una respuesta a una, o posiblemente todas, las preguntas",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.nonResponseError']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "nonsamplingErr":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Descripción y medida de los errores ajenos al muestreo",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.nonsamplingErr']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "parentLink":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Enlace al recurso padre de la API",
+                     "description":"${msg['api.doc.swagger.definitions.any.properties.parentLink']}",
                      "$ref":"#/definitions/ResourceLink"
                   },
                   "predecessor":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Identificación de la instancia de operación predecesora, si la hubiera",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.predecessor']}",
                      "$ref":"#/definitions/Resource"
                   },
                   "processingError":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"El error en el proceso final de recolección de datos debido a la incorrecta aplicación de métodos de implementación correctamente planificados",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.processingError']}",
                      "$ref":"#/definitions/Resource"
                   },
                   "punctuality":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Descripción, medida y explicación del lapso de tiempo entre la fecha de difusión real de los datos y la fecha programada",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.punctuality']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "qualityAssmnt":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Valoración global de la calidad de los datos",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.qualityAssmnt']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "qualityAssure":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Descripción de las acciones para asegurar la calidad de los datos",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.qualityAssure']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "qualityDoc":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Identificación y descripción de la documentación sobre los procedimientos aplicados en la gestión y evaluación de la calidad de los datos",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.qualityDoc']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "samplingErr":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Descripción y medida de los errores de muestreo",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.samplingErr']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "selfLink":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Enlace al propio recurso",
+                     "description":"${msg['api.doc.swagger.definitions.any.properties.selfLink']}",
                      "$ref":"#/definitions/ResourceLink"
                   },
                   "statConcDefs":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Identificación de los conceptos utilizados en la instancia de la operación. Los conceptos identificados se vinculan con los distribuidos en la API de recursos estructurales de e-Semántica",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.statConcDefs']}",
                      "$ref":"#/definitions/StatConcDefs"
                   },
                   "statConcDefsDescription":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Enumeración y descripción de los conceptos y definiciones utilizados",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.statConcDefsDescription']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "statisticalOperation":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Identificación de la operación estadística a la que se asocia la instancia",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.statisticalOperation']}",
                      "$ref":"#/definitions/Resource"
                   },
                   "statisticalOperationSource":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Forma de recogida de datos",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.statisticalOperationSource']}",
                      "$ref":"#/definitions/Item"
                   },
                   "statisticalPopulation":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Descripción de la población objetivo de análisis",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.statisticalPopulation']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "statisticalUnits":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Identificación de las unidades de análisis",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.statisticalUnits']}",
                      "$ref":"#/definitions/StatisticalUnits"
                   },
                   "successor":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Identificación de la instancia de operación sucesora, si la hubiera",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.successor']}",
                      "$ref":"#/definitions/Resource"
                   },
                   "temporalComparability":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Descripción del grado en que las estadísticas son comparables o pueden conciliarse a lo largo del tiempo. Información sobre la longitud de las series comparables, los períodos de referencia en los que se producen roturas de la serie, las razones de las pausas y los tratamientos asociados",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.temporalComparability']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "temporalGranularity":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Identificación de los periodos de tiempo o fechas de referencia mínima para los datos publicados",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.temporalGranularity']}",
                      "$ref":"#/definitions/TemporalGranularities"
                   },
                   "timeliness":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Descripción del tiempo transcurrido entre la difusión de los datos y el evento o fenómeno que describen",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.timeliness']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "urn":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"urn del recurso",
+                     "description":"${msg['api.doc.swagger.definitions.any.properties.urn']}",
                      "type":"string"
                   },
                   "userNeeds":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Descripción de los usuarios y sus respectivas necesidades con respecto a los datos de la instancia estadística",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.userNeeds']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "userSat":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Descripción de las medidas para determinar la satisfacción de los usuarios",
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.userSat']}",
                      "$ref":"#/definitions/InternationalString"
                   }
                }
             }
          ],
-         "description":"La instancia de operación estadística es cada una de las realizaciones de una misma operación estadística. Las instancias pueden ser de dos tipos: SERIE o SECCIÓN. Las instancias de tipo serie proveen información de una serie temporal completa y la instancia acaba cuando se produce una rotura de la serie. Las instancias de tipo sección proveen información de un único instante de tiempo"
+         "description":"${msg['api.doc.swagger.definitions.instance']}"
       },
       "InstanceTypes":{
          "type":"object",
@@ -692,7 +700,7 @@
                }
             }
          ],
-         "description":"Tipos de instancias"
+         "description":"${msg['api.doc.swagger.definitions.instanceTypes']}"
       },
       "Instances":{
          "type":"object",
@@ -713,7 +721,7 @@
                }
             }
          ],
-         "description":"Listados de instancias de operaciones estadísticas"
+         "description":"${msg['api.doc.swagger.definitions.instances']}"
       },
       "LegalActs":{
          "type":"object",
@@ -734,7 +742,7 @@
                }
             }
          ],
-         "description":"Leyes u otro tipo de convenios (formales o informales) que otorgan reponsabilidad y autoridad al organismo para la recolección, procesado y diseminación de la estadística"
+         "description":"${msg['api.doc.swagger.definitions.legalActs']}"
       },
       "Measures":{
          "type":"object",
@@ -755,7 +763,7 @@
                }
             }
          ],
-         "description":"Unidades en las que se miden los datos"
+         "description":"${msg['api.doc.swagger.definitions.measures']}"
       },
       "OfficialityTypes":{
          "type":"object",
@@ -776,7 +784,7 @@
                }
             }
          ],
-         "description":"Tipos de oficialidad que se le puede asignar a una operación estadística"
+         "description":"${msg['api.doc.swagger.definitions.officialityTypes']}"
       },
       "Operation":{
          "type":"object",
@@ -787,7 +795,7 @@
                   "kind":{
                      "xml":{
                         "attribute":true,
-                        "namespace":"Tipo del recurso"
+                        "namespace":${msg['api.doc.swagger.definitions.any.properties.kind']}
                      },
                      "description":"",
                      "type":"string"
@@ -796,251 +804,252 @@
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Acrónimo de la operación estadística",
+                     "description":"${msg['api.doc.swagger.definitions.operation.properties.acronym']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "childLinks":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Recurso de la API al que se puede acceder desde el recurso actual",
+                     "description":"${msg['api.doc.swagger.definitions.any.properties.childLinks']}",
                      "$ref":"#/definitions/ChildLinks"
                   },
                   "notes":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Observaciones y notas sobre la operación estadística",
+                     "description":"${msg['api.doc.swagger.definitions.operation.properties.notes']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "confidentialityDataTreatment":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Reglas utilizadas en el tratamiento de los datos con el fin de garantizar el secreto estadístico",
+                     "description":"${msg['api.doc.swagger.definitions.operation.properties.confidentialityDataTreatment']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "confidentialityPolicy":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Medidas legislativas u otros procedimientos formales que regulan la divulgación de datos sujetos a secreto estadístico",
+                     "description":"${msg['api.doc.swagger.definitions.operation.properties.confidentialityPolicy']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "contact":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Organización de contacto para los datos o metadatos de la operación estadística",
+                     "description":"${msg['api.doc.swagger.definitions.operation.properties.contact']}",
                      "$ref":"#/definitions/Resource"
                   },
                   "currentInstance":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Instancia actual, normalmente será la última instancia pública",
+                     "description":"${msg['api.doc.swagger.definitions.operation.properties.currentInstance']}",
                      "$ref":"#/definitions/Resource"
                   },
                   "currentlyActive":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Indica si la operación estadística está actualmente en uso o no",
+                     "description":"${msg['api.doc.swagger.definitions.operation.properties.currentlyActive']}",
                      "type":"boolean"
                   },
                   "dataSharings":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Mecanismos o procedimientos asociados a la operación estadística para el intercambio de datos y la coordinación entre los organismos vinculados a la misma",
+                     "description":"${msg['api.doc.swagger.definitions.operation.properties.dataSharings']}",
                      "$ref":"#/definitions/DataSharings"
                   },
                   "description":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Descripción detallada de la operación detallada y de los objetivos específicos que se pretenden alcanzar",
+                     "description":"${msg['api.doc.swagger.definitions.operation.properties.description']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "id":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Identificador del recurso",
+                     "description":"${msg['api.doc.swagger.definitions.any.properties.id']}",
                      "type":"string"
                   },
                   "indicatorSystem":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Indica si una operación estadística genera un sistema de indicadores. La información del sistema de indicadores asociado se puede consultar en la API de e-Indicadores",
+                     "description":"${msg['api.doc.swagger.definitions.operation.properties.indicatorSystem']}",
                      "type":"boolean"
                   },
                   "inventoryDate":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Fecha en la que se hace pública la operación estadística por primera vez",
+                     "description":"${msg['api.doc.swagger.definitions.operation.properties.inventoryDate']}",
                      "type":"string"
                   },
                   "legalActs":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Indica que la actividad estadística está cubierta por un acto jurídico o por algún acuerdo formal. Se relacionan los actos jurídicos o acuerdos que asignen responsabilidad o autoridad de una agencia para la recolección, procesamiento y difusión de datos de la operación estadística",
+                     "description":"${msg['api.doc.swagger.definitions.operation.properties.legalActs']}",
                      "$ref":"#/definitions/LegalActs"
                   },
                   "name":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Nombre de la operación estadística",
+                     "description":"${msg['api.doc.swagger.definitions.operation.properties.name']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "objective":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Descripción del objetivo general de la operación estadística",
+                     "description":"${msg['api.doc.swagger.definitions.operation.properties.objective']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "officialityType":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Tipo de oficialidad de la operación estadística",
+                     "description":"${msg['api.doc.swagger.definitions.operation.properties.officialityType']}",
                      "$ref":"#/definitions/Item"
                   },
                   "parentLink":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Enlace al recurso padre de la API",
+                     "description":"${msg['api.doc.swagger.definitions.any.properties.parentLink']}",
                      "$ref":"#/definitions/ResourceLink"
                   },
                   "producers":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Organismos nacionales o regionales responsables de la producción de la operación estadística",
+                     "description":"${msg['api.doc.swagger.definitions.operation.properties.producers']}",
                      "$ref":"#/definitions/Producers"
                   },
                   "publishers":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Organismos regionales responsables de la difusión de datos de la operación estadística",
+                     "description":"${msg['api.doc.swagger.definitions.operation.properties.publishers']}",
                      "$ref":"#/definitions/Publishers"
                   },
                   "regionalContributors":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Organismos regionales colaboradores de la operación estadística",
+                     "description":"${msg['api.doc.swagger.definitions.operation.properties.regionalContributors']}",
                      "$ref":"#/definitions/RegionalContributors"
                   },
                   "regionalResponsibles":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Organismos regionales responsables de la operación a escala regional",
+                     "description":"${msg['api.doc.swagger.definitions.operation.properties.regionalResponsibles']}",
                      "$ref":"#/definitions/RegionalResponsibles"
                   },
                   "relPolUsAc":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Política de difusión de los datos de la operación, incluyendo información sobre accesos privilegiados",
+                     "description":"${msg['api.doc.swagger.definitions.operation.properties.relPolUsAc']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "releaseCalendar":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Información sobre la disponibilidad de un calendario de difusión de los datos de la operación estadística",
+                     "description":"${msg['api.doc.swagger.definitions.operation.properties.releaseCalendar']}",
                      "type":"boolean"
                   },
                   "releaseCalendarAccess":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Enlace al calendario de difusión de los datos de la operación estadística",
+                     "description":"${msg['api.doc.swagger.definitions.operation.properties.releaseCalendarAccess']}",
                      "type":"string"
                   },
                   "revPolicy":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Política general de la revisión de datos de la operación estadística",
+                     "description":"${msg['api.doc.swagger.definitions.operation.properties.revPolicy']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "revPractice":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Describir las principales revisiones de datos programadas y las posibles revisiones menores",
+                     "description":"${msg['api.doc.swagger.definitions.operation.properties.revPractice']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "secondarySubjectAreas":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Areas temáticas secundarias en las que está encuadrada la operación",
+                     "description":"${msg['api.doc.swagger.definitions.operation.properties.secondarySubjectAreas']}",
                      "$ref":"#/definitions/SecondarySubjectAreas"
                   },
                   "selfLink":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Enlace al propio recurso",
+                     "description":"${msg['api.doc.swagger.definitions.any.properties.selfLink']}",
                      "$ref":"#/definitions/ResourceLink"
                   },
                   "statisticalOperationType":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Tipo de operación estadística",
+                     "description":"${msg['api.doc.swagger.definitions.operation.properties.statisticalOperationType']}",
                      "$ref":"#/definitions/Item"
                   },
                   "status":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Estado de la operación estadística: planificación, diseño, producción o descatalogada",
+                     "description":"${msg['api.doc.swagger.definitions.operation.properties.status']}",
                      "$ref":"#/definitions/Status"
                   },
                   "subjectArea":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Area temática principal en las que está encuadrada la operación",
+                     "description":"${msg['api.doc.swagger.definitions.operation.properties.subjectArea']}",
                      "$ref":"#/definitions/Resource"
                   },
                   "updateFrequencies":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Frecuencia con la que se actualizan los datos públicos de la operación estadística",
+                     "description":"${msg['api.doc.swagger.definitions.operation.properties.updateFrequencies']}",
                      "$ref":"#/definitions/UpdateFrequencies"
                   },
                   "urn":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"urn del recurso",
+                     "description":"${msg['api.doc.swagger.definitions.any.properties.urn']}",
                      "type":"string"
                   },
                   "genderPerspective":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"Perspectiva de género",
-                     "type":"#/definitions/InternationalString"
+                     "description":"${msg['api.doc.swagger.definitions.operation.properties.genderPerspective']}",
+                     "type":"object",
+                     "$ref":"#/definitions/InternationalString"
                   }
                }
             }
          ],
-         "description":"Conjunto de actividades, incluidas las preparatorias, que conducen a la obtención y/o difusión de resultados estadísticos sobre un determinado sector o tema o territorio. También se incluyen en el ámbito de esta definición los trabajos de infraestructura y de normalización estadística que posibilitan la coordinación, homogeneización e integración de las estadísticas, así como la recopilación de resultados y la confección de síntesis"
+         "description":"${msg['api.doc.swagger.definitions.operation']}"
       },
       "Operations":{
          "type":"object",
@@ -1061,7 +1070,7 @@
                }
             }
          ],
-         "description":"Listado de operaciones estadísticas"
+         "description":"${msg['api.doc.swagger.definitions.operations']}"
       },
       "Producers":{
          "type":"object",
@@ -1082,7 +1091,7 @@
                }
             }
          ],
-         "description":"Listado de organismos que colaboran en la producción de la estadística"
+         "description":"${msg['api.doc.swagger.definitions.producers']}"
       },
       "Publishers":{
          "type":"object",
@@ -1103,7 +1112,7 @@
                }
             }
          ],
-         "description":"Listado de organismos que difunden los resultados de la operación estadística"
+         "description":"${msg['api.doc.swagger.definitions.publishers']}"
       },
       "RegionalContributors":{
          "type":"object",
@@ -1124,7 +1133,7 @@
                }
             }
          ],
-         "description":"Organismos regionales colaboradores de la operación"
+         "description":"${msg['api.doc.swagger.definitions.regionalContributors']}"
       },
       "RegionalResponsibles":{
          "type":"object",
@@ -1145,7 +1154,7 @@
                }
             }
          ],
-         "description":"Organismos regionales responsables de la operación"
+         "description":"${msg['api.doc.swagger.definitions.regionalResponsibles']}"
       },
       "SecondarySubjectAreas":{
          "type":"object",
@@ -1166,7 +1175,7 @@
                }
             }
          ],
-         "description":"Áreas temáticas secundarias relacionadas con la operación"
+         "description":"${msg['api.doc.swagger.definitions.secondarySubjectAreas']}"
       },
       "StatConcDefs":{
          "type":"object",
@@ -1187,7 +1196,7 @@
                }
             }
          ],
-         "description":"Listado de conceptos que se manejan en la operación"
+         "description":"${msg['api.doc.swagger.definitions.statConcDefs']}"
       },
       "StatisticalOperationSources":{
          "type":"object",
@@ -1208,7 +1217,7 @@
                }
             }
          ],
-         "description":"Fuentes usadas para la elaboración de la operación estadística"
+         "description":"${msg['api.doc.swagger.definitions.statisticalOperationSources']}"
       },
       "StatisticalOperationTypes":{
          "type":"object",
@@ -1229,7 +1238,7 @@
                }
             }
          ],
-         "description":"Tipos de operaciones estadísticas"
+         "description":"${msg['api.doc.swagger.definitions.statisticalOperationTypes']}"
       },
       "StatisticalUnits":{
          "type":"object",
@@ -1250,7 +1259,7 @@
                }
             }
          ],
-         "description":"Unidades básicas de observación estadística para las que se proporcionan los datos"
+         "description":"${msg['api.doc.swagger.definitions.statisticalUnits']}"
       },
       "Status":{
          "type":"string",
@@ -1261,7 +1270,7 @@
             "PRODUCTION",
             "OUT_OF_PRINT"
          ],
-         "description":"Estado de la operación estadística"
+         "description":"${msg['api.doc.swagger.definitions.status']}"
       },
       "TemporalGranularities":{
          "type":"object",
@@ -1282,7 +1291,7 @@
                }
             }
          ],
-         "description":"Granularidades temporales que contemplan los datos de la operación estadística"
+         "description":"${msg['api.doc.swagger.definitions.temporalGranularities']}"
       },
       "UpdateFrequencies":{
          "type":"object",
@@ -1303,7 +1312,7 @@
                }
             }
          ],
-         "description":"Frecuencias de acualización de los datos"
+         "description":"${msg['api.doc.swagger.definitions.updateFrequencies']}"
       },
       "ChildLinks":{
          "type":"object",
@@ -1316,20 +1325,20 @@
                         "attribute":true,
                         "namespace":""
                      },
-                     "description":"Número total de resultados existentes",
+                     "description":"${msg['api.doc.swagger.definitions.listBase.properties.total']}",
                      "type":"number"
                   },
                   "childLink":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/common/v1.0/domain"
                      },
-                     "description":"Recurso de la API al que se puede acceder desde el recurso actual",
+                     "description":"${msg['api.doc.swagger.definitions.any.properties.childLinks']}",
                      "$ref":"#/definitions/ResourceLink"
                   }
                }
             }
          ],
-         "description":"Recursos a los que se puede acceder desde el presente recurso"
+         "description":"${msg['api.doc.swagger.definitions.childLinks']}"
       },
       "InternationalString":{
          "type":"object",
@@ -1341,13 +1350,13 @@
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/common/v1.0/domain"
                      },
-                     "description":"Texto en múltiples idiomas",
+                     "description":"${msg['api.doc.swagger.definitions.internationalString.properties.text']}",
                      "$ref":"#/definitions/LocalisedString"
                   }
                }
             }
          ],
-         "description":"Texto en múltiples lenguajes"
+         "description":"${msg['api.doc.swagger.definitions.internationalString']}"
       },
       "Item":{
          "type":"object",
@@ -1359,14 +1368,14 @@
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/common/v1.0/domain"
                      },
-                     "description":"Identificador del recurso",
+                     "description":"${msg['api.doc.swagger.definitions.any.properties.id']}",
                      "type":"string"
                   },
                   "name":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/common/v1.0/domain"
                      },
-                     "description":"Nombre o título del recurso",
+                     "description":"${msg['api.doc.swagger.definitions.item_resource.properties.name']}",
                      "$ref":"#/definitions/InternationalString"
                   }
                }
@@ -1385,7 +1394,7 @@
                         "attribute":true,
                         "namespace":""
                      },
-                     "description":"Dado que se trata de un resultado paginado, este enlace nos permite desplazarnos a la primera página. Si no se muestra es porque ya estamos en ella. Tener en cuenta que cuando sólo existe una página, no existirá ni primera ni última",
+                     "description":"${msg['api.doc.swagger.definitions.listBase.properties.firstLink']}",
                      "type":"string"
                   },
                   "kind":{
@@ -1393,7 +1402,7 @@
                         "attribute":true,
                         "namespace":""
                      },
-                     "description":"Tipo del recurso",
+                     "description":"${msg['api.doc.swagger.definitions.any.properties.kind']}",
                      "type":"string"
                   },
                   "lastLink":{
@@ -1401,7 +1410,7 @@
                         "attribute":true,
                         "namespace":""
                      },
-                     "description":"Dado que se trata de un resultado paginado, este enlace nos permite desplazarnos a la última página. Si no se muestra es porque ya estamos en ella. Tener en cuenta que cuando sólo existe una página, no existirá ni primera ni última",
+                     "description":"${msg['api.doc.swagger.definitions.listBase.properties.lastLink']}",
                      "type":"string"
                   },
                   "limit":{
@@ -1409,7 +1418,7 @@
                         "attribute":true,
                         "namespace":""
                      },
-                     "description":"Número máximo de resultados a obtener",
+                     "description":"${msg['api.doc.swagger.definitions.listBase.properties.limit']}",
                      "type":"number"
                   },
                   "nextLink":{
@@ -1417,7 +1426,7 @@
                         "attribute":true,
                         "namespace":""
                      },
-                     "description":"Dado que se trata de un resultado paginado, este enlace nos permite desplazarnos a la página siguiente a la que nos encontramos. Si no se muestra es porque no existe siguiente",
+                     "description":"${msg['api.doc.swagger.definitions.listBase.properties.nextLink']}",
                      "type":"string"
                   },
                   "offset":{
@@ -1425,7 +1434,7 @@
                         "attribute":true,
                         "namespace":""
                      },
-                     "description":"Desplazamiento. Número a partir del cual se comienzan a obtener los resultados",
+                     "description":"${msg['api.doc.swagger.definitions.listBase.properties.offset']}",
                      "type":"number"
                   },
                   "previousLink":{
@@ -1433,7 +1442,7 @@
                         "attribute":true,
                         "namespace":""
                      },
-                     "description":"Dado que se trata de un resultado paginado, este enlace nos permite desplazarnos a la página anterior a la que nos encontramos. Si no se muestra es porque no existe siguiente",
+                     "description":"${msg['api.doc.swagger.definitions.listBase.properties.previousLink']}",
                      "type":"string"
                   },
                   "selfLink":{
@@ -1441,7 +1450,7 @@
                         "attribute":true,
                         "namespace":""
                      },
-                     "description":"Enlace al propio recurso. Dado un resultado nos permite saber cómo realizar la petición a la API para volver a obtenerlo",
+                     "description":"${msg['api.doc.swagger.definitions.any.properties.selfLink']}${msg['api.doc.swagger.definitions.listBase.properties.selfLinkExtra']}",
                      "type":"string"
                   },
                   "total":{
@@ -1449,7 +1458,7 @@
                         "attribute":true,
                         "namespace":""
                      },
-                     "description":"Número total de resultados existentes",
+                     "description":"${msg['api.doc.swagger.definitions.listBase.properties.total']}",
                      "type":"number"
                   }
                }
@@ -1468,20 +1477,20 @@
                         "attribute":true,
                         "namespace":"http://www.w3.org/XML/1998/namespace"
                      },
-                     "description":"Idioma para el que se especifica la traducción",
+                     "description":"${msg['api.doc.swagger.definitions.localisedString.properties.lang']}",
                      "type":"string"
                   },
                   "(value)":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/common/v1.0/domain"
                      },
-                     "description":"Traducción en el idioma especificado",
+                     "description":"${msg['api.doc.swagger.definitions.localisedString.properties.value']}",
                      "type":"string"
                   }
                }
             }
          ],
-         "description":"Texto en un idioma en particular"
+         "description":"${msg['api.doc.swagger.definitions.localisedString']}"
       },
       "Resource":{
          "type":"object",
@@ -1494,42 +1503,42 @@
                         "attribute":true,
                         "namespace":""
                      },
-                     "description":"Tipo del recurso",
+                     "description":"${msg['api.doc.swagger.definitions.any.properties.kind']}",
                      "type":"string"
                   },
                   "id":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/common/v1.0/domain"
                      },
-                     "description":"Identificador del recurso",
+                     "description":"${msg['api.doc.swagger.definitions.any.properties.id']}",
                      "type":"string"
                   },
                   "name":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/common/v1.0/domain"
                      },
-                     "description":"Nombre o título del recurso",
+                     "description":"${msg['api.doc.swagger.definitions.item_resource.properties.name']}",
                      "$ref":"#/definitions/InternationalString"
                   },
                   "nestedId":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/common/v1.0/domain"
                      },
-                     "description":"Identifificador del recurso en el que se incluyen los identificadores de los recursos de los que hereda. Los distintos identificadores se separan mediante \".\"",
+                     "description":"${msg['api.doc.swagger.definitions.resource.properties.nestedId']}",
                      "type":"string"
                   },
                   "selfLink":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/common/v1.0/domain"
                      },
-                     "description":"Enlace al propio recurso",
+                     "description":"${msg['api.doc.swagger.definitions.any.properties.selfLink']}",
                      "$ref":"#/definitions/ResourceLink"
                   },
                   "urn":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/common/v1.0/domain"
                      },
-                     "description":"urn del recurso",
+                     "description":"${msg['api.doc.swagger.definitions.any.properties.urn']}",
                      "type":"string"
                   }
                }
@@ -1573,7 +1582,7 @@
             {
                "properties":{
                   "subjectArea":{
-                     "description":"Area temática principal en las que está encuadrada la operación",
+                     "description":"${msg['api.doc.swagger.definitions.operation.properties.subjectArea']}",
                      "$ref":"#/definitions/Resource"
                   }
                }
@@ -1617,7 +1626,7 @@
                         "attribute":true,
                         "namespace":""
                      },
-                     "description":"Enlace al recurso",
+                     "description":"${msg['api.doc.swagger.definitions.resourceLink.properties.href']}",
                      "type":"string"
                   },
                   "kind":{
@@ -1625,7 +1634,7 @@
                         "attribute":true,
                         "namespace":""
                      },
-                     "description":"Tipo del recurso",
+                     "description":"${msg['api.doc.swagger.definitions.any.properties.kind']}",
                      "type":"string"
                   }
                }
@@ -1638,9 +1647,9 @@
       "/v1.0/families":{
          "get":{
             "tags":[
-               "Familias de operaciones"
+               "${msg['api.doc.swagger.tag.families']}"
             ],
-            "description":"Permite obtener el listado de familias de operaciones estadísticas",
+            "description":"${msg['api.doc.swagger.paths.families.get']}",
             "operationId":"resource_StatisticalOperationsV1_0_findFamilies_GET",
             "produces":[
                "application/xml", "application/json"
@@ -1650,46 +1659,45 @@
                   "name":"limit",
                   "in":"query",
                   "type":"string",
-                  "description":"Número máximo de resultados a obtener"
+                  "description":"${msg['api.doc.swagger.definitions.listBase.properties.limit']}"
                },
                {
                   "name":"offset",
                   "in":"query",
                   "type":"string",
-                  "description":"Desplazamiento. Número a partir del cual se comienzan a obtener los resultados"
+                  "description":"${msg['api.doc.swagger.paths.families_operations.get.parameters.offset']}"
                },
                {
                   "name":"orderBy",
                   "in":"query",
                   "type":"string",
-                  "description":"Permite ordenar la lista de resultados según un determinado metadato. El orden se especifica mediante un metadato y el sentido del orden (operador) que se le quiere aplicar.<br/>\r\n Los posibles operadores son ASC y DESC.<br/>\r\n El metadato que se puede usar es ID. <br/>Ejemplos:<br/>\r\n- ID ASC<br/>\r\n- ID DESC"
+                  "description":"${msg['api.doc.swagger.paths.families_operations.get.parameters.orderBy']}"
                },
                {
                   "name":"query",
                   "in":"query",
                   "type":"string",
-                  "description":"Permite realizar una búsqueda sobre los resultados. <br/>\r\n Los metadatos sobre los que se puede buscar son: ID, URN, TITLE, ACRONYM, DESCRIPTION e INVENTORY_DATE.<br/>\r\n Los operadores lógicos que se permite usar son: AND y OR.  <br/>\r\n Los operadores de comparación que se permite usar son: EQ, IEQ, LIKE, ILIKE, NE, LT, LE, GT, GE, IS_NULL, IS_NOT_NULL e IN.  <br/>\r\n Ejemplos: <br/>\r\n- ID LIKE \"E303\" <br/>\r\n- (ID LIKE \"Family1\" AND ACRONYM EQ \"Family1\") OR (DESCRIPTION IS_NOT_NULL)"
+                  "description":"${msg['api.doc.swagger.paths.families.get.parameters.query']}"
                }
             ],
             "responses":{
                "200":{
                   "schema":{
-                     "description":"",
                      "$ref":"#/definitions/Families"
                   },
                   "headers":{
 
                   },
-                  "description":"Éxito. Indica que la petición ha sido resuelta correctamente"
+                  "description":"${msg['api.doc.swagger.paths.responses.200']}"
                },
                "406":{
-                  "description":"No aceptable. El formato solicitado no es válido"
+                  "description":"${msg['api.doc.swagger.paths.responses.406']}"
                },
                "500":{
-                  "description":"Error interno del servidor. Se ha producido un error que impide que se obtenga el recurso solicitado"
+                  "description":"${msg['api.doc.swagger.paths.responses.500']}"
                },
                "503":{
-                  "description":"Servicio no disponible. Indica que actualmente el servidor no está disponible y por tanto, la solicitud no puede procesarse. El error puede deberse a una sobrecarga temporal o a labores de mantenimiento del servidor. Se trata de una situación temporal"
+                  "description":"${msg['api.doc.swagger.paths.responses.503']}"
                }
             }
          }
@@ -1697,9 +1705,9 @@
       "/v1.0/families/{id}":{
          "get":{
             "tags":[
-               "Familias de operaciones"
+               "${msg['api.doc.swagger.tag.families']}"
             ],
-            "description":"Permite obtener una familia en particular",
+            "description":"${msg['api.doc.swagger.paths.families.id.get']}",
             "operationId":"resource_StatisticalOperationsV1_0_retrieveFamilyById_GET",
             "produces":[
                "application/xml", "application/json"
@@ -1709,28 +1717,28 @@
                   "name":"id",
                   "in":"path",
                   "type":"string",
-                  "description":"Identificador de la familia"
+                  "description":"${msg['api.doc.swagger.paths.families.id.get.parameters.id']}",
+                  "required":true
                }
             ],
             "responses":{
                "200":{
                   "schema":{
-                     "description":"",
                      "$ref":"#/definitions/Family"
                   },
                   "headers":{
 
                   },
-                  "description":"Éxito. Indica que la petición ha sido resuelta correctamente"
+                  "description":"${msg['api.doc.swagger.paths.responses.200']}"
                },
                "406":{
-                  "description":"No aceptable. El formato solicitado no es válido"
+                  "description":"${msg['api.doc.swagger.paths.responses.406']}"
                },
                "500":{
-                  "description":"Error interno del servidor. Se ha producido un error que impide que se obtenga el recurso solicitado"
+                  "description":"${msg['api.doc.swagger.paths.responses.500']}"
                },
                "503":{
-                  "description":"Servicio no disponible. Indica que actualmente el servidor no está disponible y por tanto, la solicitud no puede procesarse. El error puede deberse a una sobrecarga temporal o a labores de mantenimiento del servidor. Se trata de una situación temporal"
+                  "description":"${msg['api.doc.swagger.paths.responses.503']}"
                }
             }
          }
@@ -1738,9 +1746,9 @@
       "/v1.0/families/{id}/operations":{
          "get":{
             "tags":[
-               "Familias de operaciones"
+               "${msg['api.doc.swagger.tag.families']}"
             ],
-            "description":"Permite obtener todas las operaciones que forman parte de una determina familia",
+            "description":"${msg['api.doc.swagger.paths.families.id.operations.get']}",
             "operationId":"resource_StatisticalOperationsV1_0_findOperationsByFamily_GET",
             "produces":[
                "application/xml", "application/json"
@@ -1750,52 +1758,52 @@
                   "name":"id",
                   "in":"path",
                   "type":"string",
-                  "description":"Identificador de la familia estadística"
+                  "description":"${msg['api.doc.swagger.paths.families.id.operations.get.parameters.id']}",
+                  "required":true
                },
                {
                   "name":"limit",
                   "in":"query",
                   "type":"string",
-                  "description":"Número máximo de resultados a obtener"
+                  "description":"${msg['api.doc.swagger.paths.families_operations.get.parameters.limit']}"
                },
                {
                   "name":"offset",
                   "in":"query",
                   "type":"string",
-                  "description":"Desplazamiento. Número a partir del cual se comienzan a obtener los resultados"
+                  "description":"${msg['api.doc.swagger.paths.families_operations.get.parameters.offset']}"
                },
                {
                   "name":"orderBy",
                   "in":"query",
                   "type":"string",
-                  "description":"Permite ordenar la lista de resultados según un determinado metadato. El orden se especifica mediante un metadato y el sentido del orden (operador) que se le quiere aplicar.<br/>\r\n Los posibles operadores son ASC y DESC.<br/>\r\n El metadato que se puede usar es ID. <br/>Ejemplos:<br/>\r\n- ID ASC<br/>\r\n- ID DESC"
+                  "description":"${msg['api.doc.swagger.paths.families_operations.get.parameters.orderBy']}"
                },
                {
                   "name":"query",
                   "in":"query",
                   "type":"string",
-                  "description":"Permite realizar una búsqueda sobre los resultados. <br/>\r\n Los metadatos sobre los que se puede buscar son: ID, URN, TITLE, ACRONYM, SUBJECT_AREA_URN, SECONDARY_SUBJECT_AREA_URN, DESCRIPTION, STATISTICAL_OPERATION_TYPE_ID, OFFICIALITY_TYPE_ID, IS_INDICATORS_SYSTEM, PRODUCER_URN, CURRENTLY_ACTIVE, STATUS, PUBLISHER_URN e INVENTORY_DATE.<br/>\r\n Los operadores lógicos que se permite usar son: AND y OR.  <br/>\r\n Los operadores de comparación que se permite usar son: EQ, IEQ, LIKE, ILIKE, NE, LT, LE, GT, GE, IS_NULL, IS_NOT_NULL e IN.  <br/>\r\n Ejemplos: <br/>\r\n- ID LIKE \"E303\" <br/>\r\n- (ID LIKE \"E303\" AND CONTACT_URN LIKE \"urn:contact:1\") OR (CONTACT_URN EQ \"urn:contact:2\")"
+                  "description":"${msg['api.doc.swagger.paths.operationsQueryParam.queryDescription']}"
                }
             ],
             "responses":{
                "200":{
                   "schema":{
-                     "description":"",
                      "$ref":"#/definitions/Operations"
                   },
                   "headers":{
 
                   },
-                  "description":"Éxito. Indica que la petición ha sido resuelta correctamente"
+                  "description":"${msg['api.doc.swagger.paths.responses.200']}"
                },
                "406":{
-                  "description":"No aceptable. El formato solicitado no es válido"
+                  "description":"${msg['api.doc.swagger.paths.responses.406']}"
                },
                "500":{
-                  "description":"Error interno del servidor. Se ha producido un error que impide que se obtenga el recurso solicitado"
+                  "description":"${msg['api.doc.swagger.paths.responses.500']}"
                },
                "503":{
-                  "description":"Servicio no disponible. Indica que actualmente el servidor no está disponible y por tanto, la solicitud no puede procesarse. El error puede deberse a una sobrecarga temporal o a labores de mantenimiento del servidor. Se trata de una situación temporal"
+                  "description":"${msg['api.doc.swagger.paths.responses.503']}"
                }
             }
          }
@@ -1803,9 +1811,9 @@
       "/v1.0/operations":{
          "get":{
             "tags":[
-               "Operaciones estadísticas"
+               "${msg['api.doc.swagger.tag.operations']}"
             ],
-            "description":"Permite obtener el listado de operaciones estadísticas existentes en el inventario",
+            "description":"${msg['api.doc.swagger.paths.operations.get']}",
             "operationId":"resource_StatisticalOperationsV1_0_findOperations_GET",
             "produces":[
                "application/xml", "application/json"
@@ -1815,52 +1823,51 @@
                   "name":"limit",
                   "in":"query",
                   "type":"string",
-                  "description":"Número máximo de resultados a obtener"
+                  "description":"${msg['api.doc.swagger.paths.families_operations.get.parameters.limit']}"
                },
                {
                   "name":"offset",
                   "in":"query",
                   "type":"string",
-                  "description":"Desplazamiento. Número a partir del cual se comienzan a obtener los resultados"
+                  "description":"${msg['api.doc.swagger.paths.families_operations.get.parameters.offset']}"
                },
                {
                   "name":"orderBy",
                   "in":"query",
                   "type":"string",
-                  "description":"Permite ordenar la lista de resultados según un determinado metadato. El orden se especifica mediante un metadato y el sentido del orden (operador) que se le quiere aplicar.<br/>\r\n Los posibles operadores son ASC y DESC.<br/>\r\n El metadato que se puede usar es ID. <br/>Ejemplos:<br/>\r\n- ID ASC<br/>\r\n- ID DESC"
+                  "description":"${msg['api.doc.swagger.paths.families_operations.get.parameters.orderBy']}"
                },
                {
                   "name":"query",
                   "in":"query",
                   "type":"string",
-                  "description":"Permite realizar una búsqueda sobre los resultados. <br/>\r\n Los metadatos sobre los que se puede buscar son: ID, URN, TITLE, ACRONYM, SUBJECT_AREA_URN, SECONDARY_SUBJECT_AREA_URN, DESCRIPTION, STATISTICAL_OPERATION_TYPE_ID, OFFICIALITY_TYPE_ID, IS_INDICATORS_SYSTEM, PRODUCER_URN, CURRENTLY_ACTIVE, STATUS, PUBLISHER_URN e INVENTORY_DATE.<br/>\r\n Los operadores lógicos que se permite usar son: AND y OR.  <br/>\r\n Los operadores de comparación que se permite usar son: EQ, IEQ, LIKE, ILIKE, NE, LT, LE, GT, GE, IS_NULL, IS_NOT_NULL e IN.  <br/>\r\n Ejemplos: <br/>\r\n- ID LIKE \"E303\" <br/>\r\n- (ID LIKE \"E303\" AND CONTACT_URN LIKE \"urn:contact:1\") OR (CONTACT_URN EQ \"urn:contact:2\")"
+                  "description":"${msg['api.doc.swagger.paths.operations.operationId.instances.get.parameters.query']}"
                },
                {
                   "name":"fields",
                   "in":"query",
                   "type":"string",
-                  "description":"Permite personalizar la respuesta mediante la exclusión o inclusión de campos de la misma. Los posibles valores son \"+subjectArea\".<br/>Ejemplos: <br/>\r\n- fields=+subjectArea<br/>"
+                  "description":"${msg['api.doc.swagger.paths.operations.operationId.instances.get.parameters.fields']}"
                }
             ],
             "responses":{
                "200":{
                   "schema":{
-                     "description":"",
                      "$ref":"#/definitions/Operations"
                   },
                   "headers":{
 
                   },
-                  "description":"Éxito. Indica que la petición ha sido resuelta correctamente"
+                  "description":"${msg['api.doc.swagger.paths.responses.200']}"
                },
                "406":{
-                  "description":"No aceptable. El formato solicitado no es válido"
+                  "description":"${msg['api.doc.swagger.paths.responses.406']}"
                },
                "500":{
-                  "description":"Error interno del servidor. Se ha producido un error que impide que se obtenga el recurso solicitado"
+                  "description":"${msg['api.doc.swagger.paths.responses.500']}"
                },
                "503":{
-                  "description":"Servicio no disponible. Indica que actualmente el servidor no está disponible y por tanto, la solicitud no puede procesarse. El error puede deberse a una sobrecarga temporal o a labores de mantenimiento del servidor. Se trata de una situación temporal"
+                  "description":"${msg['api.doc.swagger.paths.responses.503']}"
                }
             }
          }
@@ -1868,9 +1875,9 @@
       "/v1.0/operations/{id}":{
          "get":{
             "tags":[
-               "Operaciones estadísticas"
+               "${msg['api.doc.swagger.tag.operations']}"
             ],
-            "description":"Permite obtener una operación estadística en concreto",
+            "description":"${msg['api.doc.swagger.paths.operations.id.get']}",
             "operationId":"resource_StatisticalOperationsV1_0_retrieveOperationById_GET",
             "produces":[
                "application/xml", "application/json"
@@ -1880,28 +1887,28 @@
                   "name":"id",
                   "in":"path",
                   "type":"string",
-                  "description":"Identificador de la operación estadística"
+                  "description":"${msg['api.doc.swagger.paths.operationsIdParam.idDescription']}",
+                  "required":true
                }
             ],
             "responses":{
                "200":{
                   "schema":{
-                     "description":"",
                      "$ref":"#/definitions/Operation"
                   },
                   "headers":{
 
                   },
-                  "description":"Éxito. Indica que la petición ha sido resuelta correctamente"
+                  "description":"${msg['api.doc.swagger.paths.responses.200']}"
                },
                "406":{
-                  "description":"No aceptable. El formato solicitado no es válido"
+                  "description":"${msg['api.doc.swagger.paths.responses.406']}"
                },
                "500":{
-                  "description":"Error interno del servidor. Se ha producido un error que impide que se obtenga el recurso solicitado"
+                  "description":"${msg['api.doc.swagger.paths.responses.500']}"
                },
                "503":{
-                  "description":"Servicio no disponible. Indica que actualmente el servidor no está disponible y por tanto, la solicitud no puede procesarse. El error puede deberse a una sobrecarga temporal o a labores de mantenimiento del servidor. Se trata de una situación temporal"
+                  "description":"${msg['api.doc.swagger.paths.responses.503']}"
                }
             }
          }
@@ -1909,9 +1916,9 @@
       "/v1.0/operations/{operationId}/instances":{
          "get":{
             "tags":[
-               "Operaciones estadísticas"
+               "${msg['api.doc.swagger.tag.operations']}"
             ],
-            "description":"Permite obtener el listado de instancias relacionadas con una operación estadística en concreto",
+            "description":"${msg['api.doc.swagger.paths.operations.operationId.instances.get']}",
             "operationId":"resource_StatisticalOperationsV1_0_findInstances_GET",
             "produces":[
                "application/xml", "application/json"
@@ -1921,52 +1928,52 @@
                   "name":"operationId",
                   "in":"path",
                   "type":"string",
-                  "description":"Identificador de la operación"
+                  "description":"${msg['api.doc.swagger.paths.operationsIdParam.idDescription']}",
+                  "required":true
                },
                {
                   "name":"limit",
                   "in":"query",
                   "type":"string",
-                  "description":"Número máximo de resultados a obtener"
+                  "description":"${msg['api.doc.swagger.definitions.listBase.properties.limit']}"
                },
                {
                   "name":"offset",
                   "in":"query",
                   "type":"string",
-                  "description":"Deplazamiento. Número a partir del cual se comienzan a obtener los resultados"
+                  "description":"${msg['api.doc.swagger.paths.families_operations.get.parameters.offset']}"
                },
                {
                   "name":"orderBy",
                   "in":"query",
                   "type":"string",
-                  "description":"Permite ordenar la lista de resultados según un determinado metadato. El orden se especifica mediante un metadato y el sentido del orden (operador) que se le quiere aplicar.<br/>\r\n Los posibles operadores son ASC y DESC.<br/>\r\n El metadato que se puede usar es ID. <br/>Ejemplos:<br/>\r\n- ID ASC<br/>\r\n- ID DESC"
+                  "description":"${msg['api.doc.swagger.paths.families_operations.get.parameters.orderBy']}"
                },
                {
                   "name":"query",
                   "in":"query",
                   "type":"string",
-                  "description":"Permite realizar una búsqueda sobre los resultados. <br/>\r\n Los metadatos sobre los que se puede buscar son: ID, URN, TITLE, ACRONYM, DATA_DESCRIPTION, GEOGRAPHIC_GRANULARITY_URN, TEMPORAL_GRANULARITY_URN e INVENTORY_DATE.<br/>\r\n Los operadores lógicos que se permite usar son: AND y OR.  <br/>\r\n Los operadores de comparación que se permite usar son: EQ, IEQ, LIKE, ILIKE, NE, LT, LE, GT, GE, IS_NULL, IS_NOT_NULL e IN.  <br/>\r\n Ejemplos: <br/>\r\n- ID LIKE \"E303\" <br/>\r\n- (ID LIKE \"Instance1\" AND DATA_DESCRIPTION EQ \"DataDescription1\") OR (ACRONYM EQ \"Instance1\")"
+                  "description":"${msg['api.doc.swagger.paths.operations.operationId.instances.get.parameters.query']}"
                }
             ],
             "responses":{
                "200":{
                   "schema":{
-                     "description":"",
                      "$ref":"#/definitions/Instances"
                   },
                   "headers":{
 
                   },
-                  "description":"Éxito. Indica que la petición ha sido resuelta correctamente"
+                  "description":"${msg['api.doc.swagger.paths.responses.200']}"
                },
                "406":{
-                  "description":"No aceptable. El formato solicitado no es válido"
+                  "description":"${msg['api.doc.swagger.paths.responses.406']}"
                },
                "500":{
-                  "description":"Error interno del servidor. Se ha producido un error que impide que se obtenga el recurso solicitado"
+                  "description":"${msg['api.doc.swagger.paths.responses.500']}"
                },
                "503":{
-                  "description":"Servicio no disponible. Indica que actualmente el servidor no está disponible y por tanto, la solicitud no puede procesarse. El error puede deberse a una sobrecarga temporal o a labores de mantenimiento del servidor. Se trata de una situación temporal"
+                  "description":"${msg['api.doc.swagger.paths.responses.503']}"
                }
             }
          }
@@ -1974,9 +1981,9 @@
       "/v1.0/operations/{operationId}/instances/{id}":{
          "get":{
             "tags":[
-               "Operaciones estadísticas"
+               "${msg['api.doc.swagger.tag.operations']}"
             ],
-            "description":"Permite obtener una instancia en particular de una operación estadística",
+            "description":"${msg['api.doc.swagger.paths.operations.operationId.instances.id.get']}",
             "operationId":"resource_StatisticalOperationsV1_0_retrieveInstanceById_GET",
             "produces":[
                "application/xml", "application/json"
@@ -1986,34 +1993,35 @@
                   "name":"id",
                   "in":"path",
                   "type":"string",
-                  "description":"Identificador de la instancia"
+                  "description":"${msg['api.doc.swagger.paths.operations.operationId.instances.id.get.parameters.id']}",
+                  "required":true
                },
                {
                   "name":"operationId",
                   "in":"path",
                   "type":"string",
-                  "description":"Identificador de la operación estadística"
+                  "description":"${msg['api.doc.swagger.paths.operationsIdParam.idDescription']}",
+                  "required":true
                }
             ],
             "responses":{
                "200":{
                   "schema":{
-                     "description":"",
                      "$ref":"#/definitions/Instance"
                   },
                   "headers":{
 
                   },
-                  "description":"Éxito. Indica que la petición ha sido resuelta correctamente"
+                  "description":"${msg['api.doc.swagger.paths.responses.200']}"
                },
                "406":{
-                  "description":"No aceptable. El formato solicitado no es válido"
+                  "description":"${msg['api.doc.swagger.paths.responses.406']}"
                },
                "500":{
-                  "description":"Error interno del servidor. Se ha producido un error que impide que se obtenga el recurso solicitado"
+                  "description":"${msg['api.doc.swagger.paths.responses.500']}"
                },
                "503":{
-                  "description":"Servicio no disponible. Indica que actualmente el servidor no está disponible y por tanto, la solicitud no puede procesarse. El error puede deberse a una sobrecarga temporal o a labores de mantenimiento del servidor. Se trata de una situación temporal"
+                  "description":"${msg['api.doc.swagger.paths.responses.503']}"
                }
             }
          }
@@ -2021,9 +2029,9 @@
       "/v1.0/operations/{id}/families":{
          "get":{
             "tags":[
-               "Operaciones estadísticas"
+               "${msg['api.doc.swagger.tag.operations']}"
             ],
-            "description":"Permite obtener el listado de familias estadísticas en las que se engloba una operación en concreto",
+            "description":"${msg['api.doc.swagger.paths.operations.id.families.get']}",
             "operationId":"resource_StatisticalOperationsV1_0_retrieveFamiliesByOperation_GET",
             "produces":[
                "application/xml", "application/json"
@@ -2033,28 +2041,28 @@
                   "name":"id",
                   "in":"path",
                   "type":"string",
-                  "description":"Identificador de la operación estadística"
+                  "description":"${msg['api.doc.swagger.paths.operationsIdParam.idDescription']}",
+                  "required":true
                }
             ],
             "responses":{
                "200":{
                   "schema":{
-                     "description":"",
                      "$ref":"#/definitions/Families"
                   },
                   "headers":{
 
                   },
-                  "description":"Éxito. Indica que la petición ha sido resuelta correctamente"
+                  "description":"${msg['api.doc.swagger.paths.responses.200']}"
                },
                "406":{
-                  "description":"No aceptable. El formato solicitado no es válido"
+                  "description":"${msg['api.doc.swagger.paths.responses.406']}"
                },
                "500":{
-                  "description":"Error interno del servidor. Se ha producido un error que impide que se obtenga el recurso solicitado"
+                  "description":"${msg['api.doc.swagger.paths.responses.500']}"
                },
                "503":{
-                  "description":"Servicio no disponible. Indica que actualmente el servidor no está disponible y por tanto, la solicitud no puede procesarse. El error puede deberse a una sobrecarga temporal o a labores de mantenimiento del servidor. Se trata de una situación temporal"
+                  "description":"${msg['api.doc.swagger.paths.responses.503']}"
                }
             }
          }
@@ -2062,9 +2070,9 @@
       "/v1.0/statisticalOperationSources":{
          "get":{
             "tags":[
-               "Tablas de valores auxiliares"
+               "${msg['api.doc.swagger.tag.auxiliaryValueTables']}"
             ],
-            "description":"Permite obtener todos los posibles tipos de orígenes de datos disponibles para las operaciones estadísticas",
+            "description":"${msg['api.doc.swagger.paths.statisticalOperationSources.get']}",
             "operationId":"resource_StatisticalOperationsV1_0_retrieveStatisticalOperationSources_GET",
             "produces":[
                "application/xml", "application/json"
@@ -2075,22 +2083,21 @@
             "responses":{
                "200":{
                   "schema":{
-                     "description":"",
                      "$ref":"#/definitions/StatisticalOperationSources"
                   },
                   "headers":{
 
                   },
-                  "description":"Éxito. Indica que la petición ha sido resuelta correctamente"
+                  "description":"${msg['api.doc.swagger.paths.responses.200']}"
                },
                "406":{
-                  "description":"No aceptable. El formato solicitado no es válido"
+                  "description":"${msg['api.doc.swagger.paths.responses.406']}"
                },
                "500":{
-                  "description":"Error interno del servidor. Se ha producido un error que impide que se obtenga el recurso solicitado"
+                  "description":"${msg['api.doc.swagger.paths.responses.500']}"
                },
                "503":{
-                  "description":"Servicio no disponible. Indica que actualmente el servidor no está disponible y por tanto, la solicitud no puede procesarse. El error puede deberse a una sobrecarga temporal o a labores de mantenimiento del servidor. Se trata de una situación temporal"
+                  "description":"${msg['api.doc.swagger.paths.responses.503']}"
                }
             }
          }
@@ -2098,9 +2105,9 @@
       "/v1.0/officialityTypes":{
          "get":{
             "tags":[
-               "Tablas de valores auxiliares"
+               "${msg['api.doc.swagger.tag.auxiliaryValueTables']}"
             ],
-            "description":"Permite obtener todos los tipos de oficialidad que se le pueden asignar a las diferentes operaciones estadísticas",
+            "description":"${msg['api.doc.swagger.paths.officialityTypes.get']}",
             "operationId":"resource_StatisticalOperationsV1_0_retrieveOfficialityTypes_GET",
             "produces":[
                "application/xml", "application/json"
@@ -2111,22 +2118,21 @@
             "responses":{
                "200":{
                   "schema":{
-                     "description":"",
                      "$ref":"#/definitions/OfficialityTypes"
                   },
                   "headers":{
 
                   },
-                  "description":"Éxito. Indica que la petición ha sido resuelta correctamente"
+                  "description":"${msg['api.doc.swagger.paths.responses.200']}"
                },
                "406":{
-                  "description":"No aceptable. El formato solicitado no es válido"
+                  "description":"${msg['api.doc.swagger.paths.responses.406']}"
                },
                "500":{
-                  "description":"Error interno del servidor. Se ha producido un error que impide que se obtenga el recurso solicitado"
+                  "description":"${msg['api.doc.swagger.paths.responses.500']}"
                },
                "503":{
-                  "description":"Servicio no disponible. Indica que actualmente el servidor no está disponible y por tanto, la solicitud no puede procesarse. El error puede deberse a una sobrecarga temporal o a labores de mantenimiento del servidor. Se trata de una situación temporal"
+                  "description":"${msg['api.doc.swagger.paths.responses.503']}"
                }
             }
          }
@@ -2134,9 +2140,9 @@
       "/v1.0/costs":{
          "get":{
             "tags":[
-               "Tablas de valores auxiliares"
+               "${msg['api.doc.swagger.tag.auxiliaryValueTables']}"
             ],
-            "description":"Permite obtener el listado de todos los tipos de costes disponibles para las operaciones estadísticas",
+            "description":"${msg['api.doc.swagger.paths.costs.get']}",
             "operationId":"resource_StatisticalOperationsV1_0_retrieveCosts_GET",
             "produces":[
                "application/xml", "application/json"
@@ -2147,22 +2153,21 @@
             "responses":{
                "200":{
                   "schema":{
-                     "description":"",
                      "$ref":"#/definitions/Costs"
                   },
                   "headers":{
 
                   },
-                  "description":"Éxito. Indica que la petición ha sido resuelta correctamente"
+                  "description":"${msg['api.doc.swagger.paths.responses.200']}"
                },
                "406":{
-                  "description":"No aceptable. El formato solicitado no es válido"
+                  "description":"${msg['api.doc.swagger.paths.responses.406']}"
                },
                "500":{
-                  "description":"Error interno del servidor. Se ha producido un error que impide que se obtenga el recurso solicitado"
+                  "description":"${msg['api.doc.swagger.paths.responses.500']}"
                },
                "503":{
-                  "description":"Servicio no disponible. Indica que actualmente el servidor no está disponible y por tanto, la solicitud no puede procesarse. El error puede deberse a una sobrecarga temporal o a labores de mantenimiento del servidor. Se trata de una situación temporal"
+                  "description":"${msg['api.doc.swagger.paths.responses.503']}"
                }
             }
          }
@@ -2170,9 +2175,9 @@
       "/v1.0/collMethods":{
          "get":{
             "tags":[
-               "Tablas de valores auxiliares"
+               "${msg['api.doc.swagger.tag.auxiliaryValueTables']}"
             ],
-            "description":"Permite obtener todos los métodos de recolección de datos existentes",
+            "description":"${msg['api.doc.swagger.paths.collMethods.get']}",
             "operationId":"resource_StatisticalOperationsV1_0_retrieveCollMethods_GET",
             "produces":[
                "application/xml", "application/json"
@@ -2183,22 +2188,21 @@
             "responses":{
                "200":{
                   "schema":{
-                     "description":"",
                      "$ref":"#/definitions/CollMethods"
                   },
                   "headers":{
 
                   },
-                  "description":"Éxito. Indica que la petición ha sido resuelta correctamente"
+                  "description":"${msg['api.doc.swagger.paths.responses.200']}"
                },
                "406":{
-                  "description":"No aceptable. El formato solicitado no es válido"
+                  "description":"${msg['api.doc.swagger.paths.responses.406']}"
                },
                "500":{
-                  "description":"Error interno del servidor. Se ha producido un error que impide que se obtenga el recurso solicitado"
+                  "description":"${msg['api.doc.swagger.paths.responses.500']}"
                },
                "503":{
-                  "description":"Servicio no disponible. Indica que actualmente el servidor no está disponible y por tanto, la solicitud no puede procesarse. El error puede deberse a una sobrecarga temporal o a labores de mantenimiento del servidor. Se trata de una situación temporal"
+                  "description":"${msg['api.doc.swagger.paths.responses.503']}"
                }
             }
          }
@@ -2206,9 +2210,9 @@
       "/v1.0/instanceTypes":{
          "get":{
             "tags":[
-               "Tablas de valores auxiliares"
+               "${msg['api.doc.swagger.tag.auxiliaryValueTables']}"
             ],
-            "description":"Permite obtener todos los tipos de instancias de operaciones que existen",
+            "description":"${msg['api.doc.swagger.paths.instanceTypes.get']}",
             "operationId":"resource_StatisticalOperationsV1_0_retrieveInstanceTypes_GET",
             "produces":[
                "application/xml", "application/json"
@@ -2219,22 +2223,21 @@
             "responses":{
                "200":{
                   "schema":{
-                     "description":"",
                      "$ref":"#/definitions/InstanceTypes"
                   },
                   "headers":{
 
                   },
-                  "description":"Éxito. Indica que la petición ha sido resuelta correctamente"
+                  "description":"${msg['api.doc.swagger.paths.responses.200']}"
                },
                "406":{
-                  "description":"No aceptable. El formato solicitado no es válido"
+                  "description":"${msg['api.doc.swagger.paths.responses.406']}"
                },
                "500":{
-                  "description":"Error interno del servidor. Se ha producido un error que impide que se obtenga el recurso solicitado"
+                  "description":"${msg['api.doc.swagger.paths.responses.500']}"
                },
                "503":{
-                  "description":"Servicio no disponible. Indica que actualmente el servidor no está disponible y por tanto, la solicitud no puede procesarse. El error puede deberse a una sobrecarga temporal o a labores de mantenimiento del servidor. Se trata de una situación temporal"
+                  "description":"${msg['api.doc.swagger.paths.responses.503']}"
                }
             }
          }
@@ -2242,9 +2245,9 @@
       "/v1.0/statisticalOperationTypes":{
          "get":{
             "tags":[
-               "Tablas de valores auxiliares"
+               "${msg['api.doc.swagger.tag.auxiliaryValueTables']}"
             ],
-            "description":"Permite obtener todos los tipos de operaciones estadísticas existentes",
+            "description":"${msg['api.doc.swagger.paths.statisticalOperationTypes.get']}",
             "operationId":"resource_StatisticalOperationsV1_0_retrieveStatisticalOperationTypes_GET",
             "produces":[
                "application/xml", "application/json"
@@ -2255,22 +2258,21 @@
             "responses":{
                "200":{
                   "schema":{
-                     "description":"",
                      "$ref":"#/definitions/StatisticalOperationTypes"
                   },
                   "headers":{
 
                   },
-                  "description":"Éxito. Indica que la petición ha sido resuelta correctamente"
+                  "description":"${msg['api.doc.swagger.paths.responses.200']}"
                },
                "406":{
-                  "description":"No aceptable. El formato solicitado no es válido"
+                  "description":"${msg['api.doc.swagger.paths.responses.406']}"
                },
                "500":{
-                  "description":"Error interno del servidor. Se ha producido un error que impide que se obtenga el recurso solicitado"
+                  "description":"${msg['api.doc.swagger.paths.responses.500']}"
                },
                "503":{
-                  "description":"Servicio no disponible. Indica que actualmente el servidor no está disponible y por tanto, la solicitud no puede procesarse. El error puede deberse a una sobrecarga temporal o a labores de mantenimiento del servidor. Se trata de una situación temporal"
+                  "description":"${msg['api.doc.swagger.paths.responses.503']}"
                }
             }
          }

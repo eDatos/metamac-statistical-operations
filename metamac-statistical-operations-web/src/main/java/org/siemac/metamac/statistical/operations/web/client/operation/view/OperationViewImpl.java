@@ -457,6 +457,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
 
         operationDto.setRelPolUsAc(diffusionEditionForm.getValueAsInternationalStringDto(OperationDS.RE_POL_US_AC));
         operationDto.setReleaseCalendar(releaseCalendar.getValueAsBoolean());
+        operationDto.setDifusionAndPublicationVisible(difusionAndPublicationVisible.getValueAsBoolean());
         operationDto.setReleaseCalendarAccess(releaseCalendarAccess.getValueAsString());
 
         List<ExternalItemDto> updateFrequencies = ((ExternalItemListItem) diffusionEditionForm.getItem(OperationDS.UPDATE_FREQUENCY)).getExternalItemDtos();

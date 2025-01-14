@@ -393,6 +393,8 @@ Application StatisticalOperations {
        		- @InternationalString relPolUsAc cascade="all" nullable databaseColumn="REL_POL_US_AC_FK";
        		"Metadata RELEASE_CALENDAR"
        		Boolean releaseCalendar;
+       		"Metadata DIFUSION_PUBLICATION_VISIBLE"
+       		Boolean difusionPublicationVisible;
        		"Metadata RELEASE_CALENDAR_ACCESS"
        		String releaseCalendarAccess nullable pattern="'https?://.+'" length="4000";
        		"Metadata UPDATE_FREQUENCY. Its type is CODE"

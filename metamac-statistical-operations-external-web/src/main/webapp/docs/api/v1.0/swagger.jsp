@@ -870,6 +870,13 @@
                      "description":"${msg['api.doc.swagger.definitions.operation.properties.description']}",
                      "$ref":"#/definitions/InternationalString"
                   },
+                  "difusionAndPublicationVisible":{
+                     "xml":{
+                        "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
+                     },
+                     "description":"${msg['api.doc.swagger.definitions.operation.properties.difusionAndPublicationVisible']}",
+                     "$ref":"boolean"
+                  },
                   "id":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"

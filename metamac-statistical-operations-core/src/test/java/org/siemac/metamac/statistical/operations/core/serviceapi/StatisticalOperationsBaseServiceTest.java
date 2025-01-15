@@ -7,7 +7,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.siemac.metamac.statistical.operations.core.utils.mocks.StatisticalOperationsMocks.mockExternalItem;
 
-import java.org.siemac.metamac.statistical.operations.core.serviceapi.StatisticalOperationsBaseServiceTestBase;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

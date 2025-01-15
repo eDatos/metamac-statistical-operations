@@ -134,6 +134,7 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         target.setPublishers(this.toPublishers(source.getPublisher()));
         target.setRelPolUsAc(this.toInternationalString(source.getRelPolUsAc()));
         target.setReleaseCalendar(source.getReleaseCalendar());
+        target.setDifusionAndPublicationVisible(source.getDifusionPublicationVisible());
         target.setReleaseCalendarAccess(source.getReleaseCalendarAccess());
         target.setUpdateFrequencies(this.toUpdateFrequencies(source.getUpdateFrequency()));
         target.setCurrentInstance(this.toResource(this.getInstanceInProcStatus(source.getInstances(), ProcStatusEnum.PUBLISH_EXTERNALLY)));

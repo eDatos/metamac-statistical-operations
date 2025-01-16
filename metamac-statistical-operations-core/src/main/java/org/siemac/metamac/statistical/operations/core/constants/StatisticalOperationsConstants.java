@@ -46,6 +46,7 @@ public class StatisticalOperationsConstants {
     public static final String TSV_HEADER_CURRENT_INTERNAL_INSTANCE      = "current_internal_instance";
     public static final String TSV_HEADER_CURRENT_INSTANCE               = "current_instance";
     public static final String TSV_HEADER_INVENTORY_DATE                 = "inventory_date";
+    public static final String TSV_HEADER_DIFUSION_PRODUCTION_VISIBLE    = "difusion-production-visible";
 
     public static final String TSV_HEADER_SPECIFIC_LEGAL_ACTS            = "specific_legal_acts";
     public static final String TSV_HEADER_COMMON_DATA_SHARING            = "common_data_sharing";

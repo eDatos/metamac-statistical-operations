@@ -1,0 +1,9 @@
+-- --------------------------------------------------------------------------------------------------
+-- EDATOS-4790 Incorporar un check para hacer visible o no una operación estadística en el catálogo de operaciones
+-- 
+-- --------------------------------------------------------------------------------------------------
+
+alter table tb_operations
+add column DIFUSION_PUBLICATION_VISIBLE bool default true;
+
+commit;

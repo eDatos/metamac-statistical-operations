@@ -396,6 +396,7 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
 
         // KAFKA STREAM STATUS
         target.setStreamMessageStatus(source.getStreamMessageStatus());
+        target.setDifusionPublicationVisible(source.getDifusionAndPublicationVisible() != null ? source.getDifusionAndPublicationVisible() : true);
 
         return target;
     }

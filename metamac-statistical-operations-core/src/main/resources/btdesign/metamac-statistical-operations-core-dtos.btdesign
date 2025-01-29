@@ -101,6 +101,7 @@ Application StatisticalOperationsDto {
             - Set<@ExternalItemDto> publisher;
             - @InternationalStringDto relPolUsAc nullable;
             Boolean releaseCalendar;
+            Boolean difusionAndPublicationVisible;
             String releaseCalendarAccess nullable;
             - Set<@ExternalItemDto> updateFrequency;
             - @InstanceBaseDto currentInstance nullable;

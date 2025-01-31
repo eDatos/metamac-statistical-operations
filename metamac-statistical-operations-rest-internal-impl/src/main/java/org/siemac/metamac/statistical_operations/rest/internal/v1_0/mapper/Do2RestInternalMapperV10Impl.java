@@ -564,6 +564,7 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         target.setManagementAppLink(this.toOperationManagementApplicationLink(source.getCode()));
         target.setName(this.toInternationalString(source.getTitle()));
         target.setSubjectArea(getSubjectAreaFromCache(source.getSubjectArea(), parsedFields, categoryResourcesCache));
+        target.setDifusionAndPublicationVisible(getDifusionAndPublicationVisible(source, parsedFields));
 
         return target;
     }
@@ -581,6 +582,15 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
             }
         }
         return category;
+    }
+
+    private Boolean getDifusionAndPublicationVisible(org.siemac.metamac.statistical.operations.core.domain.Operation source, Set<String> parsedFields) throws MetamacException {
+        boolean includeSubjectArea = containsField(parsedFields, StatisticalOperationsRestConstants.DIFUSION_PUBLICATION_VISIBLE);
+        Boolean difusionAndPublicationVisible = null;
+        if (includeSubjectArea) {
+            return source.getDifusionPublicationVisible();
+        }
+        return difusionAndPublicationVisible;
     }
 
     private ResourceInternal toResource(org.siemac.metamac.statistical.operations.core.domain.Family source) {

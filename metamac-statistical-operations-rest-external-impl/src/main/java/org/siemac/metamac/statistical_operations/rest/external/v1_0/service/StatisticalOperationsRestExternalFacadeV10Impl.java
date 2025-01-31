@@ -1,5 +1,7 @@
 package org.siemac.metamac.statistical_operations.rest.external.v1_0.service;
 
+import static org.siemac.metamac.core.common.util.rest.RequestUtil.parseFields;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -49,8 +51,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import static org.siemac.metamac.core.common.util.rest.RequestUtil.parseFields;
 
 @Service("statisticalOperationsRestExternalFacadeV10")
 public class StatisticalOperationsRestExternalFacadeV10Impl implements StatisticalOperationsV1_0 {
@@ -116,6 +116,7 @@ public class StatisticalOperationsRestExternalFacadeV10Impl implements Statistic
     private Set<String> parseFieldsOperationsListEndpoint(String fields) {
         Set<String> validFields = new HashSet<>();
         validFields.add(StatisticalOperationsRestConstants.FIELD_INCLUDE_SUBJECT_AREA);
+        validFields.add(StatisticalOperationsRestConstants.DIFUSION_PUBLICATION_VISIBLE);
         return parseFields(fields, validFields);
     }
 

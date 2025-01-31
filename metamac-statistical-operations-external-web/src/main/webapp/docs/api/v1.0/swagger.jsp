@@ -1591,6 +1591,10 @@
                   "subjectArea":{
                      "description":"${msg['api.doc.swagger.definitions.operation.properties.subjectArea']}",
                      "$ref":"#/definitions/Resource"
+                  },
+				  "difusionAndPublicationVisible":{
+                     "description":"${msg['api.doc.swagger.definitions.operation.properties.difusionAndPublicationVisible']}",
+                     "$ref":"#/definitions/Resource"
                   }
                }
             }

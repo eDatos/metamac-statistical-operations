@@ -334,7 +334,7 @@ public class Do2DtoMapperImpl extends BaseDo2DtoMapperImpl implements Do2DtoMapp
         // NOTES_URL
         // Not necessary
 
-        target.setDifusionAndPublicationVisible(source.getDifusionPublicationVisible());
+        target.setDiffusionAndPublicationVisible(source.getDiffusionPublicationVisible());
         target.setOptimisticLockingVersion(source.getVersion());
 
         return target;

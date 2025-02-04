@@ -394,7 +394,7 @@ Application StatisticalOperations {
        		"Metadata RELEASE_CALENDAR"
        		Boolean releaseCalendar;
        		"Metadata DIFUSION_PUBLICATION_VISIBLE"
-       		Boolean difusionPublicationVisible;
+       		Boolean diffusionPublicationVisible;
        		"Metadata RELEASE_CALENDAR_ACCESS"
        		String releaseCalendarAccess nullable pattern="'https?://.+'" length="4000";
        		"Metadata UPDATE_FREQUENCY. Its type is CODE"

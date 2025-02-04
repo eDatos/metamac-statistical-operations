@@ -870,11 +870,11 @@
                      "description":"${msg['api.doc.swagger.definitions.operation.properties.description']}",
                      "$ref":"#/definitions/InternationalString"
                   },
-                  "difusionAndPublicationVisible":{
+                  "diffusionAndPublicationVisible":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"${msg['api.doc.swagger.definitions.operation.properties.difusionAndPublicationVisible']}",
+                     "description":"${msg['api.doc.swagger.definitions.operation.properties.diffusionAndPublicationVisible']}",
                      "$ref":"boolean"
                   },
                   "id":{
@@ -1592,8 +1592,8 @@
                      "description":"${msg['api.doc.swagger.definitions.operation.properties.subjectArea']}",
                      "$ref":"#/definitions/Resource"
                   },
-				  "difusionAndPublicationVisible":{
-                     "description":"${msg['api.doc.swagger.definitions.operation.properties.difusionAndPublicationVisible']}",
+				  "diffusionAndPublicationVisible":{
+                     "description":"${msg['api.doc.swagger.definitions.operation.properties.diffusionAndPublicationVisible']}",
                      "$ref":"#/definitions/Resource"
                   }
                }

@@ -134,7 +134,7 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         target.setPublishers(this.toPublishers(source.getPublisher()));
         target.setRelPolUsAc(this.toInternationalString(source.getRelPolUsAc()));
         target.setReleaseCalendar(source.getReleaseCalendar());
-        target.setDifusionAndPublicationVisible(source.getDifusionPublicationVisible());
+        target.setDiffusionAndPublicationVisible(source.getDiffusionPublicationVisible());
         target.setReleaseCalendarAccess(source.getReleaseCalendarAccess());
         target.setUpdateFrequencies(this.toUpdateFrequencies(source.getUpdateFrequency()));
         target.setCurrentInstance(this.toResource(this.getInstanceInProcStatus(source.getInstances(), ProcStatusEnum.PUBLISH_EXTERNALLY)));
@@ -564,7 +564,7 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         target.setManagementAppLink(this.toOperationManagementApplicationLink(source.getCode()));
         target.setName(this.toInternationalString(source.getTitle()));
         target.setSubjectArea(getSubjectAreaFromCache(source.getSubjectArea(), parsedFields, categoryResourcesCache));
-        target.setDifusionAndPublicationVisible(getDifusionAndPublicationVisible(source, parsedFields));
+        target.setDiffusionAndPublicationVisible(getDiffusionAndPublicationVisible(source, parsedFields));
 
         return target;
     }
@@ -584,13 +584,13 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         return category;
     }
 
-    private Boolean getDifusionAndPublicationVisible(org.siemac.metamac.statistical.operations.core.domain.Operation source, Set<String> parsedFields) throws MetamacException {
+    private Boolean getDiffusionAndPublicationVisible(org.siemac.metamac.statistical.operations.core.domain.Operation source, Set<String> parsedFields) throws MetamacException {
         boolean includeSubjectArea = containsField(parsedFields, StatisticalOperationsRestConstants.DIFUSION_PUBLICATION_VISIBLE);
-        Boolean difusionAndPublicationVisible = null;
+        Boolean diffusionAndPublicationVisible = null;
         if (includeSubjectArea) {
-            return source.getDifusionPublicationVisible();
+            return source.getDiffusionPublicationVisible();
         }
-        return difusionAndPublicationVisible;
+        return diffusionAndPublicationVisible;
     }
 
     private ResourceInternal toResource(org.siemac.metamac.statistical.operations.core.domain.Family source) {

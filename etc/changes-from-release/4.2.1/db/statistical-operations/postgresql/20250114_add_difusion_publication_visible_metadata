@@ -4,6 +4,6 @@
 -- --------------------------------------------------------------------------------------------------
 
 alter table tb_operations
-add column DIFUSION_PUBLICATION_VISIBLE bool default true;
+add column DIFFUSION_PUBLICATION_VISIBLE bool default true;
 
 commit;

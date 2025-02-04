@@ -585,8 +585,8 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
     }
 
     private Boolean getDiffusionAndPublicationVisible(org.siemac.metamac.statistical.operations.core.domain.Operation source, Set<String> parsedFields) throws MetamacException {
-        boolean includeDifusionAndPublicationVisible  = containsField(parsedFields, StatisticalOperationsRestConstants.DIFUSION_PUBLICATION_VISIBLE);
-        if (includeDifusionAndPublicationVisible) {
+        boolean includeDiffusionAndPublicationVisible  = containsField(parsedFields, StatisticalOperationsRestConstants.DIFUSION_PUBLICATION_VISIBLE);
+        if (includeDiffusionAndPublicationVisible) {
             return source.getDiffusionPublicationVisible();
         }
         return null;

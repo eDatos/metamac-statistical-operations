@@ -648,7 +648,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         ViewTextItem invDate = new ViewTextItem(OperationDS.INVENTORY_DATE, getConstants().operationInventoryDate());
         ViewMultiLanguageTextItem staticRevPolicyItem = new ViewMultiLanguageTextItem(OperationDS.REV_POLICY, getConstants().operationRevPolicy());
         ViewMultiLanguageTextItem staticRevPracticeItem = new ViewMultiLanguageTextItem(OperationDS.REV_PRACTICE, getConstants().operationRevPractice());
-        ViewTextItem diffusionAndPublicationVisible = new ViewTextItem(OperationDS.DIFUSION_AND_PUBLICATION, getConstants().visible());
+        ViewTextItem diffusionAndPublicationVisible = new ViewTextItem(OperationDS.DIFFUSION_AND_PUBLICATION, getConstants().visible());
         diffusionForm.setFields(publisher, commonMetadata, staticRelPolUsAc, releaseCalendar, releaseCalendarAccess, updateFreq, currentInst, currentInternalInst, invDate, staticRevPolicyItem,
                 staticRevPracticeItem, diffusionAndPublicationVisible);
 
@@ -831,7 +831,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
 
         MultiLanguageRichTextEditorItem relPolUsAc = new MultiLanguageRichTextEditorItem(OperationDS.RE_POL_US_AC, getConstants().operationReleaseUsersPolicy());
         releaseCalendar = new CustomCheckboxItem(OperationDS.RELEASE_CALENDAR, getConstants().operationReleaseCalendar());
-        diffusionAndPublicationVisible = new CustomCheckboxItem(OperationDS.DIFUSION_AND_PUBLICATION, getConstants().visible());
+        diffusionAndPublicationVisible = new CustomCheckboxItem(OperationDS.DIFFUSION_AND_PUBLICATION, getConstants().visible());
         releaseCalendarAccess = new CustomTextItem(OperationDS.RELEASE_CALENDAR_ACCESS, getConstants().operationReleaseCalendarAccess());
         releaseCalendarAccess.setValidators(CommonWebUtils.getUrlValidator());
         ExternalItemListItem updateFrequencyItem = createUpdateFrequencyItem();
@@ -945,7 +945,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         diffusionForm.setValue(OperationDS.INVENTORY_DATE, operationDto.getInventoryDate());
         diffusionForm.setValue(OperationDS.REV_POLICY, operationDto.getRevPolicy());
         diffusionForm.setValue(OperationDS.REV_PRACTICE, operationDto.getRevPractice());
-        diffusionForm.setValue(OperationDS.DIFUSION_AND_PUBLICATION,
+        diffusionForm.setValue(OperationDS.DIFFUSION_AND_PUBLICATION,
                 (operationDto.getDiffusionAndPublicationVisible() != null && operationDto.getDiffusionAndPublicationVisible()) ? MetamacWebCommon.getConstants().yes() : MetamacWebCommon.getConstants().no());
 
         // LEGAL ACTS

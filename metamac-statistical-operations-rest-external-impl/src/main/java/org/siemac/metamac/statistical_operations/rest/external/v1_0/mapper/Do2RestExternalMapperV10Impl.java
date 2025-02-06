@@ -123,7 +123,7 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         target.setPublishers(toPublishers(source.getPublisher()));
         target.setRelPolUsAc(toInternationalString(source.getRelPolUsAc()));
         target.setReleaseCalendar(source.getReleaseCalendar());
-        target.setDifusionAndPublicationVisible(source.getDifusionPublicationVisible());
+        target.setDiffusionAndPublicationVisible(source.getDiffusionPublicationVisible());
         target.setReleaseCalendarAccess(source.getReleaseCalendarAccess());
         target.setUpdateFrequencies(toUpdateFrequencies(source.getUpdateFrequency()));
         target.setCurrentInstance(toResource(getInstanceInProcStatus(source.getInstances(), ProcStatusEnum.PUBLISH_EXTERNALLY)));
@@ -534,6 +534,7 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         target.setSelfLink(toOperationSelfLink(source));
         target.setName(toInternationalString(source.getTitle()));
         target.setSubjectArea(getSubjectAreaFromCache(source.getSubjectArea(), parsedFields, categoryResourcesCache));
+        target.setDiffusionAndPublicationVisible(getDiffusionAndPublicationVisible(source, parsedFields));
 
         return target;
     }
@@ -551,6 +552,15 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
             }
         }
         return category;
+    }
+
+    private Boolean getDiffusionAndPublicationVisible(org.siemac.metamac.statistical.operations.core.domain.Operation source, Set<String> parsedFields) throws MetamacException {
+        boolean includeSubjectArea = containsField(parsedFields, StatisticalOperationsRestConstants.DIFUSION_PUBLICATION_VISIBLE);
+        Boolean diffusionAndPublicationVisible = null;
+        if (includeSubjectArea) {
+            return source.getDiffusionPublicationVisible();
+        }
+        return diffusionAndPublicationVisible;
     }
 
     private Resource toResource(org.siemac.metamac.statistical.operations.core.domain.Family source) {

@@ -98,6 +98,7 @@ public class TsvExportationUtils {
                 writeStringSingleItem(writer, getCurrentInternalInstance(operation.getInstances()) == null ? null : getCurrentInternalInstance(operation.getInstances()).getCode());
                 writeStringSingleItem(writer, getCurrentInstance(operation.getInstances()) == null ? null : getCurrentInstance(operation.getInstances()).getCode());
                 writeDateItem(writer, operation.getInventoryDate());
+                writeStringSingleItem(writer, operation.getDiffusionPublicationVisible().toString());
 
                 // Marco legal
                 writeItemInternationalString(writer, operation.getSpecificLegalActs(), languages);
@@ -112,6 +113,7 @@ public class TsvExportationUtils {
             writer.flush();
             return file.getName();
         } catch (Exception e) {
+            logger.error(e.getMessage(), e);
             throw MetamacExceptionBuilder.builder().withExceptionItems(ServiceExceptionType.EXPORTATION_TSV_ERROR).withMessageParameters(e).build();
         } finally {
             IOUtils.closeQuietly(outputStream);
@@ -194,6 +196,8 @@ public class TsvExportationUtils {
         writer.write(StatisticalOperationsConstants.TSV_HEADER_CURRENT_INSTANCE);
         writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
         writer.write(StatisticalOperationsConstants.TSV_HEADER_INVENTORY_DATE);
+        writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
+        writer.write(StatisticalOperationsConstants.TSV_HEADER_DIFUSION_PRODUCTION_VISIBLE);
         // Marco legal
         writeHeaderItem(writer, languages, StatisticalOperationsConstants.TSV_HEADER_SPECIFIC_LEGAL_ACTS);
         writeHeaderItem(writer, languages, StatisticalOperationsConstants.TSV_HEADER_COMMON_DATA_SHARING);

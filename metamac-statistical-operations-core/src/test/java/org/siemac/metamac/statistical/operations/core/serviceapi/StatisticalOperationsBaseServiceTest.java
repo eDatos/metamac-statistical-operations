@@ -1004,6 +1004,7 @@ public class StatisticalOperationsBaseServiceTest extends StatisticalOperationsB
 
         // INDICATOR_SYSTEM
         operation.setIndicatorSystem(false);
+        operation.setDiffusionPublicationVisible(true);
 
         return operation;
     }

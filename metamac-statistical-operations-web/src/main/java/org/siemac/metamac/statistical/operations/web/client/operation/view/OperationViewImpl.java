@@ -143,6 +143,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
     private GroupDynamicForm                          diffusionEditionForm;
     private CustomCheckboxItem                        releaseCalendar;
     private CustomTextItem                            releaseCalendarAccess;
+    private CustomCheckboxItem                        diffusionAndPublicationVisible;
 
     // LEGAL ACTS
     private GroupDynamicForm                          legalActsForm;
@@ -456,6 +457,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
 
         operationDto.setRelPolUsAc(diffusionEditionForm.getValueAsInternationalStringDto(OperationDS.RE_POL_US_AC));
         operationDto.setReleaseCalendar(releaseCalendar.getValueAsBoolean());
+        operationDto.setDiffusionAndPublicationVisible(diffusionAndPublicationVisible.getValueAsBoolean());
         operationDto.setReleaseCalendarAccess(releaseCalendarAccess.getValueAsString());
 
         List<ExternalItemDto> updateFrequencies = ((ExternalItemListItem) diffusionEditionForm.getItem(OperationDS.UPDATE_FREQUENCY)).getExternalItemDtos();
@@ -646,8 +648,9 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         ViewTextItem invDate = new ViewTextItem(OperationDS.INVENTORY_DATE, getConstants().operationInventoryDate());
         ViewMultiLanguageTextItem staticRevPolicyItem = new ViewMultiLanguageTextItem(OperationDS.REV_POLICY, getConstants().operationRevPolicy());
         ViewMultiLanguageTextItem staticRevPracticeItem = new ViewMultiLanguageTextItem(OperationDS.REV_PRACTICE, getConstants().operationRevPractice());
+        ViewTextItem diffusionAndPublicationVisible = new ViewTextItem(OperationDS.DIFFUSION_AND_PUBLICATION, getConstants().visible());
         diffusionForm.setFields(publisher, commonMetadata, staticRelPolUsAc, releaseCalendar, releaseCalendarAccess, updateFreq, currentInst, currentInternalInst, invDate, staticRevPolicyItem,
-                staticRevPracticeItem);
+                staticRevPracticeItem, diffusionAndPublicationVisible);
 
         // Legal acts
         legalActsForm = new GroupDynamicForm(getConstants().formLegalActs());
@@ -828,6 +831,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
 
         MultiLanguageRichTextEditorItem relPolUsAc = new MultiLanguageRichTextEditorItem(OperationDS.RE_POL_US_AC, getConstants().operationReleaseUsersPolicy());
         releaseCalendar = new CustomCheckboxItem(OperationDS.RELEASE_CALENDAR, getConstants().operationReleaseCalendar());
+        diffusionAndPublicationVisible = new CustomCheckboxItem(OperationDS.DIFFUSION_AND_PUBLICATION, getConstants().visible());
         releaseCalendarAccess = new CustomTextItem(OperationDS.RELEASE_CALENDAR_ACCESS, getConstants().operationReleaseCalendarAccess());
         releaseCalendarAccess.setValidators(CommonWebUtils.getUrlValidator());
         ExternalItemListItem updateFrequencyItem = createUpdateFrequencyItem();
@@ -837,7 +841,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         MultiLanguageRichTextEditorItem revPolicyItem = new MultiLanguageRichTextEditorItem(OperationDS.REV_POLICY, getConstants().operationRevPolicy());
         MultiLanguageRichTextEditorItem revPracticeItem = new MultiLanguageRichTextEditorItem(OperationDS.REV_PRACTICE, getConstants().operationRevPractice());
         diffusionEditionForm.setFields(publishersItem, commonMetadataItem, relPolUsAc, releaseCalendar, releaseCalendarAccess, updateFrequencyItem, currentInst, currentInternalInst, invDate,
-                revPolicyItem, revPracticeItem);
+                revPolicyItem, revPracticeItem, diffusionAndPublicationVisible);
 
         // LEGAL ACTS
 
@@ -941,6 +945,8 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         diffusionForm.setValue(OperationDS.INVENTORY_DATE, operationDto.getInventoryDate());
         diffusionForm.setValue(OperationDS.REV_POLICY, operationDto.getRevPolicy());
         diffusionForm.setValue(OperationDS.REV_PRACTICE, operationDto.getRevPractice());
+        diffusionForm.setValue(OperationDS.DIFFUSION_AND_PUBLICATION,
+                (operationDto.getDiffusionAndPublicationVisible() != null && operationDto.getDiffusionAndPublicationVisible()) ? MetamacWebCommon.getConstants().yes() : MetamacWebCommon.getConstants().no());
 
         // LEGAL ACTS
         legalActsForm.setValue(OperationDS.SPECIFIC_LEGAL_ACTS, operationDto.getSpecificLegalActs());
@@ -1016,6 +1022,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         diffusionEditionForm.setValue(OperationDS.RE_POL_US_AC, operationDto.getRelPolUsAc());
         releaseCalendar.setValue(operationDto.getReleaseCalendar());
         releaseCalendarAccess.setValue(operationDto.getReleaseCalendarAccess());
+        diffusionAndPublicationVisible.setValue(operationDto.getDiffusionAndPublicationVisible());
 
         ((ExternalItemListItem) diffusionEditionForm.getItem(OperationDS.UPDATE_FREQUENCY)).setExternalItems(operationDto.getUpdateFrequency());
 

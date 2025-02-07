@@ -870,6 +870,13 @@
                      "description":"${msg['api.doc.swagger.definitions.operation.properties.description']}",
                      "$ref":"#/definitions/InternationalString"
                   },
+                  "diffusionAndPublicationVisible":{
+                     "xml":{
+                        "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
+                     },
+                     "description":"${msg['api.doc.swagger.definitions.operation.properties.diffusionAndPublicationVisible']}",
+                     "$ref":"boolean"
+                  },
                   "id":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
@@ -1583,6 +1590,10 @@
                "properties":{
                   "subjectArea":{
                      "description":"${msg['api.doc.swagger.definitions.operation.properties.subjectArea']}",
+                     "$ref":"#/definitions/Resource"
+                  },
+				  "diffusionAndPublicationVisible":{
+                     "description":"${msg['api.doc.swagger.definitions.operation.properties.diffusionAndPublicationVisible']}",
                      "$ref":"#/definitions/Resource"
                   }
                }

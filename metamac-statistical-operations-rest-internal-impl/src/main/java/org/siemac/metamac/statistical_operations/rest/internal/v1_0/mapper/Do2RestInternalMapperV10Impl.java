@@ -134,7 +134,7 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         target.setPublishers(this.toPublishers(source.getPublisher()));
         target.setRelPolUsAc(this.toInternationalString(source.getRelPolUsAc()));
         target.setReleaseCalendar(source.getReleaseCalendar());
-        target.setDiffusionAndPublicationVisible(source.getDifusionPublicationVisible());
+        target.setDiffusionAndPublicationVisible(source.getDiffusionPublicationVisible());
         target.setReleaseCalendarAccess(source.getReleaseCalendarAccess());
         target.setUpdateFrequencies(this.toUpdateFrequencies(source.getUpdateFrequency()));
         target.setCurrentInstance(this.toResource(this.getInstanceInProcStatus(source.getInstances(), ProcStatusEnum.PUBLISH_EXTERNALLY)));
@@ -564,6 +564,7 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         target.setManagementAppLink(this.toOperationManagementApplicationLink(source.getCode()));
         target.setName(this.toInternationalString(source.getTitle()));
         target.setSubjectArea(getSubjectAreaFromCache(source.getSubjectArea(), parsedFields, categoryResourcesCache));
+        target.setDiffusionAndPublicationVisible(getDiffusionAndPublicationVisible(source, parsedFields));
 
         return target;
     }
@@ -581,6 +582,15 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
             }
         }
         return category;
+    }
+
+    @javax.annotation.Nullable
+    private Boolean getDiffusionAndPublicationVisible(org.siemac.metamac.statistical.operations.core.domain.Operation source, Set<String> parsedFields) throws MetamacException {
+        boolean includeDiffusionAndPublicationVisible  = containsField(parsedFields, StatisticalOperationsRestConstants.DIFUSION_PUBLICATION_VISIBLE);
+        if (includeDiffusionAndPublicationVisible) {
+            return source.getDiffusionPublicationVisible();
+        }
+        return null;
     }
 
     private ResourceInternal toResource(org.siemac.metamac.statistical.operations.core.domain.Family source) {

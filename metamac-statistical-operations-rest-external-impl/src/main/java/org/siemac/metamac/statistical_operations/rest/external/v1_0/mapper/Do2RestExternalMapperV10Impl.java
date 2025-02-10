@@ -123,7 +123,7 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         target.setPublishers(toPublishers(source.getPublisher()));
         target.setRelPolUsAc(toInternationalString(source.getRelPolUsAc()));
         target.setReleaseCalendar(source.getReleaseCalendar());
-        target.setDifusionAndPublicationVisible(source.getDifusionPublicationVisible());
+        target.setDiffusionAndPublicationVisible(source.getDifusionPublicationVisible());
         target.setReleaseCalendarAccess(source.getReleaseCalendarAccess());
         target.setUpdateFrequencies(toUpdateFrequencies(source.getUpdateFrequency()));
         target.setCurrentInstance(toResource(getInstanceInProcStatus(source.getInstances(), ProcStatusEnum.PUBLISH_EXTERNALLY)));

@@ -186,6 +186,8 @@ public class RestCriteria2SculptorCriteriaMapperImpl implements RestCriteria2Scu
                     return buildSculptorPropertyCriteria(OperationProperties.status(), PropertyTypeEnum.STATUS, propertyRestriction);
                 case PUBLISHER_URN:
                     return buildSculptorPropertyCriteria(OperationProperties.publisher().urn(), PropertyTypeEnum.STRING, propertyRestriction);
+                case DIFFUSION_PUBLICATION_VISIBLE:
+                    return buildSculptorPropertyCriteria(OperationProperties.currentlyActive(), PropertyTypeEnum.BOOLEAN, propertyRestriction);
                 case INVENTORY_DATE:
                     return buildSculptorPropertyCriteria(
                             new LeafProperty<Operation>(OperationProperties.inventoryDate().getName(), CoreCommonConstants.CRITERIA_DATETIME_COLUMN_DATETIME, true, Operation.class),

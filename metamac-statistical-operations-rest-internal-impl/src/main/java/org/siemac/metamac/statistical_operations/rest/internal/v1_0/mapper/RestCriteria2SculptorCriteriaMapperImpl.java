@@ -202,6 +202,8 @@ public class RestCriteria2SculptorCriteriaMapperImpl implements RestCriteria2Scu
                     return buildSculptorPropertyCriteria(OperationProperties.technicianInCharge(), PropertyTypeEnum.STRING, propertyRestriction);
                 case ASSISTANT_TECHNICIAN:
                     return buildSculptorPropertyCriteria(OperationProperties.assistantTechnician(), PropertyTypeEnum.STRING, propertyRestriction);
+                case DIFFUSION_PUBLICATION_VISIBLE:
+                    return buildSculptorPropertyCriteria(OperationProperties.diffusionPublicationVisible(), PropertyTypeEnum.BOOLEAN, propertyRestriction);
                 default:
                     throw toRestExceptionParameterIncorrect(propertyNameCriteria.name());
             }

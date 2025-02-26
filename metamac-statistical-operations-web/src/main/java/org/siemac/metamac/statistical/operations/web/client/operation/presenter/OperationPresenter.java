@@ -417,6 +417,10 @@ public class OperationPresenter extends Presenter<OperationPresenter.OperationVi
                 familyBaseDtos = result.getFamilyBaseDtos();
                 MainPagePresenter.getMasterHead().setTitleLabel(getMessages().titleStatisticalOperation(operationDto.getCode()));
                 getView().setOperation(operationDto, instanceBaseDtos, familyBaseDtos);
+
+                if (result.getOperationAndInstancesException() != null){
+                    ShowMessageEvent.fireWarningMessageWithError(OperationPresenter.this, getMessages().operationError(), result.getOperationAndInstancesException());
+                }
             }
         });
     }

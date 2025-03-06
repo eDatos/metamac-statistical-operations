@@ -14,6 +14,10 @@ actualización de la versión 1.0.0 a la 2.0.0.*
 
 *Se deberá realizar primero la actualización de la versión 1.0.0 a la 2.0.0 y luego desde la 2.0.0 a la 3.0.0*
 
+
+## 4.3.0 a 4.3.1
+•Se han realizado cambios en la base de datos PostgreSQL, por ello se proveen una serie de scripts SQL para adaptarse a la nueva versión.Ejecutar los scripts de la siguiente ruta en el esquema correspondiente por orden de fecha: etc/changes-from-release/4.3.1/db
+
 ## 4.2.1 a 4.3.0
 •Se han realizado cambios en la base de datos PostgreSQL, por ello se proveen una serie de scripts SQL para adaptarse a la nueva versión.Ejecutar los scripts de la siguiente ruta en el esquema correspondiente por orden de fecha: etc/changes-from-release/4.2.1/db
 

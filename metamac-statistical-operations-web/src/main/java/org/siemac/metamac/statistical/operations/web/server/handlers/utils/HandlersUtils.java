@@ -23,6 +23,32 @@ public class HandlersUtils {
                 StringUtils.isNotEmpty(operationDto.getTechnicianInCharge()) ? accessControlRestInternalFacade.findFullnameUserByUsername(operationDto.getTechnicianInCharge()) : null);
     }
 
+    public static boolean doesTechniciansFullnameExist(OperationDto operationDto, AccessControlRestInternalFacade accessControlRestInternalFacade) throws MetamacException{
+
+        String technicianInCharge = StringUtils.isNotEmpty(operationDto.getTechnicianInCharge()) ? operationDto.getTechnicianInCharge() : "";
+        String technicianInChargeAccessControl = StringUtils.isNotEmpty(technicianInCharge) ? accessControlRestInternalFacade.findFullnameUserByUsername(technicianInCharge) : "";
+        String assistantTechnician = StringUtils.isNotEmpty(operationDto.getAssistantTechnician()) ? operationDto.getAssistantTechnician() : "";
+        String assistantTechnicianAccessControl = StringUtils.isNotEmpty(assistantTechnician) ? accessControlRestInternalFacade.findFullnameUserByUsername(assistantTechnician) : "";
+
+        boolean warningMessage = false;
+        if ((!StringUtils.isEmpty(technicianInCharge) && technicianInChargeAccessControl.equalsIgnoreCase(technicianInCharge))) {
+            operationDto.setTechnicianInCharge(technicianInCharge);
+            warningMessage = true;
+        }
+
+        if((!StringUtils.isEmpty(assistantTechnician) && assistantTechnicianAccessControl.equalsIgnoreCase(assistantTechnician))) {
+            operationDto.setAssistantTechnician(assistantTechnician);
+            warningMessage = true;
+        }
+
+        if (!warningMessage) {
+            operationDto.setAssistantTechnician(assistantTechnicianAccessControl);
+            operationDto.setTechnicianInCharge(technicianInChargeAccessControl);
+        }
+
+        return warningMessage;
+    }
+
     public static MetamacWebException getExceptionsPublishExternalOperation(ServiceContext serviceContext, PublishExternallyOperationServiceResult result,
             NoticesRestInternalFacade noticesRestInternalFacade, boolean sendSuccessPublication) {
         MetamacWebException operationException = null;

@@ -32,9 +32,12 @@ public class AccessControlRestInternalFacadeImpl implements AccessControlRestInt
     @Override
     public String findFullnameUserByUsername(String username) {
         String query = RestQueryUtils.createQueryForFindUser(username);
-        User user = getAccessFindUsers(query).get(0);
-
-        return user.getName() + " " + user.getSurname() + " - " + user.getUsername();
+        if (!getAccessFindUsers(query).isEmpty()){
+            User user = getAccessFindUsers(query).get(0);
+            return user.getName() + " " + user.getSurname() + " - " + user.getUsername();
+        } else {
+            return username;
+        }
     }
 
     private List<User> getAccessFindUsers(String query) throws RestException {

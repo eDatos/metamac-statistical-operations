@@ -1,11 +1,13 @@
 package org.siemac.metamac.statistical.operations.web.server.handlers;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.statistical.operations.core.dto.FamilyBaseDto;
 import org.siemac.metamac.statistical.operations.core.dto.InstanceBaseDto;
 import org.siemac.metamac.statistical.operations.core.dto.OperationDto;
+import org.siemac.metamac.statistical.operations.core.error.ServiceExceptionType;
 import org.siemac.metamac.statistical.operations.core.serviceapi.StatisticalOperationsServiceFacade;
 import org.siemac.metamac.statistical.operations.web.server.handlers.utils.HandlersUtils;
 import org.siemac.metamac.statistical.operations.web.server.rest.AccessControlRestInternalFacade;
@@ -19,6 +21,8 @@ import org.springframework.stereotype.Component;
 
 import com.gwtplatform.dispatch.server.ExecutionContext;
 import com.gwtplatform.dispatch.shared.ActionException;
+
+import static org.siemac.metamac.web.common.server.utils.WebExceptionUtils.createMetamacWebExceptionTranslated;
 
 @Component
 public class GetOperationAndInstancesActionHandler extends SecurityActionHandler<GetOperationAndInstancesAction, GetOperationAndInstancesResult> {
@@ -37,10 +41,15 @@ public class GetOperationAndInstancesActionHandler extends SecurityActionHandler
     public GetOperationAndInstancesResult executeSecurityAction(GetOperationAndInstancesAction action) throws ActionException {
         try {
             OperationDto operationDto = statisticalOperationsServiceFacade.findOperationByUrn(ServiceContextHolder.getCurrentServiceContext(), action.getOperationUrn());
-            HandlersUtils.setFullnameUserByUsername(operationDto, accessControlRestInternalFacade);
             List<FamilyBaseDto> familyBaseDtos = statisticalOperationsServiceFacade.findFamiliesForOperation(ServiceContextHolder.getCurrentServiceContext(), operationDto.getId());
             List<InstanceBaseDto> instanceDtos = statisticalOperationsServiceFacade.findInstancesForOperation(ServiceContextHolder.getCurrentServiceContext(), operationDto.getId());
-            return new GetOperationAndInstancesResult(operationDto, instanceDtos, familyBaseDtos);
+;
+            if (HandlersUtils.doesTechniciansFullnameExist(operationDto, accessControlRestInternalFacade)) {
+                return new GetOperationAndInstancesResult(operationDto, instanceDtos, familyBaseDtos,
+                        createMetamacWebExceptionTranslated(ServiceContextHolder.getCurrentServiceContext(),
+                                ServiceExceptionType.OPERATION_NON_EXISTING_TECHNICIAN, (Serializable[]) null));
+            }
+            return new GetOperationAndInstancesResult(operationDto, instanceDtos, familyBaseDtos, null);
         } catch (MetamacException e) {
             throw WebExceptionUtils.createMetamacWebException(e);
         }

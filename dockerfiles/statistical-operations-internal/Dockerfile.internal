@@ -1,5 +1,5 @@
 ###
-# Dockerfile usado para consutruir la imagen del statistical-operations-external
+# Dockerfile usado para consutruir la imagen del statistical-operations-internal
 #
 # Antes de construir la imagen debemos haber compilado previamente el proyecto (desde el directorio raíz):
 #
@@ -7,17 +7,17 @@
 #
 # A continuación podremos construir la imagen ejecutando siempre desde el directorio raíz del proyecto:
 #
-# docker build -f dockerfiles/statistical-operations-external/Dockerfile -t statistical-operations-external:<version> .
+# docker build -f dockerfiles/statistical-operations-internal/Dockerfile.internal -t statistical-operations-internal:<version> .
 #
 # Para ejecutar un contenedor asociado a esta imagen:
-# docker run -i --rm -p 8080:8080 statistical-operations-external:<version>
+# docker run -i --rm -p 8080:8080 statistical-operations-internal:<version>
 #
 # Para ejecutar con opciones de debug habilitadas:
 # docker run -i --rm \
 # -e JAVA_OPTS="-agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=n" \
 # -p 8080:8080 \
 # -p 5005:5005 \
-# statistical-resources-external:<version>
+# statistical-resources-internal:<version>
 ###
 
 FROM tomcat:9.0.98-jdk8
@@ -25,8 +25,8 @@ LABEL MAINTAINER=info@arte-consultores.com
 
 RUN mkdir -p /data/edatos/statistical-operations/conf
 
-COPY dockerfiles/statistical-operations-external/conf/*.xml /data/edatos/statistical-operations/conf/
-COPY metamac-statistical-operations-external-web/target/*.war /usr/local/tomcat/webapps/statistical-operations.war
+COPY dockerfiles/statistical-operations-internal/conf/*.xml /data/edatos/statistical-operations/conf/
+COPY metamac-statistical-operations-web/target/*.war /usr/local/tomcat/webapps/statistical-operations-internal.war
 
 ENV LANG='es_ES.UTF-8'
 ENV STATISTICAL_OPERATIONS_CONF_PATH='file:/data/edatos/statistical-operations/conf/environment.xml'

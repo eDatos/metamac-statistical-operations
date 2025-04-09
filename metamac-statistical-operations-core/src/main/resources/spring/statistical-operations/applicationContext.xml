@@ -15,11 +15,10 @@
     <!-- Metamac environment configuration -->
     <bean id="configurationService" class="org.siemac.metamac.statistical.operations.core.conf.StatisticalOperationsConfigurationServiceImpl">
         <property name="systemConfigurationFile">
-            <value>classpath:metamac/environment.xml</value>
+            <value>${STATISTICAL_OPERATIONS_CONF_PATH:classpath:metamac/environment.xml}</value>
         </property>
     </bean>
-    
-    
+
     <bean id="propertyPlaceholderConfigurer" class="org.siemac.metamac.core.common.conf.ConfigurationServicePropertyPlaceholderConfigurer">
         <property name="configurationService">
             <ref bean="configurationService" />

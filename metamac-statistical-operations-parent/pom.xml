@@ -45,7 +45,7 @@
         <metamac-sso.version>4.8.1</metamac-sso.version>
         <metamac-web-common.version>5.11.1</metamac-web-common.version>
         <metamac-common-metadata.version>4.3.0</metamac-common-metadata.version>
-        <metamac-access-control.version>4.3.1-SNAPSHOT</metamac-access-control.version>
+        <metamac-access-control.version>4.3.0</metamac-access-control.version>
 
 
         <!-- WEB -->

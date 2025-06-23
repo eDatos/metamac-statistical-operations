@@ -15,8 +15,8 @@ actualización de la versión 1.0.0 a la 2.0.0.*
 *Se deberá realizar primero la actualización de la versión 1.0.0 a la 2.0.0 y luego desde la 2.0.0 a la 3.0.0*
 
 
-## 4.6.1 a 4.6.2-SNAPSHOT
-Esta versión tiene como dependencia complementos-apps en su versión 8.12.2-SNAPSHOT
+## 4.6.1 a 4.7.0
+Esta versión tiene como dependencia complementos-apps en su versión 8.13.0
 
 ## 4.4.0 a 4.5.0
 •Se han realizado cambios en la base de datos PostgreSQL, por ello se proveen una serie de scripts SQL para adaptarse a la nueva versión.Ejecutar los scripts de la siguiente ruta en el esquema correspondiente por orden de fecha: etc/changes-from-release/4.4.0/db/

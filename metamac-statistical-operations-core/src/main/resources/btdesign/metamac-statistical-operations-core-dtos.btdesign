@@ -95,6 +95,10 @@ Application StatisticalOperationsDto {
             - Set<@ExternalItemDto> regionalContributor;
             JAVADATE internalInventoryDate nullable;
             Boolean currentlyActive;
+            Boolean disaggregationBySex;
+            Boolean disaggregationByAge;
+            Boolean disaggregationByNationality;
+            Boolean disaggregationByDisability;
             - @ProcStatusEnum procStatus not nullable;
             - @StatusEnum status not nullable;
 

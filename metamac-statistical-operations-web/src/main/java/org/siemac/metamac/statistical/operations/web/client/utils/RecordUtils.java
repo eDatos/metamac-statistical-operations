@@ -68,6 +68,10 @@ public class RecordUtils {
         record.setCreatedDate(DateUtils.getFormattedDate(operationBaseDto.getCreatedDate()));
         record.setInternalInventoryDate(DateUtils.getFormattedDate(operationBaseDto.getInternalInventoryDate()));
         record.setCurrentlyActive(CommonWebUtils.getBooleanValueAsString(operationBaseDto.getCurrentlyActive()));
+        record.setDisaggregationBySex(CommonWebUtils.getBooleanValueAsString(operationBaseDto.getDisaggregationBySex()));
+        record.setDisaggregationByAge(CommonWebUtils.getBooleanValueAsString(operationBaseDto.getDisaggregationByAge()));
+        record.setDisaggregationByDisability(CommonWebUtils.getBooleanValueAsString(operationBaseDto.getDisaggregationByDisability()));
+        record.setDisaggregationByNationality(CommonWebUtils.getBooleanValueAsString(operationBaseDto.getDisaggregationByNationality()));
         record.setProcStatus(CommonUtils.getProcStatusName(operationBaseDto.getProcStatus()));
         record.setStatus(CommonUtils.getStatusName(operationBaseDto.getStatus()));
         record.setPublicationStreamStatus(operationBaseDto.getStreamMessageStatus());

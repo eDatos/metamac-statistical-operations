@@ -103,80 +103,80 @@ import com.smartgwt.client.widgets.toolbar.ToolStripButton;
 
 public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> implements OperationPresenter.OperationView {
 
-    public static final int                           FAMILY_LIST_MAX_RESULTS = 17;
+    public static final int FAMILY_LIST_MAX_RESULTS = 17;
 
-    private VLayout                                   panel;
+    private VLayout panel;
 
-    private OperationMainFormLayout                   mainFormLayout;
+    private OperationMainFormLayout mainFormLayout;
 
-    private OperationDto                              operationDto;
+    private OperationDto operationDto;
 
     // IDENTIFIERS
-    private GroupDynamicForm                          identifiersForm;
-    private GroupDynamicForm                          identifiersEditionForm;
+    private GroupDynamicForm identifiersForm;
+    private GroupDynamicForm identifiersEditionForm;
 
     // CONTENT CLASSIFIERS
-    private GroupDynamicForm                          contentClassifiersForm;
-    private GroupDynamicForm                          contentClassifiersEditionForm;
+    private GroupDynamicForm contentClassifiersForm;
+    private GroupDynamicForm contentClassifiersEditionForm;
 
     // CONTENT DESCRIPTORS
-    private GroupDynamicForm                          contentViewForm;
-    private GroupDynamicForm                          contentEditionForm;
+    private GroupDynamicForm contentViewForm;
+    private GroupDynamicForm contentEditionForm;
 
     // CLASS DESCRIPTORS
-    private GroupDynamicForm                          classForm;
-    private GroupDynamicForm                          classDescriptorsEditionForm;
-    private CustomSelectItem                          surveyType;
-    private CustomSelectItem                          officialityType;
-    private CustomCheckboxItem                        indSystem;
+    private GroupDynamicForm classForm;
+    private GroupDynamicForm classDescriptorsEditionForm;
+    private CustomSelectItem surveyType;
+    private CustomSelectItem officialityType;
+    private CustomCheckboxItem indSystem;
 
     // PRODUCTION DESCRIPTORS
-    private CustomSelectItem                          technicianInCharge;
-    private CustomSelectItem                          assistantTechnician;
-    private GroupDynamicForm                          productionDescriptorsForm;
-    private GroupDynamicForm                          productionDescriptorsEditionForm;
-    private CustomCheckboxItem                        currentlyActiveItem;
-    private CustomCheckboxItem                        disaggregationBySexItem;
-    private CustomCheckboxItem                        disaggregationByAgeItem;
-    private CustomCheckboxItem                        disaggregationByNationalityItem;
-    private CustomCheckboxItem                        disaggregationByDisabilityItem;
-    private CustomSelectItem                          statusItem;
+    private CustomSelectItem technicianInCharge;
+    private CustomSelectItem assistantTechnician;
+    private GroupDynamicForm productionDescriptorsForm;
+    private GroupDynamicForm productionDescriptorsEditionForm;
+    private CustomCheckboxItem currentlyActiveItem;
+    private CustomCheckboxItem disaggregationBySexItem;
+    private CustomCheckboxItem disaggregationByAgeItem;
+    private CustomCheckboxItem disaggregationByNationalityItem;
+    private CustomCheckboxItem disaggregationByDisabilityItem;
+    private CustomSelectItem statusItem;
 
     // DIFUSSION AND PUBLICATION
-    private GroupDynamicForm                          diffusionForm;
-    private GroupDynamicForm                          diffusionEditionForm;
-    private CustomCheckboxItem                        releaseCalendar;
-    private CustomTextItem                            releaseCalendarAccess;
-    private CustomCheckboxItem                        diffusionAndPublicationVisible;
+    private GroupDynamicForm diffusionForm;
+    private GroupDynamicForm diffusionEditionForm;
+    private CustomCheckboxItem releaseCalendar;
+    private CustomTextItem releaseCalendarAccess;
+    private CustomCheckboxItem diffusionAndPublicationVisible;
 
     // LEGAL ACTS
-    private GroupDynamicForm                          legalActsForm;
-    private GroupDynamicForm                          legalActsEditionForm;
+    private GroupDynamicForm legalActsForm;
+    private GroupDynamicForm legalActsEditionForm;
 
     // ANNOTATIONS
-    private GroupDynamicForm                          annotationsViewForm;
-    private GroupDynamicForm                          annotationsEditionForm;
+    private GroupDynamicForm annotationsViewForm;
+    private GroupDynamicForm annotationsEditionForm;
 
     // INSTANCES
 
-    private ListGridToolStrip                         instanceListGridToolStrip;
-    private CustomListGrid                            instanceListGrid;
-    private InstancesOrderFormLayout                  instancesOrderFormLayout;
+    private ListGridToolStrip instanceListGridToolStrip;
+    private CustomListGrid instanceListGrid;
+    private InstancesOrderFormLayout instancesOrderFormLayout;
     // Instance modal window
-    private ModalWindow                               newInstanceWindow;
-    private NewInstanceForm                           newInstanceForm;
+    private ModalWindow newInstanceWindow;
+    private NewInstanceForm newInstanceForm;
 
     // FAMILIES
 
-    private ToolStrip                                 familiesToolStrip;
-    private ToolStripButton                           editFamiliesToolStripButton;
-    private BaseCustomListGrid                        familyListGrid;
+    private ToolStrip familiesToolStrip;
+    private ToolStripButton editFamiliesToolStripButton;
+    private BaseCustomListGrid familyListGrid;
     private SearchMultipleExternalItemPaginatedWindow windowToAddFamiliesToOperation;
 
-    private List<FamilyBaseDto>                       familyBaseDtos;
+    private List<FamilyBaseDto> familyBaseDtos;
 
-    private List<SurveyTypeDto>                       surveyTypeDtos;
-    private List<OfficialityTypeDto>                  officialityTypeDtos;
+    private List<SurveyTypeDto> surveyTypeDtos;
+    private List<OfficialityTypeDto> officialityTypeDtos;
 
     public OperationViewImpl() {
         super();
@@ -456,7 +456,6 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         operationDto.setDisaggregationByNationality(disaggregationByNationalityItem.getValueAsBoolean());
         operationDto.setDisaggregationByDisability(disaggregationByDisabilityItem.getValueAsBoolean());
 
-
         // DIFFUSION AND PUBLICATION
 
         List<ExternalItemDto> publishers = ((ExternalItemListItem) diffusionEditionForm.getItem(OperationDS.PUBLISHER)).getExternalItemDtos();
@@ -500,8 +499,8 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
 
     @Override
     public boolean validate() {
-        return identifiersEditionForm.validate(false) && productionDescriptorsEditionForm.validate(false) && contentEditionForm.validate(false) && contentClassifiersEditionForm.validate(false)
-                && diffusionEditionForm.validate(false) && classDescriptorsEditionForm.validate(false);
+        return identifiersEditionForm.validate(false) && productionDescriptorsEditionForm.validate(false) && contentEditionForm.validate(false) && contentClassifiersEditionForm.validate(
+                false) && diffusionEditionForm.validate(false) && classDescriptorsEditionForm.validate(false);
     }
 
     @Override
@@ -827,7 +826,8 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         MultiLanguageTextItem genderPerspective = new MultiLanguageTextItem(OperationDS.GENDER_PERSPECTIVE, getConstants().operationGenderPerspective());
 
         productionDescriptorsEditionForm.setFields(technicianInCharge, assistantTechnician, producerItem, regionalResponsibleItem, regionalContributorItem, createdDate, internalInventoryDate,
-                currentlyActiveItem, statusItem, staticProcStatus, procStatus, genderPerspective, disaggregationBySexItem, disaggregationByAgeItem, disaggregationByNationalityItem, disaggregationByDisabilityItem);
+                currentlyActiveItem, statusItem, staticProcStatus, procStatus, genderPerspective, disaggregationBySexItem, disaggregationByAgeItem, disaggregationByNationalityItem,
+                disaggregationByDisabilityItem);
 
         // DIFFUSION AND PUBLICATION
 
@@ -931,6 +931,15 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         productionDescriptorsForm.setValue(OperationDS.INTERNAL_INVENTORY_DATE, operationDto.getInternalInventoryDate());
         productionDescriptorsForm.setValue(OperationDS.CURRENTLY_ACTIVE,
                 (operationDto.getCurrentlyActive() != null && operationDto.getCurrentlyActive()) ? MetamacWebCommon.getConstants().yes() : MetamacWebCommon.getConstants().no());
+        productionDescriptorsForm.setValue(OperationDS.DISAGGREGATION_BY_SEX,
+                (operationDto.getDisaggregationBySex() != null && operationDto.getDisaggregationBySex()) ? MetamacWebCommon.getConstants().yes() : MetamacWebCommon.getConstants().no());
+        productionDescriptorsForm.setValue(OperationDS.DISAGGREGATION_BY_AGE,
+                (operationDto.getDisaggregationByAge() != null && operationDto.getDisaggregationByAge()) ? MetamacWebCommon.getConstants().yes() : MetamacWebCommon.getConstants().no());
+        productionDescriptorsForm.setValue(OperationDS.DISAGGREGATION_BY_DISABILITY,
+                (operationDto.getDisaggregationByDisability() != null && operationDto.getDisaggregationByDisability()) ? MetamacWebCommon.getConstants().yes() : MetamacWebCommon.getConstants().no());
+        productionDescriptorsForm.setValue(OperationDS.DISAGGREGATION_BY_NATIONALITY,
+                (operationDto.getDisaggregationByNationality() != null && operationDto.getDisaggregationByNationality()) ? MetamacWebCommon.getConstants().yes() : MetamacWebCommon.getConstants().no());
+
         productionDescriptorsForm.setValue(OperationDS.STATUS, CommonUtils.getStatusName(operationDto.getStatus()));
         productionDescriptorsForm.setValue(OperationDS.PROC_STATUS, CommonUtils.getProcStatusName(operationDto.getProcStatus()));
         productionDescriptorsForm.setValue(OperationDS.GENDER_PERSPECTIVE, operationDto.getGenderPerspective());
@@ -967,8 +976,9 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         diffusionForm.setValue(OperationDS.INVENTORY_DATE, operationDto.getInventoryDate());
         diffusionForm.setValue(OperationDS.REV_POLICY, operationDto.getRevPolicy());
         diffusionForm.setValue(OperationDS.REV_PRACTICE, operationDto.getRevPractice());
-        diffusionForm.setValue(OperationDS.DIFFUSION_AND_PUBLICATION,
-                (operationDto.getDiffusionAndPublicationVisible() != null && operationDto.getDiffusionAndPublicationVisible()) ? MetamacWebCommon.getConstants().yes() : MetamacWebCommon.getConstants().no());
+        diffusionForm.setValue(OperationDS.DIFFUSION_AND_PUBLICATION, (operationDto.getDiffusionAndPublicationVisible() != null && operationDto.getDiffusionAndPublicationVisible())
+                ? MetamacWebCommon.getConstants().yes()
+                : MetamacWebCommon.getConstants().no());
 
         // LEGAL ACTS
         legalActsForm.setValue(OperationDS.SPECIFIC_LEGAL_ACTS, operationDto.getSpecificLegalActs());
@@ -1165,8 +1175,8 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
 
     private boolean canOperationCodeBeEdited() {
         // Operation code can be edited only when ProcStatus is DRAFT
-        return (productionDescriptorsEditionForm.getValue(OperationDS.PROC_STATUS_VIEW) != null
-                && ProcStatusEnum.DRAFT.toString().equals(productionDescriptorsEditionForm.getValue(OperationDS.PROC_STATUS_VIEW)));
+        return (productionDescriptorsEditionForm.getValue(OperationDS.PROC_STATUS_VIEW) != null && ProcStatusEnum.DRAFT.toString()
+                .equals(productionDescriptorsEditionForm.getValue(OperationDS.PROC_STATUS_VIEW)));
     }
 
     public boolean isOperationInternallyPublished() {

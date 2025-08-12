@@ -103,80 +103,80 @@ import com.smartgwt.client.widgets.toolbar.ToolStripButton;
 
 public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> implements OperationPresenter.OperationView {
 
-    public static final int FAMILY_LIST_MAX_RESULTS = 17;
+    public static final int                           FAMILY_LIST_MAX_RESULTS = 17;
 
-    private VLayout panel;
+    private VLayout                                   panel;
 
-    private OperationMainFormLayout mainFormLayout;
+    private OperationMainFormLayout                   mainFormLayout;
 
-    private OperationDto operationDto;
+    private OperationDto                              operationDto;
 
     // IDENTIFIERS
-    private GroupDynamicForm identifiersForm;
-    private GroupDynamicForm identifiersEditionForm;
+    private GroupDynamicForm                          identifiersForm;
+    private GroupDynamicForm                          identifiersEditionForm;
 
     // CONTENT CLASSIFIERS
-    private GroupDynamicForm contentClassifiersForm;
-    private GroupDynamicForm contentClassifiersEditionForm;
+    private GroupDynamicForm                          contentClassifiersForm;
+    private GroupDynamicForm                          contentClassifiersEditionForm;
 
     // CONTENT DESCRIPTORS
-    private GroupDynamicForm contentViewForm;
-    private GroupDynamicForm contentEditionForm;
+    private GroupDynamicForm                          contentViewForm;
+    private GroupDynamicForm                          contentEditionForm;
 
     // CLASS DESCRIPTORS
-    private GroupDynamicForm classForm;
-    private GroupDynamicForm classDescriptorsEditionForm;
-    private CustomSelectItem surveyType;
-    private CustomSelectItem officialityType;
-    private CustomCheckboxItem indSystem;
+    private GroupDynamicForm                          classForm;
+    private GroupDynamicForm                          classDescriptorsEditionForm;
+    private CustomSelectItem                          surveyType;
+    private CustomSelectItem                          officialityType;
+    private CustomCheckboxItem                        indSystem;
 
     // PRODUCTION DESCRIPTORS
-    private CustomSelectItem technicianInCharge;
-    private CustomSelectItem assistantTechnician;
-    private GroupDynamicForm productionDescriptorsForm;
-    private GroupDynamicForm productionDescriptorsEditionForm;
-    private CustomCheckboxItem currentlyActiveItem;
-    private CustomCheckboxItem disaggregationBySexItem;
-    private CustomCheckboxItem disaggregationByAgeItem;
-    private CustomCheckboxItem disaggregationByNationalityItem;
-    private CustomCheckboxItem disaggregationByDisabilityItem;
-    private CustomSelectItem statusItem;
+    private CustomSelectItem                          technicianInCharge;
+    private CustomSelectItem                          assistantTechnician;
+    private GroupDynamicForm                          productionDescriptorsForm;
+    private GroupDynamicForm                          productionDescriptorsEditionForm;
+    private CustomCheckboxItem                        currentlyActiveItem;
+    private CustomCheckboxItem                        disaggregationBySexItem;
+    private CustomCheckboxItem                        disaggregationByAgeItem;
+    private CustomCheckboxItem                        disaggregationByNationalityItem;
+    private CustomCheckboxItem                        disaggregationByDisabilityItem;
+    private CustomSelectItem                          statusItem;
 
     // DIFUSSION AND PUBLICATION
-    private GroupDynamicForm diffusionForm;
-    private GroupDynamicForm diffusionEditionForm;
-    private CustomCheckboxItem releaseCalendar;
-    private CustomTextItem releaseCalendarAccess;
-    private CustomCheckboxItem diffusionAndPublicationVisible;
+    private GroupDynamicForm                          diffusionForm;
+    private GroupDynamicForm                          diffusionEditionForm;
+    private CustomCheckboxItem                        releaseCalendar;
+    private CustomTextItem                            releaseCalendarAccess;
+    private CustomCheckboxItem                        diffusionAndPublicationVisible;
 
     // LEGAL ACTS
-    private GroupDynamicForm legalActsForm;
-    private GroupDynamicForm legalActsEditionForm;
+    private GroupDynamicForm                          legalActsForm;
+    private GroupDynamicForm                          legalActsEditionForm;
 
     // ANNOTATIONS
-    private GroupDynamicForm annotationsViewForm;
-    private GroupDynamicForm annotationsEditionForm;
+    private GroupDynamicForm                          annotationsViewForm;
+    private GroupDynamicForm                          annotationsEditionForm;
 
     // INSTANCES
 
-    private ListGridToolStrip instanceListGridToolStrip;
-    private CustomListGrid instanceListGrid;
-    private InstancesOrderFormLayout instancesOrderFormLayout;
+    private ListGridToolStrip                         instanceListGridToolStrip;
+    private CustomListGrid                            instanceListGrid;
+    private InstancesOrderFormLayout                  instancesOrderFormLayout;
     // Instance modal window
-    private ModalWindow newInstanceWindow;
-    private NewInstanceForm newInstanceForm;
+    private ModalWindow                               newInstanceWindow;
+    private NewInstanceForm                           newInstanceForm;
 
     // FAMILIES
 
-    private ToolStrip familiesToolStrip;
-    private ToolStripButton editFamiliesToolStripButton;
-    private BaseCustomListGrid familyListGrid;
+    private ToolStrip                                 familiesToolStrip;
+    private ToolStripButton                           editFamiliesToolStripButton;
+    private BaseCustomListGrid                        familyListGrid;
     private SearchMultipleExternalItemPaginatedWindow windowToAddFamiliesToOperation;
 
-    private List<FamilyBaseDto> familyBaseDtos;
+    private List<FamilyBaseDto>                       familyBaseDtos;
 
-    private List<SurveyTypeDto> surveyTypeDtos;
-    private List<OfficialityTypeDto> officialityTypeDtos;
+    private List<SurveyTypeDto>                       surveyTypeDtos;
+    private List<OfficialityTypeDto>                  officialityTypeDtos;
 
     public OperationViewImpl() {
         super();

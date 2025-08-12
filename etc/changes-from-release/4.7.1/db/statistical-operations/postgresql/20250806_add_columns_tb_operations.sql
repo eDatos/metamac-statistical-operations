@@ -10,3 +10,5 @@ ALTER TABLE TB_OPERATIONS
     ADD COLUMN disaggregation_by_age BOOLEAN NULL,
     ADD COLUMN disaggregation_by_nationality BOOLEAN NULL,
     ADD COLUMN disaggregation_by_disability BOOLEAN NULL;
+
+commit;

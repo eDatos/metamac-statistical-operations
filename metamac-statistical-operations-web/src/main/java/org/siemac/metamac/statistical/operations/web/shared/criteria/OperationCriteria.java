@@ -8,9 +8,6 @@ import org.siemac.metamac.statistical.operations.web.client.operation.presenter.
 import org.siemac.metamac.web.common.client.constants.CommonWebConstants;
 import org.siemac.metamac.web.common.shared.criteria.PaginationWebCriteria;
 
-import es.gobcan.istac.indicators.core.enume.domain.IndicatorProcStatusEnum;
-import es.gobcan.istac.indicators.web.client.utils.IndicatorsWebConstants;
-
 public class OperationCriteria extends PaginationWebCriteria {
 
     private static final long          serialVersionUID = -6655051147299387214L;
@@ -49,12 +46,4 @@ public class OperationCriteria extends PaginationWebCriteria {
         this.orders = orders;
     }
 
-
-    public String getCategoryElementCode() {
-        return categoryElementCode;
-    }
-
-    public void setCategoryElementCode(String categoryElementCode) {
-        this.categoryElementCode = categoryElementCode;
-    }
 }

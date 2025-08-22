@@ -1,5 +1,6 @@
 package org.siemac.metamac.statistical.operations.web.client.utils;
 
+import static org.siemac.metamac.statistical.operations.web.client.OperationsWeb.getConstants;
 import static org.siemac.metamac.statistical.operations.web.client.OperationsWeb.getCoreMessages;
 
 import java.util.ArrayList;
@@ -7,6 +8,7 @@ import java.util.EnumMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.siemac.metamac.core.common.criteria.shared.MetamacCriteriaOrder.OrderTypeEnum;
 import org.siemac.metamac.core.common.dto.ExternalItemDto;
 import org.siemac.metamac.core.common.util.shared.StringUtils;
 import org.siemac.metamac.statistical.operations.core.dto.FamilyBaseDto;
@@ -18,6 +20,7 @@ import org.siemac.metamac.statistical.operations.core.enume.domain.StatusEnum;
 import org.siemac.metamac.statistical.operations.core.enume.domain.StreamMessageStatusEnum;
 import org.siemac.metamac.statistical.operations.web.client.OperationsWeb;
 import org.siemac.metamac.statistical.operations.web.client.constants.StatisticalOperationsWebConstants;
+import org.siemac.metamac.web.common.client.MetamacWebCommon;
 import org.siemac.metamac.web.common.client.resources.GlobalResources;
 import org.siemac.metamac.web.common.shared.utils.SharedTokens;
 
@@ -210,5 +213,25 @@ public class CommonUtils {
     private static native void downloadUrl(String url) /*-{
 		$wnd.location = url;
     }-*/;
+
+    public static LinkedHashMap<String, String> getYesOrNoValueMap() {
+        LinkedHashMap<String, String> valueMap = new LinkedHashMap<String, String>();
+        valueMap.put(StringUtils.EMPTY, StringUtils.EMPTY);
+        valueMap.put(Boolean.TRUE.toString(), MetamacWebCommon.getConstants().yes());
+        valueMap.put(Boolean.FALSE.toString(), MetamacWebCommon.getConstants().no());
+        return valueMap;
+    }
+
+    public static LinkedHashMap<String, String> getOrderTypeValueMap() {
+        LinkedHashMap<String, String> valueMap = new LinkedHashMap<String, String>();
+        valueMap.put(OrderTypeEnum.ASC.name(), getConstants().orderASC());
+        valueMap.put(OrderTypeEnum.DESC.name(), getConstants().orderDESC());
+        return valueMap;
+    }
+
+    public static OrderTypeEnum getOrderTypeEnum(String value) {
+        return OrderTypeEnum.valueOf(value);
+    }
+
 
 }

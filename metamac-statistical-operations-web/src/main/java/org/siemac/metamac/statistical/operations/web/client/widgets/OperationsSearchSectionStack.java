@@ -1,16 +1,22 @@
 package org.siemac.metamac.statistical.operations.web.client.widgets;
 
-import org.siemac.metamac.core.common.dto.ExternalItemDto;
+import static org.siemac.metamac.statistical.operations.web.client.OperationsWeb.getConstants;
+
+import org.siemac.metamac.core.common.criteria.shared.MetamacCriteriaOrder;
 import org.siemac.metamac.core.common.util.shared.StringUtils;
 import org.siemac.metamac.statistical.operations.web.client.model.ds.InstanceDS;
 import org.siemac.metamac.statistical.operations.web.client.operation.view.handlers.OperationListUiHandlers;
+import org.siemac.metamac.statistical.operations.web.client.utils.CommonUtils;
 import org.siemac.metamac.statistical.operations.web.shared.criteria.OperationCriteria;
 import org.siemac.metamac.web.common.client.MetamacWebCommon;
 import org.siemac.metamac.web.common.client.widgets.BaseAdvancedSearchSectionStack;
 import org.siemac.metamac.web.common.client.widgets.form.GroupDynamicForm;
 import org.siemac.metamac.web.common.client.widgets.form.fields.CustomButtonItem;
 
+import com.smartgwt.client.widgets.form.DynamicForm;
+import com.smartgwt.client.widgets.form.FormItemIfFunction;
 import com.smartgwt.client.widgets.form.fields.FormItem;
+import com.smartgwt.client.widgets.form.fields.SelectItem;
 import com.smartgwt.client.widgets.form.fields.TextItem;
 import com.smartgwt.client.widgets.form.fields.events.ClickEvent;
 import com.smartgwt.client.widgets.form.fields.events.ClickHandler;
@@ -30,7 +36,8 @@ public class OperationsSearchSectionStack extends BaseAdvancedSearchSectionStack
         advancedSearchForm.setPadding(5);
         advancedSearchForm.setMargin(5);
         advancedSearchForm.setVisible(false);
-        TextItem title = new TextItem();
+        TextItem title = new TextItem(InstanceDS.TITLE, "titulo");
+        TextItem code = new TextItem(InstanceDS.CODE, "codigo");
 
 //        TextItem title = new TextItem(IndicatorDS.TITLE, getConstants().indicDetailTitle());
 //        categoryElementSelectItem = new CategoryElementSelectItem(advancedSearchForm, true, null);
@@ -45,16 +52,16 @@ public class OperationsSearchSectionStack extends BaseAdvancedSearchSectionStack
 //        orderBy.setWidth(200);
 //        orderBy.addChangedHandler(FormItemUtils.getMarkForRedrawChangedHandler(advancedSearchForm));
 //
-//        SelectItem orderType = new SelectItem(IndicatorDS.ORDER_TYPE, getConstants().orderType());
-//        orderType.setValueMap(CommonUtils.getOrderTypeValueMap());
-//        orderType.setDefaultValue(OrderTypeEnum.ASC.name());
-//        orderType.setShowIfCondition(new FormItemIfFunction() {
-//
-//            @Override
-//            public boolean execute(FormItem item, Object value, DynamicForm form) {
-//                return !StringUtils.isBlank(form.getValueAsString(IndicatorDS.ORDER_BY));
-//            }
-//        });
+        SelectItem orderType = new SelectItem(InstanceDS.ORDER, getConstants().instanceOrder());
+        orderType.setValueMap(CommonUtils.getOrderTypeValueMap());
+        orderType.setDefaultValue(MetamacCriteriaOrder.OrderTypeEnum.ASC.name());
+        orderType.setShowIfCondition(new FormItemIfFunction() {
+
+            @Override
+            public boolean execute(FormItem item, Object value, DynamicForm form) {
+                return !StringUtils.isBlank(form.getValueAsString(InstanceDS.ORDER));
+            }
+        });
 //
         CustomButtonItem searchItem = new CustomButtonItem(ADVANCED_SEARCH_ITEM_NAME, MetamacWebCommon.getConstants().search());
         searchItem.setColSpan(4);
@@ -65,22 +72,27 @@ public class OperationsSearchSectionStack extends BaseAdvancedSearchSectionStack
                 retrieveResources();
             }
         });
-//
-//        SelectItem notifyPopulationErrors = new SelectItem(IndicatorDS.NOTIFY_POPULATION_ERRORS, getConstants().indicDetailNotifyPopulationErrors());
-//        notifyPopulationErrors.setValueMap(CommonUtils.getIndicatorNotifyPopulationErrorsValueMap());
-//        notifyPopulationErrors.setWidth(200);
-//
-//        SelectItem mainIndicator = new SelectItem(IndicatorDS.MAIN_INDICATOR, getConstants().indicatorMain());
-//        mainIndicator.setValueMap(CommonUtils.getYesOrNoValueMap());
 
-        FormItem[] advancedSearchFormItems = new FormItem[]{title, searchItem};
+
+        SelectItem disaggregationBySex = new SelectItem(InstanceDS.DISAGGREGATION_BY_SEX, getConstants().operationDisaggregationBySex());
+        disaggregationBySex.setValueMap(CommonUtils.getYesOrNoValueMap());
+
+        SelectItem disaggregationByAge = new SelectItem(InstanceDS.DISAGGREGATION_BY_AGE, getConstants().operationDisaggregationByAge());
+        disaggregationByAge.setValueMap(CommonUtils.getYesOrNoValueMap());
+
+        SelectItem disaggregationByNationality = new SelectItem(InstanceDS.DISAGGREGATION_BY_NATIONALITY, getConstants().operationDisaggregationByNationality());
+        disaggregationByNationality.setValueMap(CommonUtils.getYesOrNoValueMap());
+
+        SelectItem disaggregationByDisability = new SelectItem(InstanceDS.DISAGGREGATION_BY_DISABILITY, getConstants().operationDisaggregationByDisability());
+        disaggregationByDisability.setValueMap(CommonUtils.getYesOrNoValueMap());
+
+        FormItem[] advancedSearchFormItems = new FormItem[]{code, title, disaggregationBySex, disaggregationByAge, disaggregationByNationality, disaggregationByDisability, searchItem};
         setFormItemsInAdvancedSearchForm(advancedSearchFormItems);
     }
 
     @Override
     protected void retrieveResources() {
-        getUiHandlers().retrieveOperationList(getSearchCriteria());
-//        getUiHandlers().retrieveOperationList(getIndicatorCriteria());
+        //getUiHandlers().retrieveOperationList(getSearchCriteria().toString());
     }
 
     @Override

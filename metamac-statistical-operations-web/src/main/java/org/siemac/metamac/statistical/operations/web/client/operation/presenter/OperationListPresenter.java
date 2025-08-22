@@ -27,7 +27,6 @@ import org.siemac.metamac.statistical.operations.web.shared.GetOperationPaginate
 import org.siemac.metamac.statistical.operations.web.shared.GetOperationPaginatedListResult;
 import org.siemac.metamac.statistical.operations.web.shared.SaveOperationAction;
 import org.siemac.metamac.statistical.operations.web.shared.SaveOperationResult;
-import org.siemac.metamac.statistical.operations.web.shared.criteria.OperationCriteria;
 import org.siemac.metamac.statistical.operations.web.shared.external.GetExternalResourcesAction;
 import org.siemac.metamac.statistical.operations.web.shared.external.GetExternalResourcesResult;
 import org.siemac.metamac.statistical.operations.web.shared.external.RestWebCriteriaUtils;
@@ -217,7 +216,7 @@ public class OperationListPresenter extends Presenter<OperationListPresenter.Ope
     }
 
     @Override
-    public void exportOperationsTsv(OperationCriteria operation) {
+    public void exportOperationsTsv(String operation) {
         //TODO:5174 Cambiar tipo de dato en ExportOperationListAction
         dispatcher.execute(new ExportOperationListAction(operation), new WaitingAsyncCallbackHandlingError<ExportOperationListResult>(this) {
 

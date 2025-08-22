@@ -3,7 +3,6 @@ package org.siemac.metamac.statistical.operations.web.client.operation.view;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.siemac.metamac.core.common.util.shared.StringUtils;
 import org.siemac.metamac.statistical.operations.core.dto.OperationBaseDto;
 import org.siemac.metamac.statistical.operations.core.dto.OperationDto;
 import org.siemac.metamac.statistical.operations.web.client.OperationsWeb;
@@ -18,10 +17,8 @@ import org.siemac.metamac.statistical.operations.web.client.widgets.ListGridTool
 import org.siemac.metamac.statistical.operations.web.client.widgets.ModalWindow;
 import org.siemac.metamac.statistical.operations.web.client.widgets.NewOperationForm;
 import org.siemac.metamac.statistical.operations.web.client.widgets.OperationsSearchSectionStack;
-import org.siemac.metamac.statistical.operations.web.shared.criteria.OperationCriteria;
 import org.siemac.metamac.web.common.client.constants.CommonWebConstants;
 import org.siemac.metamac.web.common.client.widgets.PaginatedCheckListGrid;
-import org.siemac.metamac.web.common.client.widgets.SearchSectionStack;
 import org.siemac.metamac.web.common.client.widgets.actions.PaginatedAction;
 import org.siemac.metamac.web.common.shared.domain.ExternalItemsResult;
 
@@ -30,11 +27,7 @@ import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.ViewWithUiHandlers;
 import com.smartgwt.client.types.Visibility;
 import com.smartgwt.client.widgets.Canvas;
-import com.smartgwt.client.widgets.form.fields.events.FormItemClickHandler;
-import com.smartgwt.client.widgets.form.fields.events.FormItemIconClickEvent;
 import com.smartgwt.client.widgets.form.fields.events.HasClickHandlers;
-import com.smartgwt.client.widgets.form.fields.events.KeyPressEvent;
-import com.smartgwt.client.widgets.form.fields.events.KeyPressHandler;
 import com.smartgwt.client.widgets.grid.ListGridRecord;
 import com.smartgwt.client.widgets.grid.events.HasRecordClickHandlers;
 import com.smartgwt.client.widgets.grid.events.SelectionChangedHandler;
@@ -110,7 +103,8 @@ public class OperationListViewImpl extends ViewWithUiHandlers<OperationListUiHan
 
             @Override
             public void onClick(com.smartgwt.client.widgets.events.ClickEvent event) {
-                getUiHandlers().exportOperationsTsv(searchSectionStack.getSearchCriteria());
+                //TODO:5174 corregir la exportacion
+                getUiHandlers().exportOperationsTsv("searchSectionStack.getSearchCriteria()");
             }
         });
 
@@ -307,8 +301,9 @@ public class OperationListViewImpl extends ViewWithUiHandlers<OperationListUiHan
     }
 
     @Override
-    public OperationCriteria getOperationCriteria() {
-        return searchSectionStack.getSearchCriteria();
+    public String getOperationCriteria() {
+        //TODO:5174 //return searchSectionStack.getSearchCriteria();
+        return null;
     }
 
     // ------------------------------------------------------------------------------------------------------------

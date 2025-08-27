@@ -17,6 +17,7 @@ import org.siemac.metamac.statistical.operations.web.client.widgets.ListGridTool
 import org.siemac.metamac.statistical.operations.web.client.widgets.ModalWindow;
 import org.siemac.metamac.statistical.operations.web.client.widgets.NewOperationForm;
 import org.siemac.metamac.statistical.operations.web.client.widgets.OperationsSearchSectionStack;
+import org.siemac.metamac.statistical.operations.web.shared.criteria.OperationCriteria;
 import org.siemac.metamac.web.common.client.constants.CommonWebConstants;
 import org.siemac.metamac.web.common.client.widgets.PaginatedCheckListGrid;
 import org.siemac.metamac.web.common.client.widgets.actions.PaginatedAction;
@@ -80,30 +81,13 @@ public class OperationListViewImpl extends ViewWithUiHandlers<OperationListUiHan
 
         searchSectionStack = new OperationsSearchSectionStack();
 
-//TODO:CRISTO REMOVE EDATOS 5174
-//        searchSectionStack.getSearchIcon().addFormItemClickHandler(new FormItemClickHandler() {
-//
-//            @Override
-//            public void onFormItemClick(FormItemIconClickEvent event) {
-//                getUiHandlers().retrieveOperationList(OperationListPresenter.OPERATION_LIST_FIRST_RESULT, CommonWebConstants.MAIN_LIST_MAX_RESULTS, searchSectionStack.getSearchCriteria());
-//            }
-//        });
-//        searchSectionStack.addSearchItemKeyPressHandler(new KeyPressHandler() {
-//
-//            @Override
-//            public void onKeyPress(KeyPressEvent event) {
-//                if (StringUtils.equals(event.getKeyName(), CommonWebConstants.ENTER_KEY)) {
-//                    getUiHandlers().retrieveOperationList(OperationListPresenter.OPERATION_LIST_FIRST_RESULT, CommonWebConstants.MAIN_LIST_MAX_RESULTS, searchSectionStack.getSearchCriteria());
-//                }
-//            }
-//        });
 
         // Export TSV search
         listGridToolStrip.getExportTsvButton().addClickHandler(new com.smartgwt.client.widgets.events.ClickHandler() {
 
             @Override
             public void onClick(com.smartgwt.client.widgets.events.ClickEvent event) {
-                //TODO:5174 corregir la exportacion
+                //FIXME :5174 corregir la exportacion
                 getUiHandlers().exportOperationsTsv("searchSectionStack.getSearchCriteria()");
             }
         });
@@ -297,13 +281,12 @@ public class OperationListViewImpl extends ViewWithUiHandlers<OperationListUiHan
 
     @Override
     public void clearSearchSection() {
-        //TODO:5174 - searchSectionStack.reset();
+        searchSectionStack.clearSearchSection();
     }
 
     @Override
-    public String getOperationCriteria() {
-        //TODO:5174 //return searchSectionStack.getSearchCriteria();
-        return null;
+    public OperationCriteria getOperationCriteria() {
+        return searchSectionStack.getSearchCriteria();
     }
 
     // ------------------------------------------------------------------------------------------------------------

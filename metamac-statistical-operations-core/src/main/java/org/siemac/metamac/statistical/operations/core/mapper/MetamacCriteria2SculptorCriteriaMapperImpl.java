@@ -147,7 +147,17 @@ public class MetamacCriteria2SculptorCriteriaMapperImpl implements MetamacCriter
                 case ASSISTANT_TECHNICIAN:
                     return new SculptorPropertyCriteria(OperationProperties.assistantTechnician(), propertyRestriction.getStringValue(), propertyRestriction.getOperationType());
                 case STATISTIC_PLAN_CODE:
-                    return new SculptorPropertyCriteria(OperationProperties.statisticPlanCode(), propertyRestriction.getStringValue(), propertyRestriction.getOperationType());
+                    return new SculptorPropertyCriteria(OperationProperties.statisticPlanCode(), propertyRestriction.getEnumValue(), propertyRestriction.getOperationType());
+                case STATUS:
+                    return new SculptorPropertyCriteria(OperationProperties.status(), propertyRestriction.getEnumValue(), propertyRestriction.getOperationType());
+                case DISAGGREGATION_BY_SEX:
+                    return new SculptorPropertyCriteria(OperationProperties.disaggregationBySex(), propertyRestriction.getBooleanValue(), propertyRestriction.getOperationType());
+                case DISAGGREGATION_BY_AGE:
+                    return new SculptorPropertyCriteria(OperationProperties.disaggregationByAge(), propertyRestriction.getBooleanValue(), propertyRestriction.getOperationType());
+                case DISAGGREGATION_BY_NATIONALITY:
+                    return new SculptorPropertyCriteria(OperationProperties.disaggregationByNationality(), propertyRestriction.getBooleanValue(), propertyRestriction.getOperationType());
+                case DISAGGREGATION_BY_DISABILITY:
+                    return new SculptorPropertyCriteria(OperationProperties.disaggregationByDisability(), propertyRestriction.getBooleanValue(), propertyRestriction.getOperationType());
                 default:
                     throw new MetamacException(ServiceExceptionType.PARAMETER_INCORRECT, propertyRestriction.getPropertyName());
             }

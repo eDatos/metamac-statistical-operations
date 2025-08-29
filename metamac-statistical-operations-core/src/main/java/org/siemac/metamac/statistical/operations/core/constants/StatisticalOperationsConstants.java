@@ -37,6 +37,11 @@ public class StatisticalOperationsConstants {
 
     public static final String TSV_HEADER_GENDER_PERSPECTIVE             = "gender_perspective";
 
+    public static final String TSV_HEADER_DISAGGREGATION_BY_SEX                 = "disaggregation_by_sex";
+    public static final String TSV_HEADER_DISAGGREGATION_BY_AGE                 = "disaggregation_by_age";
+    public static final String TSV_HEADER_DISAGGREGATION_BY_NATIONALITY         = "disaggregation_by_nationality";
+    public static final String TSV_HEADER_DISAGGREGATION_BY_DISABILITY          = "disaggregation_by_disability";
+
     public static final String TSV_HEADER_PUBLISHER                      = "publisher";
     public static final String TSV_HEADER_COMMON_METADATA                = "common_metadata";
     public static final String TSV_HEADER_REL_POL_US_AC                  = "rel_pol_us_ac";

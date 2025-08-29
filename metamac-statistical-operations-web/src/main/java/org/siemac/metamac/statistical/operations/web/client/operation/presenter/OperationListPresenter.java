@@ -217,7 +217,7 @@ public class OperationListPresenter extends Presenter<OperationListPresenter.Ope
     }
 
     @Override
-    public void exportOperationsTsv(String operation) {
+    public void exportOperationsTsv(OperationCriteria operation) {
         dispatcher.execute(new ExportOperationListAction(operation), new WaitingAsyncCallbackHandlingError<ExportOperationListResult>(this) {
 
             @Override

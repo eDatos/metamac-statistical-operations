@@ -14,7 +14,6 @@ import org.siemac.metamac.statistical.operations.core.criteria.FamilyCriteriaPro
 import org.siemac.metamac.statistical.operations.core.criteria.OperationCriteriaOrderEnum;
 import org.siemac.metamac.statistical.operations.core.criteria.OperationCriteriaPropertyEnum;
 import org.siemac.metamac.statistical.operations.core.enume.domain.StatusEnum;
-import org.siemac.metamac.statistical.operations.web.shared.GetOperationPaginatedListAction;
 import org.siemac.metamac.statistical.operations.web.shared.criteria.OperationCriteria;
 
 public class HandlersCriteriaUtils {
@@ -38,20 +37,8 @@ public class HandlersCriteriaUtils {
         criteria.setOrdersBy(criteriaOrders);
     }
 
-    public static void defaultCriteriaDisjunctionRestrictionOperations(MetamacCriteria criteria, String operation) {
-        MetamacCriteriaDisjunctionRestriction disjuction = new MetamacCriteriaDisjunctionRestriction();
-        if (!StringUtils.isBlank(operation)) {
-            // @formatter:off
-            disjuction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.CODE.name(), operation, MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
-            disjuction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.TITLE.name(), operation, MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
-            disjuction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.DESCRIPTION.name(), operation, MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
-            disjuction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.ACRONYM.name(), operation, MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
-            disjuction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.TECHNICIAN_IN_CHARGE.name(), operation, MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
-            disjuction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.ASSISTANT_TECHNICIAN.name(), operation, MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
-            disjuction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.STATISTIC_PLAN_CODE.name(), operation, MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
-            // @formatter:on
-        }
-        criteria.setRestriction(disjuction);
+    public static void defaultCriteriaDisjunctionRestrictionOperations(MetamacCriteria criteria, OperationCriteria operation) {
+        buildMetamacCriteriaFromOperationCriteria(criteria, operation, operation.getCriteria());
     }
 
     public static void defaultCriteriaDisjunctionRestrictionFamily(MetamacCriteria criteria, String family) {
@@ -65,11 +52,9 @@ public class HandlersCriteriaUtils {
         criteria.setRestriction(disjuction);
     }
 
-    public static void buildMetamacCriteriaFromOperationCriteria(MetamacCriteria criteria, GetOperationPaginatedListAction action) {
+    public static void buildMetamacCriteriaFromOperationCriteria(MetamacCriteria criteria, OperationCriteria operationCriteria, String operation) {
         MetamacCriteriaDisjunctionRestriction disjuction = new MetamacCriteriaDisjunctionRestriction();
 
-        OperationCriteria operationCriteria = action.getOperation();
-        String operation = operationCriteria.getCriteria();
         if (!StringUtils.isBlank(operation)) {
             // @formatter:off
             disjuction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.CODE.name(), operation, MetamacCriteriaPropertyRestriction.OperationType.ILIKE));

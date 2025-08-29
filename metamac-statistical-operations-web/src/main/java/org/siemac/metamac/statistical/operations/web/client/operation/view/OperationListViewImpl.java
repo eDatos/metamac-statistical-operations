@@ -88,7 +88,7 @@ public class OperationListViewImpl extends ViewWithUiHandlers<OperationListUiHan
             @Override
             public void onClick(com.smartgwt.client.widgets.events.ClickEvent event) {
                 //FIXME :5174 corregir la exportacion
-                getUiHandlers().exportOperationsTsv("searchSectionStack.getSearchCriteria()");
+                getUiHandlers().exportOperationsTsv(searchSectionStack.getSearchCriteria());
             }
         });
 

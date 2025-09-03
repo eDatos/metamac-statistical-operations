@@ -382,10 +382,10 @@ Application StatisticalOperations {
 			DateTimeTZ internalInventoryDate nullable;
 			"Metadata CURRENTLY_ACTIVE"
 			Boolean currentlyActive;
-			Boolean disaggregationBySex;
-            Boolean disaggregationByAge;
-            Boolean disaggregationByNationality;
-            Boolean disaggregationByDisability;
+			Boolean disaggregationBySex nullable;
+            Boolean disaggregationByAge nullable;
+            Boolean disaggregationByNationality nullable;
+            Boolean disaggregationByDisability nullable;
        		"Metadata PROC_STATUS"
        		- @ProcStatusEnum procStatus not nullable;
        		"Metadata STATUS"

@@ -147,7 +147,7 @@ public class MetamacCriteria2SculptorCriteriaMapperImpl implements MetamacCriter
                 case ASSISTANT_TECHNICIAN:
                     return new SculptorPropertyCriteria(OperationProperties.assistantTechnician(), propertyRestriction.getStringValue(), propertyRestriction.getOperationType());
                 case STATISTIC_PLAN_CODE:
-                    return new SculptorPropertyCriteria(OperationProperties.statisticPlanCode(), propertyRestriction.getEnumValue(), propertyRestriction.getOperationType());
+                    return new SculptorPropertyCriteria(OperationProperties.statisticPlanCode(), propertyRestriction.getStringValue(), propertyRestriction.getOperationType());
                 case STATUS:
                     return new SculptorPropertyCriteria(OperationProperties.status(), propertyRestriction.getEnumValue(), propertyRestriction.getOperationType());
                 case DISAGGREGATION_BY_SEX:

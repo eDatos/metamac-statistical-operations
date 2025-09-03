@@ -95,10 +95,10 @@ Application StatisticalOperationsDto {
             - Set<@ExternalItemDto> regionalContributor;
             JAVADATE internalInventoryDate nullable;
             Boolean currentlyActive;
-            Boolean disaggregationBySex;
-            Boolean disaggregationByAge;
-            Boolean disaggregationByNationality;
-            Boolean disaggregationByDisability;
+            Boolean disaggregationBySex nullable;
+            Boolean disaggregationByAge nullable;
+            Boolean disaggregationByNationality nullable;
+            Boolean disaggregationByDisability nullable;
             - @ProcStatusEnum procStatus not nullable;
             - @StatusEnum status not nullable;
 
@@ -150,10 +150,10 @@ Application StatisticalOperationsDto {
             - @SurveyTypeDto surveyType nullable;
             - @OfficialityTypeDto officialityType nullable;
             Boolean currentlyActive;
-            Boolean disaggregationBySex;
-            Boolean disaggregationByAge;
-            Boolean disaggregationByNationality;
-            Boolean disaggregationByDisability;
+            Boolean disaggregationBySex nullable;
+            Boolean disaggregationByAge nullable;
+            Boolean disaggregationByNationality nullable;
+            Boolean disaggregationByDisability nullable;
             - @StatusEnum status nullable;
             
             JAVADATE internalInventoryDate nullable;

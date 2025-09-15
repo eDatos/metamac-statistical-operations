@@ -886,6 +886,8 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
             return null;
         }
         switch (source) {
+            case PRE_PLANNING:
+                return org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Status.PRE_PLANNING;
             case PLANNING:
                 return org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Status.PLANNING;
             case DESIGN:

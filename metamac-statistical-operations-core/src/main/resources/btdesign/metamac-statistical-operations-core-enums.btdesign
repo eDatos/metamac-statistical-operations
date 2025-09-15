@@ -14,6 +14,7 @@ Application StatisticalOperationsEnums {
     	
     	"Status Enum is used to specify the statistical state of the survey"
     	enum StatusEnum {
+    	    PRE_PLANNING,
     		PLANNING,
     		DESIGN,
     		PRODUCTION,

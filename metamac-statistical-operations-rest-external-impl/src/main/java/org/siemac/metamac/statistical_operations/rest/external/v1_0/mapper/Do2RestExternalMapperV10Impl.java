@@ -839,6 +839,8 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
             return null;
         }
         switch (source) {
+            case PRE_PLANNING:
+                return org.siemac.metamac.rest.statistical_operations.v1_0.domain.Status.PRE_PLANNING;
             case PLANNING:
                 return org.siemac.metamac.rest.statistical_operations.v1_0.domain.Status.PLANNING;
             case DESIGN:

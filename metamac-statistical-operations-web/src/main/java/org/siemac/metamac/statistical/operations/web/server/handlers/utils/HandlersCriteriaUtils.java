@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.siemac.metamac.core.common.criteria.MetamacCriteria;
+import org.siemac.metamac.core.common.criteria.MetamacCriteriaConjunctionRestriction;
 import org.siemac.metamac.core.common.criteria.MetamacCriteriaDisjunctionRestriction;
 import org.siemac.metamac.core.common.criteria.MetamacCriteriaPaginator;
 import org.siemac.metamac.core.common.criteria.MetamacCriteriaPropertyRestriction;
@@ -53,7 +54,7 @@ public class HandlersCriteriaUtils {
     }
 
     public static void buildMetamacCriteriaFromOperationCriteria(MetamacCriteria criteria, OperationCriteria operationCriteria, String operation) {
-        MetamacCriteriaDisjunctionRestriction disjuction = new MetamacCriteriaDisjunctionRestriction();
+        MetamacCriteriaConjunctionRestriction disjuction = new MetamacCriteriaConjunctionRestriction();
 
         if (!StringUtils.isBlank(operation)) {
             // @formatter:off
@@ -77,7 +78,7 @@ public class HandlersCriteriaUtils {
         criteria.setRestriction(disjuction);
     }
 
-    private static void addRestrictionIfExists(MetamacCriteriaDisjunctionRestriction criteria, MetamacCriteriaRestriction restriction) {
+    private static void addRestrictionIfExists(MetamacCriteriaConjunctionRestriction criteria, MetamacCriteriaRestriction restriction) {
         if (restriction != null) {
             criteria.getRestrictions().add(restriction);
         }

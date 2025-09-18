@@ -94,60 +94,60 @@
             <operations:managementAppLink>http://localhost:8080/metamac-srm-web/producers/producer1</operations:managementAppLink>
         </operations:producer>
     </operations:producers>
-    <operations:regionalResponsibles kind="structuralResources#organisationUnits" total="3">
-        <operations:regionalResponsible kind="structuralResources#agency">
-            <cdomain:id>regionalResponsible22</cdomain:id>
-            <cdomain:nestedId>regionalResponsible22Nested</cdomain:nestedId>
-            <cdomain:urn>urn:regionalResponsible22</cdomain:urn>
-            <cdomain:selfLink kind="structuralResources#agency" href="http://data.istac.es/apis/structural-resources-internal/v1.0/regionalResponsibles/regionalResponsible22"/>
+    <operations:responsibles kind="structuralResources#organisationUnits" total="3">
+        <operations:responsible kind="structuralResources#agency">
+            <cdomain:id>responsible22</cdomain:id>
+            <cdomain:nestedId>responsible22Nested</cdomain:nestedId>
+            <cdomain:urn>urn:responsible22</cdomain:urn>
+            <cdomain:selfLink kind="structuralResources#agency" href="http://data.istac.es/apis/structural-resources-internal/v1.0/responsibles/responsible22"/>
             <cdomain:name>
-                <cdomain:text xml:lang="es">regionalResponsible22 en Español</cdomain:text>
+                <cdomain:text xml:lang="es">responsible22 en Español</cdomain:text>
             </cdomain:name>
-            <operations:managementAppLink>http://localhost:8080/metamac-srm-web/regionalResponsibles/regionalResponsible22</operations:managementAppLink>
-        </operations:regionalResponsible>
-        <operations:regionalResponsible kind="structuralResources#agency">
-            <cdomain:id>regionalResponsible333</cdomain:id>
-            <cdomain:nestedId>regionalResponsible333Nested</cdomain:nestedId>
-            <cdomain:urn>urn:regionalResponsible333</cdomain:urn>
-            <cdomain:selfLink kind="structuralResources#agency" href="http://data.istac.es/apis/structural-resources-internal/v1.0/regionalResponsibles/regionalResponsible333"/>
+            <operations:managementAppLink>http://localhost:8080/metamac-srm-web/responsibles/responsible22</operations:managementAppLink>
+        </operations:responsible>
+        <operations:responsible kind="structuralResources#agency">
+            <cdomain:id>responsible333</cdomain:id>
+            <cdomain:nestedId>responsible333Nested</cdomain:nestedId>
+            <cdomain:urn>urn:responsible333</cdomain:urn>
+            <cdomain:selfLink kind="structuralResources#agency" href="http://data.istac.es/apis/structural-resources-internal/v1.0/responsibles/responsible333"/>
             <cdomain:name>
-                <cdomain:text xml:lang="es">regionalResponsible333 en Español</cdomain:text>
+                <cdomain:text xml:lang="es">responsible333 en Español</cdomain:text>
             </cdomain:name>
-            <operations:managementAppLink>http://localhost:8080/metamac-srm-web/regionalResponsibles/regionalResponsible333</operations:managementAppLink>
-        </operations:regionalResponsible>
-        <operations:regionalResponsible kind="structuralResources#agency">
-            <cdomain:id>regionalResponsible1</cdomain:id>
-            <cdomain:nestedId>regionalResponsible1Nested</cdomain:nestedId>
-            <cdomain:urn>urn:regionalResponsible1</cdomain:urn>
-            <cdomain:selfLink kind="structuralResources#agency" href="http://data.istac.es/apis/structural-resources-internal/v1.0/regionalResponsibles/regionalResponsible1"/>
+            <operations:managementAppLink>http://localhost:8080/metamac-srm-web/responsibles/responsible333</operations:managementAppLink>
+        </operations:responsible>
+        <operations:responsible kind="structuralResources#agency">
+            <cdomain:id>responsible1</cdomain:id>
+            <cdomain:nestedId>responsible1Nested</cdomain:nestedId>
+            <cdomain:urn>urn:responsible1</cdomain:urn>
+            <cdomain:selfLink kind="structuralResources#agency" href="http://data.istac.es/apis/structural-resources-internal/v1.0/responsibles/responsible1"/>
             <cdomain:name>
-                <cdomain:text xml:lang="es">regionalResponsible1 en Español</cdomain:text>
+                <cdomain:text xml:lang="es">responsible1 en Español</cdomain:text>
             </cdomain:name>
-            <operations:managementAppLink>http://localhost:8080/metamac-srm-web/regionalResponsibles/regionalResponsible1</operations:managementAppLink>
-        </operations:regionalResponsible>
-    </operations:regionalResponsibles>
-    <operations:regionalContributors kind="structuralResources#organisations" total="2">
-        <operations:regionalContributor kind="structuralResources#agency">
-            <cdomain:id>regionalContributor22</cdomain:id>
-            <cdomain:nestedId>regionalContributor22Nested</cdomain:nestedId>
-            <cdomain:urn>urn:regionalContributor22</cdomain:urn>
-            <cdomain:selfLink kind="structuralResources#agency" href="http://data.istac.es/apis/structural-resources-internal/v1.0/regionalContributors/regionalContributor22"/>
+            <operations:managementAppLink>http://localhost:8080/metamac-srm-web/responsibles/responsible1</operations:managementAppLink>
+        </operations:responsible>
+    </operations:responsibles>
+    <operations:contributors kind="structuralResources#organisations" total="2">
+        <operations:contributor kind="structuralResources#agency">
+            <cdomain:id>contributor22</cdomain:id>
+            <cdomain:nestedId>contributor22Nested</cdomain:nestedId>
+            <cdomain:urn>urn:contributor22</cdomain:urn>
+            <cdomain:selfLink kind="structuralResources#agency" href="http://data.istac.es/apis/structural-resources-internal/v1.0/contributors/contributor22"/>
             <cdomain:name>
-                <cdomain:text xml:lang="es">regionalContributor22 en Español</cdomain:text>
+                <cdomain:text xml:lang="es">contributor22 en Español</cdomain:text>
             </cdomain:name>
-            <operations:managementAppLink>http://localhost:8080/metamac-srm-web/regionalContributors/regionalContributor22</operations:managementAppLink>
-        </operations:regionalContributor>
-        <operations:regionalContributor kind="structuralResources#agency">
-            <cdomain:id>regionalContributor1</cdomain:id>
-            <cdomain:nestedId>regionalContributor1Nested</cdomain:nestedId>
-            <cdomain:urn>urn:regionalContributor1</cdomain:urn>
-            <cdomain:selfLink kind="structuralResources#agency" href="http://data.istac.es/apis/structural-resources-internal/v1.0/regionalContributors/regionalContributor1"/>
+            <operations:managementAppLink>http://localhost:8080/metamac-srm-web/contributors/contributor22</operations:managementAppLink>
+        </operations:contributor>
+        <operations:contributor kind="structuralResources#agency">
+            <cdomain:id>contributor1</cdomain:id>
+            <cdomain:nestedId>contributor1Nested</cdomain:nestedId>
+            <cdomain:urn>urn:contributor1</cdomain:urn>
+            <cdomain:selfLink kind="structuralResources#agency" href="http://data.istac.es/apis/structural-resources-internal/v1.0/contributors/contributor1"/>
             <cdomain:name>
-                <cdomain:text xml:lang="es">regionalContributor1 en Español</cdomain:text>
+                <cdomain:text xml:lang="es">contributor1 en Español</cdomain:text>
             </cdomain:name>
-            <operations:managementAppLink>http://localhost:8080/metamac-srm-web/regionalContributors/regionalContributor1</operations:managementAppLink>
-        </operations:regionalContributor>
-    </operations:regionalContributors>
+            <operations:managementAppLink>http://localhost:8080/metamac-srm-web/contributors/contributor1</operations:managementAppLink>
+        </operations:contributor>
+    </operations:contributors>
     <operations:createdDate>2011-01-02T15:14:13Z</operations:createdDate>
     <operations:internalInventoryDate>2012-12-01T13:15:14Z</operations:internalInventoryDate>
     <operations:currentlyActive>false</operations:currentlyActive>

@@ -622,11 +622,11 @@ public class StatisticalOperationsCoreMocks {
         operation.setIndicatorSystem(isIndicatorsSystem);
         operation.getProducer().add(mockExternalItemSrm("producer1", "producers", TypeExternalArtefactsEnum.AGENCY));
         operation.getProducer().add(mockExternalItemSrm("producer22", "producers", TypeExternalArtefactsEnum.AGENCY));
-        operation.getRegionalResponsible().add(mockExternalItemSrm("regionalResponsible1", "regionalResponsibles", TypeExternalArtefactsEnum.AGENCY));
-        operation.getRegionalResponsible().add(mockExternalItemSrm("regionalResponsible22", "regionalResponsibles", TypeExternalArtefactsEnum.AGENCY));
-        operation.getRegionalResponsible().add(mockExternalItemSrm("regionalResponsible333", "regionalResponsibles", TypeExternalArtefactsEnum.AGENCY));
-        operation.getRegionalContributor().add(mockExternalItemSrm("regionalContributor1", "regionalContributors", TypeExternalArtefactsEnum.AGENCY));
-        operation.getRegionalContributor().add(mockExternalItemSrm("regionalContributor22", "regionalContributors", TypeExternalArtefactsEnum.AGENCY));
+        operation.getResponsible().add(mockExternalItemSrm("responsible1", "responsibles", TypeExternalArtefactsEnum.AGENCY));
+        operation.getResponsible().add(mockExternalItemSrm("responsible22", "responsibles", TypeExternalArtefactsEnum.AGENCY));
+        operation.getResponsible().add(mockExternalItemSrm("responsible333", "responsibles", TypeExternalArtefactsEnum.AGENCY));
+        operation.getContributor().add(mockExternalItemSrm("contributor1", "contributors", TypeExternalArtefactsEnum.AGENCY));
+        operation.getContributor().add(mockExternalItemSrm("contributor22", "contributors", TypeExternalArtefactsEnum.AGENCY));
         operation.setInternalInventoryDate(new DateTime(2012, 12, 1, 13, 15, 14, 0));
         operation.setCurrentlyActive(Boolean.FALSE);
         operation.setStatus(StatusEnum.DESIGN);

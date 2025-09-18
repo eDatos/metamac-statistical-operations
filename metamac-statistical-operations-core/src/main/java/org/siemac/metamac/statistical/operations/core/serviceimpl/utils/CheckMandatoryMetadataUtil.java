@@ -141,7 +141,7 @@ public class CheckMandatoryMetadataUtil {
         StatisticalOperationsValidationUtils.checkMetadataRequired(operation.getSurveyType(), ServiceExceptionParameters.OPERATION_SURVEY_TYPE, exceptions);
         StatisticalOperationsValidationUtils.checkMetadataRequired(operation.getOfficialityType(), ServiceExceptionParameters.OPERATION_OFFICIALITY_TYPE, exceptions);
         StatisticalOperationsValidationUtils.checkMetadataRequired(operation.getProducer(), ServiceExceptionParameters.OPERATION_PRODUCER, exceptions);
-        StatisticalOperationsValidationUtils.checkMetadataRequired(operation.getRegionalResponsible(), ServiceExceptionParameters.OPERATION_REGIONAL_RESPONSIBLE, exceptions);
+        StatisticalOperationsValidationUtils.checkMetadataRequired(operation.getResponsible(), ServiceExceptionParameters.OPERATION_RESPONSIBLE, exceptions);
         StatisticalOperationsValidationUtils.checkMetadataRequired(operation.getInternalInventoryDate(), ServiceExceptionParameters.OPERATION_INTERNAL_INVENTORY_DATE, exceptions);
         StatisticalOperationsValidationUtils.checkMetadataRequired(operation.getCurrentlyActive(), ServiceExceptionParameters.OPERATION_CURRENTLY_ACTIVE, exceptions);
         StatisticalOperationsValidationUtils.checkMetadataRequired(operation.getPublisher(), ServiceExceptionParameters.OPERATION_PUBLISHER, exceptions);

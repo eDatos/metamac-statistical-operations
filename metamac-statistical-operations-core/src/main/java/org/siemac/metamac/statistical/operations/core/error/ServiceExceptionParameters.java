@@ -35,8 +35,8 @@ public class ServiceExceptionParameters extends CommonServiceExceptionParameters
     public static final String OPERATION_NOTES                   = "parameter.operations.operation.notes";
     public static final String OPERATION_OFFICIALITY_TYPE        = "parameter.operations.operation.officiality_type";
     public static final String OPERATION_PRODUCER                = "parameter.operations.operation.producer";
-    public static final String OPERATION_REGIONAL_RESPONSIBLE    = "parameter.operations.operation.regional_responsible";
-    public static final String OPERATION_REGIONAL_CONTRIBUTOR    = "parameter.operations.operation.regional_contributor";
+    public static final String OPERATION_RESPONSIBLE             = "parameter.operations.operation.responsible";
+    public static final String OPERATION_CONTRIBUTOR             = "parameter.operations.operation.contributor";
     public static final String OPERATION_UPDATE_FREQUENCY        = "parameter.operations.operation.update_frequency";
     public static final String OPERATION_CURRENTLY_ACTIVE        = "parameter.operations.operation.currently_active";
     public static final String OPERATION_PUBLISHER               = "parameter.operations.operation.publisher";

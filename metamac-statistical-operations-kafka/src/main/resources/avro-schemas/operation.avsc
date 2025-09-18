@@ -38,8 +38,8 @@
         {"name": "families", "type": {"type": "array", "items": "FamilyAvro"}},
         {"name": "secondarySubjectAreas", "type": {"type": "array", "items": "ExternalItemAvro"}},
         {"name": "producer", "type": {"type": "array", "items": "ExternalItemAvro"}},
-        {"name": "regionalResponsible", "type": {"type": "array", "items": "ExternalItemAvro"}},
-        {"name": "regionalContributor", "type": {"type": "array", "items": "ExternalItemAvro"}},
+        {"name": "responsible", "type": {"type": "array", "items": "ExternalItemAvro"}},
+        {"name": "contributor", "type": {"type": "array", "items": "ExternalItemAvro"}},
         {"name": "publisher", "type": {"type": "array", "items": "ExternalItemAvro"}},
         {"name": "updateFrequency", "type": {"type": "array", "items": "ExternalItemAvro"}}
     ]

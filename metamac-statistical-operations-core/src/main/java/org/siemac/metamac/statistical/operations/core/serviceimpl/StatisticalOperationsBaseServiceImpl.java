@@ -348,6 +348,10 @@ public class StatisticalOperationsBaseServiceImpl extends StatisticalOperationsB
         operation.setProcStatus(ProcStatusEnum.DRAFT);
         operation.setStatus(StatusEnum.PLANNING);
         operation.setCurrentlyActive(Boolean.FALSE);
+        operation.setDisaggregationBySex(Boolean.FALSE);
+        operation.setDisaggregationByAge(Boolean.FALSE);
+        operation.setDisaggregationByNationality(Boolean.FALSE);
+        operation.setDisaggregationByDisability(Boolean.FALSE);
         operation.setStreamMessageStatus(StreamMessageStatusEnum.PENDING);
 
         // Validations

@@ -259,11 +259,11 @@ public class Do2DtoMapperImpl extends BaseDo2DtoMapperImpl implements Do2DtoMapp
         // PRODUCER
         target.getProducer().addAll(externalItemListToDto(source.getProducer()));
 
-        // REGIONAL_RESPONSIBLE
-        target.getRegionalResponsible().addAll(externalItemListToDto(source.getRegionalResponsible()));
+        // RESPONSIBLE
+        target.getResponsible().addAll(externalItemListToDto(source.getResponsible()));
 
-        // REGIONAL_CONTRIBUTOR
-        target.getRegionalContributor().addAll(externalItemListToDto(source.getRegionalContributor()));
+        // CONTRIBUTOR
+        target.getContributor().addAll(externalItemListToDto(source.getContributor()));
 
         // INTERNAL_INVENTORY_DATE
         // Not necessary

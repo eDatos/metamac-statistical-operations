@@ -374,10 +374,10 @@ Application StatisticalOperations {
        		
        		"Metadata PRODUCER. Its type is ORGANIZATION"
        		- Set<@ExternalItem> producer databaseColumn="PRODUCER_FK" databaseJoinTable="TB_EI_PRODUCERS"  cascade="all-delete-orphan";
-       		"Metadata REGIONAL_RESPONSIBLE. Its type is ORGANIZATION"
-       		- Set<@ExternalItem> regionalResponsible databaseColumn="REGIONAL_RESPONSIBLE_FK" databaseJoinTable="TB_EI_REG_RESPONSIBLES"  cascade="all-delete-orphan";
-       		"Metadata REGIONAL_CONTRIBUTOR. Its type is ORGANIZATION"
-       		- Set<@ExternalItem> regionalContributor databaseColumn="REGIONAL_CONTRIBUTOR_FK" databaseJoinTable="TB_EI_REG_CONTRIBUTORS"  cascade="all-delete-orphan";
+       		"Metadata RESPONSIBLE. Its type is ORGANIZATION"
+       		- Set<@ExternalItem> responsible databaseColumn="REGIONAL_RESPONSIBLE_FK" databaseJoinTable="TB_EI_REG_RESPONSIBLES"  cascade="all-delete-orphan";
+       		"Metadata CONTRIBUTOR. Its type is ORGANIZATION"
+       		- Set<@ExternalItem> contributor databaseColumn="REGIONAL_CONTRIBUTOR_FK" databaseJoinTable="TB_EI_REG_CONTRIBUTORS"  cascade="all-delete-orphan";
        		"Metadata INTERNAL_INVENTORY_DATE"
 			DateTimeTZ internalInventoryDate nullable;
 			"Metadata CURRENTLY_ACTIVE"

@@ -40,13 +40,13 @@ import org.springframework.transaction.annotation.Transactional;
 @TransactionConfiguration(transactionManager = "txManager", defaultRollback = true)
 @Transactional
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
-public class SecurityStatisticalOperationsServiceFacadeTest extends StatisticalOperationsBaseTest implements StatisticalOperationsServiceFacadeTestBase {
+public class SecurityStatisticalOperationsServiceFacadeTest extends StatisticalOperationsBaseTest implements org.siemac.metamac.statistical.operations.core.serviceapi.StatisticalOperationsServiceFacadeTestBase {
 
-    private static final String                  OOEE_CODE_C0025A = "C0025A";
+    private static final String                                                                                       OOEE_CODE_C0025A = "C0025A";
     @Autowired
-    protected StatisticalOperationsServiceFacade statisticalOperationsServiceFacade;
+    protected org.siemac.metamac.statistical.operations.core.serviceapi.StatisticalOperationsServiceFacade statisticalOperationsServiceFacade;
     @Autowired
-    protected StreamMessagingServiceFacade       streamMessagingServiceFacade;
+    protected org.siemac.metamac.statistical.operations.core.serviceapi.StreamMessagingServiceFacade       streamMessagingServiceFacade;
 
     @Override
     @Test
@@ -1674,8 +1674,8 @@ public class SecurityStatisticalOperationsServiceFacadeTest extends StatisticalO
         operationDto.addProducer(mockExternalItemDto("ISTAC", "/uri/test/agency", "URN:ISTAC", null, TypeExternalArtefactsEnum.AGENCY));
         operationDto.addProducer(mockExternalItemDto("INE", "/uri/test/agency", "URN:INE", null, TypeExternalArtefactsEnum.AGENCY));
 
-        // REGIONAL_RESPONSIBLE
-        operationDto.addRegionalResponsible(mockExternalItemDto("ISTAC", "/uri/test/agency", "URN:ISTAC", null, TypeExternalArtefactsEnum.AGENCY));
+        // RESPONSIBLE
+        operationDto.addResponsible(mockExternalItemDto("ISTAC", "/uri/test/agency", "URN:ISTAC", null, TypeExternalArtefactsEnum.AGENCY));
 
         // PUBLISHER
         operationDto.addPublisher(mockExternalItemDto("ISTAC", "/uri/test/agency", "URN:ISTAC", null, TypeExternalArtefactsEnum.AGENCY));

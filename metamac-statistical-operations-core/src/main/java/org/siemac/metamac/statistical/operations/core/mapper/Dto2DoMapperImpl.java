@@ -316,11 +316,11 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
         // PRODUCER
         target.getProducer().addAll(externalItemListToEntity(source.getProducer(), target.getProducer(), ServiceExceptionParameters.OPERATION_PRODUCER));
 
-        // REGIONAL_RESPONSIBLE
-        target.getRegionalResponsible().addAll(externalItemListToEntity(source.getRegionalResponsible(), target.getRegionalResponsible(), ServiceExceptionParameters.OPERATION_REGIONAL_RESPONSIBLE));
+        // RESPONSIBLE
+        target.getResponsible().addAll(externalItemListToEntity(source.getResponsible(), target.getResponsible(), ServiceExceptionParameters.OPERATION_RESPONSIBLE));
 
-        // REGIONAL_CONTRIBUTOR
-        target.getRegionalContributor().addAll(externalItemListToEntity(source.getRegionalContributor(), target.getRegionalContributor(), ServiceExceptionParameters.OPERATION_REGIONAL_CONTRIBUTOR));
+        // CONTRIBUTOR
+        target.getContributor().addAll(externalItemListToEntity(source.getContributor(), target.getContributor(), ServiceExceptionParameters.OPERATION_CONTRIBUTOR));
 
         // INTERNAL_INVENTORY_DATE
         // Not necessary. It can't be manually modified

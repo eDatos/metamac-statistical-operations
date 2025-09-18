@@ -975,19 +975,19 @@
                      "description":"${msg['api.doc.swagger.definitions.operation.properties.publishers']}",
                      "$ref":"#/definitions/Publishers"
                   },
-                  "regionalContributors":{
+                  "contributors":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"${msg['api.doc.swagger.definitions.operation.properties.regionalContributors']}",
-                     "$ref":"#/definitions/RegionalContributors"
+                     "description":"${msg['api.doc.swagger.definitions.operation.properties.contributors']}",
+                     "$ref":"#/definitions/Contributors"
                   },
-                  "regionalResponsibles":{
+                  "responsibles":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"${msg['api.doc.swagger.definitions.operation.properties.regionalResponsibles']}",
-                     "$ref":"#/definitions/RegionalResponsibles"
+                     "description":"${msg['api.doc.swagger.definitions.operation.properties.responsibles']}",
+                     "$ref":"#/definitions/Responsibles"
                   },
                   "relPolUsAc":{
                      "xml":{
@@ -1149,16 +1149,16 @@
          ],
          "description":"${msg['api.doc.swagger.definitions.publishers']}"
       },
-      "RegionalContributors":{
+      "Contributors":{
          "type":"object",
-         "title":"RegionalContributors",
+         "title":"Contributors",
          "allOf":[
             {
                "$ref":"#/definitions/ListBase"
             },
             {
                "properties":{
-                  "regionalContributor":{
+                  "contributor":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
@@ -1168,18 +1168,18 @@
                }
             }
          ],
-         "description":"${msg['api.doc.swagger.definitions.regionalContributors']}"
+         "description":"${msg['api.doc.swagger.definitions.contributors']}"
       },
-      "RegionalResponsibles":{
+      "Responsibles":{
          "type":"object",
-         "title":"RegionalResponsibles",
+         "title":"Responsibles",
          "allOf":[
             {
                "$ref":"#/definitions/ListBase"
             },
             {
                "properties":{
-                  "regionalResponsible":{
+                  "responsible":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
@@ -1189,7 +1189,7 @@
                }
             }
          ],
-         "description":"${msg['api.doc.swagger.definitions.regionalResponsibles']}"
+         "description":"${msg['api.doc.swagger.definitions.responsibles']}"
       },
       "SecondarySubjectAreas":{
          "type":"object",

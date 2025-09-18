@@ -73,8 +73,8 @@ public class TsvExportationUtils {
                 writeStringSingleItem(writer, operation.getTechnicianInCharge());
                 writeStringSingleItem(writer, operation.getAssistantTechnician());
                 writeExternalItemListItem(writer, operation.getProducer());
-                writeExternalItemListItem(writer, operation.getRegionalResponsible());
-                writeExternalItemListItem(writer, operation.getRegionalContributor());
+                writeExternalItemListItem(writer, operation.getResponsible());
+                writeExternalItemListItem(writer, operation.getContributor());
                 writeDateItem(writer, operation.getCreatedDate());
                 writeDateItem(writer, operation.getInternalInventoryDate());
                 writeStringSingleItem(writer, operation.getCurrentlyActive().toString());
@@ -162,9 +162,9 @@ public class TsvExportationUtils {
         writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
         writer.write(StatisticalOperationsConstants.TSV_HEADER_PRODUCER);
         writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
-        writer.write(StatisticalOperationsConstants.TSV_HEADER_REGIONAL_RESPONSIBLE);
+        writer.write(StatisticalOperationsConstants.TSV_HEADER_RESPONSIBLE);
         writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
-        writer.write(StatisticalOperationsConstants.TSV_HEADER_REGIONAL_CONTRIBUTOR);
+        writer.write(StatisticalOperationsConstants.TSV_HEADER_CONTRIBUTOR);
         writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
         writer.write(StatisticalOperationsConstants.TSV_HEADER_CREATED_DATE);
         writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);

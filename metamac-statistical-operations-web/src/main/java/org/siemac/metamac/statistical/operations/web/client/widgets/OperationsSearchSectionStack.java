@@ -24,9 +24,8 @@ public class OperationsSearchSectionStack extends BaseAdvancedSearchSectionStack
 
     private OperationListUiHandlers uiHandlers;
 
-    // private CategoryElementSelectItem categoryElementSelectItem;
-
     public OperationsSearchSectionStack() {
+
     }
     public void clearSearchSection() {
         searchForm.clearValues();

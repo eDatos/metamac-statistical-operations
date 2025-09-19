@@ -193,7 +193,7 @@ public class OperationListPresenter extends Presenter<OperationListPresenter.Ope
             @Override
             public void onWaitSuccess(GetOperationPaginatedListResult result) {
                 getView().setOperations(result.getOperationBaseDtos(), result.getFirstResultOut(), result.getTotalResults());
-                 if ( operationCriteria == null) {
+                if (operationCriteria == null) {
                     getView().clearSearchSection();
                 }
             }

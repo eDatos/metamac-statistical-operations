@@ -200,21 +200,21 @@
 		"kind": "structuralResources#organisationUnits",
 		"total": 2
 	},
-	"regionalResponsibles": {
-		"regionalResponsible": [
+	"responsibles": {
+		"responsible": [
 			{
-				"managementAppLink": "http://localhost:8080/metamac-srm-web/regionalResponsibles/regionalResponsible22",
-				"id": "regionalResponsible22",
-				"nestedId": "regionalResponsible22Nested",
-				"urn": "urn:regionalResponsible22",
+				"managementAppLink": "http://localhost:8080/metamac-srm-web/responsibles/responsible22",
+				"id": "responsible22",
+				"nestedId": "responsible22Nested",
+				"urn": "urn:responsible22",
 				"selfLink": {
 					"kind": "structuralResources#agency",
-					"href": "http://data.istac.es/apis/structural-resources-internal/v1.0/regionalResponsibles/regionalResponsible22"
+					"href": "http://data.istac.es/apis/structural-resources-internal/v1.0/responsibles/responsible22"
 				},
 				"name": {
 					"text": [
 						{
-							"value": "regionalResponsible22 en Español",
+							"value": "responsible22 en Español",
 							"lang": "es"
 						}
 					]
@@ -222,18 +222,18 @@
 				"kind": "structuralResources#agency"
 			},
 			{
-				"managementAppLink": "http://localhost:8080/metamac-srm-web/regionalResponsibles/regionalResponsible333",
-				"id": "regionalResponsible333",
-				"nestedId": "regionalResponsible333Nested",
-				"urn": "urn:regionalResponsible333",
+				"managementAppLink": "http://localhost:8080/metamac-srm-web/responsibles/responsible333",
+				"id": "responsible333",
+				"nestedId": "responsible333Nested",
+				"urn": "urn:responsible333",
 				"selfLink": {
 					"kind": "structuralResources#agency",
-					"href": "http://data.istac.es/apis/structural-resources-internal/v1.0/regionalResponsibles/regionalResponsible333"
+					"href": "http://data.istac.es/apis/structural-resources-internal/v1.0/responsibles/responsible333"
 				},
 				"name": {
 					"text": [
 						{
-							"value": "regionalResponsible333 en Español",
+							"value": "responsible333 en Español",
 							"lang": "es"
 						}
 					]
@@ -241,18 +241,18 @@
 				"kind": "structuralResources#agency"
 			},
 			{
-				"managementAppLink": "http://localhost:8080/metamac-srm-web/regionalResponsibles/regionalResponsible1",
-				"id": "regionalResponsible1",
-				"nestedId": "regionalResponsible1Nested",
-				"urn": "urn:regionalResponsible1",
+				"managementAppLink": "http://localhost:8080/metamac-srm-web/responsibles/responsible1",
+				"id": "responsible1",
+				"nestedId": "responsible1Nested",
+				"urn": "urn:responsible1",
 				"selfLink": {
 					"kind": "structuralResources#agency",
-					"href": "http://data.istac.es/apis/structural-resources-internal/v1.0/regionalResponsibles/regionalResponsible1"
+					"href": "http://data.istac.es/apis/structural-resources-internal/v1.0/responsibles/responsible1"
 				},
 				"name": {
 					"text": [
 						{
-							"value": "regionalResponsible1 en Español",
+							"value": "responsible1 en Español",
 							"lang": "es"
 						}
 					]
@@ -263,21 +263,21 @@
 		"kind": "structuralResources#organisationUnits",
 		"total": 3
 	},
-	"regionalContributors": {
-		"regionalContributor": [
+	"contributors": {
+		"contributor": [
 			{
-				"managementAppLink": "http://localhost:8080/metamac-srm-web/regionalContributors/regionalContributor22",
-				"id": "regionalContributor22",
-				"nestedId": "regionalContributor22Nested",
-				"urn": "urn:regionalContributor22",
+				"managementAppLink": "http://localhost:8080/metamac-srm-web/contributors/contributor22",
+				"id": "contributor22",
+				"nestedId": "contributor22Nested",
+				"urn": "urn:contributor22",
 				"selfLink": {
 					"kind": "structuralResources#agency",
-					"href": "http://data.istac.es/apis/structural-resources-internal/v1.0/regionalContributors/regionalContributor22"
+					"href": "http://data.istac.es/apis/structural-resources-internal/v1.0/contributors/contributor22"
 				},
 				"name": {
 					"text": [
 						{
-							"value": "regionalContributor22 en Español",
+							"value": "contributor22 en Español",
 							"lang": "es"
 						}
 					]
@@ -285,18 +285,18 @@
 				"kind": "structuralResources#agency"
 			},
 			{
-				"managementAppLink": "http://localhost:8080/metamac-srm-web/regionalContributors/regionalContributor1",
-				"id": "regionalContributor1",
-				"nestedId": "regionalContributor1Nested",
-				"urn": "urn:regionalContributor1",
+				"managementAppLink": "http://localhost:8080/metamac-srm-web/contributors/contributor1",
+				"id": "contributor1",
+				"nestedId": "contributor1Nested",
+				"urn": "urn:contributor1",
 				"selfLink": {
 					"kind": "structuralResources#agency",
-					"href": "http://data.istac.es/apis/structural-resources-internal/v1.0/regionalContributors/regionalContributor1"
+					"href": "http://data.istac.es/apis/structural-resources-internal/v1.0/contributors/contributor1"
 				},
 				"name": {
 					"text": [
 						{
-							"value": "regionalContributor1 en Español",
+							"value": "contributor1 en Español",
 							"lang": "es"
 						}
 					]

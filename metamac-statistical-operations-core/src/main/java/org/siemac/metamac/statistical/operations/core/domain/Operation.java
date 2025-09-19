@@ -9,7 +9,7 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(name = "TB_OPERATIONS", uniqueConstraints = {@UniqueConstraint(columnNames = {"CODE"})})
-public class Operation extends OperationBase {
+public class Operation extends org.siemac.metamac.statistical.operations.core.domain.OperationBase {
 
     private static final long serialVersionUID = 1L;
 

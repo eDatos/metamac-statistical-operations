@@ -25,8 +25,8 @@ import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Operation;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Operations;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Producers;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Publishers;
-import org.siemac.metamac.rest.statistical_operations.v1_0.domain.RegionalContributors;
-import org.siemac.metamac.rest.statistical_operations.v1_0.domain.RegionalResponsibles;
+import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Contributors;
+import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Responsibles;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.ResourceWithSubjectArea;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.SecondarySubjectAreas;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.StatConcDefs;
@@ -53,8 +53,8 @@ public class StatisticalOperationsRestAsserts {
         MetamacRestAsserts.assertEqualsItem(expected.getOfficialityType(), actual.getOfficialityType());
         assertEquals(expected.getIndicatorSystem(), actual.getIndicatorSystem());
         assertEqualsProducers(expected.getProducers(), actual.getProducers());
-        assertEqualsRegionalResponsibles(expected.getRegionalResponsibles(), actual.getRegionalResponsibles());
-        assertEqualsRegionalContributors(expected.getRegionalContributors(), actual.getRegionalContributors());
+        assertEqualsResponsibles(expected.getResponsibles(), actual.getResponsibles());
+        assertEqualsContributors(expected.getContributors(), actual.getContributors());
         assertEquals(expected.getCurrentlyActive(), actual.getCurrentlyActive());
         assertEquals(expected.getStatus(), actual.getStatus());
         assertEqualsPublishers(expected.getPublishers(), actual.getPublishers());
@@ -318,22 +318,22 @@ public class StatisticalOperationsRestAsserts {
         MetamacRestAsserts.assertEqualsResources(expected.getProducers(), actual.getProducers());
     }
 
-    private static void assertEqualsRegionalResponsibles(RegionalResponsibles expected, RegionalResponsibles actual) {
+    private static void assertEqualsResponsibles(Responsibles expected, Responsibles actual) {
         MetamacRestAsserts.assertEqualsNullability(expected, actual);
         if (expected == null) {
             return;
         }
         MetamacRestAsserts.assertEqualsListBase(expected, actual);
-        MetamacRestAsserts.assertEqualsResources(expected.getRegionalResponsibles(), actual.getRegionalResponsibles());
+        MetamacRestAsserts.assertEqualsResources(expected.getResponsibles(), actual.getResponsibles());
     }
 
-    private static void assertEqualsRegionalContributors(RegionalContributors expected, RegionalContributors actual) {
+    private static void assertEqualsContributors(Contributors expected, Contributors actual) {
         MetamacRestAsserts.assertEqualsNullability(expected, actual);
         if (expected == null) {
             return;
         }
         MetamacRestAsserts.assertEqualsListBase(expected, actual);
-        MetamacRestAsserts.assertEqualsResources(expected.getRegionalContributors(), actual.getRegionalContributors());
+        MetamacRestAsserts.assertEqualsResources(expected.getContributors(), actual.getContributors());
     }
 
     private static void assertEqualsPublishers(Publishers expected, Publishers actual) {

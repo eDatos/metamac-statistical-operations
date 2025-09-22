@@ -55,13 +55,13 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 @TransactionConfiguration(transactionManager = "txManager", defaultRollback = true)
 @Transactional
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
-public class StatisticalOperationsBaseServiceTest extends StatisticalOperationsBaseTest implements StatisticalOperationsBaseServiceTestBase {
+public class StatisticalOperationsBaseServiceTest extends StatisticalOperationsBaseTest implements org.siemac.metamac.statistical.operations.core.serviceapi.StatisticalOperationsBaseServiceTestBase {
 
     @Autowired
-    protected StatisticalOperationsBaseService  statisticalOperationsBaseService;
+    protected org.siemac.metamac.statistical.operations.core.serviceapi.StatisticalOperationsBaseService statisticalOperationsBaseService;
 
     @Autowired
-    protected StatisticalOperationsListsService statisticalOperationsListsService;
+    protected org.siemac.metamac.statistical.operations.core.serviceapi.StatisticalOperationsListsService statisticalOperationsListsService;
 
     @Autowired
     private final PlatformTransactionManager    transactionManager = null;
@@ -1057,9 +1057,8 @@ public class StatisticalOperationsBaseServiceTest extends StatisticalOperationsB
         // PRODUCER
         operation.addProducer(mockExternalItem("ISTAC", "/uri/test/agency", "URN:AGENCY:ISTAC", null, TypeExternalArtefactsEnum.AGENCY));
         operation.addProducer(mockExternalItem("INE", "/uri/test/agency", "URN:AGENCY:INE", null, TypeExternalArtefactsEnum.AGENCY));
-
-        // REGIONAL_RESPONSIBLE
-        operation.addRegionalResponsible(mockExternalItem("ISTAC", "/uri/test/agency", "URN:AGENCY:ISTAC", null, TypeExternalArtefactsEnum.AGENCY));
+		// RESPONSIBLE
+        operation.addResponsible(mockExternalItem("ISTAC", "/uri/test/agency", "URN:AGENCY:ISTAC", null, TypeExternalArtefactsEnum.AGENCY));
 
         // PUBLISHER
         operation.addPublisher(mockExternalItem("ISTAC", "/uri/test/agency", "URN:AGENCY:ISTAC", null, TypeExternalArtefactsEnum.AGENCY));

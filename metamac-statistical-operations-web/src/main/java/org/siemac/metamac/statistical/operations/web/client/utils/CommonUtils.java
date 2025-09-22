@@ -20,7 +20,6 @@ import org.siemac.metamac.statistical.operations.core.enume.domain.StatusEnum;
 import org.siemac.metamac.statistical.operations.core.enume.domain.StreamMessageStatusEnum;
 import org.siemac.metamac.statistical.operations.web.client.OperationsWeb;
 import org.siemac.metamac.statistical.operations.web.client.constants.StatisticalOperationsWebConstants;
-import org.siemac.metamac.web.common.client.MetamacWebCommon;
 import org.siemac.metamac.web.common.client.resources.GlobalResources;
 import org.siemac.metamac.web.common.shared.utils.SharedTokens;
 
@@ -213,14 +212,6 @@ public class CommonUtils {
     private static native void downloadUrl(String url) /*-{
 		$wnd.location = url;
     }-*/;
-
-    public static LinkedHashMap<String, String> getYesOrNoValueMap() {
-        LinkedHashMap<String, String> valueMap = new LinkedHashMap<String, String>();
-        valueMap.put(StringUtils.EMPTY, StringUtils.EMPTY);
-        valueMap.put(Boolean.TRUE.toString(), MetamacWebCommon.getConstants().yes());
-        valueMap.put(Boolean.FALSE.toString(), MetamacWebCommon.getConstants().no());
-        return valueMap;
-    }
 
     public static LinkedHashMap<String, String> getOrderTypeValueMap() {
         LinkedHashMap<String, String> valueMap = new LinkedHashMap<String, String>();

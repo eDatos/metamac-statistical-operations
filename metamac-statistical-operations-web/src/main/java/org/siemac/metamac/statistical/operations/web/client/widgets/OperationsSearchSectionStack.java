@@ -10,6 +10,7 @@ import org.siemac.metamac.statistical.operations.web.client.utils.CommonUtils;
 import org.siemac.metamac.statistical.operations.web.shared.criteria.OperationCriteria;
 import org.siemac.metamac.web.common.client.MetamacWebCommon;
 import org.siemac.metamac.web.common.client.constants.CommonWebConstants;
+import org.siemac.metamac.web.common.client.utils.FormItemUtils;
 import org.siemac.metamac.web.common.client.widgets.BaseAdvancedSearchSectionStack;
 import org.siemac.metamac.web.common.client.widgets.form.GroupDynamicForm;
 import org.siemac.metamac.web.common.client.widgets.form.fields.CustomButtonItem;
@@ -53,16 +54,16 @@ public class OperationsSearchSectionStack extends BaseAdvancedSearchSectionStack
         });
 
         SelectItem disaggregationBySex = new SelectItem(OperationDS.DISAGGREGATION_BY_SEX, getConstants().operationDisaggregationBySex());
-        disaggregationBySex.setValueMap(CommonUtils.getYesOrNoValueMap());
+        disaggregationBySex.setValueMap(FormItemUtils.getBooleanHashMap());
 
         SelectItem disaggregationByAge = new SelectItem(OperationDS.DISAGGREGATION_BY_AGE, getConstants().operationDisaggregationByAge());
-        disaggregationByAge.setValueMap(CommonUtils.getYesOrNoValueMap());
+        disaggregationByAge.setValueMap(FormItemUtils.getBooleanHashMap());
 
         SelectItem disaggregationByNationality = new SelectItem(OperationDS.DISAGGREGATION_BY_NATIONALITY, getConstants().operationDisaggregationByNationality());
-        disaggregationByNationality.setValueMap(CommonUtils.getYesOrNoValueMap());
+        disaggregationByNationality.setValueMap(FormItemUtils.getBooleanHashMap());
 
         SelectItem disaggregationByDisability = new SelectItem(OperationDS.DISAGGREGATION_BY_DISABILITY, getConstants().operationDisaggregationByDisability());
-        disaggregationByDisability.setValueMap(CommonUtils.getYesOrNoValueMap());
+        disaggregationByDisability.setValueMap(FormItemUtils.getBooleanHashMap());
 
         FormItem[] advancedSearchFormItems = new FormItem[]{code, title, productionVersionProcStatus, disaggregationBySex, disaggregationByAge, disaggregationByNationality, disaggregationByDisability,
                 searchItem};

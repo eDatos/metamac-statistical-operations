@@ -405,6 +405,8 @@ Application StatisticalOperations {
        		- @InternationalString revPolicy cascade="all" nullable databaseColumn="REV_POLICY_FK";
        		"Metadata REV_PRACTICE"
        		- @InternationalString revPractice cascade="all" nullable databaseColumn="REV_PRACTICE_FK";
+       		"Metadata STATISTICAL_OPERATION_URL"
+            String statisticalOperationUrl nullable;
        		// CONTAT: It comes from AppCommonMetadata
        		
        		

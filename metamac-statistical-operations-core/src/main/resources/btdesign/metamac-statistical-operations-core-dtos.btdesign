@@ -109,6 +109,7 @@ Application StatisticalOperationsDto {
             JAVADATE inventoryDate nullable;
             - @InternationalStringDto revPolicy nullable;
             - @InternationalStringDto revPractice nullable;
+            String statisticalOperationUrl nullable;
             // CONTAT: It comes from AppCommonMetadata
 
             // COMMON_LEGAL_ACTS: It comes from AppCommonMetadata
@@ -146,6 +147,7 @@ Application StatisticalOperationsDto {
             - @SurveyTypeDto surveyType nullable;
             - @OfficialityTypeDto officialityType nullable;
             Boolean currentlyActive;
+            String statisticalOperationUrl nullable;
             - @StatusEnum status nullable;
             
             JAVADATE internalInventoryDate nullable;

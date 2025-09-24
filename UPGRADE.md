@@ -14,6 +14,11 @@ actualización de la versión 1.0.0 a la 2.0.0.*
 
 *Se deberá realizar primero la actualización de la versión 1.0.0 a la 2.0.0 y luego desde la 2.0.0 a la 3.0.0*
 
+## 4.7.1 a 4.7.2-SNAPSHOT
+* Es necesario ejecutar el script SQL contenido en la carpeta
+  ```shell
+  etc/changes-from-release/4.7.1/db/common-metadata/postgresql/20250922_add_column_statistical_operation_url.sql
+  ```
 
 ## 4.6.1 a 4.7.0
 Esta versión tiene como dependencia complementos-apps en su versión 8.13.0

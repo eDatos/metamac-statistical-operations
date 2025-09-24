@@ -144,6 +144,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
     private CustomCheckboxItem                        releaseCalendar;
     private CustomTextItem                            releaseCalendarAccess;
     private CustomCheckboxItem                        diffusionAndPublicationVisible;
+    private CustomTextItem                            statisticalOperationUrl;
 
     // LEGAL ACTS
     private GroupDynamicForm                          legalActsForm;
@@ -447,6 +448,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
 
         operationDto.setGenderPerspective(productionDescriptorsEditionForm.getValueAsInternationalStringDto(OperationDS.GENDER_PERSPECTIVE));
 
+
         // DIFFUSION AND PUBLICATION
 
         List<ExternalItemDto> publishers = ((ExternalItemListItem) diffusionEditionForm.getItem(OperationDS.PUBLISHER)).getExternalItemDtos();
@@ -467,6 +469,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         operationDto.setRevPolicy(diffusionEditionForm.getValueAsInternationalStringDto(OperationDS.REV_POLICY));
         operationDto.setRevPractice(diffusionEditionForm.getValueAsInternationalStringDto(OperationDS.REV_PRACTICE));
 
+        operationDto.setStatisticalOperationUrl(productionDescriptorsEditionForm.getValueAsString(OperationDS.STATISTICAL_OPERATION_URL));
         // LEGAL ACTS
         operationDto.setSpecificLegalActs(legalActsEditionForm.getValueAsInternationalStringDto(OperationDS.SPECIFIC_LEGAL_ACTS));
         operationDto.setSpecificDataSharing(legalActsEditionForm.getValueAsInternationalStringDto(OperationDS.SPECIFIC_DATA_SHARING));
@@ -649,8 +652,9 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         ViewMultiLanguageTextItem staticRevPolicyItem = new ViewMultiLanguageTextItem(OperationDS.REV_POLICY, getConstants().operationRevPolicy());
         ViewMultiLanguageTextItem staticRevPracticeItem = new ViewMultiLanguageTextItem(OperationDS.REV_PRACTICE, getConstants().operationRevPractice());
         ViewTextItem diffusionAndPublicationVisible = new ViewTextItem(OperationDS.DIFFUSION_AND_PUBLICATION, getConstants().visible());
+        ViewTextItem statisticalOperationUrl = new ViewTextItem(OperationDS.STATISTICAL_OPERATION_URL, getConstants().operationStatisticalOperationUrl());
         diffusionForm.setFields(publisher, commonMetadata, staticRelPolUsAc, releaseCalendar, releaseCalendarAccess, updateFreq, currentInst, currentInternalInst, invDate, staticRevPolicyItem,
-                staticRevPracticeItem, diffusionAndPublicationVisible);
+                staticRevPracticeItem, statisticalOperationUrl, diffusionAndPublicationVisible);
 
         // Legal acts
         legalActsForm = new GroupDynamicForm(getConstants().formLegalActs());
@@ -840,8 +844,10 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         ViewTextItem invDate = new ViewTextItem(OperationDS.INVENTORY_DATE, getConstants().operationInventoryDate());
         MultiLanguageRichTextEditorItem revPolicyItem = new MultiLanguageRichTextEditorItem(OperationDS.REV_POLICY, getConstants().operationRevPolicy());
         MultiLanguageRichTextEditorItem revPracticeItem = new MultiLanguageRichTextEditorItem(OperationDS.REV_PRACTICE, getConstants().operationRevPractice());
+        statisticalOperationUrl = new CustomTextItem(OperationDS.STATISTICAL_OPERATION_URL, getConstants().operationStatisticalOperationUrl());
+        statisticalOperationUrl.setValidators((CommonWebUtils.getUrlValidator()));
         diffusionEditionForm.setFields(publishersItem, commonMetadataItem, relPolUsAc, releaseCalendar, releaseCalendarAccess, updateFrequencyItem, currentInst, currentInternalInst, invDate,
-                revPolicyItem, revPracticeItem, diffusionAndPublicationVisible);
+                revPolicyItem, revPracticeItem, statisticalOperationUrl, diffusionAndPublicationVisible);
 
         // LEGAL ACTS
 
@@ -913,6 +919,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         productionDescriptorsForm.setValue(OperationDS.PROC_STATUS, CommonUtils.getProcStatusName(operationDto.getProcStatus()));
         productionDescriptorsForm.setValue(OperationDS.GENDER_PERSPECTIVE, operationDto.getGenderPerspective());
 
+
         // DIFFUSION AND PUBLICATION
 
         ((ExternalItemListItem) diffusionForm.getItem(OperationDS.PUBLISHER)).setExternalItems(operationDto.getPublisher());
@@ -946,8 +953,11 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         diffusionForm.setValue(OperationDS.REV_POLICY, operationDto.getRevPolicy());
         diffusionForm.setValue(OperationDS.REV_PRACTICE, operationDto.getRevPractice());
         diffusionForm.setValue(OperationDS.DIFFUSION_AND_PUBLICATION,
-                (operationDto.getDiffusionAndPublicationVisible() != null && operationDto.getDiffusionAndPublicationVisible()) ? MetamacWebCommon.getConstants().yes() : MetamacWebCommon.getConstants().no());
+                (operationDto.getDiffusionAndPublicationVisible() != null && operationDto.getDiffusionAndPublicationVisible())
+                        ? MetamacWebCommon.getConstants().yes()
+                        : MetamacWebCommon.getConstants().no());
 
+        diffusionForm.setValue(OperationDS.STATISTICAL_OPERATION_URL, operationDto.getStatisticalOperationUrl());
         // LEGAL ACTS
         legalActsForm.setValue(OperationDS.SPECIFIC_LEGAL_ACTS, operationDto.getSpecificLegalActs());
         legalActsForm.setValue(OperationDS.SPECIFIC_DATA_SHARING, operationDto.getSpecificDataSharing());
@@ -1009,7 +1019,6 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         productionDescriptorsEditionForm.setValue(OperationDS.PROC_STATUS, CommonUtils.getProcStatusName(operationDto.getProcStatus()));
         productionDescriptorsEditionForm.setValue(OperationDS.PROC_STATUS_VIEW, operationDto.getProcStatus().toString());
         productionDescriptorsEditionForm.setValue(OperationDS.GENDER_PERSPECTIVE, operationDto.getGenderPerspective());
-
         productionDescriptorsEditionForm.setRequiredTitleSuffix(requiredFieldsToNextProcStatus);
         productionDescriptorsEditionForm.markForRedraw();
 
@@ -1049,6 +1058,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         diffusionEditionForm.setRequiredTitleSuffix(requiredFieldsToNextProcStatus);
         diffusionEditionForm.markForRedraw();
 
+        diffusionEditionForm.setValue(OperationDS.STATISTICAL_OPERATION_URL, operationDto.getStatisticalOperationUrl());
         // LEGAL ACTS
 
         legalActsEditionForm.setValue(OperationDS.SPECIFIC_LEGAL_ACTS, operationDto.getSpecificLegalActs());

@@ -45,7 +45,7 @@ public class OperationDS extends DataSource {
     public static final String CURRENT_INSTANCE           = "op-current-inst";
     public static final String CURRENT_INTERNAL_INSTANCE  = "op-current-in-inst";
     public static final String INVENTORY_DATE             = "op-inv-date";
-    public static final String DIFFUSION_AND_PUBLICATION   = "op-diffusion-publication";
+    public static final String DIFFUSION_AND_PUBLICATION  = "op-diffusion-publication";
     public static final String REV_POLICY                 = "op-rev-pol";
     public static final String REV_PRACTICE               = "op-rev-pract";
     public static final String COMMON_METADATA            = "op-com-met";
@@ -60,6 +60,8 @@ public class OperationDS extends DataSource {
     public static final String GENDER_PERSPECTIVE         = "op-gen-pers";
 
     public static final String DTO                        = "operation-dto";
+
+    public static final String STATISTICAL_OPERATION_URL  = "op-url";
 
     public OperationDS() {
 

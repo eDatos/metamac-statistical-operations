@@ -434,13 +434,13 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         operationDto.getProducer().clear();
         operationDto.getProducer().addAll(producers);
 
-        List<ExternalItemDto> regionalResponsibles = ((ExternalItemListItem) productionDescriptorsEditionForm.getItem(OperationDS.REG_RESPONSIBLE)).getExternalItemDtos();
-        operationDto.getRegionalResponsible().clear();
-        operationDto.getRegionalResponsible().addAll(regionalResponsibles);
+        List<ExternalItemDto> responsibles = ((ExternalItemListItem) productionDescriptorsEditionForm.getItem(OperationDS.REG_RESPONSIBLE)).getExternalItemDtos();
+        operationDto.getResponsible().clear();
+        operationDto.getResponsible().addAll(responsibles);
 
-        List<ExternalItemDto> regionalContributors = ((ExternalItemListItem) productionDescriptorsEditionForm.getItem(OperationDS.REG_CONTRIBUTOR)).getExternalItemDtos();
-        operationDto.getRegionalContributor().clear();
-        operationDto.getRegionalContributor().addAll(regionalContributors);
+        List<ExternalItemDto> contributors = ((ExternalItemListItem) productionDescriptorsEditionForm.getItem(OperationDS.REG_CONTRIBUTOR)).getExternalItemDtos();
+        operationDto.getContributor().clear();
+        operationDto.getContributor().addAll(contributors);
 
         operationDto.setCurrentlyActive(currentlyActiveItem.getValueAsBoolean());
         operationDto.setStatus(statusItem.getValueAsString() != null ? StatusEnum.valueOf(statusItem.getValueAsString()) : null);
@@ -622,8 +622,8 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         ViewTextItem assistantTechnician = new ViewTextItem(OperationDS.ASSISTANT_TECHNICIAN, getConstants().operationAssistantTechnician());
         productionDescriptorsForm = new GroupDynamicForm(getConstants().operationProductionDescriptors());
         ExternalItemListItem producer = new ExternalItemListItem(OperationDS.PRODUCER, getConstants().operationProducers(), false);
-        ExternalItemListItem regionalResposible = new ExternalItemListItem(OperationDS.REG_RESPONSIBLE, getConstants().operationRegionalResponsibles(), false);
-        ExternalItemListItem regionalContibutor = new ExternalItemListItem(OperationDS.REG_CONTRIBUTOR, getConstants().operationRegionalContributors(), false);
+        ExternalItemListItem resposible = new ExternalItemListItem(OperationDS.REG_RESPONSIBLE, getConstants().operationResponsibles(), false);
+        ExternalItemListItem contibutor = new ExternalItemListItem(OperationDS.REG_CONTRIBUTOR, getConstants().operationContributors(), false);
         ViewTextItem createdDate = new ViewTextItem(OperationDS.CREATED_DATE, getConstants().operationCreatedDate());
         ViewTextItem inventoryDate = new ViewTextItem(OperationDS.INTERNAL_INVENTORY_DATE, getConstants().operationInternalInventoryDate());
         ViewTextItem currentlyActive = new ViewTextItem(OperationDS.CURRENTLY_ACTIVE, getConstants().operationCurrentlyActive());
@@ -632,7 +632,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
 
         ViewMultiLanguageTextItem genderPerspective = new ViewMultiLanguageTextItem(OperationDS.GENDER_PERSPECTIVE, getConstants().operationGenderPerspective());
 
-        productionDescriptorsForm.setFields(techinicianInCharge, assistantTechnician, producer, regionalResposible, regionalContibutor, createdDate, inventoryDate, currentlyActive, status, procStatus,
+        productionDescriptorsForm.setFields(techinicianInCharge, assistantTechnician, producer, resposible, contibutor, createdDate, inventoryDate, currentlyActive, status, procStatus,
                 genderPerspective);
 
         // Diffusion Descriptors
@@ -903,8 +903,8 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         productionDescriptorsForm.setValue(OperationDS.TECHNICIAN_IN_CHARGE, operationDto.getTechnicianInCharge() == null ? "" : operationDto.getTechnicianInCharge());
         productionDescriptorsForm.setValue(OperationDS.ASSISTANT_TECHNICIAN, operationDto.getAssistantTechnician() == null ? "" : operationDto.getAssistantTechnician());
         ((ExternalItemListItem) productionDescriptorsForm.getItem(OperationDS.PRODUCER)).setExternalItems(operationDto.getProducer());
-        ((ExternalItemListItem) productionDescriptorsForm.getItem(OperationDS.REG_RESPONSIBLE)).setExternalItems(operationDto.getRegionalResponsible());
-        ((ExternalItemListItem) productionDescriptorsForm.getItem(OperationDS.REG_CONTRIBUTOR)).setExternalItems(operationDto.getRegionalContributor());
+        ((ExternalItemListItem) productionDescriptorsForm.getItem(OperationDS.REG_RESPONSIBLE)).setExternalItems(operationDto.getResponsible());
+        ((ExternalItemListItem) productionDescriptorsForm.getItem(OperationDS.REG_CONTRIBUTOR)).setExternalItems(operationDto.getContributor());
         productionDescriptorsForm.setValue(OperationDS.CREATED_DATE, operationDto.getCreatedDate());
         productionDescriptorsForm.setValue(OperationDS.INTERNAL_INVENTORY_DATE, operationDto.getInternalInventoryDate());
         productionDescriptorsForm.setValue(OperationDS.CURRENTLY_ACTIVE,
@@ -1000,8 +1000,8 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         technicianInCharge.setValue(operationDto.getTechnicianInCharge() != null ? CommonUtils.getUsernameUser(operationDto.getTechnicianInCharge()) : null);
         assistantTechnician.setValue(operationDto.getAssistantTechnician() != null ? CommonUtils.getUsernameUser(operationDto.getAssistantTechnician()) : null);
         ((ExternalItemListItem) productionDescriptorsEditionForm.getItem(OperationDS.PRODUCER)).setExternalItems(operationDto.getProducer());
-        ((ExternalItemListItem) productionDescriptorsEditionForm.getItem(OperationDS.REG_RESPONSIBLE)).setExternalItems(operationDto.getRegionalResponsible());
-        ((ExternalItemListItem) productionDescriptorsEditionForm.getItem(OperationDS.REG_CONTRIBUTOR)).setExternalItems(operationDto.getRegionalContributor());
+        ((ExternalItemListItem) productionDescriptorsEditionForm.getItem(OperationDS.REG_RESPONSIBLE)).setExternalItems(operationDto.getResponsible());
+        ((ExternalItemListItem) productionDescriptorsEditionForm.getItem(OperationDS.REG_CONTRIBUTOR)).setExternalItems(operationDto.getContributor());
         productionDescriptorsEditionForm.setValue(OperationDS.CREATED_DATE, operationDto.getCreatedDate());
         productionDescriptorsEditionForm.setValue(OperationDS.INTERNAL_INVENTORY_DATE, operationDto.getInternalInventoryDate());
         currentlyActiveItem.setValue(operationDto.getCurrentlyActive() != null ? operationDto.getCurrentlyActive() : false);
@@ -1281,7 +1281,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
 
     private SearchSrmListItemWithSchemeFilterItem createRegionaleResponsiblesItem() {
         final String field = OperationDS.REG_RESPONSIBLE;
-        final SearchSrmListItemWithSchemeFilterItem item = new SearchSrmListItemWithSchemeFilterItem(field, getConstants().operationRegionalResponsibles(),
+        final SearchSrmListItemWithSchemeFilterItem item = new SearchSrmListItemWithSchemeFilterItem(field, getConstants().operationResponsibles(),
                 StatisticalOperationsWebConstants.FORM_LIST_MAX_RESULTS) {
 
             @Override
@@ -1299,7 +1299,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
 
     private SearchSrmListItemWithSchemeFilterItem createRegionaleContributorsItem() {
         final String field = OperationDS.REG_CONTRIBUTOR;
-        final SearchSrmListItemWithSchemeFilterItem item = new SearchSrmListItemWithSchemeFilterItem(field, getConstants().operationRegionalContributors(),
+        final SearchSrmListItemWithSchemeFilterItem item = new SearchSrmListItemWithSchemeFilterItem(field, getConstants().operationContributors(),
                 StatisticalOperationsWebConstants.FORM_LIST_MAX_RESULTS) {
 
             @Override

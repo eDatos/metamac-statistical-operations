@@ -77,7 +77,7 @@ public class OperationDo2AvroMapper implements Do2AvroMapper<Operation, Operatio
                 .setSpecificDataSharing(internationalStringDo2AvroMapper.toAvro(source.getSpecificDataSharing())).setComment(internationalStringDo2AvroMapper.toAvro(source.getComment()))
                 .setNotes(internationalStringDo2AvroMapper.toAvro(source.getNotes())).setFamilies(familyDo2AvroMapper.toAvros(source.getFamilies()))
                 .setSecondarySubjectAreas(getCategoriesFromSecondarySubjectAreas(categories, source.getSecondarySubjectAreas())).setProducer(externalItemDo2AvroMapper.toAvros(source.getProducer()))
-                .setRegionalResponsible(externalItemDo2AvroMapper.toAvros(source.getRegionalResponsible())).setRegionalContributor(externalItemDo2AvroMapper.toAvros(source.getRegionalContributor()))
+                .setResponsible(externalItemDo2AvroMapper.toAvros(source.getResponsible())).setContributor(externalItemDo2AvroMapper.toAvros(source.getContributor()))
                 .setPublisher(externalItemDo2AvroMapper.toAvros(source.getPublisher())).setUpdateFrequency(externalItemDo2AvroMapper.toAvros(source.getUpdateFrequency())).build();
     }
 

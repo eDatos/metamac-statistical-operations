@@ -1496,11 +1496,11 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
         // Create operation
         OperationDto operationDto = statisticalOperationsServiceFacade.createOperation(getServiceContextAdministrador(), createOperationDto());
 
-        // ADD REGIONAL CONTRIBUTOR
+        // ADD CONTRIBUTOR
         int externalItemsBefore = externalItemRepository.findAll().size();
 
-        operationDto.addRegionalContributor(mockExternalItemDto("ISTAC", "/uri/test/agency?remove", "URN:AGENCY:ISTAC?REMOVE", null, TypeExternalArtefactsEnum.AGENCY));
-        operationDto.addRegionalContributor(mockExternalItemDto("INE", "/uri/test/agency?remove", "URN:AGENCY:INE?REMOVE", null, TypeExternalArtefactsEnum.AGENCY));
+        operationDto.addContributor(mockExternalItemDto("ISTAC", "/uri/test/agency?remove", "URN:AGENCY:ISTAC?REMOVE", null, TypeExternalArtefactsEnum.AGENCY));
+        operationDto.addContributor(mockExternalItemDto("INE", "/uri/test/agency?remove", "URN:AGENCY:INE?REMOVE", null, TypeExternalArtefactsEnum.AGENCY));
 
         PublishExternallyOperationServiceResult result = statisticalOperationsServiceFacade.updateOperation(getServiceContextAdministrador(), operationDto);
         operationDto = result.getContent();
@@ -1508,11 +1508,11 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
         int externalItemsAfter = externalItemRepository.findAll().size();
         assertEquals(externalItemsBefore + 2, externalItemsAfter);
 
-        // CLEAR REGIONAL CONTRIBUTOR
+        // CLEAR CONTRIBUTOR
         externalItemsBefore = externalItemRepository.findAll().size();
 
-        operationDto.getRegionalContributor().clear();
-        operationDto.getRegionalContributor().addAll(new ArrayList<ExternalItemDto>());
+        operationDto.getContributor().clear();
+        operationDto.getContributor().addAll(new ArrayList<ExternalItemDto>());
 
         result = statisticalOperationsServiceFacade.updateOperation(getServiceContextAdministrador(), operationDto);
         operationDto = result.getContent();
@@ -3862,8 +3862,8 @@ public class StatisticalOperationsServiceFacadeTest extends StatisticalOperation
         operationDto.addProducer(mockExternalItemDto("ISTAC", "/uri/test/agency", "URN:AGENCY:ISTAC", null, TypeExternalArtefactsEnum.AGENCY));
         operationDto.addProducer(mockExternalItemDto("INE", "/uri/test/agency", "URN:AGENCY:INE", null, TypeExternalArtefactsEnum.AGENCY));
 
-        // REGIONAL_RESPONSIBLE
-        operationDto.addRegionalResponsible(mockExternalItemDto("ISTAC", "/uri/test/agency", "URN:AGENCY:ISTAC", null, TypeExternalArtefactsEnum.AGENCY));
+        // RESPONSIBLE
+        operationDto.addResponsible(mockExternalItemDto("ISTAC", "/uri/test/agency", "URN:AGENCY:ISTAC", null, TypeExternalArtefactsEnum.AGENCY));
 
         // PUBLISHER
         operationDto.addPublisher(mockExternalItemDto("ISTAC", "/uri/test/agency", "URN:AGENCY:ISTAC", null, TypeExternalArtefactsEnum.AGENCY));

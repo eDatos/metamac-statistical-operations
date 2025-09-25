@@ -48,8 +48,8 @@ import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Opera
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.ProcStatus;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Producers;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Publishers;
-import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.RegionalContributors;
-import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.RegionalResponsibles;
+import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Contributors;
+import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Responsibles;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.ResourceInternal;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.SecondarySubjectAreas;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.StatConcDefs;
@@ -124,8 +124,8 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         target.setOfficialityType(this.toItem(source.getOfficialityType()));
         target.setIndicatorSystem(source.getIndicatorSystem());
         target.setProducers(this.toProducers(source.getProducer()));
-        target.setRegionalResponsibles(this.toRegionalResponsibles(source.getRegionalResponsible()));
-        target.setRegionalContributors(this.toRegionalContributors(source.getRegionalContributor()));
+        target.setResponsibles(this.toResponsibles(source.getResponsible()));
+        target.setContributors(this.toContributors(source.getContributor()));
         target.setCreatedDate(this.toDate(source.getCreatedDate()));
         target.setInternalInventoryDate(this.toDate(source.getInternalInventoryDate()));
         target.setCurrentlyActive(source.getCurrentlyActive());
@@ -924,25 +924,25 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         return targets;
     }
 
-    private RegionalResponsibles toRegionalResponsibles(Set<ExternalItem> sources) {
+    private Responsibles toResponsibles(Set<ExternalItem> sources) {
         if (sources == null || sources.size() == 0) {
             return null;
         }
-        RegionalResponsibles targets = new RegionalResponsibles();
-        this.toResourcesExternalItemsSrm(sources, targets.getRegionalResponsibles());
+        Responsibles targets = new Responsibles();
+        this.toResourcesExternalItemsSrm(sources, targets.getResponsibles());
         targets.setKind(SrmRestConstants.KIND_ORGANISATION_UNITS);
-        targets.setTotal(BigInteger.valueOf(targets.getRegionalResponsibles().size()));
+        targets.setTotal(BigInteger.valueOf(targets.getResponsibles().size()));
         return targets;
     }
 
-    private RegionalContributors toRegionalContributors(Set<ExternalItem> sources) {
+    private Contributors toContributors(Set<ExternalItem> sources) {
         if (sources == null || sources.size() == 0) {
             return null;
         }
-        RegionalContributors targets = new RegionalContributors();
-        this.toResourcesExternalItemsSrm(sources, targets.getRegionalContributors());
+        Contributors targets = new Contributors();
+        this.toResourcesExternalItemsSrm(sources, targets.getContributors());
         targets.setKind(SrmRestConstants.KIND_ORGANISATIONS);
-        targets.setTotal(BigInteger.valueOf(targets.getRegionalContributors().size()));
+        targets.setTotal(BigInteger.valueOf(targets.getContributors().size()));
         return targets;
     }
 

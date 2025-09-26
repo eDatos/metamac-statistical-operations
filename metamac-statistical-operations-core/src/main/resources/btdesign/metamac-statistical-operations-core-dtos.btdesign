@@ -109,7 +109,7 @@ Application StatisticalOperationsDto {
             JAVADATE inventoryDate nullable;
             - @InternationalStringDto revPolicy nullable;
             - @InternationalStringDto revPractice nullable;
-            String statisticalOperationUrl nullable;
+            - Set<@OperationUrlDto> statisticalOperationUrls nullable;
             // CONTAT: It comes from AppCommonMetadata
 
             // COMMON_LEGAL_ACTS: It comes from AppCommonMetadata
@@ -147,7 +147,7 @@ Application StatisticalOperationsDto {
             - @SurveyTypeDto surveyType nullable;
             - @OfficialityTypeDto officialityType nullable;
             Boolean currentlyActive;
-            String statisticalOperationUrl nullable;
+            - Set<@OperationUrlDto> statisticalOperationUrls nullable;
             - @StatusEnum status nullable;
             
             JAVADATE internalInventoryDate nullable;
@@ -240,6 +240,12 @@ Application StatisticalOperationsDto {
             Integer order;
             
             JAVADATE internalInventoryDate nullable;
+        }
+
+        "Dto for OperationUrl"
+        DataTransferObject OperationUrlDto extends @IdentityDto {
+            - @InternationalStringDto url nullable;
+            JAVADATE createdAt nullable;
         }
 
     }

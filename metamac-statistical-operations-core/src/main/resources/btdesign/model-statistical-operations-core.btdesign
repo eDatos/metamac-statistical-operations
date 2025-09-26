@@ -290,6 +290,27 @@ Application StatisticalOperations {
     			findAll;
     		}
     	}
+
+    	"Operation URL"
+        Entity OperationUrl {
+            databaseTable="TB_LIS_OPERATION_URLS"
+            hint="idSequence=OPERATION_URLS"
+
+            not auditable
+
+            "INTERNATIONAL_STRING"
+            - @InternationalString url cascade="all" databaseColumn="INTERNATIONAL_STRING_ID";
+            "OPERATION"
+            - @Operation operation not nullable cascade="merge" databaseColumn="OPERATION_ID" <-> statisticalOperationUrls;
+
+            Repository OperationUrlRepository {
+                findById;
+                findByOperationId;
+                save;
+                delete;
+                findByCondition;
+            }
+        }
 		
 		
 		"Semantic grouping of statistical operations"
@@ -405,8 +426,8 @@ Application StatisticalOperations {
        		- @InternationalString revPolicy cascade="all" nullable databaseColumn="REV_POLICY_FK";
        		"Metadata REV_PRACTICE"
        		- @InternationalString revPractice cascade="all" nullable databaseColumn="REV_PRACTICE_FK";
-       		"Metadata STATISTICAL_OPERATION_URL"
-            String statisticalOperationUrl nullable;
+       		"Metadata STATISTICAL_OPERATION_URLS"
+            - Set<@OperationUrl> statisticalOperationUrls inverse <-> operation cascade="all-delete-orphan";
        		// CONTAT: It comes from AppCommonMetadata
        		
        		

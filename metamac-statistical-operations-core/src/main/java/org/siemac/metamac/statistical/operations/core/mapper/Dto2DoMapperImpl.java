@@ -377,7 +377,8 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
         target.setRevPractice(internationalStringToEntity(source.getRevPractice(), target.getRevPractice(), ServiceExceptionParameters.OPERATION_REV_PRACTICE));
 
         //STATISTICAL_OPERATION_URL
-        target.setStatisticalOperationUrl(source.getStatisticalOperationUrl());
+        //FIXME: EDATOS-5195
+        //target.setStatisticalOperationUrl(source.getStatisticalOperationUrl());
 
         // CONTACT: Extracted from AppCommonMetadata
 

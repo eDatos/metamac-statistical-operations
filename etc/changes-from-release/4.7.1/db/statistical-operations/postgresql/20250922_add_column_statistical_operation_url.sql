@@ -1,16 +1,36 @@
 -- --------------------------------------------------------------------------------------------------
--- EDATOS-5195 - Añadir nuevo campo "STATISTICAL OPERATION URL" en TB_OPERATIONS
+-- EDATOS-5195 - Añadir soporte de URLs internacionalizadas por operación estadística
 -- --------------------------------------------------------------------------------------------------
 
--- Añade una nueva columna para almacenar la URL de la operación estadística.
--- Campo opcional (NULL permitido), pero con valor por defecto 'FILL_ME'.
+-- Tabla intermedia: cada operación puede tener varias URLs
+-- y cada URL está referenciada a un INTERNATIONAL_STRING (que a su vez enlaza con LOCALIZED_STRINGS).
 
-ALTER TABLE TB_OPERATIONS
-    ADD COLUMN statistical_operation_url VARCHAR(500) DEFAULT 'FILL_ME';
+219
 
--- Inicializa todas las operaciones existentes con el valor por defecto
+CREATE TABLE TB_LIS_OPERATION_URLS (
+                                       ID BIGINT NOT NULL,
+                                       UUID VARCHAR(36) NOT NULL,
+                                       VERSION BIGINT NOT NULL,
+                                       INTERNATIONAL_STRING_ID BIGINT NOT NULL,
+                                       OPERATION_ID BIGINT NOT NULL
+);
 
-UPDATE TB_OPERATIONS
-SET statistical_operation_url = 'FILL_ME';
+ALTER TABLE TB_LIS_OPERATION_URLS ADD CONSTRAINT PK_TB_LIS_OPERATION_URLS
+    PRIMARY KEY (ID);
+
+ALTER TABLE TB_LIS_OPERATION_URLS
+    ADD CONSTRAINT UQ_TB_LIS_OPERATION_URLS UNIQUE (UUID);
+
+ALTER TABLE TB_LIS_OPERATION_URLS ADD CONSTRAINT FK_TB_LIS_OPERATION_URLS_INTERNATIONAL_STRING_ID
+    FOREIGN KEY (INTERNATIONAL_STRING_ID) REFERENCES TB_INTERNATIONAL_STRINGS (ID);
+ALTER TABLE TB_LIS_OPERATION_URLS ADD CONSTRAINT FK_TB_LIS_OPERATION_URLS_OPERATION_ID
+    FOREIGN KEY (OPERATION_ID) REFERENCES TB_OPERATIONS (ID);
+
+-- Índices
+CREATE INDEX IDX_OPERATION_URLS_OPERATION ON TB_LIS_OPERATION_URLS(OPERATION_ID);
+CREATE INDEX IDX_OPERATION_URLS_INTSTR ON TB_LIS_OPERATION_URLS(INTERNATIONAL_STRING_ID);
+
+-- Nueva secuencia  en TB_SEQUENCES
+INSERT INTO TB_SEQUENCES(SEQUENCE_NAME, SEQUENCE_NEXT_VALUE) VALUES ('OPERATION_URLS', 1);
 
 COMMIT;

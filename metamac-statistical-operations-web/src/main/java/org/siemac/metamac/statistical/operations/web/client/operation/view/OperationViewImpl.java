@@ -468,8 +468,8 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
 
         operationDto.setRevPolicy(diffusionEditionForm.getValueAsInternationalStringDto(OperationDS.REV_POLICY));
         operationDto.setRevPractice(diffusionEditionForm.getValueAsInternationalStringDto(OperationDS.REV_PRACTICE));
-
-        operationDto.setStatisticalOperationUrl(productionDescriptorsEditionForm.getValueAsString(OperationDS.STATISTICAL_OPERATION_URL));
+//FIXME:EDATOS-5195
+//        operationDto.setStatisticalOperationUrl(productionDescriptorsEditionForm.getValueAsString(OperationDS.STATISTICAL_OPERATION_URL));
         // LEGAL ACTS
         operationDto.setSpecificLegalActs(legalActsEditionForm.getValueAsInternationalStringDto(OperationDS.SPECIFIC_LEGAL_ACTS));
         operationDto.setSpecificDataSharing(legalActsEditionForm.getValueAsInternationalStringDto(OperationDS.SPECIFIC_DATA_SHARING));
@@ -957,7 +957,8 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
                         ? MetamacWebCommon.getConstants().yes()
                         : MetamacWebCommon.getConstants().no());
 
-        diffusionForm.setValue(OperationDS.STATISTICAL_OPERATION_URL, operationDto.getStatisticalOperationUrl());
+        //FIXME:EDATOS-5195
+        diffusionForm.setValue(OperationDS.STATISTICAL_OPERATION_URL, "FIXME:EDATOS-5195");
         // LEGAL ACTS
         legalActsForm.setValue(OperationDS.SPECIFIC_LEGAL_ACTS, operationDto.getSpecificLegalActs());
         legalActsForm.setValue(OperationDS.SPECIFIC_DATA_SHARING, operationDto.getSpecificDataSharing());
@@ -1057,8 +1058,8 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
 
         diffusionEditionForm.setRequiredTitleSuffix(requiredFieldsToNextProcStatus);
         diffusionEditionForm.markForRedraw();
-
-        diffusionEditionForm.setValue(OperationDS.STATISTICAL_OPERATION_URL, operationDto.getStatisticalOperationUrl());
+//FIXME:EDATOS-5195
+        diffusionEditionForm.setValue(OperationDS.STATISTICAL_OPERATION_URL, "FIXME:EDATOS-5195");
         // LEGAL ACTS
 
         legalActsEditionForm.setValue(OperationDS.SPECIFIC_LEGAL_ACTS, operationDto.getSpecificLegalActs());

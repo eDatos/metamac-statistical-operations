@@ -435,6 +435,7 @@ Application StatisticalOperations {
 			DateTimeTZ updateDate nullable;
 
 			- @StreamMessageStatusEnum streamMessageStatus;
+			- @EdatosMigrationStatusEnum edatosMigrationStatus;
 
             "Metadata GENDER_PERSPECTIVE"
             - @InternationalString genderPerspective cascade="all" nullable databaseColumn="GENDER_PERSPECTIVE_FK";

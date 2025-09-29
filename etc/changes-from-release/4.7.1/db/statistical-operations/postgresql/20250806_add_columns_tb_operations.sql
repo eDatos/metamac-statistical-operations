@@ -7,17 +7,9 @@
 -- Estas columnas permiten valores nulos inicialmente pero se definen con valor por defecto 'false'.
 
 ALTER TABLE TB_OPERATIONS
-    ADD COLUMN disaggregation_by_sex BOOLEAN DEFAULT false,
-    ADD COLUMN disaggregation_by_age BOOLEAN DEFAULT false,
-    ADD COLUMN disaggregation_by_nationality BOOLEAN DEFAULT false,
-    ADD COLUMN disaggregation_by_disability BOOLEAN DEFAULT false;
-
--- Inicializa todas las operaciones existentes con valor 'false' en los nuevos campos
-
-UPDATE TB_OPERATIONS
-SET disaggregation_by_sex = false,
-    disaggregation_by_age = false,
-    disaggregation_by_nationality = false,
-    disaggregation_by_disability = false;
+    ADD COLUMN disaggregation_by_sex BOOLEAN NULL,
+    ADD COLUMN disaggregation_by_age BOOLEAN NULL,
+    ADD COLUMN disaggregation_by_nationality BOOLEAN NULL,
+    ADD COLUMN disaggregation_by_disability BOOLEAN NULL;
 
 COMMIT;

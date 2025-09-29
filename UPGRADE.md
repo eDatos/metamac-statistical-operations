@@ -14,15 +14,15 @@ actualización de la versión 1.0.0 a la 2.0.0.*
 
 *Se deberá realizar primero la actualización de la versión 1.0.0 a la 2.0.0 y luego desde la 2.0.0 a la 3.0.0*
 
-
 ## 4.8.1 a 4.8.2-SNAPSHOT
-* Es necesario ejecutar el script SQL contenido en la carpeta
-  ```shell
-  etc/changes-from-release/4.8.1/db/common-metadata/postgresql/20250806_add_columns_tb_operations.sql
-  ```
-  
-* Esta versión depende de la versión 3.11.2-SNAPSHOT de eUsuarios. Por lo tanto, no se puede subir la versión 4.8.2-SNAPSHOT de metamac-statistical-operations  sin haber subido la versión 3.11.2-SNAPSHOT de eUsuarios y viceversa.
-* Se debe resetear el schema registry para el topic OPERATION_PUBLICATIONS debido a que se añade el nuevo estado _PRE_PLANNING_
+
+* Se han realizado cambios en la base de datos PostgreSQL, por ello se proveen una serie de scripts SQL para adaptarse a
+  la nueva versión.Ejecutar los scripts de la siguiente ruta en el esquema correspondiente por orden de fecha:
+  * [etc/changes-from-release/4.8.1/db/](etc/changes-from-release/4.8.1/db/)
+* Esta versión depende de la versión 3.11.2-SNAPSHOT de eUsuarios. Por lo tanto, no se puede subir la versión 4.8.
+  2-SNAPSHOT de metamac-statistical-operations sin haber subido la versión 3.11.2-SNAPSHOT de eUsuarios y viceversa.
+* Se debe resetear el schema registry para el topic OPERATION_PUBLICATIONS debido a que se han modificado las 
+  propiedades de los mensajes que se publican en dicho topic. Para ello:
   
 ```shell 
   curl -X DELETE http://localhost:8081/subjects/OPERATION_PUBLICATIONS-value

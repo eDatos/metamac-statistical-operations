@@ -1,0 +1,10 @@
+{
+    "namespace": "org.siemac.metamac.statistical.operations.core.stream.messages",
+    "name": "EdatosMigrationStatusEnumAvro",
+    "type": "enum",
+    "symbols": [
+        "NOT_STARTED",
+        "IN_PROGRESS",
+        "COMPLETE"
+    ]
+}

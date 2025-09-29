@@ -28,6 +28,7 @@
         {"name": "officialityType", "type": ["null", "OfficialityTypeAvro"]},
         {"name": "procStatus", "type": "ProcStatusEnumAvro"},
         {"name": "status", "type": "StatusEnumAvro"},
+        {"name": "edatosMigrationStatus", "type": "EdatosMigrationStatusEnumAvro"},
         {"name": "relPolUsAc", "type": ["null", "InternationalStringAvro"]},
         {"name": "revPolicy", "type": ["null", "InternationalStringAvro"]},
         {"name": "revPractice", "type": ["null", "InternationalStringAvro"]},

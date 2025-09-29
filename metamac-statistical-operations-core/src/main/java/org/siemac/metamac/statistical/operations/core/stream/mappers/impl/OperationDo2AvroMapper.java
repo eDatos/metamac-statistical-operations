@@ -42,6 +42,9 @@ public class OperationDo2AvroMapper implements Do2AvroMapper<Operation, Operatio
     StatusDo2AvroMapper              statusDo2AvroMapper;
 
     @Autowired
+    EdatosMigrationStatusDo2AvroMapper edatosMigrationStatusDo2AvroMapper;
+
+    @Autowired
     FamilyDo2AvroMapper              familyDo2AvroMapper;
 
     @Autowired
@@ -72,6 +75,7 @@ public class OperationDo2AvroMapper implements Do2AvroMapper<Operation, Operatio
                 .setObjective(internationalStringDo2AvroMapper.toAvro(source.getObjective())).setDescription(internationalStringDo2AvroMapper.toAvro(source.getDescription()))
                 .setSurveyType(surveyTypeDo2AvroMapper.toAvro(source.getSurveyType())).setOfficialityType(officialityTypeDo2AvroMapper.toAvro(source.getOfficialityType()))
                 .setProcStatus(procStatusDo2AvroMapper.toAvro(source.getProcStatus())).setStatus(statusDo2AvroMapper.toAvro(source.getStatus()))
+                .setEdatosMigrationStatus(edatosMigrationStatusDo2AvroMapper.toAvro(source.getEdatosMigrationStatus()))
                 .setRelPolUsAc(internationalStringDo2AvroMapper.toAvro(source.getRelPolUsAc())).setRevPolicy(internationalStringDo2AvroMapper.toAvro(source.getRevPolicy()))
                 .setRevPractice(internationalStringDo2AvroMapper.toAvro(source.getRevPractice())).setSpecificLegalActs(internationalStringDo2AvroMapper.toAvro(source.getSpecificLegalActs()))
                 .setSpecificDataSharing(internationalStringDo2AvroMapper.toAvro(source.getSpecificDataSharing())).setComment(internationalStringDo2AvroMapper.toAvro(source.getComment()))

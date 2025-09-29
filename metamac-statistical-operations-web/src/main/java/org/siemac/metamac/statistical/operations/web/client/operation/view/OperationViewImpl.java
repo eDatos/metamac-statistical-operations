@@ -139,6 +139,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
     private GroupDynamicForm                          productionDescriptorsEditionForm;
     private CustomCheckboxItem                        currentlyActiveItem;
     private CustomSelectItem                          statusItem;
+    private CustomSelectItem                          edatosMigrationStatusItem;
 
     // DIFUSSION AND PUBLICATION
     private GroupDynamicForm                          diffusionForm;
@@ -446,6 +447,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
 
         operationDto.setCurrentlyActive(currentlyActiveItem.getValueAsBoolean());
         operationDto.setStatus(statusItem.getValueAsString() != null ? StatusEnum.valueOf(statusItem.getValueAsString()) : null);
+        operationDto.setEdatosMigrationStatus(edatosMigrationStatusItem.getValueAsString() != null ? EdatosMigrationStatusEnum.valueOf(edatosMigrationStatusItem.getValueAsString()) : null);
 
         operationDto.setGenderPerspective(productionDescriptorsEditionForm.getValueAsInternationalStringDto(OperationDS.GENDER_PERSPECTIVE));
 
@@ -815,6 +817,9 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
             }
         });
 
+        edatosMigrationStatusItem = new CustomSelectItem(OperationDS.EDATOS_MIGRATION_STATUS, getConstants().edatosMigrationStatus());
+        edatosMigrationStatusItem.setValueMap(CommonUtils.getEdatosMigrationStatusEnumHashMap());
+
         ViewTextItem procStatus = new ViewTextItem(OperationDS.PROC_STATUS, getConstants().operationProcStatus());
         ViewTextItem staticProcStatus = new ViewTextItem(OperationDS.PROC_STATUS_VIEW, getConstants().operationProcStatus());
         staticProcStatus.setShowIfCondition(FormItemUtils.getFalseFormItemIfFunction());
@@ -822,7 +827,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         MultiLanguageTextItem genderPerspective = new MultiLanguageTextItem(OperationDS.GENDER_PERSPECTIVE, getConstants().operationGenderPerspective());
 
         productionDescriptorsEditionForm.setFields(technicianInCharge, assistantTechnician, producerItem, regionalResponsibleItem, regionalContributorItem, createdDate, internalInventoryDate,
-                currentlyActiveItem, statusItem, staticProcStatus, procStatus, genderPerspective, disaggregationBySexItem, disaggregationByAgeItem, disaggregationByNationalityItem,
+                currentlyActiveItem, statusItem, staticProcStatus, procStatus, genderPerspective, edatosMigrationStatusItem, disaggregationBySexItem, disaggregationByAgeItem, disaggregationByNationalityItem,
                 disaggregationByDisabilityItem);
 
         // DIFFUSION AND PUBLICATION
@@ -1046,6 +1051,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         ((BooleanSelectItem) productionDescriptorsEditionForm.getItem(OperationDS.DISAGGREGATION_BY_NATIONALITY)).setBooleanValue(operationDto.getDisaggregationByNationality());
         ((BooleanSelectItem) productionDescriptorsEditionForm.getItem(OperationDS.DISAGGREGATION_BY_DISABILITY)).setBooleanValue(operationDto.getDisaggregationByDisability());
         statusItem.setValue(operationDto.getStatus() == null ? null : operationDto.getStatus().toString());
+        edatosMigrationStatusItem.setValue(operationDto.getEdatosMigrationStatus() == null ? null : operationDto.getEdatosMigrationStatus().toString());
         productionDescriptorsEditionForm.setValue(OperationDS.PROC_STATUS, CommonUtils.getProcStatusName(operationDto.getProcStatus()));
         productionDescriptorsEditionForm.setValue(OperationDS.PROC_STATUS_VIEW, operationDto.getProcStatus().toString());
         productionDescriptorsEditionForm.setValue(OperationDS.GENDER_PERSPECTIVE, operationDto.getGenderPerspective());

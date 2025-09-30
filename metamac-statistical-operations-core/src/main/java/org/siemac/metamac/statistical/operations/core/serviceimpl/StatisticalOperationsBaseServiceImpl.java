@@ -47,7 +47,7 @@ import org.springframework.stereotype.Service;
  * Implementation of StatisticalOperationsBaseService.
  */
 @Service("statisticalOperationsBaseService")
-public class StatisticalOperationsBaseServiceImpl extends org.siemac.metamac.statistical.operations.core.serviceimpl.StatisticalOperationsBaseServiceImplBase {
+public class StatisticalOperationsBaseServiceImpl extends StatisticalOperationsBaseServiceImplBase {
 
     @Autowired
     private FamilyRepository       familyRepository;

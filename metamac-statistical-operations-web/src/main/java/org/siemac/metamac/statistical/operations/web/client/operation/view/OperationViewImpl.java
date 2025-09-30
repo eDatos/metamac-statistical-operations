@@ -819,6 +819,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
 
         edatosMigrationStatusItem = new CustomSelectItem(OperationDS.EDATOS_MIGRATION_STATUS, getConstants().edatosMigrationStatus());
         edatosMigrationStatusItem.setValueMap(CommonUtils.getEdatosMigrationStatusEnumHashMap());
+        edatosMigrationStatusItem.setRequired(true);
 
         ViewTextItem procStatus = new ViewTextItem(OperationDS.PROC_STATUS, getConstants().operationProcStatus());
         ViewTextItem staticProcStatus = new ViewTextItem(OperationDS.PROC_STATUS_VIEW, getConstants().operationProcStatus());

@@ -61,7 +61,6 @@ public class OperationDS extends DataSource {
 
     public static final String DTO                        = "operation-dto";
 
-    public static final String STATISTICAL_OPERATION_URL  = "op-url";
 
     public OperationDS() {
 

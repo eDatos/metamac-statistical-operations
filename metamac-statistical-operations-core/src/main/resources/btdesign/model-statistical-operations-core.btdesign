@@ -299,9 +299,9 @@ Application StatisticalOperations {
             not auditable
 
             "INTERNATIONAL_STRING"
-            - @InternationalString url cascade="all" databaseColumn="INTERNATIONAL_STRING_ID";
+            - @InternationalString url cascade="all" databaseColumn="INTERNATIONAL_STRING_FK";
             "OPERATION"
-            - @Operation operation not nullable cascade="merge" databaseColumn="OPERATION_ID" <-> statisticalOperationUrls;
+            - @Operation operation not nullable cascade="merge" databaseColumn="OPERATION_FK" <-> statisticalOperationUrls;
 
             Repository OperationUrlRepository {
                 findById;

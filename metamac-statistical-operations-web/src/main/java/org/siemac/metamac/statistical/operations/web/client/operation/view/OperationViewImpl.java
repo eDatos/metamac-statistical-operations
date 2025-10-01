@@ -40,6 +40,7 @@ import org.siemac.metamac.statistical.operations.web.client.widgets.ListGridTool
 import org.siemac.metamac.statistical.operations.web.client.widgets.ModalWindow;
 import org.siemac.metamac.statistical.operations.web.client.widgets.NewInstanceForm;
 import org.siemac.metamac.statistical.operations.web.client.widgets.OperationMainFormLayout;
+import org.siemac.metamac.statistical.operations.web.client.widgets.OperationUrlsPanel;
 import org.siemac.metamac.statistical.operations.web.shared.external.GetUsersAccessControlListResult;
 import org.siemac.metamac.web.common.client.MetamacWebCommon;
 import org.siemac.metamac.web.common.client.utils.CommonWebUtils;
@@ -145,6 +146,8 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
     private CustomTextItem                            releaseCalendarAccess;
     private CustomCheckboxItem                        diffusionAndPublicationVisible;
     private CustomTextItem                            statisticalOperationUrl;
+    private OperationUrlsPanel                        viewOperationUrlsPanel;
+    private OperationUrlsPanel                        editOperationUrlsPanel;
 
     // LEGAL ACTS
     private GroupDynamicForm                          legalActsForm;
@@ -448,7 +451,6 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
 
         operationDto.setGenderPerspective(productionDescriptorsEditionForm.getValueAsInternationalStringDto(OperationDS.GENDER_PERSPECTIVE));
 
-
         // DIFFUSION AND PUBLICATION
 
         List<ExternalItemDto> publishers = ((ExternalItemListItem) diffusionEditionForm.getItem(OperationDS.PUBLISHER)).getExternalItemDtos();
@@ -468,8 +470,8 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
 
         operationDto.setRevPolicy(diffusionEditionForm.getValueAsInternationalStringDto(OperationDS.REV_POLICY));
         operationDto.setRevPractice(diffusionEditionForm.getValueAsInternationalStringDto(OperationDS.REV_PRACTICE));
-//FIXME:EDATOS-5195
-//        operationDto.setStatisticalOperationUrl(productionDescriptorsEditionForm.getValueAsString(OperationDS.STATISTICAL_OPERATION_URL));
+        // FIXME:EDATOS-5195
+        // operationDto.setStatisticalOperationUrl(productionDescriptorsEditionForm.getValueAsString(OperationDS.STATISTICAL_OPERATION_URL));
         // LEGAL ACTS
         operationDto.setSpecificLegalActs(legalActsEditionForm.getValueAsInternationalStringDto(OperationDS.SPECIFIC_LEGAL_ACTS));
         operationDto.setSpecificDataSharing(legalActsEditionForm.getValueAsInternationalStringDto(OperationDS.SPECIFIC_DATA_SHARING));
@@ -652,9 +654,11 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         ViewMultiLanguageTextItem staticRevPolicyItem = new ViewMultiLanguageTextItem(OperationDS.REV_POLICY, getConstants().operationRevPolicy());
         ViewMultiLanguageTextItem staticRevPracticeItem = new ViewMultiLanguageTextItem(OperationDS.REV_PRACTICE, getConstants().operationRevPractice());
         ViewTextItem diffusionAndPublicationVisible = new ViewTextItem(OperationDS.DIFFUSION_AND_PUBLICATION, getConstants().visible());
-        ViewTextItem statisticalOperationUrl = new ViewTextItem(OperationDS.STATISTICAL_OPERATION_URL, getConstants().operationStatisticalOperationUrl());
         diffusionForm.setFields(publisher, commonMetadata, staticRelPolUsAc, releaseCalendar, releaseCalendarAccess, updateFreq, currentInst, currentInternalInst, invDate, staticRevPolicyItem,
                 staticRevPracticeItem, statisticalOperationUrl, diffusionAndPublicationVisible);
+
+        viewOperationUrlsPanel = new OperationUrlsPanel(true);
+
 
         // Legal acts
         legalActsForm = new GroupDynamicForm(getConstants().formLegalActs());
@@ -675,6 +679,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         mainFormLayout.addViewCanvas(classForm);
         mainFormLayout.addViewCanvas(productionDescriptorsForm);
         mainFormLayout.addViewCanvas(diffusionForm);
+        mainFormLayout.addViewCanvas(viewOperationUrlsPanel);
         mainFormLayout.addViewCanvas(legalActsForm);
         mainFormLayout.addViewCanvas(annotationsViewForm);
     }
@@ -844,10 +849,11 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         ViewTextItem invDate = new ViewTextItem(OperationDS.INVENTORY_DATE, getConstants().operationInventoryDate());
         MultiLanguageRichTextEditorItem revPolicyItem = new MultiLanguageRichTextEditorItem(OperationDS.REV_POLICY, getConstants().operationRevPolicy());
         MultiLanguageRichTextEditorItem revPracticeItem = new MultiLanguageRichTextEditorItem(OperationDS.REV_PRACTICE, getConstants().operationRevPractice());
-        statisticalOperationUrl = new CustomTextItem(OperationDS.STATISTICAL_OPERATION_URL, getConstants().operationStatisticalOperationUrl());
         statisticalOperationUrl.setValidators((CommonWebUtils.getUrlValidator()));
         diffusionEditionForm.setFields(publishersItem, commonMetadataItem, relPolUsAc, releaseCalendar, releaseCalendarAccess, updateFrequencyItem, currentInst, currentInternalInst, invDate,
                 revPolicyItem, revPracticeItem, statisticalOperationUrl, diffusionAndPublicationVisible);
+
+        editOperationUrlsPanel = new OperationUrlsPanel(false);
 
         // LEGAL ACTS
 
@@ -870,6 +876,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         mainFormLayout.addEditionCanvas(classDescriptorsEditionForm);
         mainFormLayout.addEditionCanvas(productionDescriptorsEditionForm);
         mainFormLayout.addEditionCanvas(diffusionEditionForm);
+        mainFormLayout.addEditionCanvas(editOperationUrlsPanel);
         mainFormLayout.addEditionCanvas(legalActsEditionForm);
         mainFormLayout.addEditionCanvas(annotationsEditionForm);
     }
@@ -919,7 +926,6 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         productionDescriptorsForm.setValue(OperationDS.PROC_STATUS, CommonUtils.getProcStatusName(operationDto.getProcStatus()));
         productionDescriptorsForm.setValue(OperationDS.GENDER_PERSPECTIVE, operationDto.getGenderPerspective());
 
-
         // DIFFUSION AND PUBLICATION
 
         ((ExternalItemListItem) diffusionForm.getItem(OperationDS.PUBLISHER)).setExternalItems(operationDto.getPublisher());
@@ -957,8 +963,6 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
                         ? MetamacWebCommon.getConstants().yes()
                         : MetamacWebCommon.getConstants().no());
 
-        //FIXME:EDATOS-5195
-        diffusionForm.setValue(OperationDS.STATISTICAL_OPERATION_URL, "FIXME:EDATOS-5195");
         // LEGAL ACTS
         legalActsForm.setValue(OperationDS.SPECIFIC_LEGAL_ACTS, operationDto.getSpecificLegalActs());
         legalActsForm.setValue(OperationDS.SPECIFIC_DATA_SHARING, operationDto.getSpecificDataSharing());
@@ -1058,8 +1062,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
 
         diffusionEditionForm.setRequiredTitleSuffix(requiredFieldsToNextProcStatus);
         diffusionEditionForm.markForRedraw();
-//FIXME:EDATOS-5195
-        diffusionEditionForm.setValue(OperationDS.STATISTICAL_OPERATION_URL, "FIXME:EDATOS-5195");
+
         // LEGAL ACTS
 
         legalActsEditionForm.setValue(OperationDS.SPECIFIC_LEGAL_ACTS, operationDto.getSpecificLegalActs());
@@ -1137,6 +1140,8 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         productionDescriptorsForm.setTranslationsShowed(translationsShowed);
         productionDescriptorsEditionForm.setTranslationsShowed(translationsShowed);
         diffusionForm.setTranslationsShowed(translationsShowed);
+        viewOperationUrlsPanel.setTranslationsShowed(translationsShowed);
+        viewOperationUrlsPanel.setTranslationsShowed(translationsShowed);
         diffusionEditionForm.setTranslationsShowed(translationsShowed);
         annotationsViewForm.setTranslationsShowed(translationsShowed);
         annotationsEditionForm.setTranslationsShowed(translationsShowed);

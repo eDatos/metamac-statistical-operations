@@ -10,10 +10,9 @@ public class OperationUrlRecord extends ListGridRecord {
     public OperationUrlRecord() {
     }
 
-    public OperationUrlRecord(Long id, String url, Boolean isUrlEditable, OperationUrlDto operationUrlDto) {
+    public OperationUrlRecord(Long id, String url, OperationUrlDto operationUrlDto) {
         setId(id);
         setUrl(url);
-        setIsUrlEditable(isUrlEditable);
         setOperationUrlDto(operationUrlDto);
     }
 
@@ -41,11 +40,4 @@ public class OperationUrlRecord extends ListGridRecord {
         return (OperationUrlDto) getAttributeAsObject(OperationUrlDS.OPERATION_URL_DTO);
     }
 
-    public void setIsUrlEditable(Boolean value) {
-        setAttribute(OperationUrlDS.IS_URL_EDITABLE, value);
-    }
-
-    public Boolean getIsUrlEditable() {
-        return getAttributeAsBoolean(OperationUrlDS.IS_URL_EDITABLE);
-    }
 }

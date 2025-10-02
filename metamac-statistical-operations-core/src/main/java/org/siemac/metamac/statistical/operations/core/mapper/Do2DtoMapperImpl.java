@@ -20,6 +20,7 @@ import org.siemac.metamac.statistical.operations.core.domain.Instance;
 import org.siemac.metamac.statistical.operations.core.domain.InstanceType;
 import org.siemac.metamac.statistical.operations.core.domain.OfficialityType;
 import org.siemac.metamac.statistical.operations.core.domain.Operation;
+import org.siemac.metamac.statistical.operations.core.domain.OperationUrl;
 import org.siemac.metamac.statistical.operations.core.domain.SurveySource;
 import org.siemac.metamac.statistical.operations.core.domain.SurveyType;
 import org.siemac.metamac.statistical.operations.core.dto.CollMethodDto;
@@ -32,6 +33,7 @@ import org.siemac.metamac.statistical.operations.core.dto.InstanceTypeDto;
 import org.siemac.metamac.statistical.operations.core.dto.OfficialityTypeDto;
 import org.siemac.metamac.statistical.operations.core.dto.OperationBaseDto;
 import org.siemac.metamac.statistical.operations.core.dto.OperationDto;
+import org.siemac.metamac.statistical.operations.core.dto.OperationUrlDto;
 import org.siemac.metamac.statistical.operations.core.dto.SurveySourceDto;
 import org.siemac.metamac.statistical.operations.core.dto.SurveyTypeDto;
 import org.siemac.metamac.statistical.operations.core.error.ServiceExceptionType;
@@ -336,6 +338,9 @@ public class Do2DtoMapperImpl extends BaseDo2DtoMapperImpl implements Do2DtoMapp
 
         target.setDiffusionAndPublicationVisible(source.getDiffusionPublicationVisible());
         target.setOptimisticLockingVersion(source.getVersion());
+
+        // STATISTICAL OPERATION URLs
+        target.getStatisticalOperationUrls().addAll(operationUrlListToDto(source.getStatisticalOperationUrls()));
 
         return target;
     }
@@ -755,6 +760,30 @@ public class Do2DtoMapperImpl extends BaseDo2DtoMapperImpl implements Do2DtoMapp
         }
 
         return result;
+    }
+
+    private Set<OperationUrlDto> operationUrlListToDto(Set<OperationUrl> operationUrls) throws MetamacException {
+        HashSet<OperationUrlDto> result = new HashSet<OperationUrlDto>();
+
+        if (operationUrls != null) {
+            for (OperationUrl operationUrl : operationUrls) {
+                result.add(operationUrlToDto(operationUrl));
+            }
+        }
+
+        return result;
+    }
+
+    private OperationUrlDto operationUrlToDto(OperationUrl source) throws MetamacException {
+        OperationUrlDto target = new OperationUrlDto();
+
+        if (source == null) {
+            return null;
+        }
+        target.setId(source.getId());
+        target.setUrl(internationalStringToDto(source.getUrl()));
+
+        return target;
     }
 
 }

@@ -8,8 +8,7 @@ public class OperationUrlDS extends DataSource {
     public static final String ID                  = "op-url-id";
 
     public static final String URL                 = "op-url-url";
-    public static final String IS_URL_EDITABLE    = "op-url-edition";
-    public static final String OPERATION_URL_DTO      = "op-url-url";
+    public static final String OPERATION_URL_DTO      = "op-url-dto";
 
     public OperationUrlDS() {
         DataSourceIntegerField id = new DataSourceIntegerField(ID, "identifier");

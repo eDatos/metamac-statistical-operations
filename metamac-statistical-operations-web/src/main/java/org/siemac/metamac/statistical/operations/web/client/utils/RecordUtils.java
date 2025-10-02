@@ -130,13 +130,7 @@ public class RecordUtils {
      * @param operationUrlDto
      * @return
      */
-    public static OperationUrlRecord getAnnotationRecord(OperationUrlDto operationUrlDto, String locale) {
-
-        // Mark the whole record as unmodifiable when the text (localisedString) is unmodifiable. This is possible because in the annotations list only the text and the URL are shown. If the record is
-        // mark as modifiable, maybe the URL can not be edited. This is checked in the AnnotationsPanel.
-        boolean isRecordEdiable = InternationalStringUtils.isLocalisedStringModifiable(operationUrlDto.getUrl(), locale);
-
-        return new OperationUrlRecord(operationUrlDto.getId(),
-                InternationalStringUtils.getLocalisedString(operationUrlDto.getUrl(), locale), isRecordEdiable, operationUrlDto);
+    public static OperationUrlRecord getOperationUrlRecord(OperationUrlDto operationUrlDto, String locale) {
+        return new OperationUrlRecord(operationUrlDto.getId(), InternationalStringUtils.getLocalisedString(operationUrlDto.getUrl(), locale), operationUrlDto);
     }
 }

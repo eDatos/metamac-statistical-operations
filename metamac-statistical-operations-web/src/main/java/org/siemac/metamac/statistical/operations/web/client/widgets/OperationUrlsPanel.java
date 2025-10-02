@@ -13,7 +13,6 @@ import org.siemac.metamac.statistical.operations.web.client.utils.RecordUtils;
 import org.siemac.metamac.web.common.client.MetamacWebCommon;
 import org.siemac.metamac.web.common.client.utils.ApplicationEditionLanguages;
 import org.siemac.metamac.web.common.client.utils.InternationalStringUtils;
-import org.siemac.metamac.web.common.client.utils.ListGridUtils;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.smartgwt.client.data.Record;
@@ -71,20 +70,18 @@ public class OperationUrlsPanel extends VLayout {
         imgLayout.setStyleName("operationUrlPanel");
 
         // OperationUrl icon
-
         operationUrlImg = new Img(GlobalResources.RESOURCE.link().getURL());
-        operationUrlImg.setTooltip(getConstants().statisticalOperationUrl());
-        operationUrlImg.setSize(32);
+        operationUrlImg.setTooltip(getConstants().statisticalOperationUrls());
+        operationUrlImg.setSize(20);
         operationUrlImg.setAlign(Alignment.LEFT);
         imgLayout.addMember(operationUrlImg);
 
         // Add operationUrl icon
-
         addOperationUrlImg = new Img(GlobalResources.RESOURCE.addLink().getURL());
         addOperationUrlImg.setTooltip(getConstants().addStatisticalOperationUrl());
         addOperationUrlImg.setCursor(Cursor.POINTER);
         addOperationUrlImg.setName("note-img");
-        addOperationUrlImg.setSize(32);
+        addOperationUrlImg.setSize(20);
         addOperationUrlImg.setAlign(Alignment.LEFT);
         addOperationUrlImg.addClickHandler(new ClickHandler() {
 
@@ -179,24 +176,21 @@ public class OperationUrlsPanel extends VLayout {
 
         // ListGrid fields
 
-        ListGridField textField = new ListGridField(OperationUrlDS.OPERATION_URL_DTO, getConstants().statisticalOperationUrlText());
-        textField.setShowHover(true);
-        textField.setHoverCustomizer(new HoverCustomizer() {
+        ListGridField urlField = new ListGridField(OperationUrlDS.URL, getConstants().statisticalOperationUrlText());
+        urlField.setShowHover(true);
+        urlField.setHoverCustomizer(new HoverCustomizer() {
 
             @Override
             public String hoverHTML(Object value, ListGridRecord record, int rowNum, int colNum) {
-                return record.getAttribute(OperationUrlDS.OPERATION_URL_DTO);
+                return record.getAttribute(OperationUrlDS.URL);
             }
         });
-        textField.setWidth("50%");
-
-        ListGridField isTextEditable = new ListGridField(OperationUrlDS.IS_URL_EDITABLE, "is-editable");
-        isTextEditable.setShowIfCondition(ListGridUtils.getFalseListGridFieldIfFunction());
+        urlField.setWidth("50%");
 
         ListGridField removeField = new ListGridField(REMOVE_FIELD_NAME, getConstants().actionDelete());
         removeField.setIsRemoveField(true);
 
-        listGrid.setFields(textField, isTextEditable, removeField);
+        listGrid.setFields(urlField, removeField);
         // ListGrid style
 
         Canvas rollUnderCanvasProperties = new Canvas();
@@ -213,9 +207,8 @@ public class OperationUrlsPanel extends VLayout {
         addMember(listGrid);
     }
 
-
     public void setOperationUrls(Set<OperationUrlDto> operationUrls) {
-        // Clear annotations
+        // Clear Operation URLs
         listGrid.selectAllRecords();
         listGrid.removeSelectedData();
         listGrid.deselectAllRecords();
@@ -224,16 +217,15 @@ public class OperationUrlsPanel extends VLayout {
             selectedLocale = selectItem.getValueAsString();
         }
 
-        // Set annotations in the selected locale
+        // Set  Operation URLs in the selected locale
         for (OperationUrlDto operationUrlDto : operationUrls) {
-            OperationUrlRecord record = RecordUtils.getAnnotationRecord(operationUrlDto, selectedLocale);
+            OperationUrlRecord record = RecordUtils.getOperationUrlRecord(operationUrlDto, selectedLocale);
             listGrid.addData(record);
         }
 
         // Show/hide Add and Remove icons
-        setCanAddOrRemoveAnnotations(viewMode);
+        setCanAddOrRemoveOperationUrls(viewMode);
     }
-
 
     public void setTranslationsShowed(boolean translationsShowed) {
         this.translationsShowed = translationsShowed;
@@ -251,18 +243,16 @@ public class OperationUrlsPanel extends VLayout {
         for (int i = 0; i < listGrid.getRecords().length; i++) {
             if (listGrid.getRecord(i).getAttribute(OperationUrlDS.OPERATION_URL_DTO) != null) {
                 OperationUrlDto operationUrlDto = (OperationUrlDto) listGrid.getRecord(i).getAttributeAsObject(OperationUrlDS.OPERATION_URL_DTO);
-                listGrid.getRecord(i).setAttribute(OperationUrlDS.OPERATION_URL_DTO, InternationalStringUtils.getLocalisedString(operationUrlDto.getUrl(), locale));
-                listGrid.getRecord(i).setAttribute(OperationUrlDS.IS_URL_EDITABLE, InternationalStringUtils.isLocalisedStringModifiable(operationUrlDto.getUrl(), locale));
+                listGrid.getRecord(i).setAttribute(OperationUrlDS.URL, InternationalStringUtils.getLocalisedString(operationUrlDto.getUrl(), locale));
             }
         }
         listGrid.redraw();
     }
 
-    private void setCanAddOrRemoveAnnotations(boolean viewMode) {
-        operationUrlImg.hide();
+    private void setCanAddOrRemoveOperationUrls(boolean viewMode) {
         addOperationUrlImg.hide();
 
-        if (!viewMode ) {
+        if (!viewMode) {
             // URL can be created: edition mode is selected
             addOperationUrlImg.show();
             listGrid.showField(REMOVE_FIELD_NAME);
@@ -276,36 +266,8 @@ public class OperationUrlsPanel extends VLayout {
 
         @Override
         protected boolean canEditCell(int rowNum, int colNum) {
-            if (viewMode) {
-
-                // In view mode, NEVER edit cell values
-                return false;
-
-            } else {
-
-                // In edition mode, if the maintainer is not the default one:
-                // - do not edit the text value if it is marked as unmodifiable
-
-                // if (!CommonUtils.canSdmxMetadataAndStructureBeModified(maintainableArtefactDto)) {
-                // String fieldName = listGrid.getField(colNum) != null ? listGrid.getField(colNum).getName() : null;
-                //
-                // // URL cell: never update operationUrls URL if the operationUrl maintainer is not the default one
-                // if (StringUtils.equals(OperationUrlDS.URL, fieldName)) {
-                // return false;
-                // }
-                //
-                // // Text cell: update text only if the LocalisedString is modifiable
-                // Record record = listGrid.getRecord(rowNum);
-                // if (record != null) {
-                // if (record instanceof OperationUrlRecord) {
-                // return ((OperationUrlRecord) record).getIsTextEditable();
-                // } else {
-                // // Nothing happens. If the record is not instance of OperationUrlRecord is because has been recently created.
-                // }
-                // }
-                // }
-                return true;
-            }
+            // In view mode, NEVER edit cell values
+            return !viewMode;
         }
     }
 }

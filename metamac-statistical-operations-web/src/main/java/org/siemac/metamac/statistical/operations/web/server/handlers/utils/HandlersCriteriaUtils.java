@@ -53,31 +53,47 @@ public class HandlersCriteriaUtils {
         criteria.setRestriction(disjuction);
     }
 
-    public static void buildMetamacCriteriaFromOperationCriteria(MetamacCriteria criteria, OperationCriteria operationCriteria, String operation) {
-        MetamacCriteriaConjunctionRestriction disjuction = new MetamacCriteriaConjunctionRestriction();
+    public static void buildMetamacCriteriaFromOperationCriteria(MetamacCriteria webCriteria, OperationCriteria operationCriteria, String operation) {
+        MetamacCriteriaConjunctionRestriction criteria = new MetamacCriteriaConjunctionRestriction();
 
         if (!StringUtils.isBlank(operation)) {
-            // @formatter:off
-            disjuction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.CODE.name(), operation, MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
-            disjuction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.TITLE.name(), operation, MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
-            disjuction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.DESCRIPTION.name(), operation, MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
-            disjuction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.ACRONYM.name(), operation, MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
-            disjuction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.TECHNICIAN_IN_CHARGE.name(), operation, MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
-            disjuction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.ASSISTANT_TECHNICIAN.name(), operation, MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
-            disjuction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.STATISTIC_PLAN_CODE.name(), operation, MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
-            // @formatter:on
+            criteria.getRestrictions().add(buildSimpleSearch(operation));
         }
-        addRestrictionIfExists(disjuction, buildCodeCriteria(operationCriteria));
-        addRestrictionIfExists(disjuction, buildTitleCriteria(operationCriteria));
-        addRestrictionIfExists(disjuction, buildStatusCriteria(operationCriteria));
-        addRestrictionIfExists(disjuction, buildDisaggregationBySexCriteria(operationCriteria));
-        addRestrictionIfExists(disjuction, buildDisaggregationByAgeCriteria(operationCriteria));
-        addRestrictionIfExists(disjuction, buildDisaggregationByNationalityCriteria(operationCriteria));
-        addRestrictionIfExists(disjuction, buildDisaggregationByDisabilityCriteria(operationCriteria));
 
-        criteria.setRestriction(disjuction);
+        MetamacCriteriaConjunctionRestriction advanced = buildAdvancedSearch(operationCriteria);
+        if (!advanced.getRestrictions().isEmpty()) {
+            criteria.getRestrictions().add(advanced);
+        }
+
+        webCriteria.setRestriction(criteria);
     }
 
+    private static MetamacCriteriaDisjunctionRestriction buildSimpleSearch(String operation) {
+        MetamacCriteriaDisjunctionRestriction disjuction = new MetamacCriteriaDisjunctionRestriction();
+
+        disjuction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.CODE.name(), operation, MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
+        disjuction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.TITLE.name(), operation, MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
+        disjuction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.DESCRIPTION.name(), operation, MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
+        disjuction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.ACRONYM.name(), operation, MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
+        disjuction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.TECHNICIAN_IN_CHARGE.name(), operation, MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
+        disjuction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.ASSISTANT_TECHNICIAN.name(), operation, MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
+        disjuction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.STATISTIC_PLAN_CODE.name(), operation, MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
+
+        return disjuction;
+    }
+    private static MetamacCriteriaConjunctionRestriction buildAdvancedSearch(OperationCriteria operationCriteria) {
+        MetamacCriteriaConjunctionRestriction advanced = new MetamacCriteriaConjunctionRestriction();
+
+        addRestrictionIfExists(advanced, buildCodeCriteria(operationCriteria));
+        addRestrictionIfExists(advanced, buildTitleCriteria(operationCriteria));
+        addRestrictionIfExists(advanced, buildStatusCriteria(operationCriteria));
+        addRestrictionIfExists(advanced, buildDisaggregationBySexCriteria(operationCriteria));
+        addRestrictionIfExists(advanced, buildDisaggregationByAgeCriteria(operationCriteria));
+        addRestrictionIfExists(advanced, buildDisaggregationByNationalityCriteria(operationCriteria));
+        addRestrictionIfExists(advanced, buildDisaggregationByDisabilityCriteria(operationCriteria));
+
+        return advanced;
+    }
     private static void addRestrictionIfExists(MetamacCriteriaConjunctionRestriction criteria, MetamacCriteriaRestriction restriction) {
         if (restriction != null) {
             criteria.getRestrictions().add(restriction);

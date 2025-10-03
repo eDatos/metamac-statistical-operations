@@ -56,8 +56,6 @@ public class OperationUrlsPanel extends VLayout {
     private Img                   operationUrlImg;
     private Img                   addOperationUrlImg;
 
-    // private MaintainableArtefactDto maintainableArtefactDto;
-
     public OperationUrlsPanel(boolean viewMode) {
         super();
         this.viewMode = viewMode;

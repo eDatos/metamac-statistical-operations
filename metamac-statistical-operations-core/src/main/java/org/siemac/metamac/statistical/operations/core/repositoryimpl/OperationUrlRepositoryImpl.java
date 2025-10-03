@@ -12,7 +12,6 @@ public class OperationUrlRepositoryImpl extends OperationUrlRepositoryBase {
 
     public void findByOperationId() {
 
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException(
             "findByOperationId not implemented");
 

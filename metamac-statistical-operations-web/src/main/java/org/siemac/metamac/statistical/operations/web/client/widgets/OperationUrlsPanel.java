@@ -2,6 +2,7 @@ package org.siemac.metamac.statistical.operations.web.client.widgets;
 
 import static org.siemac.metamac.statistical.operations.web.client.OperationsWeb.getConstants;
 
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
@@ -225,6 +226,16 @@ public class OperationUrlsPanel extends VLayout {
 
         // Show/hide Add and Remove icons
         setCanAddOrRemoveOperationUrls(viewMode);
+    }
+
+    public Set<OperationUrlDto> getOperationUrls() {
+        Set<OperationUrlDto> operationsUrls = new HashSet<OperationUrlDto>();
+        ListGridRecord[] records = listGrid.getRecords();
+        for (int i = 0; i < records.length; i++) {
+            OperationUrlDto annotationDto = (OperationUrlDto) records[i].getAttributeAsObject(OperationUrlDS.OPERATION_URL_DTO);
+            operationsUrls.add(annotationDto);
+        }
+        return operationsUrls;
     }
 
     public void setTranslationsShowed(boolean translationsShowed) {

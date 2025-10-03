@@ -472,7 +472,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         operationDto.setRevPolicy(diffusionEditionForm.getValueAsInternationalStringDto(OperationDS.REV_POLICY));
         operationDto.setRevPractice(diffusionEditionForm.getValueAsInternationalStringDto(OperationDS.REV_PRACTICE));
 
-        //OPERATION URLS
+        // OPERATION URLS
         operationDto.getStatisticalOperationUrls().clear();
         operationDto.getStatisticalOperationUrls().addAll(editOperationUrlsPanel.getOperationUrls());
 
@@ -985,7 +985,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
                         ? MetamacWebCommon.getConstants().yes()
                         : MetamacWebCommon.getConstants().no());
 
-        //OPERATION URLS
+        // OPERATION URLS
 
         viewOperationUrlsPanel.setOperationUrls(operationDto.getStatisticalOperationUrls());
 
@@ -1089,7 +1089,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         diffusionEditionForm.setRequiredTitleSuffix(requiredFieldsToNextProcStatus);
         diffusionEditionForm.markForRedraw();
 
-        //OPERATION URLS
+        // OPERATION URLS
 
         editOperationUrlsPanel.setOperationUrls(operationDto.getStatisticalOperationUrls());
 

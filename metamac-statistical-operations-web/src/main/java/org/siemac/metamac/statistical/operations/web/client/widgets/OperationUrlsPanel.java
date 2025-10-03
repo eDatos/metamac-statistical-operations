@@ -1,6 +1,7 @@
 package org.siemac.metamac.statistical.operations.web.client.widgets;
 
 import static org.siemac.metamac.statistical.operations.web.client.OperationsWeb.getConstants;
+import static org.siemac.metamac.statistical.operations.web.client.OperationsWeb.getMessages;
 
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -13,7 +14,9 @@ import org.siemac.metamac.statistical.operations.web.client.resources.GlobalReso
 import org.siemac.metamac.statistical.operations.web.client.utils.RecordUtils;
 import org.siemac.metamac.web.common.client.MetamacWebCommon;
 import org.siemac.metamac.web.common.client.utils.ApplicationEditionLanguages;
+import org.siemac.metamac.web.common.client.utils.CommonWebUtils;
 import org.siemac.metamac.web.common.client.utils.InternationalStringUtils;
+import org.siemac.metamac.web.common.client.utils.UrlUtils;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.smartgwt.client.data.Record;
@@ -22,7 +25,9 @@ import com.smartgwt.client.types.AnimationEffect;
 import com.smartgwt.client.types.Autofit;
 import com.smartgwt.client.types.Cursor;
 import com.smartgwt.client.types.ListGridEditEvent;
+import com.smartgwt.client.types.ListGridFieldType;
 import com.smartgwt.client.types.SelectionStyle;
+import com.smartgwt.client.util.SC;
 import com.smartgwt.client.widgets.Canvas;
 import com.smartgwt.client.widgets.Img;
 import com.smartgwt.client.widgets.events.ClickEvent;
@@ -151,7 +156,6 @@ public class OperationUrlsPanel extends VLayout {
         listGrid.setShowHeaderContextMenu(false); // Do not show menu options (avoid to show remove field column)
         listGrid.setShowAllRecords(true);
         listGrid.addEditCompleteHandler(new EditCompleteHandler() {
-
             @Override
             public void onEditComplete(EditCompleteEvent event) {
                 if (event.getNewValues() != null && event.getNewValues().size() > 0) {
@@ -160,12 +164,18 @@ public class OperationUrlsPanel extends VLayout {
                     if (record.getAttributeAsObject(OperationUrlDS.OPERATION_URL_DTO) != null && record.getAttributeAsObject(OperationUrlDS.OPERATION_URL_DTO) instanceof OperationUrlDto) {
                         operationUrlDto = (OperationUrlDto) record.getAttributeAsObject(OperationUrlDS.OPERATION_URL_DTO);
                     }
-
-                    // Text
                     if (event.getNewValues().containsKey(OperationUrlDS.URL)) {
                         String locale = translationsShowed ? selectItem.getValueAsString() : ApplicationEditionLanguages.getCurrentLocale();
-                        String text = event.getNewValues().get(OperationUrlDS.URL) != null ? (String) event.getNewValues().get(OperationUrlDS.URL) : null;
-                        operationUrlDto.setUrl(InternationalStringUtils.updateInternationalString(locale, operationUrlDto.getUrl(), text));
+                        String rawUrl = (String) event.getNewValues().get(OperationUrlDS.URL);
+
+                        if (rawUrl != null) {
+                            String normalizedUrl = UrlUtils.addHttpPrefixIfNeeded(rawUrl);
+                            if (CommonWebUtils.isValidUrl(normalizedUrl)) {
+                                operationUrlDto.setUrl(
+                                        InternationalStringUtils.updateInternationalString(locale, operationUrlDto.getUrl(), normalizedUrl)
+                                );
+                            }
+                        }
                     }
 
                     listGrid.getRecord(event.getRowNum()).setAttribute(OperationUrlDS.OPERATION_URL_DTO, operationUrlDto);
@@ -177,6 +187,7 @@ public class OperationUrlsPanel extends VLayout {
 
         ListGridField urlField = new ListGridField(OperationUrlDS.URL, getConstants().statisticalOperationUrlText());
         urlField.setShowHover(true);
+        urlField.setType(ListGridFieldType.LINK);
         urlField.setHoverCustomizer(new HoverCustomizer() {
 
             @Override
@@ -185,6 +196,7 @@ public class OperationUrlsPanel extends VLayout {
             }
         });
         urlField.setWidth("50%");
+        urlField.setValidators(CommonWebUtils.getUrlValidator());
 
         ListGridField removeField = new ListGridField(REMOVE_FIELD_NAME, getConstants().actionDelete());
         removeField.setIsRemoveField(true);
@@ -260,6 +272,7 @@ public class OperationUrlsPanel extends VLayout {
 
     private void setCanAddOrRemoveOperationUrls(boolean viewMode) {
         addOperationUrlImg.hide();
+        operationUrlImg.hide();
 
         if (!viewMode) {
             // URL can be created: edition mode is selected

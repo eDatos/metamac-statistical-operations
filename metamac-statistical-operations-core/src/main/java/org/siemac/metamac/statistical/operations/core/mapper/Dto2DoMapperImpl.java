@@ -28,6 +28,8 @@ import org.siemac.metamac.statistical.operations.core.domain.Instance;
 import org.siemac.metamac.statistical.operations.core.domain.InstanceType;
 import org.siemac.metamac.statistical.operations.core.domain.OfficialityType;
 import org.siemac.metamac.statistical.operations.core.domain.Operation;
+import org.siemac.metamac.statistical.operations.core.domain.OperationUrl;
+import org.siemac.metamac.statistical.operations.core.domain.OperationUrlRepository;
 import org.siemac.metamac.statistical.operations.core.domain.SurveySource;
 import org.siemac.metamac.statistical.operations.core.domain.SurveyType;
 import org.siemac.metamac.statistical.operations.core.dto.CollMethodDto;
@@ -37,6 +39,7 @@ import org.siemac.metamac.statistical.operations.core.dto.InstanceDto;
 import org.siemac.metamac.statistical.operations.core.dto.InstanceTypeDto;
 import org.siemac.metamac.statistical.operations.core.dto.OfficialityTypeDto;
 import org.siemac.metamac.statistical.operations.core.dto.OperationDto;
+import org.siemac.metamac.statistical.operations.core.dto.OperationUrlDto;
 import org.siemac.metamac.statistical.operations.core.dto.SurveySourceDto;
 import org.siemac.metamac.statistical.operations.core.dto.SurveyTypeDto;
 import org.siemac.metamac.statistical.operations.core.enume.domain.ProcStatusEnum;
@@ -62,6 +65,9 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
 
     @Autowired
     private ExternalItemRepository            externalItemRepository;
+
+    @Autowired
+    private OperationUrlRepository            operationUrlRepository;
 
     /**************************************************************************
      * PUBLIC - LISTS
@@ -376,9 +382,8 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
         // REV_PRACTICE
         target.setRevPractice(internationalStringToEntity(source.getRevPractice(), target.getRevPractice(), ServiceExceptionParameters.OPERATION_REV_PRACTICE));
 
-        //STATISTICAL_OPERATION_URL
-        //FIXME: EDATOS-5195
-        //target.setStatisticalOperationUrl(source.getStatisticalOperationUrl());
+        // STATISTICAL_OPERATION_URL
+        target.getStatisticalOperationUrls().addAll(operationUrlListToEntity(source.getStatisticalOperationUrls(), target.getStatisticalOperationUrls(), target));
 
         // CONTACT: Extracted from AppCommonMetadata
 
@@ -688,6 +693,66 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
     private ExternalItem srmExternalItemDtoToDo(ExternalItemDto source, ExternalItem target) throws MetamacException {
         target.setUri(srmInternalApiUrlDtoToDo(source.getUri()));
         target.setManagementAppUrl(srmInternalWebAppUrlDtoToDo(source.getManagementAppUrl()));
+        return target;
+    }
+
+    private Set<OperationUrl> operationUrlListToEntity(Set<OperationUrlDto> sources, Set<OperationUrl> targets, Operation operation) throws MetamacException {
+
+        Set<OperationUrl> targetsBefore = targets;
+        Set<OperationUrl> newTargets = new HashSet<OperationUrl>();
+
+        for (OperationUrlDto source : sources) {
+            boolean existsBefore = false;
+            for (OperationUrl target : targetsBefore) {
+                if (source.getId() != null && target.getId().equals(source.getId())) {
+                    newTargets.add(operationUrlDtoToEntity(source, target, operation));
+                    existsBefore = true;
+                    break;
+                }
+            }
+            if (!existsBefore) {
+                newTargets.add(operationUrlDtoToEntity(source, null, operation));
+            }
+        }
+
+        // Delete missing
+        for (OperationUrl oldTarget : targetsBefore) {
+            boolean found = false;
+            for (OperationUrl newTarget : newTargets) {
+                if (newTarget.getId() != null && oldTarget.getId().equals(newTarget.getId())) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                // Delete
+                operationUrlDtoToEntity(null, oldTarget, operation);
+            }
+        }
+
+        targets.clear();
+        for (OperationUrl target : newTargets) {
+            targets.add(target);
+        }
+
+        return targets;
+    }
+
+    private OperationUrl operationUrlDtoToEntity(OperationUrlDto source, OperationUrl target, Operation operation) throws MetamacException {
+
+        if (source == null) {
+            if (target != null) {
+                // delete previous entity
+                operationUrlRepository.delete(target);
+            }
+            return null;
+        }
+
+        if (target == null) {
+            target = new OperationUrl();
+        }
+        target.setUrl(internationalStringToEntity(source.getUrl(), target.getUrl(), ServiceExceptionParameters.OPERATION_URL));
+        target.setOperation(operation);
         return target;
     }
 

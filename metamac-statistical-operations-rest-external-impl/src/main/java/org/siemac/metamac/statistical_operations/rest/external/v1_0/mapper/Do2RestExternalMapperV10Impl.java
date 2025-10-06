@@ -132,7 +132,7 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         target.setInventoryDate(toDate(source.getInventoryDate()));
         target.setRevPolicy(toInternationalString(source.getRevPolicy()));
         target.setRevPractice(toInternationalString(source.getRevPractice()));
-        target.setStatisticalOperationUrls(toOperationMultilingualUrls(source.getStatisticalOperationUrls(), target.getStatisticalOperationUrls()));
+        target.setStatisticalOperationUrls(toStatisticalOperationUrls(source.getStatisticalOperationUrls(), target.getStatisticalOperationUrls()));
         commonMetadataToOperation(source.getCommonMetadata(), target);
         target.setLegalActs(toOperationLegalActs(source.getSpecificLegalActs(), null, target.getLegalActs()));
         target.setDataSharings(toOperationDataSharings(source.getSpecificDataSharing(), null, target.getDataSharings()));
@@ -521,7 +521,7 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         return target;
     }
 
-    private StatisticalOperationUrls toOperationMultilingualUrls(Set<OperationUrl> sources, StatisticalOperationUrls target) {
+    private StatisticalOperationUrls toStatisticalOperationUrls(Set<OperationUrl> sources, StatisticalOperationUrls target) {
         if (target == null) {
             target = new StatisticalOperationUrls();
             target.setTotal(BigInteger.ZERO);

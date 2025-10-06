@@ -14,7 +14,7 @@ actualización de la versión 1.0.0 a la 2.0.0.*
 
 *Se deberá realizar primero la actualización de la versión 1.0.0 a la 2.0.0 y luego desde la 2.0.0 a la 3.0.0*
 
-## 4.8.1 a 4.8.1-SNAPSHOT
+## 4.8.0 a 4.8.1-SNAPSHOT
 * Es necesario ejecutar el script SQL contenido en la carpeta
   ```shell
   etc/changes-from-release/4.8.1/db/common-metadata/postgresql/20250922_add_statistical_operation_url.sql

@@ -66,7 +66,7 @@ public class ServiceExceptionParameters extends CommonServiceExceptionParameters
     public static final String INSTANCE_CLASS_SYSTEM             = "parameter.operations.instance.class_system";
     public static final String INSTANCE_CLASS_SYSTEM_LIST        = "parameter.operations.instance.class_system_list";
     public static final String INSTANCE_DOC_METHOD               = "parameter.operations.instance.doc_method";
-    public static final String INSTANCE_INFORMATION_SUPPLIERS    = "parameter.operations.instance.information_suppliers";
+    public static final String INSTANCE_PUBLIC_INFORMATION_SUPPLIERS    = "parameter.operations.instance.public_information_suppliers";
     public static final String INSTANCE_FREQ_COLL                = "parameter.operations.instance.freq_coll";
     public static final String INSTANCE_DATA_VALIDATION          = "parameter.operations.instance.data_validation";
     public static final String INSTANCE_DATA_COMPILATION         = "parameter.operations.instance.data_compilation";

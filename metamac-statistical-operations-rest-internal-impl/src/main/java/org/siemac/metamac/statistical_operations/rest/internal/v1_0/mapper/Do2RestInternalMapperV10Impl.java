@@ -36,7 +36,7 @@ import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Famil
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Family;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.FreqColls;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.GeographicGranularities;
-import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.InformationSuppliers;
+import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.PublicInformationSuppliers;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Instance;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.InstanceTypes;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Instances;
@@ -330,7 +330,7 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         target.setDocMethod(this.toInternationalString(source.getDocMethod()));
         target.setStatisticalOperationSource(this.toItem(source.getSurveySource()));
         target.setCollMethod(this.toItem(source.getCollMethod()));
-        target.setInformationSuppliers(this.toInformationSuppliers(source.getInformationSuppliers()));
+        target.setPublicInformationSuppliers(this.toPublicInformationSuppliers(source.getPublicInformationSuppliers()));
         target.setFreqColls(this.toFreqColls(source.getFreqColl()));
         target.setDataValidation(this.toInternationalString(source.getDataValidation()));
         target.setDataCompilation(this.toInternationalString(source.getDataCompilation()));
@@ -1075,14 +1075,14 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         return targets;
     }
 
-    private InformationSuppliers toInformationSuppliers(Set<ExternalItem> sources) {
+    private PublicInformationSuppliers toPublicInformationSuppliers(Set<ExternalItem> sources) {
         if (sources == null || sources.size() == 0) {
             return null;
         }
-        InformationSuppliers targets = new InformationSuppliers();
-        this.toResourcesExternalItemsSrm(sources, targets.getInformationSuppliers());
+        PublicInformationSuppliers targets = new PublicInformationSuppliers();
+        this.toResourcesExternalItemsSrm(sources, targets.getPublicInformationSuppliers());
         targets.setKind(SrmRestConstants.KIND_DATA_PROVIDERS);
-        targets.setTotal(BigInteger.valueOf(targets.getInformationSuppliers().size()));
+        targets.setTotal(BigInteger.valueOf(targets.getPublicInformationSuppliers().size()));
         return targets;
     }
 

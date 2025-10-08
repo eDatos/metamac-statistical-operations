@@ -67,7 +67,7 @@ public class InstanceDo2AvroMapper implements Do2AvroMapper<Instance, InstanceAv
                 .setGeographicGranularity(externalItemDo2AvroMapper.toAvros(source.getGeographicGranularity()))
                 .setTemporalGranularity(externalItemDo2AvroMapper.toAvros(source.getTemporalGranularity())).setUnitMeasure(externalItemDo2AvroMapper.toAvros(source.getUnitMeasure()))
                 .setStatConcDefList(externalItemDo2AvroMapper.toAvros(source.getStatConcDefList())).setClassSystemList(externalItemDo2AvroMapper.toAvros(source.getClassSystemList()))
-                .setInformationSuppliers(externalItemDo2AvroMapper.toAvros(source.getInformationSuppliers())).setFreqColl(externalItemDo2AvroMapper.toAvros(source.getFreqColl()))
+                .setPublicInformationSuppliers(externalItemDo2AvroMapper.toAvros(source.getPublicInformationSuppliers())).setFreqColl(externalItemDo2AvroMapper.toAvros(source.getFreqColl()))
                 .setCost(costDo2AvroMapper.toAvros(source.getCost())).build();
     }
 }

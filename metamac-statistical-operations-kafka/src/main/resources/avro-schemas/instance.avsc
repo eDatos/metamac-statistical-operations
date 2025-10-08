@@ -55,7 +55,7 @@
         {"name": "unitMeasure", "type": {"type": "array", "items": "ExternalItemAvro"}},
         {"name": "statConcDefList", "type": {"type": "array", "items": "ExternalItemAvro"}},
         {"name": "classSystemList", "type": {"type": "array", "items": "ExternalItemAvro"}},
-        {"name": "informationSuppliers", "type": {"type": "array", "items": "ExternalItemAvro"}},
+        {"name": "publicInformationSuppliers", "type": {"type": "array", "items": "ExternalItemAvro"}},
         {"name": "freqColl", "type": {"type": "array", "items": "ExternalItemAvro"}},
         {"name": "cost", "type": {"type": "array", "items": "CostAvro"}}
     ]

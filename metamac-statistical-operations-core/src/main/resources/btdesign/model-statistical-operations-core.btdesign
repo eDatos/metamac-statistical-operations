@@ -512,8 +512,8 @@ Application StatisticalOperations {
        		- @SurveySource surveySource cascade="none" nullable databaseColumn="SURVEY_SOURCE_FK";
        		"Metadata COLL_METHOD"
        		- @CollMethod collMethod cascade="none" nullable databaseColumn="COLL_METHOD_FK";
-       		"Metadata INFORMATION_SUPPLIERS. Its type is ORGANIZATION / CONCEPTS"
-       		- Set<@ExternalItem> informationSuppliers databaseColumn="INFORMATION_SUPPLIERS_FK" databaseJoinTable="TB_EI_INF_SUPPLIERS"  cascade="all-delete-orphan";
+       		"Metadata PUBLIC_INFORMATION_SUPPLIERS. Its type is ORGANIZATION / CONCEPTS"
+       		- Set<@ExternalItem> publicInformationSuppliers databaseColumn="PUBLIC_INF_SUPPLIERS_FK" databaseJoinTable="TB_EI_PUBLIC_INF_SUPPLIERS"  cascade="all-delete-orphan";
        		"Metadata FREQ_COLL. Its type is CODE"
        		- Set<@ExternalItem> freqColl databaseColumn="FREQ_COLL_FK" databaseJoinTable="TB_EI_FREQ_COLL"  cascade="all-delete-orphan";
        		"Metadata DATA_VALIDATION"

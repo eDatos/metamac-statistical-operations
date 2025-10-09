@@ -260,7 +260,9 @@ public class FamilyPresenter extends Presenter<FamilyPresenter.FamilyView, Famil
     @Override
     public void retrieveOperations(int firstResult, int maxResults, MetamacWebCriteria metamacWebCriteria) {
 
-        dispatcher.execute(new GetOperationPaginatedListAction(firstResult, maxResults, (OperationCriteria) metamacWebCriteria),
+        OperationCriteria operationCriteria = new OperationCriteria();
+        operationCriteria.setCriteria(metamacWebCriteria.getCriteria());
+        dispatcher.execute(new GetOperationPaginatedListAction(firstResult, maxResults, operationCriteria),
                 new WaitingAsyncCallbackHandlingError<GetOperationPaginatedListResult>(this) {
 
                     @Override

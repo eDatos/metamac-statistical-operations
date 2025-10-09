@@ -16,7 +16,7 @@ actualización de la versión 1.0.0 a la 2.0.0.*
 
 
 ## 4.8.1 a 4.8.2-SNAPSHOT
-* Esta versión depende de la versión 3.11.1-SNAPSHOT de eUsuarios. Por lo tanto, no se puede subir la versión 4.8.1-SNAPSHOT de metamac-statistical-operations  sin haber subido la versión 3.11.1-SNAPSHOT de eUsuarios y viceversa.
+* Esta versión depende de la versión 3.11.2-SNAPSHOT de eUsuarios. Por lo tanto, no se puede subir la versión 4.8.2-SNAPSHOT de metamac-statistical-operations  sin haber subido la versión 3.11.2-SNAPSHOT de eUsuarios y viceversa.
 * Se debe resetear el schema registry para el topic OPERATION_PUBLICATIONS debido a que se añade el nuevo estado _PRE_PLANNING_
   
 ```shell 

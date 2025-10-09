@@ -192,6 +192,7 @@ Application StatisticalOperationsDto {
             - @InternationalStringDto seasonalAdjustment nullable;
             - @InternationalStringDto costBurden nullable;
             - Set<@CostDto> cost;
+            - @InternationalStringDto costDetail nullable;
 
             JAVADATE inventoryDate nullable;
 
@@ -220,6 +221,8 @@ Application StatisticalOperationsDto {
             - @InternationalStringDto notes nullable;
 
             Long optimisticLockingVersion;
+
+
         }
 
         "Dto for InstanceBaseDto"

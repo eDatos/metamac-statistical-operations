@@ -72,6 +72,7 @@ public class ServiceExceptionParameters extends CommonServiceExceptionParameters
     public static final String INSTANCE_ADJUSTMENT               = "parameter.operations.instance.adjustment";
     public static final String INSTANCE_SEASONAL_ADJUSTMENT      = "parameter.operations.instance.seasonal_adjustment";
     public static final String INSTANCE_COST_BURDEN              = "parameter.operations.instance.cost_burden";
+    public static final String INSTANCE_COST_DETAILS             = "parameter.operations.instance.cost_detail";
     public static final String INSTANCE_QUALITY_DOC              = "parameter.operations.instance.quality_doc";
     public static final String INSTANCE_QUALITY_ASSURE           = "parameter.operations.instance.quality_assure";
     public static final String INSTANCE_QUALITY_ASSMNT           = "parameter.operations.instance.quality_assmnt";

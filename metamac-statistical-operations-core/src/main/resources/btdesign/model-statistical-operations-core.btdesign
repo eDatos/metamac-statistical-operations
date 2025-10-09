@@ -523,6 +523,8 @@ Application StatisticalOperations {
        		- @InternationalString costBurden cascade="all" nullable databaseColumn="COST_BURDEN_FK";
        		"Metadata COST"
        		- Set<@Cost> cost cascade="none" databaseColumn="COST_FK" databaseJoinTable="TB_INSTANCES_COSTS";
+       		"Metadata COST_DETAIL"
+            - @InternationalString costDetail cascade="all" nullable databaseColumn="COST_DETAIL_FK";
 
        		"INVENTORY_DATE"
        		DateTimeTZ inventoryDate nullable;

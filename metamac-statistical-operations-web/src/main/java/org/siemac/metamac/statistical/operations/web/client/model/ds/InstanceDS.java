@@ -44,6 +44,7 @@ public class InstanceDS extends DataSource {
     public static final String ADJUSTMENT                   = "in-adjust";
     public static final String SEASONAL_ADJUSTMENT          = "in-season-adjust";
     public static final String COST_BURDEN                  = "in-cost-burden";
+    public static final String COST_DETAIL                  = "in-cost-detail";
     public static final String COST                         = "in-cost";
     public static final String CREATED_DATE                 = "in-created-date";
     // DIFFUSION DESCRIPTORS

@@ -34,6 +34,7 @@
         {"name": "dataCompilation", "type": ["null", "InternationalStringAvro"]},
         {"name": "adjustment", "type": ["null", "InternationalStringAvro"]},
         {"name": "costBurden", "type": ["null", "InternationalStringAvro"]},
+        {"name": "costDetail", "type": ["null", "InternationalStringAvro"]},
         {"name": "qualityDoc", "type": ["null", "InternationalStringAvro"]},
         {"name": "qualityAssure", "type": ["null", "InternationalStringAvro"]},
         {"name": "qualityAssmnt", "type": ["null", "InternationalStringAvro"]},

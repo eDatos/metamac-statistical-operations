@@ -1046,7 +1046,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         productionDescriptorsEditionForm.setValue(OperationDS.DISAGGREGATION_BY_SEX, BooleanWebUtils.getBooleanLabel(operationDto.getDisaggregationBySex()));
         productionDescriptorsEditionForm.setValue(OperationDS.DISAGGREGATION_BY_AGE, BooleanWebUtils.getBooleanLabel(operationDto.getDisaggregationByAge()));
         productionDescriptorsEditionForm.setValue(OperationDS.DISAGGREGATION_BY_NATIONALITY, BooleanWebUtils.getBooleanLabel(operationDto.getDisaggregationByNationality()));
-        productionDescriptorsEditionForm.setValue(OperationDS.DISAGGREGATION_BY_NATIONALITY, BooleanWebUtils.getBooleanLabel(operationDto.getDisaggregationByDisability()));
+        productionDescriptorsEditionForm.setValue(OperationDS.DISAGGREGATION_BY_DISABILITY, BooleanWebUtils.getBooleanLabel(operationDto.getDisaggregationByDisability()));
         statusItem.setValue(operationDto.getStatus() == null ? null : operationDto.getStatus().toString());
         productionDescriptorsEditionForm.setValue(OperationDS.PROC_STATUS, CommonUtils.getProcStatusName(operationDto.getProcStatus()));
         productionDescriptorsEditionForm.setValue(OperationDS.PROC_STATUS_VIEW, operationDto.getProcStatus().toString());

@@ -42,7 +42,6 @@ import org.siemac.metamac.statistical.operations.web.client.widgets.NewInstanceF
 import org.siemac.metamac.statistical.operations.web.client.widgets.OperationMainFormLayout;
 import org.siemac.metamac.statistical.operations.web.shared.external.GetUsersAccessControlListResult;
 import org.siemac.metamac.web.common.client.MetamacWebCommon;
-import org.siemac.metamac.web.common.client.utils.BooleanWebUtils;
 import org.siemac.metamac.web.common.client.utils.CommonWebUtils;
 import org.siemac.metamac.web.common.client.utils.CustomRequiredValidator;
 import org.siemac.metamac.web.common.client.utils.FormItemUtils;
@@ -138,10 +137,6 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
     private GroupDynamicForm                          productionDescriptorsForm;
     private GroupDynamicForm                          productionDescriptorsEditionForm;
     private CustomCheckboxItem                        currentlyActiveItem;
-    private BooleanSelectItem                        disaggregationBySexItem;
-    private BooleanSelectItem                        disaggregationByAgeItem;
-    private BooleanSelectItem                        disaggregationByNationalityItem;
-    private BooleanSelectItem                        disaggregationByDisabilityItem;
     private CustomSelectItem                          statusItem;
 
     // DIFUSSION AND PUBLICATION
@@ -453,10 +448,10 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
 
         operationDto.setGenderPerspective(productionDescriptorsEditionForm.getValueAsInternationalStringDto(OperationDS.GENDER_PERSPECTIVE));
 
-        operationDto.setDisaggregationBySex(disaggregationBySexItem.getBooleanValue());
-        operationDto.setDisaggregationByAge(disaggregationByAgeItem.getBooleanValue());
-        operationDto.setDisaggregationByNationality(disaggregationByNationalityItem.getBooleanValue());
-        operationDto.setDisaggregationByDisability(disaggregationByDisabilityItem.getBooleanValue());
+        operationDto.setDisaggregationBySex(((BooleanSelectItem) productionDescriptorsEditionForm.getItem(OperationDS.DISAGGREGATION_BY_SEX)).getBooleanValue());
+        operationDto.setDisaggregationByAge(((BooleanSelectItem) productionDescriptorsEditionForm.getItem(OperationDS.DISAGGREGATION_BY_AGE)).getBooleanValue());
+        operationDto.setDisaggregationByNationality(((BooleanSelectItem) productionDescriptorsEditionForm.getItem(OperationDS.DISAGGREGATION_BY_NATIONALITY)).getBooleanValue());
+        operationDto.setDisaggregationByDisability(((BooleanSelectItem) productionDescriptorsEditionForm.getItem(OperationDS.DISAGGREGATION_BY_DISABILITY)).getBooleanValue());
 
         // DIFFUSION AND PUBLICATION
 
@@ -803,10 +798,10 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         ViewTextItem internalInventoryDate = new ViewTextItem(OperationDS.INTERNAL_INVENTORY_DATE, getConstants().operationInternalInventoryDate());
         currentlyActiveItem = new CustomCheckboxItem(OperationDS.CURRENTLY_ACTIVE, getConstants().operationCurrentlyActive());
 
-        disaggregationBySexItem = new BooleanSelectItem(OperationDS.DISAGGREGATION_BY_SEX, getConstants().operationDisaggregationBySex());
-        disaggregationByAgeItem = new BooleanSelectItem(OperationDS.DISAGGREGATION_BY_AGE, getConstants().operationDisaggregationByAge());
-        disaggregationByNationalityItem = new BooleanSelectItem(OperationDS.DISAGGREGATION_BY_NATIONALITY, getConstants().operationDisaggregationByNationality());
-        disaggregationByDisabilityItem = new BooleanSelectItem(OperationDS.DISAGGREGATION_BY_DISABILITY, getConstants().operationDisaggregationByDisability());
+        BooleanSelectItem disaggregationBySexItem = new BooleanSelectItem(OperationDS.DISAGGREGATION_BY_SEX, getConstants().operationDisaggregationBySex());
+        BooleanSelectItem disaggregationByAgeItem = new BooleanSelectItem(OperationDS.DISAGGREGATION_BY_AGE, getConstants().operationDisaggregationByAge());
+        BooleanSelectItem disaggregationByNationalityItem = new BooleanSelectItem(OperationDS.DISAGGREGATION_BY_NATIONALITY, getConstants().operationDisaggregationByNationality());
+        BooleanSelectItem disaggregationByDisabilityItem = new BooleanSelectItem(OperationDS.DISAGGREGATION_BY_DISABILITY, getConstants().operationDisaggregationByDisability());
 
         statusItem = new CustomSelectItem(OperationDS.STATUS, getConstants().operationStatus());
         statusItem.setValueMap(CommonUtils.getStatusEnumHashMap());
@@ -1043,10 +1038,10 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         productionDescriptorsEditionForm.setValue(OperationDS.CREATED_DATE, operationDto.getCreatedDate());
         productionDescriptorsEditionForm.setValue(OperationDS.INTERNAL_INVENTORY_DATE, operationDto.getInternalInventoryDate());
         currentlyActiveItem.setValue(operationDto.getCurrentlyActive() != null ? operationDto.getCurrentlyActive() : false);
-        productionDescriptorsEditionForm.setValue(OperationDS.DISAGGREGATION_BY_SEX, BooleanWebUtils.getBooleanLabel(operationDto.getDisaggregationBySex()));
-        productionDescriptorsEditionForm.setValue(OperationDS.DISAGGREGATION_BY_AGE, BooleanWebUtils.getBooleanLabel(operationDto.getDisaggregationByAge()));
-        productionDescriptorsEditionForm.setValue(OperationDS.DISAGGREGATION_BY_NATIONALITY, BooleanWebUtils.getBooleanLabel(operationDto.getDisaggregationByNationality()));
-        productionDescriptorsEditionForm.setValue(OperationDS.DISAGGREGATION_BY_DISABILITY, BooleanWebUtils.getBooleanLabel(operationDto.getDisaggregationByDisability()));
+        ((BooleanSelectItem) productionDescriptorsEditionForm.getItem(OperationDS.DISAGGREGATION_BY_SEX)).setBooleanValue(operationDto.getDisaggregationBySex());
+        ((BooleanSelectItem) productionDescriptorsEditionForm.getItem(OperationDS.DISAGGREGATION_BY_AGE)).setBooleanValue(operationDto.getDisaggregationByAge());
+        ((BooleanSelectItem) productionDescriptorsEditionForm.getItem(OperationDS.DISAGGREGATION_BY_NATIONALITY)).setBooleanValue(operationDto.getDisaggregationByNationality());
+        ((BooleanSelectItem) productionDescriptorsEditionForm.getItem(OperationDS.DISAGGREGATION_BY_DISABILITY)).setBooleanValue(operationDto.getDisaggregationByDisability());
         statusItem.setValue(operationDto.getStatus() == null ? null : operationDto.getStatus().toString());
         productionDescriptorsEditionForm.setValue(OperationDS.PROC_STATUS, CommonUtils.getProcStatusName(operationDto.getProcStatus()));
         productionDescriptorsEditionForm.setValue(OperationDS.PROC_STATUS_VIEW, operationDto.getProcStatus().toString());

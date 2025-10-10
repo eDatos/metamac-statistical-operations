@@ -35,6 +35,7 @@ import org.siemac.metamac.statistical.operations.web.shared.SaveFamilyAction;
 import org.siemac.metamac.statistical.operations.web.shared.SaveFamilyResult;
 import org.siemac.metamac.statistical.operations.web.shared.UpdateFamilyOperationsAction;
 import org.siemac.metamac.statistical.operations.web.shared.UpdateFamilyOperationsResult;
+import org.siemac.metamac.statistical.operations.web.shared.criteria.OperationCriteria;
 import org.siemac.metamac.web.common.client.events.ShowMessageEvent;
 import org.siemac.metamac.web.common.client.utils.WaitingAsyncCallbackHandlingError;
 import org.siemac.metamac.web.common.shared.criteria.MetamacWebCriteria;
@@ -258,7 +259,10 @@ public class FamilyPresenter extends Presenter<FamilyPresenter.FamilyView, Famil
 
     @Override
     public void retrieveOperations(int firstResult, int maxResults, MetamacWebCriteria metamacWebCriteria) {
-        dispatcher.execute(new GetOperationPaginatedListAction(firstResult, maxResults, metamacWebCriteria.getCriteria()),
+
+        OperationCriteria operationCriteria = new OperationCriteria();
+        operationCriteria.setCriteria(metamacWebCriteria.getCriteria());
+        dispatcher.execute(new GetOperationPaginatedListAction(firstResult, maxResults, operationCriteria),
                 new WaitingAsyncCallbackHandlingError<GetOperationPaginatedListResult>(this) {
 
                     @Override

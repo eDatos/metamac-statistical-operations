@@ -34,7 +34,9 @@ public class GetOperationPaginatedListActionHandler extends SecurityActionHandle
             // Order
             HandlersCriteriaUtils.defaultCriteriaOrder(criteria);
             // Restrictions
-            HandlersCriteriaUtils.defaultCriteriaDisjunctionRestrictionOperations(criteria, action.getOperation());
+            if (action.getOperation() != null) {
+                HandlersCriteriaUtils.buildMetamacCriteriaFromOperationCriteria(criteria, action.getOperation(), action.getOperation().getCriteria());
+            }
 
             MetamacCriteriaResult<OperationBaseDto> result = statisticalOperationsServiceFacade.findOperationsByCondition(ServiceContextHolder.getCurrentServiceContext(), criteria);
             return new GetOperationPaginatedListResult(result.getResults(), result.getPaginatorResult().getFirstResult(), result.getPaginatorResult().getTotalResults());

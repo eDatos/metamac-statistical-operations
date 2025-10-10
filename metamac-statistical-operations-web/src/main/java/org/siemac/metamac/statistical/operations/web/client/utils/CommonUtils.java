@@ -1,5 +1,6 @@
 package org.siemac.metamac.statistical.operations.web.client.utils;
 
+import static org.siemac.metamac.statistical.operations.web.client.OperationsWeb.getConstants;
 import static org.siemac.metamac.statistical.operations.web.client.OperationsWeb.getCoreMessages;
 
 import java.util.ArrayList;
@@ -7,6 +8,7 @@ import java.util.EnumMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.siemac.metamac.core.common.criteria.shared.MetamacCriteriaOrder.OrderTypeEnum;
 import org.siemac.metamac.core.common.dto.ExternalItemDto;
 import org.siemac.metamac.core.common.util.shared.StringUtils;
 import org.siemac.metamac.statistical.operations.core.dto.FamilyBaseDto;
@@ -210,5 +212,17 @@ public class CommonUtils {
     private static native void downloadUrl(String url) /*-{
 		$wnd.location = url;
     }-*/;
+
+    public static LinkedHashMap<String, String> getOrderTypeValueMap() {
+        LinkedHashMap<String, String> valueMap = new LinkedHashMap<String, String>();
+        valueMap.put(OrderTypeEnum.ASC.name(), getConstants().orderASC());
+        valueMap.put(OrderTypeEnum.DESC.name(), getConstants().orderDESC());
+        return valueMap;
+    }
+
+    public static OrderTypeEnum getOrderTypeEnum(String value) {
+        return OrderTypeEnum.valueOf(value);
+    }
+
 
 }

@@ -228,6 +228,7 @@ Application StatisticalOperationsDto {
 
             - @InternationalStringDto comment nullable;
             - @InternationalStringDto notes nullable;
+            - @InternationalStringDto privateInformationSuppliers nullable;
 
             Long optimisticLockingVersion;
         }

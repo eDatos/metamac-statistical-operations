@@ -578,6 +578,8 @@ Application StatisticalOperations {
        		- @InternationalString comment cascade="all" nullable databaseColumn="COMMENT_FK";
        		"Metadata NOTES"
        		- @InternationalString notes cascade="all" nullable databaseColumn="NOTES_FK";
+       		"Metadata PRIVATE_INFORMATION_SUPPLIERS"
+       		- @InternationalString privateInformationSuppliers cascade="all" nullable databaseColumn="PRIVATE_INF_SUPPLIERS_FK";
        		
        		"Last update to optimistic locking"
 			DateTimeTZ updateDate nullable;

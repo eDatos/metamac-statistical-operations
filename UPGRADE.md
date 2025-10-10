@@ -14,17 +14,13 @@ actualización de la versión 1.0.0 a la 2.0.0.*
 
 *Se deberá realizar primero la actualización de la versión 1.0.0 a la 2.0.0 y luego desde la 2.0.0 a la 3.0.0*
 
-## 4.8.0 a 4.8.1-SNAPSHOT
-* Es necesario ejecutar el script SQL contenido en la carpeta
-  ```shell
-  etc/changes-from-release/4.8.1/db/common-metadata/postgresql/20250922_add_statistical_operation_url.sql
-  ```
-
 ## 4.8.1 a 4.8.2-SNAPSHOT
 * Es necesario ejecutar el script SQL contenido en la carpeta
   ```shell
   etc/changes-from-release/4.8.1/db/common-metadata/postgresql/20250806_add_columns_tb_operations.sql
+  etc/changes-from-release/4.8.1/db/common-metadata/postgresql/20250922_add_statistical_operation_url.sql
   ```
+  
   
 * Esta versión depende de la versión 3.11.2-SNAPSHOT de eUsuarios. Por lo tanto, no se puede subir la versión 4.8.2-SNAPSHOT de metamac-statistical-operations  sin haber subido la versión 3.11.2-SNAPSHOT de eUsuarios y viceversa.
 * Se debe resetear el schema registry para el topic OPERATION_PUBLICATIONS debido a que se añade el nuevo estado _PRE_PLANNING_

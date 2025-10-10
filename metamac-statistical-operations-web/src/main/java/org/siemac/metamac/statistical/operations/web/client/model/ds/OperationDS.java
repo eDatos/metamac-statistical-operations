@@ -61,6 +61,13 @@ public class OperationDS extends DataSource {
 
     public static final String DTO                        = "operation-dto";
 
+    public static final String DISAGGREGATION_BY_SEX      = "op-disaggregation-sex";
+
+    public static final String DISAGGREGATION_BY_AGE       = "op-disaggregation-age";
+
+    public static final String DISAGGREGATION_BY_NATIONALITY = "op-disaggregation-nationality";
+
+    public static final String DISAGGREGATION_BY_DISABILITY = "op-disaggregation-disability";
 
     public OperationDS() {
 

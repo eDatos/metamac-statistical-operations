@@ -3,6 +3,7 @@
     "name": "StatusEnumAvro",
     "type": "enum",
     "symbols": [
+        "PRE_PLANNING",
         "PLANNING",
         "DESIGN",
         "PRODUCTION",

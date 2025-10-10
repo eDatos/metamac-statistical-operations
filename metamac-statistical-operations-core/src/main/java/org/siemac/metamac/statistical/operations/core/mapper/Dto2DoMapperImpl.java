@@ -334,6 +334,18 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
         // CURRENTLY_ACTIVE
         target.setCurrentlyActive(source.getCurrentlyActive());
 
+        // DISAGGREGATION_BY_SEX
+        target.setDisaggregationBySex(source.getDisaggregationBySex());
+
+        // DISAGGREGATION_BY_AGE
+        target.setDisaggregationByAge(source.getDisaggregationByAge());
+
+        // DISAGGREGATION_BY_DISABILITY
+        target.setDisaggregationByDisability(source.getDisaggregationByDisability());
+
+        // DISAGGREGATION_BY_NATIONALITY
+        target.setDisaggregationByNationality(source.getDisaggregationByNationality());
+
         // INACTIVE_DATE
         // Not necessary. It can't be manually modified
 

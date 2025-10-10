@@ -95,6 +95,10 @@ Application StatisticalOperationsDto {
             - Set<@ExternalItemDto> contributor;
             JAVADATE internalInventoryDate nullable;
             Boolean currentlyActive;
+            Boolean disaggregationBySex nullable;
+            Boolean disaggregationByAge nullable;
+            Boolean disaggregationByNationality nullable;
+            Boolean disaggregationByDisability nullable;
             - @ProcStatusEnum procStatus not nullable;
             - @StatusEnum status not nullable;
 
@@ -147,6 +151,10 @@ Application StatisticalOperationsDto {
             - @SurveyTypeDto surveyType nullable;
             - @OfficialityTypeDto officialityType nullable;
             Boolean currentlyActive;
+            Boolean disaggregationBySex nullable;
+            Boolean disaggregationByAge nullable;
+            Boolean disaggregationByNationality nullable;
+            Boolean disaggregationByDisability nullable;
             - Set<@OperationUrlDto> statisticalOperationUrls nullable;
             - @StatusEnum status nullable;
             

@@ -84,8 +84,20 @@ public class ResourceListFieldUtils {
         CustomListGridField technicianInCharge = new CustomListGridField(OperationDS.TECHNICIAN_IN_CHARGE, getConstants().operationTechnicianInCharge());
         CustomListGridField assistantTechnician = new CustomListGridField(OperationDS.ASSISTANT_TECHNICIAN, getConstants().operationAssistantTechnician());
 
-        return new CustomListGridField[]{code, urn, title, acronym, statisticPlanCode, subjectArea, surveyType, officialityType, indicatorsSystem, createdDate, internalInventoryDate, currentlyActive, procStatus, status,
-                publicationStreamStatus, technicianInCharge, assistantTechnician};
+        CustomListGridField disaggregationBySex = new CustomListGridField(OperationDS.DISAGGREGATION_BY_SEX, getConstants().operationDisaggregationBySex());
+        disaggregationBySex.setShowIfCondition(ListGridUtils.getFalseListGridFieldIfFunction());
+
+        CustomListGridField disaggregationByAge = new CustomListGridField(OperationDS.DISAGGREGATION_BY_AGE, getConstants().operationDisaggregationByAge());
+        disaggregationByAge.setShowIfCondition(ListGridUtils.getFalseListGridFieldIfFunction());
+
+        CustomListGridField disaggregationByNationality = new CustomListGridField(OperationDS.DISAGGREGATION_BY_NATIONALITY, getConstants().operationDisaggregationByNationality());
+        disaggregationByNationality.setShowIfCondition(ListGridUtils.getFalseListGridFieldIfFunction());
+
+        CustomListGridField disaggregationByDisability = new CustomListGridField(OperationDS.DISAGGREGATION_BY_DISABILITY, getConstants().operationDisaggregationByDisability());
+        disaggregationByDisability.setShowIfCondition(ListGridUtils.getFalseListGridFieldIfFunction());
+
+        return new CustomListGridField[]{code, urn, title, acronym, statisticPlanCode, subjectArea, surveyType, officialityType, indicatorsSystem, createdDate, internalInventoryDate, currentlyActive, procStatus, status, publicationStreamStatus, technicianInCharge, assistantTechnician, disaggregationBySex, disaggregationByAge, disaggregationByNationality, disaggregationByDisability
+        };
     }
 
     public static CustomListGridField[] getInstanceFields() {

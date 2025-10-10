@@ -331,6 +331,7 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         target.setStatisticalOperationSource(this.toItem(source.getSurveySource()));
         target.setCollMethod(this.toItem(source.getCollMethod()));
         target.setPublicInformationSuppliers(this.toPublicInformationSuppliers(source.getPublicInformationSuppliers()));
+        target.setPrivateInformationSuppliers(this.toInternationalString(source.getPrivateInformationSuppliers()));
         target.setFreqColls(this.toFreqColls(source.getFreqColl()));
         target.setDataValidation(this.toInternationalString(source.getDataValidation()));
         target.setDataCompilation(this.toInternationalString(source.getDataCompilation()));

@@ -310,6 +310,7 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         target.setStatisticalOperationSource(toItem(source.getSurveySource()));
         target.setCollMethod(toItem(source.getCollMethod()));
         target.setPublicInformationSuppliers(toPublicInformationSuppliers(source.getPublicInformationSuppliers()));
+        target.setPrivateInformationSuppliers(toInternationalString(source.getPrivateInformationSuppliers()));
         target.setFreqColls(toFreqColls(source.getFreqColl()));
         target.setDataValidation(toInternationalString(source.getDataValidation()));
         target.setDataCompilation(toInternationalString(source.getDataCompilation()));

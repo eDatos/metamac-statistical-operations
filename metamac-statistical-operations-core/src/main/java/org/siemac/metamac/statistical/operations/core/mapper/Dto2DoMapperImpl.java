@@ -509,6 +509,9 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
         target.getPublicInformationSuppliers()
                 .addAll(externalItemListToEntity(source.getPublicInformationSuppliers(), target.getPublicInformationSuppliers(), ServiceExceptionParameters.INSTANCE_PUBLIC_INFORMATION_SUPPLIERS));
 
+        // PRIVATE_INFORMATION_SUPPLIERS
+        target.setPrivateInformationSuppliers(internationalStringToEntity(source.getPrivateInformationSuppliers(), target.getPrivateInformationSuppliers(), ServiceExceptionParameters.INSTANCE_PRIVATE_INFORMATION_SUPPLIERS));
+
         // FREQ_COLL
         target.getFreqColl().addAll(externalItemListToEntity(source.getFreqColl(), target.getFreqColl(), ServiceExceptionParameters.INSTANCE_FREQ_COLL));
 

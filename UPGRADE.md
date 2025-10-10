@@ -15,9 +15,12 @@ actualización de la versión 1.0.0 a la 2.0.0.*
 *Se deberá realizar primero la actualización de la versión 1.0.0 a la 2.0.0 y luego desde la 2.0.0 a la 3.0.0*
 
 ## 4.x.x a 4.x.x
+* SOLO PARA IBESTAT - Es necesario ejecutar el script SQL contenido en la carpeta 
+  ```shell
+  etc/changes-from-release/4.x.x/db/statistical-operations/postgresql/20251008_rename_values_tb_lis_cost_IBESTAT.sql
+    ```
 * Es necesario ejecutar el script SQL contenido en la carpeta
   ```shell
-  etc/changes-from-release/4.x.x/db/statistical-operations/postgresql/20251008_rename_values_tb_lis_cost.sql
   etc/changes-from-release/4.x.x/db/statistical-operations/postgresql/20251009_new_column_cost_detail.sql
   ```
   

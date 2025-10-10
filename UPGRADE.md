@@ -15,6 +15,26 @@ actualización de la versión 1.0.0 a la 2.0.0.*
 *Se deberá realizar primero la actualización de la versión 1.0.0 a la 2.0.0 y luego desde la 2.0.0 a la 3.0.0*
 
 
+## 4.8.1 a 4.8.2-SNAPSHOT
+* Esta versión depende de la versión 3.11.2-SNAPSHOT de eUsuarios. Por lo tanto, no se puede subir la versión 4.8.2-SNAPSHOT de metamac-statistical-operations  sin haber subido la versión 3.11.2-SNAPSHOT de eUsuarios y viceversa.
+* Se debe resetear el schema registry para el topic OPERATION_PUBLICATIONS debido a que se añade el nuevo estado _PRE_PLANNING_
+  
+```shell 
+  curl -X DELETE http://localhost:8081/subjects/OPERATION_PUBLICATIONS-value
+  ````
+
+* Se han de Borrar los mensajes existentes en el topic OPERATION_PUBLICATIONS. Para ello,
+
+```shell 
+ /servers/kafka/confluent/bin/kafka-configs --bootstrap-server localhost:19092 --entity-type topics --entity-name OPERATION_PUBLICATIONS --add-config retention.ms=100 --alter
+ /servers/kafka/confluent/bin/kafka-configs --bootstrap-server localhost:19092 --entity-type topics --entity-name OPERATION_PUBLICATIONS --describe retention.ms
+  ````
+
+*  Esperar 1 minuto antes de volver a restaurar con la siguiente sentencia
+```shell
+ /servers/kafka/confluent/bin/kafka-configs --bootstrap-server localhost:19092 --entity-type topics --entity-name OPERATION_PUBLICATIONS --delete-config retention.ms --alter
+````
+
 ## 4.6.1 a 4.7.0
 Esta versión tiene como dependencia complementos-apps en su versión 8.13.0
 

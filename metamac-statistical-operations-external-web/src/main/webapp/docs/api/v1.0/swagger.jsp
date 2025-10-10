@@ -1272,6 +1272,7 @@
          "type":"string",
          "title":"Status",
          "enum":[
+            "PRE_PLANNING",
             "PLANNING",
             "DESIGN",
             "PRODUCTION",

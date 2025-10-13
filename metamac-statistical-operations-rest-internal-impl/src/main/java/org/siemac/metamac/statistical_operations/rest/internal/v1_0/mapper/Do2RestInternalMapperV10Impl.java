@@ -153,6 +153,10 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         target.setTechnicianInCharge(source.getTechnicianInCharge());
         target.setAssistantTechnician(source.getAssistantTechnician());
         target.setGenderPerspective(this.toInternationalString(source.getGenderPerspective()));
+        target.setDisaggregationBySex(source.getDisaggregationBySex());
+        target.setDisaggregationByAge(source.getDisaggregationByAge());
+        target.setDisaggregationByNationality(source.getDisaggregationByNationality());
+        target.setDisaggregationByDisability(source.getDisaggregationByDisability());
         return target;
     }
 
@@ -886,6 +890,8 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
             return null;
         }
         switch (source) {
+            case PRE_PLANNING:
+                return org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Status.PRE_PLANNING;
             case PLANNING:
                 return org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Status.PLANNING;
             case DESIGN:

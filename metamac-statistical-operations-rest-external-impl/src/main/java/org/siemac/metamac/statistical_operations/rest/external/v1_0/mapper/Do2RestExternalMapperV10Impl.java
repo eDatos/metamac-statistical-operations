@@ -137,6 +137,11 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         target.setParentLink(toOperationParentLink());
         target.setChildLinks(toOperationChildLinks(source));
         target.setGenderPerspective(toInternationalString(source.getGenderPerspective()));
+        target.setDisaggregationBySex(source.getDisaggregationBySex());
+        target.setDisaggregationByAge(source.getDisaggregationByAge());
+        target.setDisaggregationByNationality(source.getDisaggregationByNationality());
+        target.setDisaggregationByDisability(source.getDisaggregationByDisability());
+
         return target;
     }
 
@@ -839,6 +844,8 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
             return null;
         }
         switch (source) {
+            case PRE_PLANNING:
+                return org.siemac.metamac.rest.statistical_operations.v1_0.domain.Status.PRE_PLANNING;
             case PLANNING:
                 return org.siemac.metamac.rest.statistical_operations.v1_0.domain.Status.PLANNING;
             case DESIGN:

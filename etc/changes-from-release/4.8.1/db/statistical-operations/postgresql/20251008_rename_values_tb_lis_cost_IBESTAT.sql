@@ -12,6 +12,9 @@
 --
 -- --------------------------------------------------------------------------------------------------
 
+DO $$
+BEGIN
+
 -- ===========================================================
 -- Irrelevante/MUY_BAJO
 -- ===========================================================
@@ -44,6 +47,10 @@ UPDATE TB_LIS_COSTS
 SET DESCRIPTION = (SELECT MAX(ID) FROM TB_INTERNATIONAL_STRINGS)
 WHERE IDENTIFIER = 'MUY_BAJO';
 
+END $$;
+
+DO $$
+BEGIN
 
 -- ===========================================================
 -- Bajo
@@ -77,6 +84,10 @@ UPDATE TB_LIS_COSTS
 SET DESCRIPTION = (SELECT MAX(ID) FROM TB_INTERNATIONAL_STRINGS)
 WHERE IDENTIFIER = 'BAJO';
 
+END $$;
+
+DO $$
+BEGIN
 
 -- ===========================================================
 -- Medio
@@ -112,6 +123,11 @@ UPDATE TB_LIS_COSTS
 SET DESCRIPTION = (SELECT MAX(ID) FROM TB_INTERNATIONAL_STRINGS)
 WHERE IDENTIFIER = 'MEDIO';
 
+END $$;
+
+DO $$
+BEGIN
+
 -- ===========================================================
 -- Alto
 -- ===========================================================
@@ -146,6 +162,10 @@ UPDATE TB_LIS_COSTS
 SET DESCRIPTION = (SELECT MAX(ID) FROM TB_INTERNATIONAL_STRINGS)
 WHERE IDENTIFIER = 'ALTO';
 
+END $$;
+
+DO $$
+BEGIN
 
 -- ===========================================================
 -- Muy alto
@@ -178,3 +198,7 @@ UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQU
 UPDATE TB_LIS_COSTS
 SET DESCRIPTION = (SELECT MAX(ID) FROM TB_INTERNATIONAL_STRINGS)
 WHERE IDENTIFIER IN ('MUY_ALTO', 'MUY_ATO');
+
+END $$;
+
+COMMIT;

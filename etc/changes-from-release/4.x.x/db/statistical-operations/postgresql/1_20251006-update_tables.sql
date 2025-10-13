@@ -13,7 +13,5 @@ update  TB_LIS_OFFICIALITY_TYPES set visualisation_order = -2 where identifier =
 --el campo order debe ser not nulo.
 ALTER TABLE TB_LIS_OFFICIALITY_TYPES ALTER COLUMN VISUALISATION_ORDER set NOT NULL;
 
-CREATE INDEX idx_officiality_order ON officiality_type(order_position);
-
 COMMIT;
 

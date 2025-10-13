@@ -115,13 +115,17 @@ public class CheckMandatoryMetadataUtil {
             StatisticalOperationsValidationUtils.validateUrl(operation.getReleaseCalendarAccess(), ServiceExceptionParameters.OPERATION_RELEASE_CALENDAR_ACCESS, exceptions);
         }
 
-        if (!operation.getStatisticalOperationUrls().isEmpty()){
+        if (!operation.getStatisticalOperationUrls().isEmpty()) {
             for (OperationUrl operationUrl : operation.getStatisticalOperationUrls()) {
-                if (operationUrl.getUrl() != null && operationUrl.getUrl().getTexts() != null) {
-                    for (LocalisedString localisedString : operationUrl.getUrl().getTexts()) {
-                        String label = localisedString.getLabel();
-                        if (label != null) {
-                            StatisticalOperationsValidationUtils.validateUrl(label, ServiceExceptionParameters.OPERATION_URL, exceptions);
+                if (operationUrl == null) {
+                    StatisticalOperationsValidationUtils.checkMetadataRequired(operationUrl, ServiceExceptionParameters.OPERATION_URL, exceptions);
+                } else {
+                    if (operationUrl.getUrl() != null && operationUrl.getUrl().getTexts() != null) {
+                        for (LocalisedString localisedString : operationUrl.getUrl().getTexts()) {
+                            String label = localisedString.getLabel();
+                            if (label != null) {
+                                StatisticalOperationsValidationUtils.validateUrl(label, ServiceExceptionParameters.OPERATION_URL, exceptions);
+                            }
                         }
                     }
                 }

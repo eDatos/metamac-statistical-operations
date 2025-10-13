@@ -56,6 +56,7 @@
         {"name": "statConcDefList", "type": {"type": "array", "items": "ExternalItemAvro"}},
         {"name": "classSystemList", "type": {"type": "array", "items": "ExternalItemAvro"}},
         {"name": "publicInformationSuppliers", "type": {"type": "array", "items": "ExternalItemAvro"}},
+        {"name": "privateInformationSuppliers", "type": ["null", "InternationalStringAvro"]},
         {"name": "freqColl", "type": {"type": "array", "items": "ExternalItemAvro"}},
         {"name": "cost", "type": {"type": "array", "items": "CostAvro"}}
     ]

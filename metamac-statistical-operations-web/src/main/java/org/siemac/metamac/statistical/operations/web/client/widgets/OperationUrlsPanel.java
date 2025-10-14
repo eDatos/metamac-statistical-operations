@@ -2,9 +2,6 @@ package org.siemac.metamac.statistical.operations.web.client.widgets;
 
 import static org.siemac.metamac.statistical.operations.web.client.OperationsWeb.getConstants;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -220,7 +217,7 @@ public class OperationUrlsPanel extends VLayout {
         addMember(listGrid);
     }
 
-    public void setOperationUrls(Set<OperationUrlDto> operationUrls) {
+    public void setOperationUrls(List<OperationUrlDto> operationUrls) {
         // Clear Operation URLs
         listGrid.selectAllRecords();
         listGrid.removeSelectedData();
@@ -230,18 +227,8 @@ public class OperationUrlsPanel extends VLayout {
             selectedLocale = selectItem.getValueAsString();
         }
 
-        List<OperationUrlDto> sortedUrls = new ArrayList<OperationUrlDto>(operationUrls);
-        Collections.sort(sortedUrls, new Comparator<OperationUrlDto>() {
-            @Override
-            public int compare(OperationUrlDto o1, OperationUrlDto o2) {
-                if (o1 == null || o1.getId() == null) return 1;
-                if (o2 == null || o2.getId() == null) return -1;
-                return o1.getId().compareTo(o2.getId());
-            }
-        });
-
         // Set  Operation URLs in the selected locale
-        for (OperationUrlDto operationUrlDto : sortedUrls) {
+        for (OperationUrlDto operationUrlDto : operationUrls) {
             OperationUrlRecord record = RecordUtils.getOperationUrlRecord(operationUrlDto, selectedLocale);
             listGrid.addData(record);
         }

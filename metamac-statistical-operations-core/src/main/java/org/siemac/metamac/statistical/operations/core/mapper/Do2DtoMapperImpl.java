@@ -1,6 +1,8 @@
 package org.siemac.metamac.statistical.operations.core.mapper;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.dozer.DozerBeanMapper;
@@ -344,6 +346,7 @@ public class Do2DtoMapperImpl extends BaseDo2DtoMapperImpl implements Do2DtoMapp
         target.setDisaggregationByDisability(source.getDisaggregationByDisability());
 
         // STATISTICAL OPERATION URLs
+        target.getStatisticalOperationUrls().clear();
         target.getStatisticalOperationUrls().addAll(operationUrlListToDto(source.getStatisticalOperationUrls()));
 
         return target;
@@ -766,8 +769,8 @@ public class Do2DtoMapperImpl extends BaseDo2DtoMapperImpl implements Do2DtoMapp
         return result;
     }
 
-    private Set<OperationUrlDto> operationUrlListToDto(Set<OperationUrl> operationUrls) throws MetamacException {
-        HashSet<OperationUrlDto> result = new HashSet<OperationUrlDto>();
+    private List<OperationUrlDto> operationUrlListToDto(List<OperationUrl> operationUrls) throws MetamacException {
+        List<OperationUrlDto> result = new ArrayList<OperationUrlDto>();
 
         if (operationUrls != null) {
             for (OperationUrl operationUrl : operationUrls) {

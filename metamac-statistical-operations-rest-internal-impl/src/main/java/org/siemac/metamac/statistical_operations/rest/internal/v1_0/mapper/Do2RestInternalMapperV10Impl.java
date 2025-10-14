@@ -553,7 +553,7 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         return target;
     }
 
-    private StatisticalOperationUrls toStatisticalOperationUrls(Set<OperationUrl> sources, StatisticalOperationUrls target) {
+    private StatisticalOperationUrls toStatisticalOperationUrls(List<OperationUrl> sources, StatisticalOperationUrls target) {
         if (target == null) {
             target = new StatisticalOperationUrls();
             target.setTotal(BigInteger.ZERO);

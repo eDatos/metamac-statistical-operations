@@ -526,7 +526,7 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         return target;
     }
 
-    private StatisticalOperationUrls toStatisticalOperationUrls(Set<OperationUrl> sources, StatisticalOperationUrls target) {
+    private StatisticalOperationUrls toStatisticalOperationUrls(List<OperationUrl> sources, StatisticalOperationUrls target) {
         if (target == null) {
             target = new StatisticalOperationUrls();
             target.setTotal(BigInteger.ZERO);

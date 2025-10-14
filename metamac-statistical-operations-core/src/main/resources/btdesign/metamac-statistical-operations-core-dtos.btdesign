@@ -113,7 +113,7 @@ Application StatisticalOperationsDto {
             JAVADATE inventoryDate nullable;
             - @InternationalStringDto revPolicy nullable;
             - @InternationalStringDto revPractice nullable;
-            - Set<@OperationUrlDto> statisticalOperationUrls nullable;
+            - Bag<@OperationUrlDto> statisticalOperationUrls nullable;
             // CONTAT: It comes from AppCommonMetadata
 
             // COMMON_LEGAL_ACTS: It comes from AppCommonMetadata
@@ -155,7 +155,7 @@ Application StatisticalOperationsDto {
             Boolean disaggregationByAge nullable;
             Boolean disaggregationByNationality nullable;
             Boolean disaggregationByDisability nullable;
-            - Set<@OperationUrlDto> statisticalOperationUrls nullable;
+            - Bag<@OperationUrlDto> statisticalOperationUrls nullable;
             - @StatusEnum status nullable;
             
             JAVADATE internalInventoryDate nullable;

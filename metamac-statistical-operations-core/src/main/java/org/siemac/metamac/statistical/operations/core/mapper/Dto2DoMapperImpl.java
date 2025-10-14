@@ -6,6 +6,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.checkerframework.checker.units.qual.A;
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
 import org.joda.time.DateTime;
 import org.siemac.metamac.core.common.dto.ExternalItemDto;
@@ -396,7 +397,8 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
         target.setRevPractice(internationalStringToEntity(source.getRevPractice(), target.getRevPractice(), ServiceExceptionParameters.OPERATION_REV_PRACTICE));
 
         // STATISTICAL_OPERATION_URL
-        target.getStatisticalOperationUrls().addAll(operationUrlListToEntity(source.getStatisticalOperationUrls(), target.getStatisticalOperationUrls(), target));
+        target.getStatisticalOperationUrls().clear();
+        target.getStatisticalOperationUrls().addAll(operationUrlListToEntity(source.getStatisticalOperationUrls(), target));
 
         // CONTACT: Extracted from AppCommonMetadata
 
@@ -709,10 +711,10 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
         return target;
     }
 
-    private Set<OperationUrl> operationUrlListToEntity(Set<OperationUrlDto> sources, Set<OperationUrl> targets, Operation operation) throws MetamacException {
+    private List<OperationUrl> operationUrlListToEntity(List<OperationUrlDto> sources, Operation operation) throws MetamacException {
 
-        Set<OperationUrl> targetsBefore = new LinkedHashSet<>(targets);
-        Set<OperationUrl> newTargets = new LinkedHashSet<>();
+        List<OperationUrl> targetsBefore = new ArrayList<>(operation.getStatisticalOperationUrls());
+        List<OperationUrl> newTargets = new ArrayList<>();
 
         for (OperationUrlDto source : sources) {
             if (source == null) {
@@ -748,9 +750,8 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
             }
         }
 
-        targets.clear();
-        targets.addAll(newTargets);
-        return targets;
+
+        return newTargets;
     }
 
     private OperationUrl operationUrlDtoToEntity(OperationUrlDto source, OperationUrl target, Operation operation) throws MetamacException {

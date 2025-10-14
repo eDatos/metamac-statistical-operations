@@ -431,7 +431,7 @@ Application StatisticalOperations {
        		"Metadata REV_PRACTICE"
        		- @InternationalString revPractice cascade="all" nullable databaseColumn="REV_PRACTICE_FK";
        		"Metadata STATISTICAL_OPERATION_URLS"
-            - Set<@OperationUrl> statisticalOperationUrls inverse <-> operation cascade="all-delete-orphan";
+            - Bag<@OperationUrl> statisticalOperationUrls inverse <-> operation cascade="all-delete-orphan";
        		// CONTAT: It comes from AppCommonMetadata
        		
        		

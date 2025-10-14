@@ -473,6 +473,13 @@
                      "description":"${msg['api.doc.swagger.definitions.instance.properties.publicInformationSuppliers']}",
                      "$ref":"#/definitions/PublicInformationSuppliers"
                   },
+                  "privateInformationSuppliers":{
+                     "xml":{
+                        "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
+                     },
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.privateInformationSuppliers']}",
+                     "$ref":"#/definitions/InternationalString"
+                  },
                   "inventoryDate":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"

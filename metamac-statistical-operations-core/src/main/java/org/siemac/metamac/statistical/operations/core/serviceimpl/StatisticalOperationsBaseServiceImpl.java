@@ -47,7 +47,7 @@ import org.springframework.stereotype.Service;
  * Implementation of StatisticalOperationsBaseService.
  */
 @Service("statisticalOperationsBaseService")
-public class StatisticalOperationsBaseServiceImpl extends StatisticalOperationsBaseServiceImplBase {
+public class StatisticalOperationsBaseServiceImpl extends org.siemac.metamac.statistical.operations.core.serviceimpl.StatisticalOperationsBaseServiceImplBase {
 
     @Autowired
     private FamilyRepository       familyRepository;
@@ -546,9 +546,6 @@ public class StatisticalOperationsBaseServiceImpl extends StatisticalOperationsB
         // Get information
         Operation operation = findOperationById(ctx, operationId);
 
-        // Check operation for create instance. Operation PROC_STATUS can't be draft
-        ValidationUtil.validateOperationProcStatusForSaveInstance(operation);
-
         Integer order = operation.getInstances().size();
 
         // Fill metadata
@@ -591,9 +588,6 @@ public class StatisticalOperationsBaseServiceImpl extends StatisticalOperationsB
             CheckMandatoryMetadataUtil.checkInstanceForPublishExternally(instance);
             ValidationUtil.validateOperationForPublishInstanceExternally(operation);
         }
-
-        // Operation PROC_STATUS can't be draft
-        ValidationUtil.validateOperationProcStatusForSaveInstance(operation);
 
         // Repository operation
         return instanceRepository.save(instance);

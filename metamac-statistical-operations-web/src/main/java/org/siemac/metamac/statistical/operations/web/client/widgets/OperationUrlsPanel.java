@@ -1,10 +1,13 @@
 package org.siemac.metamac.statistical.operations.web.client.widgets;
 
 import static org.siemac.metamac.statistical.operations.web.client.OperationsWeb.getConstants;
-import static org.siemac.metamac.statistical.operations.web.client.OperationsWeb.getMessages;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Set;
 
 import org.siemac.metamac.statistical.operations.core.dto.OperationUrlDto;
@@ -27,7 +30,6 @@ import com.smartgwt.client.types.Cursor;
 import com.smartgwt.client.types.ListGridEditEvent;
 import com.smartgwt.client.types.ListGridFieldType;
 import com.smartgwt.client.types.SelectionStyle;
-import com.smartgwt.client.util.SC;
 import com.smartgwt.client.widgets.Canvas;
 import com.smartgwt.client.widgets.Img;
 import com.smartgwt.client.widgets.events.ClickEvent;
@@ -228,8 +230,18 @@ public class OperationUrlsPanel extends VLayout {
             selectedLocale = selectItem.getValueAsString();
         }
 
+        List<OperationUrlDto> sortedUrls = new ArrayList<OperationUrlDto>(operationUrls);
+        Collections.sort(sortedUrls, new Comparator<OperationUrlDto>() {
+            @Override
+            public int compare(OperationUrlDto o1, OperationUrlDto o2) {
+                if (o1 == null || o1.getId() == null) return 1;
+                if (o2 == null || o2.getId() == null) return -1;
+                return o1.getId().compareTo(o2.getId());
+            }
+        });
+
         // Set  Operation URLs in the selected locale
-        for (OperationUrlDto operationUrlDto : operationUrls) {
+        for (OperationUrlDto operationUrlDto : sortedUrls) {
             OperationUrlRecord record = RecordUtils.getOperationUrlRecord(operationUrlDto, selectedLocale);
             listGrid.addData(record);
         }

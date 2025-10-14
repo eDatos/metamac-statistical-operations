@@ -2,6 +2,7 @@ package org.siemac.metamac.statistical.operations.core.mapper;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -710,20 +711,26 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
 
     private Set<OperationUrl> operationUrlListToEntity(Set<OperationUrlDto> sources, Set<OperationUrl> targets, Operation operation) throws MetamacException {
 
-        Set<OperationUrl> targetsBefore = targets;
-        Set<OperationUrl> newTargets = new HashSet<OperationUrl>();
+        Set<OperationUrl> targetsBefore = new LinkedHashSet<>(targets);
+        Set<OperationUrl> newTargets = new LinkedHashSet<>();
 
         for (OperationUrlDto source : sources) {
-            boolean existsBefore = false;
-            for (OperationUrl target : targetsBefore) {
-                if (source.getId() != null && target.getId().equals(source.getId())) {
-                    newTargets.add(operationUrlDtoToEntity(source, target, operation));
-                    existsBefore = true;
-                    break;
+            if (source == null) {
+                List<MetamacExceptionItem> exceptions = new ArrayList<MetamacExceptionItem>();
+                StatisticalOperationsValidationUtils.checkMetadataRequired(source, ServiceExceptionParameters.OPERATION_URL, exceptions);
+                ExceptionUtils.throwIfException(exceptions);
+            } else {
+                boolean existsBefore = false;
+                for (OperationUrl target : targetsBefore) {
+                    if (source.getId() != null && source.getId().equals(target.getId())) {
+                        newTargets.add(operationUrlDtoToEntity(source, target, operation));
+                        existsBefore = true;
+                        break;
+                    }
                 }
-            }
-            if (!existsBefore) {
-                newTargets.add(operationUrlDtoToEntity(source, null, operation));
+                if (!existsBefore) {
+                    newTargets.add(operationUrlDtoToEntity(source, null, operation));
+                }
             }
         }
 
@@ -731,22 +738,18 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
         for (OperationUrl oldTarget : targetsBefore) {
             boolean found = false;
             for (OperationUrl newTarget : newTargets) {
-                if (newTarget.getId() != null && oldTarget.getId().equals(newTarget.getId())) {
+                if (newTarget.getId() != null && newTarget.getId().equals(oldTarget.getId())) {
                     found = true;
                     break;
                 }
             }
             if (!found) {
-                // Delete
                 operationUrlDtoToEntity(null, oldTarget, operation);
             }
         }
 
         targets.clear();
-        for (OperationUrl target : newTargets) {
-            targets.add(target);
-        }
-
+        targets.addAll(newTargets);
         return targets;
     }
 

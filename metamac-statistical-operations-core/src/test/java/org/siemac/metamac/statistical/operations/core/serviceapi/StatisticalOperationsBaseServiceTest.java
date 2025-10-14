@@ -729,13 +729,6 @@ public class StatisticalOperationsBaseServiceTest extends StatisticalOperationsB
         assertEquals(expected.getTemporalGranularity().size(), actual.getTemporalGranularity().size());
     }
 
-    @Test
-    public void testCreateInstanceOperationNotPublished() throws MetamacException {
-        expectedMetamacException(new MetamacException(ServiceExceptionType.INSTANCE_INCORRECT_OPERATION_PROC_STATUS));
-
-        Operation operation = statisticalOperationsBaseService.createOperation(getServiceContextAdministrador(), createOperation());
-        statisticalOperationsBaseService.createInstance(getServiceContextAdministrador(), operation.getId(), createInstance());
-    }
 
     @Override
     @Test

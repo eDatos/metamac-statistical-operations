@@ -81,6 +81,9 @@ public class ResourceListFieldUtils {
         publicationStreamStatus.setType(ListGridFieldType.IMAGE);
         publicationStreamStatus.setAlign(Alignment.CENTER);
 
+        CustomListGridField edatosMigrationStatus = new CustomListGridField(OperationDS.EDATOS_MIGRATION_STATUS, getConstants().edatosMigrationStatus());
+        edatosMigrationStatus.setShowIfCondition(ListGridUtils.getFalseListGridFieldIfFunction());
+
         CustomListGridField technicianInCharge = new CustomListGridField(OperationDS.TECHNICIAN_IN_CHARGE, getConstants().operationTechnicianInCharge());
         CustomListGridField assistantTechnician = new CustomListGridField(OperationDS.ASSISTANT_TECHNICIAN, getConstants().operationAssistantTechnician());
 
@@ -96,7 +99,7 @@ public class ResourceListFieldUtils {
         CustomListGridField disaggregationByDisability = new CustomListGridField(OperationDS.DISAGGREGATION_BY_DISABILITY, getConstants().operationDisaggregationByDisability());
         disaggregationByDisability.setShowIfCondition(ListGridUtils.getFalseListGridFieldIfFunction());
 
-        return new CustomListGridField[]{code, urn, title, acronym, statisticPlanCode, subjectArea, surveyType, officialityType, indicatorsSystem, createdDate, internalInventoryDate, currentlyActive, procStatus, status, publicationStreamStatus, technicianInCharge, assistantTechnician, disaggregationBySex, disaggregationByAge, disaggregationByNationality, disaggregationByDisability
+        return new CustomListGridField[]{code, urn, title, acronym, statisticPlanCode, subjectArea, surveyType, officialityType, indicatorsSystem, createdDate, internalInventoryDate, currentlyActive, procStatus, status, publicationStreamStatus, edatosMigrationStatus, technicianInCharge, assistantTechnician, disaggregationBySex, disaggregationByAge, disaggregationByNationality, disaggregationByDisability
         };
     }
 

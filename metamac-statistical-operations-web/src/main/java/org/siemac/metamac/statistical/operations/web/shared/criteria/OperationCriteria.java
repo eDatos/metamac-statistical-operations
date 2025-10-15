@@ -13,6 +13,7 @@ public class OperationCriteria extends MetamacWebCriteria {
     private String code;
     private String title;
     private String status;
+    private String edatosMigrationStatus;
 
     private String disaggregationBySex;
     private String disaggregationByAge;
@@ -78,5 +79,12 @@ public class OperationCriteria extends MetamacWebCriteria {
     }
     public void setOrders(List<MetamacCriteriaOrder> orders) {
         this.orders = orders;
+    }
+
+    public String getEdatosMigrationStatus() {
+        return edatosMigrationStatus;
+    }
+    public void setEdatosMigrationStatus(String edatosMigrationStatus) {
+        this.edatosMigrationStatus = edatosMigrationStatus;
     }
 }

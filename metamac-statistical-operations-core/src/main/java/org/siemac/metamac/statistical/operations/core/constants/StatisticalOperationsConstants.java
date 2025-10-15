@@ -34,6 +34,7 @@ public class StatisticalOperationsConstants {
     public static final String TSV_HEADER_CURRENTLY_ACTIVE               = "currenlty_active";
     public static final String TSV_HEADER_STATUS                         = "status";
     public static final String TSV_HEADER_PROC_STATUS                    = "proc_status";
+    public static final String TSV_HEADER_EDATOS_MIGRATION_STATUS        = "edatos_migration_status";
 
     public static final String TSV_HEADER_GENDER_PERSPECTIVE             = "gender_perspective";
 

@@ -55,6 +55,10 @@ public class OperationRecord extends ListGridRecord {
         setAttribute(OperationDS.PROC_STATUS, value);
     }
 
+    public void setEdatosMigrationStatus(String value) {
+        setAttribute(OperationDS.EDATOS_MIGRATION_STATUS, value);
+    }
+
     public void setOperationBaseDto(OperationBaseDto operationBaseDto) {
         setAttribute(OperationDS.DTO, operationBaseDto);
     }

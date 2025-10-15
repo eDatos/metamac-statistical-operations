@@ -27,6 +27,7 @@ import org.siemac.metamac.statistical.operations.core.domain.InstanceProperties;
 import org.siemac.metamac.statistical.operations.core.domain.InstanceRepository;
 import org.siemac.metamac.statistical.operations.core.domain.Operation;
 import org.siemac.metamac.statistical.operations.core.domain.OperationRepository;
+import org.siemac.metamac.statistical.operations.core.enume.domain.EdatosMigrationStatusEnum;
 import org.siemac.metamac.statistical.operations.core.enume.domain.ProcStatusEnum;
 import org.siemac.metamac.statistical.operations.core.enume.domain.StatusEnum;
 import org.siemac.metamac.statistical.operations.core.enume.domain.StreamMessageStatusEnum;
@@ -347,6 +348,7 @@ public class StatisticalOperationsBaseServiceImpl extends org.siemac.metamac.sta
         operation.setUrn(GeneratorUrnUtils.generateSiemacStatisticalOperationUrn(operation.getCode()));
         operation.setProcStatus(ProcStatusEnum.DRAFT);
         operation.setStatus(StatusEnum.PLANNING);
+        operation.setEdatosMigrationStatus(EdatosMigrationStatusEnum.NOT_STARTED);
         operation.setCurrentlyActive(Boolean.FALSE);
         operation.setStreamMessageStatus(StreamMessageStatusEnum.PENDING);
 

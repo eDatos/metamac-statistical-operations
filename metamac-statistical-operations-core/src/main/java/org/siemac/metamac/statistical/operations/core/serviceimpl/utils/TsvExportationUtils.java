@@ -80,6 +80,7 @@ public class TsvExportationUtils {
                 writeStringSingleItem(writer, operation.getCurrentlyActive().toString());
                 writeStringSingleItem(writer, operation.getStatus().getName());
                 writeStringSingleItem(writer, operation.getProcStatus().getName());
+                writeStringSingleItem(writer, operation.getEdatosMigrationStatus().getName());
                 writeItemInternationalString(writer, operation.getGenderPerspective(), languages);
                 writeStringSingleItem(writer,operation.getDisaggregationBySex()  == null ? null : operation.getDisaggregationBySex().toString() );
                 writeStringSingleItem(writer,operation.getDisaggregationByAge()  == null ? null : operation.getDisaggregationByAge().toString() );
@@ -175,6 +176,8 @@ public class TsvExportationUtils {
         writer.write(StatisticalOperationsConstants.TSV_HEADER_STATUS);
         writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
         writer.write(StatisticalOperationsConstants.TSV_HEADER_PROC_STATUS);
+        writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
+        writer.write(StatisticalOperationsConstants.TSV_HEADER_EDATOS_MIGRATION_STATUS);
         writeHeaderItem(writer, languages, StatisticalOperationsConstants.TSV_HEADER_GENDER_PERSPECTIVE);
         writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
         writer.write(StatisticalOperationsConstants.TSV_HEADER_DISAGGREGATION_BY_SEX);

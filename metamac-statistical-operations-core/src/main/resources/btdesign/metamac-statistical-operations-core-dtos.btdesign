@@ -35,6 +35,8 @@ Application StatisticalOperationsDto {
         DataTransferObject CollMethodDto extends @IdentityDto {
             String identifier;
             - @InternationalStringDto description nullable;
+            Integer visualisationOrder;
+            Integer hierarchyLevel;
         }
 
         "Dto for Cost"

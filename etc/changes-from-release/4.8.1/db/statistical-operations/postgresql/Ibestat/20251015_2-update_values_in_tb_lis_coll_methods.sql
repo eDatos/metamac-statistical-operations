@@ -23,7 +23,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA extensions;
 --------------------------------------------------------------------------------------------------------------------------
 
 
---!! ATENCIÓN!!!. PARA EJECUTAR ESTE SCRIPT PRIMERO SE HA DEBIDO EJECUTAR EL SCRIPT 20251006_1-update_tb_lis_coll_method.sql
+--!! ATENCIÓN!!!. PARA EJECUTAR ESTE SCRIPT PRIMERO SE HA DEBIDO EJECUTAR EL SCRIPT 20251015_1-update_tb_lis_coll_method.sql
 
 -- 01 - Recogida directa de datos estadísticos
 DO

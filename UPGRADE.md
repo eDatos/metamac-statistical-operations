@@ -20,7 +20,7 @@ actualización de la versión 1.0.0 a la 2.0.0.*
   * [etc/changes-from-release/4.8.1/db/](etc/changes-from-release/4.8.1/db/)
 
 * **Atención especial IBESTAT:** Hay una petición especial de cambio de datos y jerarquización de valores. Por tanto, hay scripts que **SÓLO se ejecutarán en IBESTAT**:
-  1. Ejecutar el script `etc/changes-from-release/4.8.1/db/postgresql/20251006_1-update_tb_lis_coll_method.sql` en **todos los entornos**.
+  1. Ejecutar el script `etc/changes-from-release/4.8.1/db/postgresql/20251015_1-update_tb_lis_coll_method.sql` en **todos los entornos**.
   2. A continuación, sólo en IBESTAT ejecutar los scripts de la carpeta:  
      `etc/changes-from-release/4.8.1/db/postgresql/Ibestat`  
      (El ISTAC e IESTADIS no requieren adecuación de datos de la tabla maestra).

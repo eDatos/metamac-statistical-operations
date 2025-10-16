@@ -625,7 +625,7 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
         productionDescriptorsForm.setValue(InstanceDS.STATISTICAL_OPERATION_SOURCE,
                 instanceDto.getSurveySource() != null ? CommonWebUtils.getElementName(instanceDto.getSurveySource().getIdentifier(), instanceDto.getSurveySource().getDescription()) : "");
         productionDescriptorsForm.setValue(InstanceDS.COLL_METHOD,
-                instanceDto.getCollMethod() != null ? CommonWebUtils.getElementName(instanceDto.getCollMethod().getIdentifier(), instanceDto.getCollMethod().getDescription()) : "");
+                instanceDto.getCollMethod() != null ? CommonWebUtils.getElementName(instanceDto.getCollMethod().getIdentifier(), instanceDto.getCollMethod().getDescription(),0,false) : "");
         ((ExternalItemListItem) productionDescriptorsForm.getItem(InstanceDS.INFORMATION_SUPPLIERS)).setExternalItems(instanceDto.getInformationSuppliers());
         ((ExternalItemListItem) productionDescriptorsForm.getItem(InstanceDS.FREQ_COLL)).setExternalItems(instanceDto.getFreqColl());
         productionDescriptorsForm.setValue(InstanceDS.DATA_VALIDATION, instanceDto.getDataValidation());
@@ -733,7 +733,7 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
 
         productionDescriptorsEditionForm.setValue(InstanceDS.DOC_METHOD, instanceDto.getDocMethod());
         surveySourceItem.setValue(instanceDto.getSurveySource() != null ? instanceDto.getSurveySource().getId() : "");
-        collMethodItem.setValue(instanceDto.getCollMethod() != null ? instanceDto.getCollMethod().getId() : "");
+        collMethodItem.setValue(instanceDto.getCollMethod() != null ? OperationsListUtils.getCollMethodArtificialKey(collMethodDtos, instanceDto.getCollMethod().getId()) : null);
         ((ExternalItemListItem) productionDescriptorsEditionForm.getItem(InstanceDS.INFORMATION_SUPPLIERS)).setExternalItems(instanceDto.getInformationSuppliers());
         ((ExternalItemListItem) productionDescriptorsEditionForm.getItem(InstanceDS.FREQ_COLL)).setExternalItems(instanceDto.getFreqColl());
         productionDescriptorsEditionForm.setValue(InstanceDS.DATA_VALIDATION, instanceDto.getDataValidation());

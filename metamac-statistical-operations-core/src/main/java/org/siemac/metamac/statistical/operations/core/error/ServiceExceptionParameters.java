@@ -23,6 +23,7 @@ public class ServiceExceptionParameters extends CommonServiceExceptionParameters
     public static final String OPERATION_DESCRIPTION             = "parameter.operations.operation.description";
     public static final String OPERATION_PROC_STATUS             = "parameter.operations.operation.proc_status";
     public static final String OPERATION_STATUS                  = "parameter.operations.operation.status";
+    public static final String OPERATION_EDATOS_MIGRATION_STATUS = "parameter.operations.operation.edatos_migration_status";
     public static final String OPERATION_SUBJECT_AREA            = "parameter.operations.operation.subject_area";
     public static final String OPERATION_SECONDARY_SUBJECT_AREAS = "parameter.operations.operation.secondary_subject_areas";
     public static final String OPERATION_SURVEY_TYPE             = "parameter.operations.operation.survey_type";

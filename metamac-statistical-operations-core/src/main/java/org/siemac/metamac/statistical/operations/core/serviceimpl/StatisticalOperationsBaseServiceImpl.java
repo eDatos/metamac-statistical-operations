@@ -27,6 +27,7 @@ import org.siemac.metamac.statistical.operations.core.domain.InstanceProperties;
 import org.siemac.metamac.statistical.operations.core.domain.InstanceRepository;
 import org.siemac.metamac.statistical.operations.core.domain.Operation;
 import org.siemac.metamac.statistical.operations.core.domain.OperationRepository;
+import org.siemac.metamac.statistical.operations.core.enume.domain.EdatosMigrationStatusEnum;
 import org.siemac.metamac.statistical.operations.core.enume.domain.ProcStatusEnum;
 import org.siemac.metamac.statistical.operations.core.enume.domain.StatusEnum;
 import org.siemac.metamac.statistical.operations.core.enume.domain.StreamMessageStatusEnum;
@@ -47,7 +48,7 @@ import org.springframework.stereotype.Service;
  * Implementation of StatisticalOperationsBaseService.
  */
 @Service("statisticalOperationsBaseService")
-public class StatisticalOperationsBaseServiceImpl extends StatisticalOperationsBaseServiceImplBase {
+public class StatisticalOperationsBaseServiceImpl extends org.siemac.metamac.statistical.operations.core.serviceimpl.StatisticalOperationsBaseServiceImplBase {
 
     @Autowired
     private FamilyRepository       familyRepository;
@@ -347,6 +348,7 @@ public class StatisticalOperationsBaseServiceImpl extends StatisticalOperationsB
         operation.setUrn(GeneratorUrnUtils.generateSiemacStatisticalOperationUrn(operation.getCode()));
         operation.setProcStatus(ProcStatusEnum.DRAFT);
         operation.setStatus(StatusEnum.PLANNING);
+        operation.setEdatosMigrationStatus(EdatosMigrationStatusEnum.NOT_STARTED);
         operation.setCurrentlyActive(Boolean.FALSE);
         operation.setStreamMessageStatus(StreamMessageStatusEnum.PENDING);
 
@@ -546,9 +548,6 @@ public class StatisticalOperationsBaseServiceImpl extends StatisticalOperationsB
         // Get information
         Operation operation = findOperationById(ctx, operationId);
 
-        // Check operation for create instance. Operation PROC_STATUS can't be draft
-        ValidationUtil.validateOperationProcStatusForSaveInstance(operation);
-
         Integer order = operation.getInstances().size();
 
         // Fill metadata
@@ -591,9 +590,6 @@ public class StatisticalOperationsBaseServiceImpl extends StatisticalOperationsB
             CheckMandatoryMetadataUtil.checkInstanceForPublishExternally(instance);
             ValidationUtil.validateOperationForPublishInstanceExternally(operation);
         }
-
-        // Operation PROC_STATUS can't be draft
-        ValidationUtil.validateOperationProcStatusForSaveInstance(operation);
 
         // Repository operation
         return instanceRepository.save(instance);

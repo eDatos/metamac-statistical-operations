@@ -15,31 +15,30 @@ actualización de la versión 1.0.0 a la 2.0.0.*
 *Se deberá realizar primero la actualización de la versión 1.0.0 a la 2.0.0 y luego desde la 2.0.0 a la 3.0.0*
 
 ## 4.8.1 a 4.8.2-SNAPSHOT
-* Es necesario ejecutar el script SQL contenido en la carpeta **SOLO PARA IBESTAT**
-  ```shell
-  etc/changes-from-release/4.8.1/db/statistical-operations/postgresql/20251008_rename_values_tb_lis_cost_IBESTAT.sql
-    ```
+
+* Se han realizado cambios en la base de datos PostgreSQL, por ello se proveen una serie de scripts SQL para adaptarse a
+  la nueva versión.Ejecutar los scripts de la siguiente ruta en el esquema correspondiente por orden de fecha:
+  * [etc/changes-from-release/4.8.1/db/](etc/changes-from-release/4.8.1/db/)
+* Esta versión depende de la versión 3.11.2-SNAPSHOT de eUsuarios. Por lo tanto, no se puede subir la versión 4.8.
+  2-SNAPSHOT de metamac-statistical-operations sin haber subido la versión 3.11.2-SNAPSHOT de eUsuarios y viceversa.
+* Se debe resetear el schema registry para el topic OPERATION_PUBLICATIONS debido a que se han modificado las 
+  propiedades de los mensajes que se publican en dicho topic. Para ello:
   
-* Es necesario ejecutar el script SQL contenido en la carpeta
-  ```shell
-  etc/changes-from-release/4.8.1/db/statistical-operations/postgresql/20251009_new_column_cost_detail.sql
-  ```
-  
-* Se debe resetear el schema registry para el topic OPERATION_PUBLICATIONS debido a que se ha añadido un nuevo campo a las instancias
-  ```shell
+```shell 
   curl -X DELETE http://localhost:8081/subjects/OPERATION_PUBLICATIONS-value
   ````
 
-* Se han de Borrar los mensajes existentes en el topic OPERATION_PUBLICATIONS. Para ello:
-  ```shell
-    /servers/kafka/confluent/bin/kafka-configs --bootstrap-server localhost:19092 --entity-type topics --entity-name OPERATION_PUBLICATIONS --add-config retention.ms=100 --alter /servers/kafka/confluent/bin/kafka-configs --bootstrap-server localhost:19092 --entity-type topics --entity-name OPERATION_PUBLICATIONS --describe retention.ms  ````
-  ````
-  
-* Esperar 1 minuto antes de volver a restaurar con la siguiente sentencia
-  ```shell
-   /servers/kafka/confluent/bin/kafka-configs --bootstrap-server localhost:19092 --entity-type topics --entity-name OPERATION_PUBLICATIONS --delete-config retention.ms --alter
-    ````
+* Se han de Borrar los mensajes existentes en el topic OPERATION_PUBLICATIONS. Para ello,
 
+```shell 
+ /servers/kafka/confluent/bin/kafka-configs --bootstrap-server localhost:19092 --entity-type topics --entity-name OPERATION_PUBLICATIONS --add-config retention.ms=100 --alter
+ /servers/kafka/confluent/bin/kafka-configs --bootstrap-server localhost:19092 --entity-type topics --entity-name OPERATION_PUBLICATIONS --describe retention.ms
+  ````
+
+*  Esperar 1 minuto antes de volver a restaurar con la siguiente sentencia
+```shell
+ /servers/kafka/confluent/bin/kafka-configs --bootstrap-server localhost:19092 --entity-type topics --entity-name OPERATION_PUBLICATIONS --delete-config retention.ms --alter
+````
 
 ## 4.6.1 a 4.7.0
 Esta versión tiene como dependencia complementos-apps en su versión 8.13.0

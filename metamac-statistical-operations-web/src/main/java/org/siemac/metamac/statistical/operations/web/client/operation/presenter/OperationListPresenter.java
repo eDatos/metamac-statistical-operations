@@ -27,6 +27,7 @@ import org.siemac.metamac.statistical.operations.web.shared.GetOperationPaginate
 import org.siemac.metamac.statistical.operations.web.shared.GetOperationPaginatedListResult;
 import org.siemac.metamac.statistical.operations.web.shared.SaveOperationAction;
 import org.siemac.metamac.statistical.operations.web.shared.SaveOperationResult;
+import org.siemac.metamac.statistical.operations.web.shared.criteria.OperationCriteria;
 import org.siemac.metamac.statistical.operations.web.shared.external.GetExternalResourcesAction;
 import org.siemac.metamac.statistical.operations.web.shared.external.GetExternalResourcesResult;
 import org.siemac.metamac.statistical.operations.web.shared.external.RestWebCriteriaUtils;
@@ -92,7 +93,7 @@ public class OperationListPresenter extends Presenter<OperationListPresenter.Ope
 
         // Search
         void clearSearchSection();
-        String getOperationCriteria();
+        OperationCriteria getOperationCriteria();
 
         // External resources
 
@@ -186,13 +187,13 @@ public class OperationListPresenter extends Presenter<OperationListPresenter.Ope
     }
 
     @Override
-    public void retrieveOperationList(int firstResult, int maxResults, final String operation) {
-        dispatcher.execute(new GetOperationPaginatedListAction(firstResult, maxResults, operation), new WaitingAsyncCallbackHandlingError<GetOperationPaginatedListResult>(this) {
+    public void retrieveOperationList(int firstResult, int maxResults, final OperationCriteria operationCriteria) {
+        dispatcher.execute(new GetOperationPaginatedListAction(firstResult, maxResults, operationCriteria), new WaitingAsyncCallbackHandlingError<GetOperationPaginatedListResult>(this) {
 
             @Override
             public void onWaitSuccess(GetOperationPaginatedListResult result) {
                 getView().setOperations(result.getOperationBaseDtos(), result.getFirstResultOut(), result.getTotalResults());
-                if (StringUtils.isBlank(operation)) {
+                if (operationCriteria == null) {
                     getView().clearSearchSection();
                 }
             }
@@ -216,7 +217,7 @@ public class OperationListPresenter extends Presenter<OperationListPresenter.Ope
     }
 
     @Override
-    public void exportOperationsTsv(String operation) {
+    public void exportOperationsTsv(OperationCriteria operation) {
         dispatcher.execute(new ExportOperationListAction(operation), new WaitingAsyncCallbackHandlingError<ExportOperationListResult>(this) {
 
             @Override

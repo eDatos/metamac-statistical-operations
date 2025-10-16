@@ -68,6 +68,7 @@ import org.siemac.metamac.statistical.operations.core.domain.InstanceType;
 import org.siemac.metamac.statistical.operations.core.domain.OfficialityType;
 import org.siemac.metamac.statistical.operations.core.domain.SurveySource;
 import org.siemac.metamac.statistical.operations.core.domain.SurveyType;
+import org.siemac.metamac.statistical.operations.core.enume.domain.EdatosMigrationStatusEnum;
 import org.siemac.metamac.statistical.operations.core.enume.domain.ProcStatusEnum;
 import org.siemac.metamac.statistical.operations.core.enume.domain.StatusEnum;
 import org.siemac.metamac.statistical_operations.rest.common.StatisticalOperationsRestConstants;
@@ -130,6 +131,7 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         target.setInternalInventoryDate(this.toDate(source.getInternalInventoryDate()));
         target.setCurrentlyActive(source.getCurrentlyActive());
         target.setStatus(this.toStatus(source.getStatus()));
+        target.setEdatosMigrationStatus(this.toEdatosMigrationStatus(source.getEdatosMigrationStatus()));
         target.setProcStatus(this.toProcStatus(source.getProcStatus()));
         target.setPublishers(this.toPublishers(source.getPublisher()));
         target.setRelPolUsAc(this.toInternationalString(source.getRelPolUsAc()));
@@ -153,6 +155,10 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         target.setTechnicianInCharge(source.getTechnicianInCharge());
         target.setAssistantTechnician(source.getAssistantTechnician());
         target.setGenderPerspective(this.toInternationalString(source.getGenderPerspective()));
+        target.setDisaggregationBySex(source.getDisaggregationBySex());
+        target.setDisaggregationByAge(source.getDisaggregationByAge());
+        target.setDisaggregationByNationality(source.getDisaggregationByNationality());
+        target.setDisaggregationByDisability(source.getDisaggregationByDisability());
         return target;
     }
 
@@ -886,6 +892,8 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
             return null;
         }
         switch (source) {
+            case PRE_PLANNING:
+                return org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Status.PRE_PLANNING;
             case PLANNING:
                 return org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Status.PLANNING;
             case DESIGN:
@@ -894,6 +902,23 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
                 return org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Status.PRODUCTION;
             case OUT_OF_PRINT:
                 return org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Status.OUT_OF_PRINT;
+            default:
+                org.siemac.metamac.rest.common.v1_0.domain.Exception exception = RestExceptionUtils.getException(RestServiceExceptionType.UNKNOWN);
+                throw new RestException(exception, Status.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    private org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.EdatosMigrationStatus toEdatosMigrationStatus(EdatosMigrationStatusEnum source) {
+        if (source == null) {
+            return null;
+        }
+        switch (source) {
+            case NOT_STARTED:
+                return org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.EdatosMigrationStatus.NOT_STARTED;
+            case IN_PROGRESS:
+                return org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.EdatosMigrationStatus.IN_PROGRESS;
+            case COMPLETE:
+                return org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.EdatosMigrationStatus.COMPLETE;
             default:
                 org.siemac.metamac.rest.common.v1_0.domain.Exception exception = RestExceptionUtils.getException(RestServiceExceptionType.UNKNOWN);
                 throw new RestException(exception, Status.INTERNAL_SERVER_ERROR);

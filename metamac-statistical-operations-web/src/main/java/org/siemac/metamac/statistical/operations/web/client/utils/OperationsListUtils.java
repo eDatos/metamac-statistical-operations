@@ -57,7 +57,7 @@ public class OperationsListUtils {
         hashMap.put("", "");
         for (int i = 0; i < officialityTypeDtos.size(); i++) {
             OfficialityTypeDto dto = officialityTypeDtos.get(i);
-            hashMap.put(getArtificialKey(i, dto.getId()), CommonWebUtils.getElementName(dto.getIdentifier(), dto.getDescription(), dto.getHierarchyLevel()));
+            hashMap.put(getArtificialKey(i, dto.getId()), CommonWebUtils.getElementName(dto.getIdentifier(), dto.getDescription(), dto.getHierarchyLevel(), false));
         }
         return hashMap;
     }

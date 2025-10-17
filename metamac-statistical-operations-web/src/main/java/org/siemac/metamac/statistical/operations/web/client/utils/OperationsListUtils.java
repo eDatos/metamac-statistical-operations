@@ -94,7 +94,7 @@ public class OperationsListUtils {
         LinkedHashMap<String, String> hashMap = new LinkedHashMap<String, String>();
         hashMap.put(new String(), new String());
         for (CostDto type : list) {
-            hashMap.put(type.getId().toString(), CommonWebUtils.getElementName(type.getIdentifier(), type.getDescription()));
+            hashMap.put(type.getId().toString(), CommonWebUtils.getElementName(type.getIdentifier(), type.getDescription(),0,false));
         }
         return hashMap;
     }
@@ -242,7 +242,7 @@ public class OperationsListUtils {
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < list.size(); i++) {
             builder.append(i != 0 ? ",  " : "");
-            builder.append(list.get(i).getIdentifier());
+            builder.append(CommonWebUtils.getElementName(list.get(i).getIdentifier(), list.get(i).getDescription(),0,false));
         }
         return builder.toString();
     }

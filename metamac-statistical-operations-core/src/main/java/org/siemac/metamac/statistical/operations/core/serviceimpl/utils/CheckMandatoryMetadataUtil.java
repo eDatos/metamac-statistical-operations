@@ -3,6 +3,7 @@ package org.siemac.metamac.statistical.operations.core.serviceimpl.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.siemac.metamac.core.common.ent.domain.LocalisedString;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.core.common.exception.MetamacExceptionItem;
 import org.siemac.metamac.core.common.util.SdmxTimeUtils;
@@ -188,6 +189,12 @@ public class CheckMandatoryMetadataUtil {
 
         if (instance.getBasePeriod() != null && !SdmxTimeUtils.isObservationalTimePeriod(instance.getBasePeriod())) {
             exceptions.add(new MetamacExceptionItem(ServiceExceptionType.METADATA_INCORRECT, ServiceExceptionParameters.INSTANCE_BASE_PERIOD));
+        }
+
+        if (instance.getCostDetail() != null && !StatisticalOperationsValidationUtils.isEmpty(instance.getCostDetail())) {
+            for (LocalisedString localisedString : instance.getCostDetail().getTexts()) {
+                StatisticalOperationsValidationUtils.validateUrl(localisedString.getLabel(), ServiceExceptionParameters.INSTANCE_COST_DETAILS, exceptions);
+            }
         }
 
         StatisticalOperationsValidationUtils.checkSemanticIdentifierAsMetamacID(instance.getCode(), ServiceExceptionParameters.INSTANCE_CODE, exceptions);

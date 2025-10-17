@@ -525,7 +525,6 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
         costItem = new CustomSelectItem(InstanceDS.COST, getConstants().instanceCost());
         costItem.setMultiple(true);
         MultiLanguageTextItem costDetailItem = new MultiLanguageTextItem(InstanceDS.COST_DETAIL, getConstants().instanceCostDetail());
-        costDetailItem.setValidators(CommonWebUtils.getUrlValidator());
 
         productionDescriptorsEditionForm.setFields(createdDate, internalInventoryDate, staticProcStatus, procStatus, docMethodItem, surveySourceItem, collMethodItem, informationSuppliersItem,
                 freqCollItem, dataValidationItem, dataCompilationItem, adjustmentItem, seasonAdjustmentItem, costBurdenItem, costItem, costDetailItem);

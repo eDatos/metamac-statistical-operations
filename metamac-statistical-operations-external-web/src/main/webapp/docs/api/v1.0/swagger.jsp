@@ -1059,6 +1059,13 @@
                      "description":"${msg['api.doc.swagger.definitions.operation.properties.status']}",
                      "$ref":"#/definitions/Status"
                   },
+                  "edatosMigrationStatus":{
+                     "xml":{
+                        "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
+                     },
+                     "description":"${msg['api.doc.swagger.definitions.operation.properties.edatosMigrationStatus']}",
+                     "$ref":"#/definitions/EdatosMigrationStatus"
+                  },
                   "subjectArea":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
@@ -1314,6 +1321,16 @@
             "OUT_OF_PRINT"
          ],
          "description":"${msg['api.doc.swagger.definitions.status']}"
+      },
+      "EdatosMigrationStatus":{
+         "type":"string",
+         "title":"EdatosMigrationStatus",
+         "enum":[
+            "NOT_STARTED",
+            "IN_PROGRESS",
+            "COMPLETE"
+         ],
+         "description":"${msg['api.doc.swagger.definitions.edatosMigrationStatus']}"
       },
       "TemporalGranularities":{
          "type":"object",

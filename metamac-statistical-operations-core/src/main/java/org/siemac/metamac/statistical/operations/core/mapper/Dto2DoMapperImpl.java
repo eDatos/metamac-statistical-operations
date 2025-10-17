@@ -359,6 +359,7 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
 
         // STATUS
         target.setStatus(source.getStatus());
+        target.setEdatosMigrationStatus(source.getEdatosMigrationStatus());
 
         // PROC_STATUS
         // Not necessary. It can't be manually modified

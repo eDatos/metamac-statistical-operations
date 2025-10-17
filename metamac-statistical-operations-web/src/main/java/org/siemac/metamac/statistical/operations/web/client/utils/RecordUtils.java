@@ -77,6 +77,7 @@ public class RecordUtils {
         record.setDisaggregationByNationality(CommonWebUtils.getBooleanValueAsString(operationBaseDto.getDisaggregationByNationality()));
         record.setProcStatus(CommonUtils.getProcStatusName(operationBaseDto.getProcStatus()));
         record.setStatus(CommonUtils.getStatusName(operationBaseDto.getStatus()));
+        record.setEdatosMigrationStatus(CommonUtils.getEdatosMigrationStatusName(operationBaseDto.getEdatosMigrationStatus()));
         record.setPublicationStreamStatus(operationBaseDto.getStreamMessageStatus());
         record.setTechnicianInCharge(operationBaseDto.getTechnicianInCharge());
         record.setAssistantTechnician(operationBaseDto.getAssistantTechnician());

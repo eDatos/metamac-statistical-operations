@@ -107,6 +107,7 @@ public class CheckMandatoryMetadataUtil {
         StatisticalOperationsValidationUtils.checkMetadataRequired(operation.getStatus(), ServiceExceptionParameters.OPERATION_STATUS, exceptions);
         StatisticalOperationsValidationUtils.checkMetadataRequired(operation.getSubjectArea(), ServiceExceptionParameters.OPERATION_SUBJECT_AREA, exceptions);
         StatisticalOperationsValidationUtils.checkMetadataRequired(operation.getIndicatorSystem(), ServiceExceptionParameters.OPERATION_INDICATOR_SYSTEM, exceptions);
+        StatisticalOperationsValidationUtils.checkMetadataRequired(operation.getEdatosMigrationStatus(), ServiceExceptionParameters.OPERATION_EDATOS_MIGRATION_STATUS, exceptions);
 
         if (operation.getReleaseCalendar().equals(false)) {
             StatisticalOperationsValidationUtils.checkMetadataEmpty(operation.getReleaseCalendarAccess(), ServiceExceptionParameters.OPERATION_RELEASE_CALENDAR_ACCESS, exceptions);

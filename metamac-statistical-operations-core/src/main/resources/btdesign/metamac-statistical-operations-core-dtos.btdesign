@@ -128,6 +128,7 @@ Application StatisticalOperationsDto {
 
             Long optimisticLockingVersion;
             - @StreamMessageStatusEnum streamMessageStatus;
+            - @EdatosMigrationStatusEnum edatosMigrationStatus;
 
             String technicianInCharge nullable;
             String assistantTechnician nullable;
@@ -160,6 +161,7 @@ Application StatisticalOperationsDto {
             
             JAVADATE internalInventoryDate nullable;
             - @StreamMessageStatusEnum streamMessageStatus;
+            - @EdatosMigrationStatusEnum edatosMigrationStatus;
 
             String technicianInCharge nullable;
             String assistantTechnician nullable;

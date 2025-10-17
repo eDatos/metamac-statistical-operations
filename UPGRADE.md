@@ -16,19 +16,24 @@ actualización de la versión 1.0.0 a la 2.0.0.*
 
 ## 4.8.1 a 4.8.2-SNAPSHOT
 
-* Se han realizado cambios en la base de datos PostgreSQL, por ello se proveen una serie de scripts SQL para adaptarse a
-  la nueva versión.Ejecutar los scripts de la siguiente ruta en el esquema correspondiente por orden de fecha:
+* Se han realizado cambios en la base de datos PostgreSQL. Se proveen scripts SQL para adaptarse a la nueva versión. Ejecutar los scripts del siguiente directorio en el esquema correspondiente, en orden de fecha:
   * [etc/changes-from-release/4.8.1/db/](etc/changes-from-release/4.8.1/db/)
-* Esta versión depende de la versión 3.11.2-SNAPSHOT de eUsuarios. Por lo tanto, no se puede subir la versión 4.8.
-  2-SNAPSHOT de metamac-statistical-operations sin haber subido la versión 3.11.2-SNAPSHOT de eUsuarios y viceversa.
-* Se debe resetear el schema registry para el topic OPERATION_PUBLICATIONS debido a que se han modificado las 
-  propiedades de los mensajes que se publican en dicho topic. Para ello:
-  
+
+* **Atención especial IBESTAT:** Hay una petición especial de cambio de datos y jerarquización de valores. Por tanto, hay scripts que **SÓLO se ejecutarán en IBESTAT**:
+  1. Ejecutar el script `etc/changes-from-release/4.8.1/db/postgresql/20251009_1_new_column_cost_detail.sql.sql` en **todos los entornos**.
+  2. A continuación, sólo en IBESTAT ejecutar los scripts de la carpeta:  
+     `etc/changes-from-release/4.8.1/db/postgresql/IBESTAT`  
+     (El ISTAC e IESTADIS no requieren adecuación de datos de la tabla maestra).
+
+* Esta versión depende de la versión `3.11.2-SNAPSHOT de eUsuarios`. Por lo tanto, **no se puede subir la versión 4.8.2-SNAPSHOT de metamac-statistical-operations** sin haber subido previamente la versión 3.11.2-SNAPSHOT de eUsuarios, y viceversa.
+
+* Se debe resetear el schema registry para el topic `OPERATION_PUBLICATIONS`  debido a que se han modificado las propiedades de los mensajes que se publican en dicho topic. Para ello, ejecutar:
+
 ```shell 
   curl -X DELETE http://localhost:8081/subjects/OPERATION_PUBLICATIONS-value
   ````
 
-* Se han de Borrar los mensajes existentes en el topic OPERATION_PUBLICATIONS. Para ello,
+* Se han de Borrar los mensajes existentes en el topic OPERATION_PUBLICATIONS. Para ello, ejecutar:
 
 ```shell 
  /servers/kafka/confluent/bin/kafka-configs --bootstrap-server localhost:19092 --entity-type topics --entity-name OPERATION_PUBLICATIONS --add-config retention.ms=100 --alter
@@ -36,6 +41,7 @@ actualización de la versión 1.0.0 a la 2.0.0.*
   ````
 
 *  Esperar 1 minuto antes de volver a restaurar con la siguiente sentencia
+
 ```shell
  /servers/kafka/confluent/bin/kafka-configs --bootstrap-server localhost:19092 --entity-type topics --entity-name OPERATION_PUBLICATIONS --delete-config retention.ms --alter
 ````

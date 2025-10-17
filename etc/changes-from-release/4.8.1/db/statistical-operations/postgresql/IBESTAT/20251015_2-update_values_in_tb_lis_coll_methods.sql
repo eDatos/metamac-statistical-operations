@@ -1,4 +1,7 @@
 -- --------------------------------------------------------------------------------------------------
+-- --------------------------------------  SOLO PARA IBESTAT  ---------------------------------------
+-- --------------------------------------------------------------------------------------------------
+-- --------------------------------------------------------------------------------------------------
 -- ---- EDATOS-5210 - Modificar el campo COLL_METHOD
 -- ---- Modificar tabla TB_LIS_COLL_METHODS para que tenga una lista de valores categorizados.
 -- --------------------------------------------------------------------------------------------------
@@ -38,7 +41,7 @@ $$
         UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'L10NSTRS';
 
         INSERT INTO TB_LOCALISED_STRINGS (ID, LABEL, LOCALE, INTERNATIONAL_STRING_FK, VERSION)
-        VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'), 'Direct statistical data collection', 'en',
+        VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'), 'Direct collection of statistical data', 'en',
                 GET_NEXT_SEQUENCE_VALUE('I18NSTRS'), 1);
         UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'L10NSTRS';
 
@@ -71,12 +74,12 @@ $$
         UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'L10NSTRS';
 
         INSERT INTO TB_LOCALISED_STRINGS (ID, LABEL, LOCALE, INTERNATIONAL_STRING_FK, VERSION)
-        VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'), 'Data collection via census or complete enumeration', 'en',
+        VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'), 'Obtaining statistical data through census or complete enumeration', 'en',
                 GET_NEXT_SEQUENCE_VALUE('I18NSTRS'), 1);
         UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'L10NSTRS';
 
         INSERT INTO TB_LOCALISED_STRINGS (ID, LABEL, LOCALE, INTERNATIONAL_STRING_FK, VERSION)
-        VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'), 'Obtenció mitjançant cens o enumeració completa',
+        VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'), 'Obtenció de dades estadístiques mitjançant cens o enumeració completa',
                 'ca', GET_NEXT_SEQUENCE_VALUE('I18NSTRS'), 1);
         UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'L10NSTRS';
 
@@ -104,12 +107,12 @@ $$
         UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'L10NSTRS';
 
         INSERT INTO TB_LOCALISED_STRINGS (ID, LABEL, LOCALE, INTERNATIONAL_STRING_FK, VERSION)
-        VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'), 'Data collection via sampling enumeration', 'en',
+        VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'), 'Obtaining statistical data through sampling enumeration', 'en',
                 GET_NEXT_SEQUENCE_VALUE('I18NSTRS'), 1);
         UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'L10NSTRS';
 
         INSERT INTO TB_LOCALISED_STRINGS (ID, LABEL, LOCALE, INTERNATIONAL_STRING_FK, VERSION)
-        VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'), 'Obtenció mitjançant enumeració per mostreig', 'ca',
+        VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'), 'Obtenció de dades estadístiques mitjançant enumeració per mostreig', 'ca',
                 GET_NEXT_SEQUENCE_VALUE('I18NSTRS'), 1);
         UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'L10NSTRS';
 
@@ -137,12 +140,12 @@ $$
         UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'L10NSTRS';
 
         INSERT INTO TB_LOCALISED_STRINGS (ID, LABEL, LOCALE, INTERNATIONAL_STRING_FK, VERSION)
-        VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'), 'Data collection via combined census and sampling', 'en',
+        VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'), 'Obtaining statistical data in the form of a combined census and sampling', 'en',
                 GET_NEXT_SEQUENCE_VALUE('I18NSTRS'), 1);
         UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'L10NSTRS';
 
         INSERT INTO TB_LOCALISED_STRINGS (ID, LABEL, LOCALE, INTERNATIONAL_STRING_FK, VERSION)
-        VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'), 'Obtenció en forma combinada de cens i mostreig', 'ca',
+        VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'), 'Obtenció de dades estadístiques en forma combinada de cens i mostreig', 'ca',
                 GET_NEXT_SEQUENCE_VALUE('I18NSTRS'), 1);
         UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'L10NSTRS';
 
@@ -169,12 +172,12 @@ $$
         UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'L10NSTRS';
 
         INSERT INTO TB_LOCALISED_STRINGS (ID, LABEL, LOCALE, INTERNATIONAL_STRING_FK, VERSION)
-        VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'), 'Data collection via opinion surveys', 'en',
+        VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'), 'Obtaining data through opinion polls', 'en',
                 GET_NEXT_SEQUENCE_VALUE('I18NSTRS'), 1);
         UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'L10NSTRS';
 
         INSERT INTO TB_LOCALISED_STRINGS (ID, LABEL, LOCALE, INTERNATIONAL_STRING_FK, VERSION)
-        VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'), 'Obtenció mitjançant sondejos d''opinió', 'ca',
+        VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'), 'Obtenció de dades mitjançant sondejos d''opinió', 'ca',
                 GET_NEXT_SEQUENCE_VALUE('I18NSTRS'), 1);
         UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'L10NSTRS';
 
@@ -206,7 +209,7 @@ $$
         UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'L10NSTRS';
 
         INSERT INTO TB_LOCALISED_STRINGS (ID, LABEL, LOCALE, INTERNATIONAL_STRING_FK, VERSION)
-        VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'), 'Ús de dades administratives', 'ca',
+        VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'), 'Utilització de dades administratives', 'ca',
                 GET_NEXT_SEQUENCE_VALUE('I18NSTRS'), 1);
         UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'L10NSTRS';
 
@@ -234,7 +237,7 @@ $$
         UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'L10NSTRS';
 
         INSERT INTO TB_LOCALISED_STRINGS (ID, LABEL, LOCALE, INTERNATIONAL_STRING_FK, VERSION)
-        VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'), 'Collection via full enumeration of original administrative data',
+        VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'), 'Obtaining by complete enumeration of original administrative data',
                 'en', GET_NEXT_SEQUENCE_VALUE('I18NSTRS'), 1);
         UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'L10NSTRS';
 
@@ -269,13 +272,13 @@ $$
 
         INSERT INTO TB_LOCALISED_STRINGS (ID, LABEL, LOCALE, INTERNATIONAL_STRING_FK, VERSION)
         VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'),
-                'Collection via individual statistical form based on an administrative act', 'en',
+                'Obtaining through an individual statistical form based on an administrative act', 'en',
                 GET_NEXT_SEQUENCE_VALUE('I18NSTRS'), 1);
         UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'L10NSTRS';
 
         INSERT INTO TB_LOCALISED_STRINGS (ID, LABEL, LOCALE, INTERNATIONAL_STRING_FK, VERSION)
         VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'),
-                'Obtenció mitjançant formulari estadístic individual basat en un acte administratiu',
+                'Obtenció mitjançant formulari estadístic individual amb base en un acte administratiu',
                 'ca', GET_NEXT_SEQUENCE_VALUE('I18NSTRS'), 1);
         UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'L10NSTRS';
 
@@ -304,13 +307,13 @@ $$
 
         INSERT INTO TB_LOCALISED_STRINGS (ID, LABEL, LOCALE, INTERNATIONAL_STRING_FK, VERSION)
         VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'),
-                'Collection via statistical summaries based on administrative data', 'en',
+                'Obtained by preparing statistical summaries based on administrative data', 'en',
                 GET_NEXT_SEQUENCE_VALUE('I18NSTRS'), 1);
         UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'L10NSTRS';
 
         INSERT INTO TB_LOCALISED_STRINGS (ID, LABEL, LOCALE, INTERNATIONAL_STRING_FK, VERSION)
         VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'),
-                'Obtenció mitjançant elaboració de resums estadístics basats en dades administratives',
+                'Obtenció mitjançant elaboració de resums estadístics amb base en dades administratives',
                 'ca', GET_NEXT_SEQUENCE_VALUE('I18NSTRS'), 1);
         UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'L10NSTRS';
 
@@ -338,7 +341,7 @@ $$
         UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'L10NSTRS';
 
         INSERT INTO TB_LOCALISED_STRINGS (ID, LABEL, LOCALE, INTERNATIONAL_STRING_FK, VERSION)
-        VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'), 'Collection via sampling of administrative data', 'en',
+        VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'), 'Obtaining administrative data by sampling enumeration', 'en',
                 GET_NEXT_SEQUENCE_VALUE('I18NSTRS'), 1);
         UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'L10NSTRS';
 
@@ -372,12 +375,12 @@ $$
         UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'L10NSTRS';
 
         INSERT INTO TB_LOCALISED_STRINGS (ID, LABEL, LOCALE, INTERNATIONAL_STRING_FK, VERSION)
-        VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'), 'Combined use of statistical and administrative data', 'en',
+        VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'), 'Joint use of statistical and administrative data', 'en',
                 GET_NEXT_SEQUENCE_VALUE('I18NSTRS'), 1);
         UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'L10NSTRS';
 
         INSERT INTO TB_LOCALISED_STRINGS (ID, LABEL, LOCALE, INTERNATIONAL_STRING_FK, VERSION)
-        VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'), 'Ús conjunt de dades estadístiques i administratives',
+        VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'), 'Utilització conjunta de dades estadístiques i administratives',
                 'ca', GET_NEXT_SEQUENCE_VALUE('I18NSTRS'), 1);
         UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'L10NSTRS';
 
@@ -404,12 +407,12 @@ $$
         UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'L10NSTRS';
 
         INSERT INTO TB_LOCALISED_STRINGS (ID, LABEL, LOCALE, INTERNATIONAL_STRING_FK, VERSION)
-        VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'), 'Use of statistical results', 'en',
+        VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'), 'Using statistical results', 'en',
                 GET_NEXT_SEQUENCE_VALUE('I18NSTRS'), 1);
         UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'L10NSTRS';
 
         INSERT INTO TB_LOCALISED_STRINGS (ID, LABEL, LOCALE, INTERNATIONAL_STRING_FK, VERSION)
-        VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'), 'Ús de resultats estadístics', 'ca',
+        VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'), 'Utilització de resultats estadístics', 'ca',
                 GET_NEXT_SEQUENCE_VALUE('I18NSTRS'), 1);
         UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'L10NSTRS';
 
@@ -437,7 +440,7 @@ $$
         UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'L10NSTRS';
 
         INSERT INTO TB_LOCALISED_STRINGS (ID, LABEL, LOCALE, INTERNATIONAL_STRING_FK, VERSION)
-        VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'), 'Collection of derived statistics from other statistical results',
+        VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'), 'Obtaining statistics derived from other statistical results',
                 'en', GET_NEXT_SEQUENCE_VALUE('I18NSTRS'), 1);
         UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'L10NSTRS';
 
@@ -471,7 +474,7 @@ $$
         UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'L10NSTRS';
 
         INSERT INTO TB_LOCALISED_STRINGS (ID, LABEL, LOCALE, INTERNATIONAL_STRING_FK, VERSION)
-        VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'), 'Compilation of own or external statistical results', 'en',
+        VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'), 'Compilation of own or third-party statistical results', 'en',
                 GET_NEXT_SEQUENCE_VALUE('I18NSTRS'), 1);
         UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'L10NSTRS';
 
@@ -508,7 +511,7 @@ $$
         UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'L10NSTRS';
 
         INSERT INTO TB_LOCALISED_STRINGS (ID, LABEL, LOCALE, INTERNATIONAL_STRING_FK, VERSION)
-        VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'), 'Ús de bases de dades privades', 'ca',
+        VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'), 'Utilització de bases de dades privades', 'ca',
                 GET_NEXT_SEQUENCE_VALUE('I18NSTRS'), 1);
         UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'L10NSTRS';
 
@@ -536,13 +539,13 @@ $$
         UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'L10NSTRS';
 
         INSERT INTO TB_LOCALISED_STRINGS (ID, LABEL, LOCALE, INTERNATIONAL_STRING_FK, VERSION)
-        VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'), 'Combined use of statistical data and private databases', 'en',
+        VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'), 'Joint use of statistical data and private databases', 'en',
                 GET_NEXT_SEQUENCE_VALUE('I18NSTRS'), 1);
         UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'L10NSTRS';
 
         INSERT INTO TB_LOCALISED_STRINGS (ID, LABEL, LOCALE, INTERNATIONAL_STRING_FK, VERSION)
         VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'),
-                'Ús conjunt de dades estadístiques i bases de dades privades', 'ca',
+                'Utilització conjunta de dades estadístiques i bases de dades privades', 'ca',
                 GET_NEXT_SEQUENCE_VALUE('I18NSTRS'), 1);
         UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'L10NSTRS';
 
@@ -569,7 +572,7 @@ $$
         UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'L10NSTRS';
 
         INSERT INTO TB_LOCALISED_STRINGS (ID, LABEL, LOCALE, INTERNATIONAL_STRING_FK, VERSION)
-        VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'), 'Other data collection methods', 'en',
+        VALUES (GET_NEXT_SEQUENCE_VALUE('L10NSTRS'), 'Other ways of obtaining data', 'en',
                 GET_NEXT_SEQUENCE_VALUE('I18NSTRS'), 1);
         UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'L10NSTRS';
 

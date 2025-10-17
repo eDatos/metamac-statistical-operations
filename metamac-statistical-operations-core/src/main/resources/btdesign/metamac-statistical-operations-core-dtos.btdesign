@@ -95,6 +95,10 @@ Application StatisticalOperationsDto {
             - Set<@ExternalItemDto> contributor;
             JAVADATE internalInventoryDate nullable;
             Boolean currentlyActive;
+            Boolean disaggregationBySex nullable;
+            Boolean disaggregationByAge nullable;
+            Boolean disaggregationByNationality nullable;
+            Boolean disaggregationByDisability nullable;
             - @ProcStatusEnum procStatus not nullable;
             - @StatusEnum status not nullable;
 
@@ -123,6 +127,7 @@ Application StatisticalOperationsDto {
 
             Long optimisticLockingVersion;
             - @StreamMessageStatusEnum streamMessageStatus;
+            - @EdatosMigrationStatusEnum edatosMigrationStatus;
 
             String technicianInCharge nullable;
             String assistantTechnician nullable;
@@ -146,10 +151,15 @@ Application StatisticalOperationsDto {
             - @SurveyTypeDto surveyType nullable;
             - @OfficialityTypeDto officialityType nullable;
             Boolean currentlyActive;
+            Boolean disaggregationBySex nullable;
+            Boolean disaggregationByAge nullable;
+            Boolean disaggregationByNationality nullable;
+            Boolean disaggregationByDisability nullable;
             - @StatusEnum status nullable;
             
             JAVADATE internalInventoryDate nullable;
             - @StreamMessageStatusEnum streamMessageStatus;
+            - @EdatosMigrationStatusEnum edatosMigrationStatus;
 
             String technicianInCharge nullable;
             String assistantTechnician nullable;

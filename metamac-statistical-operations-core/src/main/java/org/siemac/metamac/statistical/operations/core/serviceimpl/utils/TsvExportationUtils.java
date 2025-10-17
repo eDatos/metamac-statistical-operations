@@ -5,11 +5,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.security.AccessController;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -31,7 +26,6 @@ import org.siemac.metamac.statistical.operations.core.domain.Instance;
 import org.siemac.metamac.statistical.operations.core.domain.Operation;
 import org.siemac.metamac.statistical.operations.core.enume.domain.ProcStatusEnum;
 import org.siemac.metamac.statistical.operations.core.error.ServiceExceptionType;
-import sun.security.action.GetPropertyAction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -86,7 +80,12 @@ public class TsvExportationUtils {
                 writeStringSingleItem(writer, operation.getCurrentlyActive().toString());
                 writeStringSingleItem(writer, operation.getStatus().getName());
                 writeStringSingleItem(writer, operation.getProcStatus().getName());
+                writeStringSingleItem(writer, operation.getEdatosMigrationStatus().getName());
                 writeItemInternationalString(writer, operation.getGenderPerspective(), languages);
+                writeStringSingleItem(writer,operation.getDisaggregationBySex()  == null ? null : operation.getDisaggregationBySex().toString() );
+                writeStringSingleItem(writer,operation.getDisaggregationByAge()  == null ? null : operation.getDisaggregationByAge().toString() );
+                writeStringSingleItem(writer,operation.getDisaggregationByNationality()  == null ? null : operation.getDisaggregationByNationality().toString() );
+                writeStringSingleItem(writer,operation.getDisaggregationByDisability()  == null ? null : operation.getDisaggregationByDisability().toString() );
 
                 // Descriptores de difusión
                 writeExternalItemListItem(writer, operation.getPublisher());
@@ -177,7 +176,17 @@ public class TsvExportationUtils {
         writer.write(StatisticalOperationsConstants.TSV_HEADER_STATUS);
         writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
         writer.write(StatisticalOperationsConstants.TSV_HEADER_PROC_STATUS);
+        writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
+        writer.write(StatisticalOperationsConstants.TSV_HEADER_EDATOS_MIGRATION_STATUS);
         writeHeaderItem(writer, languages, StatisticalOperationsConstants.TSV_HEADER_GENDER_PERSPECTIVE);
+        writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
+        writer.write(StatisticalOperationsConstants.TSV_HEADER_DISAGGREGATION_BY_SEX);
+        writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
+        writer.write(StatisticalOperationsConstants.TSV_HEADER_DISAGGREGATION_BY_AGE);
+        writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
+        writer.write(StatisticalOperationsConstants.TSV_HEADER_DISAGGREGATION_BY_NATIONALITY);
+        writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
+        writer.write(StatisticalOperationsConstants.TSV_HEADER_DISAGGREGATION_BY_DISABILITY);
         // Descriptores de difusión
         writer.write(StatisticalOperationsConstants.TSV_SEPARATOR);
         writer.write(StatisticalOperationsConstants.TSV_HEADER_PUBLISHER);

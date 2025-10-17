@@ -1,5 +1,6 @@
 package org.siemac.metamac.statistical.operations.web.client.utils;
 
+import static org.siemac.metamac.statistical.operations.web.client.OperationsWeb.getConstants;
 import static org.siemac.metamac.statistical.operations.web.client.OperationsWeb.getCoreMessages;
 
 import java.util.ArrayList;
@@ -7,12 +8,14 @@ import java.util.EnumMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.siemac.metamac.core.common.criteria.shared.MetamacCriteriaOrder.OrderTypeEnum;
 import org.siemac.metamac.core.common.dto.ExternalItemDto;
 import org.siemac.metamac.core.common.util.shared.StringUtils;
 import org.siemac.metamac.statistical.operations.core.dto.FamilyBaseDto;
 import org.siemac.metamac.statistical.operations.core.dto.InstanceDto;
 import org.siemac.metamac.statistical.operations.core.dto.OperationBaseDto;
 import org.siemac.metamac.statistical.operations.core.dto.OperationDto;
+import org.siemac.metamac.statistical.operations.core.enume.domain.EdatosMigrationStatusEnum;
 import org.siemac.metamac.statistical.operations.core.enume.domain.ProcStatusEnum;
 import org.siemac.metamac.statistical.operations.core.enume.domain.StatusEnum;
 import org.siemac.metamac.statistical.operations.core.enume.domain.StreamMessageStatusEnum;
@@ -29,6 +32,7 @@ import com.smartgwt.client.widgets.form.validator.LengthRangeValidator;
 public class CommonUtils {
 
     private static LinkedHashMap<String, String>                         statusEnumHashMap;
+    private static LinkedHashMap<String, String>                         edatosMigrationStatusEnumHashMap;
 
     private static final EnumMap<StreamMessageStatusEnum, ImageResource> ICON_STREAM_MESSAGE_STATUS = new EnumMap(StreamMessageStatusEnum.class);
 
@@ -49,6 +53,17 @@ public class CommonUtils {
         return statusEnumHashMap;
     }
 
+    public static LinkedHashMap<String, String> getEdatosMigrationStatusEnumHashMap() {
+        if (edatosMigrationStatusEnumHashMap == null) {
+            edatosMigrationStatusEnumHashMap = new LinkedHashMap<String, String>();
+            for (EdatosMigrationStatusEnum s : EdatosMigrationStatusEnum.values()) {
+                String value = getCoreMessages().getString(getCoreMessages().edatosMigrationStatusEnum() + s.getName());
+                edatosMigrationStatusEnumHashMap.put(s.toString(), value);
+            }
+        }
+        return edatosMigrationStatusEnumHashMap;
+    }
+
     public static String getProcStatusName(ProcStatusEnum procStatusEnum) {
         if (procStatusEnum != null) {
             return getCoreMessages().getString(getCoreMessages().procStatusEnum() + procStatusEnum.getName());
@@ -59,6 +74,13 @@ public class CommonUtils {
     public static String getStatusName(StatusEnum statusEnum) {
         if (statusEnum != null) {
             return getCoreMessages().getString(getCoreMessages().statusEnum() + statusEnum.getName());
+        }
+        return StringUtils.EMPTY;
+    }
+
+    public static String getEdatosMigrationStatusName(EdatosMigrationStatusEnum edatosMigrationStatus) {
+        if (edatosMigrationStatus != null) {
+            return getCoreMessages().getString(getCoreMessages().edatosMigrationStatusEnum() + edatosMigrationStatus.getName());
         }
         return StringUtils.EMPTY;
     }
@@ -210,5 +232,17 @@ public class CommonUtils {
     private static native void downloadUrl(String url) /*-{
 		$wnd.location = url;
     }-*/;
+
+    public static LinkedHashMap<String, String> getOrderTypeValueMap() {
+        LinkedHashMap<String, String> valueMap = new LinkedHashMap<String, String>();
+        valueMap.put(OrderTypeEnum.ASC.name(), getConstants().orderASC());
+        valueMap.put(OrderTypeEnum.DESC.name(), getConstants().orderDESC());
+        return valueMap;
+    }
+
+    public static OrderTypeEnum getOrderTypeEnum(String value) {
+        return OrderTypeEnum.valueOf(value);
+    }
+
 
 }

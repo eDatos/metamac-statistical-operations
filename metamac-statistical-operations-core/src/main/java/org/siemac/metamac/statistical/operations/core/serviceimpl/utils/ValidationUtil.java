@@ -139,17 +139,6 @@ public class ValidationUtil {
 
     }
 
-    /**
-     * Check if the operation proc_status isn't DRAFT
-     * 
-     * @param operation
-     * @throws MetamacException
-     */
-    public static void validateOperationProcStatusForSaveInstance(Operation operation) throws MetamacException {
-        if (ProcStatusEnum.DRAFT.equals(operation.getProcStatus())) {
-            throw new MetamacException(ServiceExceptionType.INSTANCE_INCORRECT_OPERATION_PROC_STATUS);
-        }
-    }
 
     /**
      * Check if the instance is related at least with one published internally or externally operation

@@ -14,12 +14,19 @@ Application StatisticalOperationsEnums {
     	
     	"Status Enum is used to specify the statistical state of the survey"
     	enum StatusEnum {
+    	    PRE_PLANNING,
     		PLANNING,
     		DESIGN,
     		PRODUCTION,
     		OUT_OF_PRINT
     	}
-    	
+
+    	"Edatos Migration Status Enum is used to specify whether the statistical operation has already been migrated to eDatos or not"
+    	enum EdatosMigrationStatusEnum {
+    		NOT_STARTED,
+    		IN_PROGRESS,
+    		COMPLETE
+    	}
     	
     	enum StatisticalOperationsRoleEnum {
     		TECNICO_APOYO_PRODUCCION,

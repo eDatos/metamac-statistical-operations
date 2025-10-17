@@ -21,7 +21,6 @@ public class ServiceExceptionType extends CommonServiceExceptionType {
     public static final CommonServiceExceptionType OPERATION_NON_EXISTING_TECHNICIAN                          = create("exception.operations.non_existing_technician");
 
     public static final CommonServiceExceptionType INSTANCE_INCORRECT_OPERATION_ID                            = create("exception.operations.instance.incorrect_operation_id");
-    public static final CommonServiceExceptionType INSTANCE_INCORRECT_OPERATION_PROC_STATUS                   = create("exception.operations.instance.incorrect_operation_proc_status");
     public static final CommonServiceExceptionType INSTANCE_NOT_FOUND                                         = create("exception.operations.instance.not_found");
     public static final CommonServiceExceptionType INSTANCE_CODE_NOT_FOUND                                    = create("exception.operations.instance_code.not_found");
     public static final CommonServiceExceptionType INSTANCE_ID_NOT_FOUND                                      = create("exception.operations.instance_id.not_found");

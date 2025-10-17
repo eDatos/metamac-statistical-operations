@@ -382,6 +382,10 @@ Application StatisticalOperations {
 			DateTimeTZ internalInventoryDate nullable;
 			"Metadata CURRENTLY_ACTIVE"
 			Boolean currentlyActive;
+			Boolean disaggregationBySex nullable;
+            Boolean disaggregationByAge nullable;
+            Boolean disaggregationByNationality nullable;
+            Boolean disaggregationByDisability nullable;
        		"Metadata PROC_STATUS"
        		- @ProcStatusEnum procStatus not nullable;
        		"Metadata STATUS"
@@ -431,6 +435,7 @@ Application StatisticalOperations {
 			DateTimeTZ updateDate nullable;
 
 			- @StreamMessageStatusEnum streamMessageStatus;
+			- @EdatosMigrationStatusEnum edatosMigrationStatus;
 
             "Metadata GENDER_PERSPECTIVE"
             - @InternationalString genderPerspective cascade="all" nullable databaseColumn="GENDER_PERSPECTIVE_FK";

@@ -277,6 +277,9 @@ public class Do2DtoMapperImpl extends BaseDo2DtoMapperImpl implements Do2DtoMapp
         // PROC_STATUS
         // Not necessary
 
+        // EDATOS_MIGRATION_STATUS
+        target.setEdatosMigrationStatus(source.getEdatosMigrationStatus());
+
         // GENDER_PERSPECTIVE
         target.setGenderPerspective(internationalStringToDto(source.getGenderPerspective()));
 
@@ -336,6 +339,10 @@ public class Do2DtoMapperImpl extends BaseDo2DtoMapperImpl implements Do2DtoMapp
 
         target.setDiffusionAndPublicationVisible(source.getDiffusionPublicationVisible());
         target.setOptimisticLockingVersion(source.getVersion());
+        target.setDisaggregationBySex(source.getDisaggregationBySex());
+        target.setDisaggregationByAge(source.getDisaggregationByAge());
+        target.setDisaggregationByNationality(source.getDisaggregationByNationality());
+        target.setDisaggregationByDisability(source.getDisaggregationByDisability());
 
         return target;
     }

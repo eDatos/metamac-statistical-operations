@@ -141,6 +141,7 @@
                                 <import>${project.basedir}/src/main/resources/avro-schemas/external-item.avsc</import>
                                 <import>${project.basedir}/src/main/resources/avro-schemas/proc-status.avsc</import>
                                 <import>${project.basedir}/src/main/resources/avro-schemas/status.avsc</import>
+                                <import>${project.basedir}/src/main/resources/avro-schemas/edatos-migration-status.avsc</import>
                                 <import>${project.basedir}/src/main/resources/avro-schemas/survey-source.avsc</import>
                                 <import>${project.basedir}/src/main/resources/avro-schemas/survey-type.avsc</import>
                                 <import>${project.basedir}/src/main/resources/avro-schemas/instance-type.avsc</import>

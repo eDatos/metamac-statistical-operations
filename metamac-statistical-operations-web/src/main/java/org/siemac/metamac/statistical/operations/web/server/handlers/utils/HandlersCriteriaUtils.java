@@ -14,6 +14,7 @@ import org.siemac.metamac.core.common.criteria.shared.MetamacCriteriaOrder;
 import org.siemac.metamac.statistical.operations.core.criteria.FamilyCriteriaPropertyEnum;
 import org.siemac.metamac.statistical.operations.core.criteria.OperationCriteriaOrderEnum;
 import org.siemac.metamac.statistical.operations.core.criteria.OperationCriteriaPropertyEnum;
+import org.siemac.metamac.statistical.operations.core.enume.domain.EdatosMigrationStatusEnum;
 import org.siemac.metamac.statistical.operations.core.enume.domain.StatusEnum;
 import org.siemac.metamac.statistical.operations.web.shared.criteria.OperationCriteria;
 
@@ -87,6 +88,7 @@ public class HandlersCriteriaUtils {
         addRestrictionIfExists(advanced, buildCodeCriteria(operationCriteria));
         addRestrictionIfExists(advanced, buildTitleCriteria(operationCriteria));
         addRestrictionIfExists(advanced, buildStatusCriteria(operationCriteria));
+        addRestrictionIfExists(advanced, buildEdatosMigrationStatusCriteria(operationCriteria));
         addRestrictionIfExists(advanced, buildDisaggregationBySexCriteria(operationCriteria));
         addRestrictionIfExists(advanced, buildDisaggregationByAgeCriteria(operationCriteria));
         addRestrictionIfExists(advanced, buildDisaggregationByNationalityCriteria(operationCriteria));
@@ -94,6 +96,7 @@ public class HandlersCriteriaUtils {
 
         return advanced;
     }
+
     private static void addRestrictionIfExists(MetamacCriteriaConjunctionRestriction criteria, MetamacCriteriaRestriction restriction) {
         if (restriction != null) {
             criteria.getRestrictions().add(restriction);
@@ -117,6 +120,13 @@ public class HandlersCriteriaUtils {
     private static MetamacCriteriaRestriction buildStatusCriteria(OperationCriteria criteria) {
         if (criteria != null && StringUtils.isNotBlank(criteria.getStatus())) {
             return new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.STATUS.name(), StatusEnum.valueOf(criteria.getStatus()), MetamacCriteriaPropertyRestriction.OperationType.EQ);
+        }
+        return null;
+    }
+
+    private static MetamacCriteriaRestriction buildEdatosMigrationStatusCriteria(OperationCriteria criteria) {
+        if (criteria != null && StringUtils.isNotBlank(criteria.getEdatosMigrationStatus())) {
+            return new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.EDATOS_MIGRATION_STATUS.name(), EdatosMigrationStatusEnum.valueOf(criteria.getEdatosMigrationStatus()), MetamacCriteriaPropertyRestriction.OperationType.EQ);
         }
         return null;
     }

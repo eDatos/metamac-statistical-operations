@@ -150,6 +150,8 @@ public class MetamacCriteria2SculptorCriteriaMapperImpl implements MetamacCriter
                     return new SculptorPropertyCriteria(OperationProperties.statisticPlanCode(), propertyRestriction.getStringValue(), propertyRestriction.getOperationType());
                 case STATUS:
                     return new SculptorPropertyCriteria(OperationProperties.status(), propertyRestriction.getEnumValue(), propertyRestriction.getOperationType());
+                case EDATOS_MIGRATION_STATUS:
+                    return new SculptorPropertyCriteria(OperationProperties.edatosMigrationStatus(), propertyRestriction.getEnumValue(), propertyRestriction.getOperationType());
                 case DISAGGREGATION_BY_SEX:
                     return new SculptorPropertyCriteria(OperationProperties.disaggregationBySex(), propertyRestriction.getBooleanValue(), propertyRestriction.getOperationType());
                 case DISAGGREGATION_BY_AGE:

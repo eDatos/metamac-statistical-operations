@@ -42,6 +42,8 @@ public class OperationsSearchSectionStack extends BaseAdvancedSearchSectionStack
         TextItem code = new TextItem(OperationDS.CODE, getConstants().operationCode());
         SelectItem productionVersionProcStatus = new SelectItem(OperationDS.STATUS, getConstants().operationStatus());
         productionVersionProcStatus.setValueMap(CommonUtils.getStatusEnumHashMap());
+        SelectItem edatosMigrationStatus = new SelectItem(OperationDS.EDATOS_MIGRATION_STATUS, getConstants().edatosMigrationStatus());
+        edatosMigrationStatus.setValueMap(CommonUtils.getEdatosMigrationStatusEnumHashMap());
 
         CustomButtonItem searchItem = new CustomButtonItem(ADVANCED_SEARCH_ITEM_NAME, MetamacWebCommon.getConstants().search());
         searchItem.setColSpan(4);
@@ -65,7 +67,7 @@ public class OperationsSearchSectionStack extends BaseAdvancedSearchSectionStack
         SelectItem disaggregationByDisability = new SelectItem(OperationDS.DISAGGREGATION_BY_DISABILITY, getConstants().operationDisaggregationByDisability());
         disaggregationByDisability.setValueMap(FormItemUtils.getBooleanHashMap());
 
-        FormItem[] advancedSearchFormItems = new FormItem[]{code, title, productionVersionProcStatus, disaggregationBySex, disaggregationByAge, disaggregationByNationality, disaggregationByDisability,
+        FormItem[] advancedSearchFormItems = new FormItem[]{code, title, productionVersionProcStatus, edatosMigrationStatus, disaggregationBySex, disaggregationByAge, disaggregationByNationality, disaggregationByDisability,
                 searchItem};
         setFormItemsInAdvancedSearchForm(advancedSearchFormItems);
     }
@@ -89,6 +91,7 @@ public class OperationsSearchSectionStack extends BaseAdvancedSearchSectionStack
         criteria.setCode(advancedSearchForm.getValueAsString(OperationDS.CODE));
         criteria.setTitle(advancedSearchForm.getValueAsString(OperationDS.TITLE));
         criteria.setStatus(advancedSearchForm.getValueAsString(OperationDS.STATUS));
+        criteria.setEdatosMigrationStatus(advancedSearchForm.getValueAsString(OperationDS.EDATOS_MIGRATION_STATUS));
 
         criteria.setDisaggregationBySex(advancedSearchForm.getValueAsString(OperationDS.DISAGGREGATION_BY_SEX));
         criteria.setDisaggregationByAge(advancedSearchForm.getValueAsString(OperationDS.DISAGGREGATION_BY_AGE));

@@ -15,6 +15,7 @@ import org.siemac.metamac.statistical.operations.core.dto.InstanceDto;
 import org.siemac.metamac.statistical.operations.core.dto.OfficialityTypeDto;
 import org.siemac.metamac.statistical.operations.core.dto.OperationDto;
 import org.siemac.metamac.statistical.operations.core.dto.SurveyTypeDto;
+import org.siemac.metamac.statistical.operations.core.enume.domain.EdatosMigrationStatusEnum;
 import org.siemac.metamac.statistical.operations.core.enume.domain.ProcStatusEnum;
 import org.siemac.metamac.statistical.operations.core.enume.domain.StatusEnum;
 import org.siemac.metamac.statistical.operations.core.enume.domain.StreamMessageStatusEnum;
@@ -53,6 +54,7 @@ import org.siemac.metamac.web.common.client.widgets.CustomListGridSectionStack;
 import org.siemac.metamac.web.common.client.widgets.TitleLabel;
 import org.siemac.metamac.web.common.client.widgets.actions.search.SearchPaginatedAction;
 import org.siemac.metamac.web.common.client.widgets.form.GroupDynamicForm;
+import org.siemac.metamac.web.common.client.widgets.form.fields.BooleanSelectItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.CustomCheckboxItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.CustomLinkItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.CustomSelectItem;
@@ -137,6 +139,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
     private GroupDynamicForm                          productionDescriptorsEditionForm;
     private CustomCheckboxItem                        currentlyActiveItem;
     private CustomSelectItem                          statusItem;
+    private CustomSelectItem                          edatosMigrationStatusItem;
 
     // DIFUSSION AND PUBLICATION
     private GroupDynamicForm                          diffusionForm;
@@ -444,8 +447,14 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
 
         operationDto.setCurrentlyActive(currentlyActiveItem.getValueAsBoolean());
         operationDto.setStatus(statusItem.getValueAsString() != null ? StatusEnum.valueOf(statusItem.getValueAsString()) : null);
+        operationDto.setEdatosMigrationStatus(edatosMigrationStatusItem.getValueAsString() != null ? EdatosMigrationStatusEnum.valueOf(edatosMigrationStatusItem.getValueAsString()) : null);
 
         operationDto.setGenderPerspective(productionDescriptorsEditionForm.getValueAsInternationalStringDto(OperationDS.GENDER_PERSPECTIVE));
+
+        operationDto.setDisaggregationBySex(((BooleanSelectItem) productionDescriptorsEditionForm.getItem(OperationDS.DISAGGREGATION_BY_SEX)).getBooleanValue());
+        operationDto.setDisaggregationByAge(((BooleanSelectItem) productionDescriptorsEditionForm.getItem(OperationDS.DISAGGREGATION_BY_AGE)).getBooleanValue());
+        operationDto.setDisaggregationByNationality(((BooleanSelectItem) productionDescriptorsEditionForm.getItem(OperationDS.DISAGGREGATION_BY_NATIONALITY)).getBooleanValue());
+        operationDto.setDisaggregationByDisability(((BooleanSelectItem) productionDescriptorsEditionForm.getItem(OperationDS.DISAGGREGATION_BY_DISABILITY)).getBooleanValue());
 
         // DIFFUSION AND PUBLICATION
 
@@ -628,12 +637,17 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         ViewTextItem inventoryDate = new ViewTextItem(OperationDS.INTERNAL_INVENTORY_DATE, getConstants().operationInternalInventoryDate());
         ViewTextItem currentlyActive = new ViewTextItem(OperationDS.CURRENTLY_ACTIVE, getConstants().operationCurrentlyActive());
         ViewTextItem status = new ViewTextItem(OperationDS.STATUS, getConstants().operationStatus());
+        ViewTextItem edatosMigrationStatus = new ViewTextItem(OperationDS.EDATOS_MIGRATION_STATUS, getConstants().edatosMigrationStatus());
         ViewTextItem procStatus = new ViewTextItem(OperationDS.PROC_STATUS, getConstants().operationProcStatus());
 
         ViewMultiLanguageTextItem genderPerspective = new ViewMultiLanguageTextItem(OperationDS.GENDER_PERSPECTIVE, getConstants().operationGenderPerspective());
+        ViewTextItem disaggregationBySex = new ViewTextItem(OperationDS.DISAGGREGATION_BY_SEX, getConstants().operationDisaggregationBySex());
+        ViewTextItem disaggregationByAge = new ViewTextItem(OperationDS.DISAGGREGATION_BY_AGE, getConstants().operationDisaggregationByAge());
+        ViewTextItem disaggregationByNationality = new ViewTextItem(OperationDS.DISAGGREGATION_BY_NATIONALITY, getConstants().operationDisaggregationByNationality());
+        ViewTextItem disaggregationByDisability = new ViewTextItem(OperationDS.DISAGGREGATION_BY_DISABILITY, getConstants().operationDisaggregationByDisability());
 
         productionDescriptorsForm.setFields(techinicianInCharge, assistantTechnician, producer, resposible, contibutor, createdDate, inventoryDate, currentlyActive, status, procStatus,
-                genderPerspective);
+                genderPerspective, edatosMigrationStatus, disaggregationBySex, disaggregationByAge, disaggregationByNationality, disaggregationByDisability);
 
         // Diffusion Descriptors
         diffusionForm = new GroupDynamicForm(getConstants().operationDiffusionAndPublication());
@@ -788,6 +802,11 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         ViewTextItem internalInventoryDate = new ViewTextItem(OperationDS.INTERNAL_INVENTORY_DATE, getConstants().operationInternalInventoryDate());
         currentlyActiveItem = new CustomCheckboxItem(OperationDS.CURRENTLY_ACTIVE, getConstants().operationCurrentlyActive());
 
+        BooleanSelectItem disaggregationBySexItem = new BooleanSelectItem(OperationDS.DISAGGREGATION_BY_SEX, getConstants().operationDisaggregationBySex());
+        BooleanSelectItem disaggregationByAgeItem = new BooleanSelectItem(OperationDS.DISAGGREGATION_BY_AGE, getConstants().operationDisaggregationByAge());
+        BooleanSelectItem disaggregationByNationalityItem = new BooleanSelectItem(OperationDS.DISAGGREGATION_BY_NATIONALITY, getConstants().operationDisaggregationByNationality());
+        BooleanSelectItem disaggregationByDisabilityItem = new BooleanSelectItem(OperationDS.DISAGGREGATION_BY_DISABILITY, getConstants().operationDisaggregationByDisability());
+
         statusItem = new CustomSelectItem(OperationDS.STATUS, getConstants().operationStatus());
         statusItem.setValueMap(CommonUtils.getStatusEnumHashMap());
         statusItem.setValidators(new CustomRequiredValidator() {
@@ -798,6 +817,10 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
             }
         });
 
+        edatosMigrationStatusItem = new CustomSelectItem(OperationDS.EDATOS_MIGRATION_STATUS, getConstants().edatosMigrationStatus());
+        edatosMigrationStatusItem.setValueMap(CommonUtils.getEdatosMigrationStatusEnumHashMap());
+        edatosMigrationStatusItem.setRequired(true);
+
         ViewTextItem procStatus = new ViewTextItem(OperationDS.PROC_STATUS, getConstants().operationProcStatus());
         ViewTextItem staticProcStatus = new ViewTextItem(OperationDS.PROC_STATUS_VIEW, getConstants().operationProcStatus());
         staticProcStatus.setShowIfCondition(FormItemUtils.getFalseFormItemIfFunction());
@@ -805,7 +828,8 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         MultiLanguageTextItem genderPerspective = new MultiLanguageTextItem(OperationDS.GENDER_PERSPECTIVE, getConstants().operationGenderPerspective());
 
         productionDescriptorsEditionForm.setFields(technicianInCharge, assistantTechnician, producerItem, regionalResponsibleItem, regionalContributorItem, createdDate, internalInventoryDate,
-                currentlyActiveItem, statusItem, staticProcStatus, procStatus, genderPerspective);
+                currentlyActiveItem, statusItem, staticProcStatus, procStatus, genderPerspective, edatosMigrationStatusItem, disaggregationBySexItem, disaggregationByAgeItem, disaggregationByNationalityItem,
+                disaggregationByDisabilityItem);
 
         // DIFFUSION AND PUBLICATION
 
@@ -909,7 +933,23 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         productionDescriptorsForm.setValue(OperationDS.INTERNAL_INVENTORY_DATE, operationDto.getInternalInventoryDate());
         productionDescriptorsForm.setValue(OperationDS.CURRENTLY_ACTIVE,
                 (operationDto.getCurrentlyActive() != null && operationDto.getCurrentlyActive()) ? MetamacWebCommon.getConstants().yes() : MetamacWebCommon.getConstants().no());
+        productionDescriptorsForm.setValue(OperationDS.DISAGGREGATION_BY_SEX,
+                operationDto.getDisaggregationBySex() == null ? "" : (operationDto.getDisaggregationBySex() ? MetamacWebCommon.getConstants().yes() : MetamacWebCommon.getConstants().no()));
+
+        productionDescriptorsForm.setValue(OperationDS.DISAGGREGATION_BY_AGE,
+                operationDto.getDisaggregationByAge() == null ? "" : (operationDto.getDisaggregationByAge() ? MetamacWebCommon.getConstants().yes() : MetamacWebCommon.getConstants().no()));
+
+        productionDescriptorsForm.setValue(OperationDS.DISAGGREGATION_BY_DISABILITY,
+                operationDto.getDisaggregationByDisability() == null
+                        ? ""
+                        : (operationDto.getDisaggregationByDisability() ? MetamacWebCommon.getConstants().yes() : MetamacWebCommon.getConstants().no()));
+
+        productionDescriptorsForm.setValue(OperationDS.DISAGGREGATION_BY_NATIONALITY,
+                operationDto.getDisaggregationByNationality() == null
+                        ? ""
+                        : (operationDto.getDisaggregationByNationality() ? MetamacWebCommon.getConstants().yes() : MetamacWebCommon.getConstants().no()));
         productionDescriptorsForm.setValue(OperationDS.STATUS, CommonUtils.getStatusName(operationDto.getStatus()));
+        productionDescriptorsForm.setValue(OperationDS.EDATOS_MIGRATION_STATUS, CommonUtils.getEdatosMigrationStatusName(operationDto.getEdatosMigrationStatus()));
         productionDescriptorsForm.setValue(OperationDS.PROC_STATUS, CommonUtils.getProcStatusName(operationDto.getProcStatus()));
         productionDescriptorsForm.setValue(OperationDS.GENDER_PERSPECTIVE, operationDto.getGenderPerspective());
 
@@ -946,7 +986,9 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         diffusionForm.setValue(OperationDS.REV_POLICY, operationDto.getRevPolicy());
         diffusionForm.setValue(OperationDS.REV_PRACTICE, operationDto.getRevPractice());
         diffusionForm.setValue(OperationDS.DIFFUSION_AND_PUBLICATION,
-                (operationDto.getDiffusionAndPublicationVisible() != null && operationDto.getDiffusionAndPublicationVisible()) ? MetamacWebCommon.getConstants().yes() : MetamacWebCommon.getConstants().no());
+                (operationDto.getDiffusionAndPublicationVisible() != null && operationDto.getDiffusionAndPublicationVisible())
+                        ? MetamacWebCommon.getConstants().yes()
+                        : MetamacWebCommon.getConstants().no());
 
         // LEGAL ACTS
         legalActsForm.setValue(OperationDS.SPECIFIC_LEGAL_ACTS, operationDto.getSpecificLegalActs());
@@ -1005,7 +1047,12 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         productionDescriptorsEditionForm.setValue(OperationDS.CREATED_DATE, operationDto.getCreatedDate());
         productionDescriptorsEditionForm.setValue(OperationDS.INTERNAL_INVENTORY_DATE, operationDto.getInternalInventoryDate());
         currentlyActiveItem.setValue(operationDto.getCurrentlyActive() != null ? operationDto.getCurrentlyActive() : false);
+        ((BooleanSelectItem) productionDescriptorsEditionForm.getItem(OperationDS.DISAGGREGATION_BY_SEX)).setBooleanValue(operationDto.getDisaggregationBySex());
+        ((BooleanSelectItem) productionDescriptorsEditionForm.getItem(OperationDS.DISAGGREGATION_BY_AGE)).setBooleanValue(operationDto.getDisaggregationByAge());
+        ((BooleanSelectItem) productionDescriptorsEditionForm.getItem(OperationDS.DISAGGREGATION_BY_NATIONALITY)).setBooleanValue(operationDto.getDisaggregationByNationality());
+        ((BooleanSelectItem) productionDescriptorsEditionForm.getItem(OperationDS.DISAGGREGATION_BY_DISABILITY)).setBooleanValue(operationDto.getDisaggregationByDisability());
         statusItem.setValue(operationDto.getStatus() == null ? null : operationDto.getStatus().toString());
+        edatosMigrationStatusItem.setValue(operationDto.getEdatosMigrationStatus() == null ? null : operationDto.getEdatosMigrationStatus().toString());
         productionDescriptorsEditionForm.setValue(OperationDS.PROC_STATUS, CommonUtils.getProcStatusName(operationDto.getProcStatus()));
         productionDescriptorsEditionForm.setValue(OperationDS.PROC_STATUS_VIEW, operationDto.getProcStatus().toString());
         productionDescriptorsEditionForm.setValue(OperationDS.GENDER_PERSPECTIVE, operationDto.getGenderPerspective());

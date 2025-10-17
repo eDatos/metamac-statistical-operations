@@ -3,6 +3,7 @@ package org.siemac.metamac.statistical.operations.web.shared;
 import java.util.List;
 
 import org.siemac.metamac.statistical.operations.core.dto.OperationBaseDto;
+import org.siemac.metamac.statistical.operations.web.shared.criteria.OperationCriteria;
 
 import com.gwtplatform.dispatch.annotation.GenDispatch;
 import com.gwtplatform.dispatch.annotation.In;
@@ -18,7 +19,7 @@ public class GetOperationPaginatedList {
     int                    maxResults;
 
     @In(3)
-    String                 operation;
+    OperationCriteria       operation;
 
     @Out(1)
     List<OperationBaseDto> operationBaseDtos;

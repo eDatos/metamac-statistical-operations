@@ -14,6 +14,7 @@ public class OperationDS extends DataSource {
     public static final String TITLE                      = "op-title";
     public static final String ACRONYM                    = "op-acron";
     public static final String PUBLICATION_STREAM_STATUS  = "op-publication-stream-status";
+    public static final String EDATOS_MIGRATION_STATUS    = "op-edatos-migration-status";
     // CONTENT CLASSIFIERS
     public static final String SUBJECT_AREA               = "op-subjectItem";
     public static final String SECONDARY_SUBJECT_AREAS    = "op-subjetc-secon";
@@ -60,6 +61,14 @@ public class OperationDS extends DataSource {
     public static final String GENDER_PERSPECTIVE         = "op-gen-pers";
 
     public static final String DTO                        = "operation-dto";
+
+    public static final String DISAGGREGATION_BY_SEX      = "op-disaggregation-sex";
+
+    public static final String DISAGGREGATION_BY_AGE       = "op-disaggregation-age";
+
+    public static final String DISAGGREGATION_BY_NATIONALITY = "op-disaggregation-nationality";
+
+    public static final String DISAGGREGATION_BY_DISABILITY = "op-disaggregation-disability";
 
     public OperationDS() {
 

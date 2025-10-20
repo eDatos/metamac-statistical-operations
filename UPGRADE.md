@@ -26,6 +26,7 @@ actualización de la versión 1.0.0 a la 2.0.0.*
      (El ISTAC e IESTADIS no requieren adecuación de datos de la tabla maestra).
 
 * Esta versión depende de la versión `3.11.2-SNAPSHOT de eUsuarios`. Por lo tanto, **no se puede subir la versión 4.8.2-SNAPSHOT de metamac-statistical-operations** sin haber subido previamente la versión 3.11.2-SNAPSHOT de eUsuarios, y viceversa.
+* Esta version depende de la version `5.15.2-SNAPSHOT de Web-common` . Por lo tanto, **no se puede subir la versión 4.8.2-SNAPSHOT de metamac-statistical-operations** sin haber subido previamente la versión 5.15.2-SNAPSHOT de Web-common de eUsuarios, los cambios se encuentran en el siguiente MR: https://git.arte-consultores.com/istac/metamac-web-common/-/merge_requests/168
   
 * Se debe resetear el schema registry para el topic `OPERATION_PUBLICATIONS`  debido a que se han modificado las propiedades de los mensajes que se publican en dicho topic. Para ello, ejecutar:
   

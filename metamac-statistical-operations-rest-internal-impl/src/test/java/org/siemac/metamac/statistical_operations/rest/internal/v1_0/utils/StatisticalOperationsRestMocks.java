@@ -821,12 +821,12 @@ public class StatisticalOperationsRestMocks {
         instance.getTemporalGranularity().getTemporalGranularities().add(mockResourceFromExternalItemSrm("temporalGranularity02", "codelists", "structuralResources#codelist"));
         instance.setTemporalComparability(mockInternationalStringMetadata("temporalComparability", subId));
         instance.setBasePeriod("2012");
-        instance.setMeasures(new Measures());
-        instance.getMeasures().setTotal(BigInteger.valueOf(3));
-        instance.getMeasures().setKind(SrmRestConstants.KIND_CONCEPTS);
-        instance.getMeasures().getMeasures().add(mockResourceFromExternalItemSrm("measure1", "concepts", "structuralResources#concept"));
-        instance.getMeasures().getMeasures().add(mockResourceFromExternalItemSrm("measure2concept1", "concepts", "structuralResources#concept"));
-        instance.getMeasures().getMeasures().add(mockResourceFromExternalItemSrm("measure2concept2", "concepts", "structuralResources#concept"));
+        instance.setUnitMeasures(new UnitMeasures());
+        instance.getUnitMeasures().setTotal(BigInteger.valueOf(3));
+        instance.getUnitMeasures().setKind(SrmRestConstants.KIND_CONCEPTS);
+        instance.getUnitMeasures().getMeasures().add(mockResourceFromExternalItemSrm("measure1", "concepts", "structuralResources#concept"));
+        instance.getUnitMeasures().getMeasures().add(mockResourceFromExternalItemSrm("measure2concept1", "concepts", "structuralResources#concept"));
+        instance.getUnitMeasures().getMeasures().add(mockResourceFromExternalItemSrm("measure2concept2", "concepts", "structuralResources#concept"));
         instance.setStatConcDefsDescription(mockInternationalStringMetadata("statConcDef", subId));
         instance.setStatConcDefs(new StatConcDefs());
         instance.getStatConcDefs().setTotal(BigInteger.valueOf(5));

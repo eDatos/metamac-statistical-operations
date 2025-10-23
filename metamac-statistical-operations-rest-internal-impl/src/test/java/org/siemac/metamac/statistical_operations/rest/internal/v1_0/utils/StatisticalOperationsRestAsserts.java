@@ -117,7 +117,7 @@ public class StatisticalOperationsRestAsserts {
         assertEqualsTemporalGranularities(expected.getTemporalGranularity(), actual.getTemporalGranularity());
         MetamacRestAsserts.assertEqualsInternationalString(expected.getTemporalComparability(), actual.getTemporalComparability());
         assertEquals(expected.getBasePeriod(), actual.getBasePeriod());
-        assertEqualsMeasures(expected.getMeasures(), actual.getMeasures());
+        assertEqualsUnitMeasures(expected.getUnitMeasures(), actual.getUnitMeasures());
         MetamacRestAsserts.assertEqualsInternationalString(expected.getStatConcDefsDescription(), actual.getStatConcDefsDescription());
         assertEqualsStatConcDefs(expected.getStatConcDefs(), actual.getStatConcDefs());
         MetamacRestAsserts.assertEqualsInternationalString(expected.getClassSystemsDescription(), actual.getClassSystemsDescription());

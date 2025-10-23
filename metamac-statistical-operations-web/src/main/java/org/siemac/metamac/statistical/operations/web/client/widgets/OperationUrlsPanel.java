@@ -167,14 +167,14 @@ public class OperationUrlsPanel extends VLayout {
                         String locale = translationsShowed ? selectItem.getValueAsString() : ApplicationEditionLanguages.getCurrentLocale();
                         String rawUrl = (String) event.getNewValues().get(OperationUrlDS.URL);
 
-                        if (rawUrl != null) {
-                            String normalizedUrl = UrlUtils.addHttpPrefixIfNeeded(rawUrl);
-                            if (CommonWebUtils.isValidUrl(normalizedUrl)) {
-                                operationUrlDto.setUrl(
-                                        InternationalStringUtils.updateInternationalString(locale, operationUrlDto.getUrl(), normalizedUrl)
-                                );
+                        String normalizedUrl = null;
+                        if (rawUrl != null && !rawUrl.trim().isEmpty()) {
+                            normalizedUrl = UrlUtils.addHttpPrefixIfNeeded(rawUrl);
+                            if (!CommonWebUtils.isValidUrl(normalizedUrl)) {
+                                normalizedUrl = null;
                             }
                         }
+                        operationUrlDto.setUrl(InternationalStringUtils.updateInternationalString(locale, operationUrlDto.getUrl(), normalizedUrl));
                     }
 
                     listGrid.getRecord(event.getRowNum()).setAttribute(OperationUrlDS.OPERATION_URL_DTO, operationUrlDto);

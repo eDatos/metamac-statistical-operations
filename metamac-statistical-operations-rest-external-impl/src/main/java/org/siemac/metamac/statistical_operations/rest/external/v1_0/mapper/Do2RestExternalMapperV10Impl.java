@@ -39,7 +39,7 @@ import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Families;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Family;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.FreqColls;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.GeographicGranularities;
-import org.siemac.metamac.rest.statistical_operations.v1_0.domain.InformationSuppliers;
+import org.siemac.metamac.rest.statistical_operations.v1_0.domain.PublicInformationSuppliers;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Instance;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.InstanceTypes;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Instances;
@@ -312,7 +312,8 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         target.setDocMethod(toInternationalString(source.getDocMethod()));
         target.setStatisticalOperationSource(toItem(source.getSurveySource()));
         target.setCollMethod(toItem(source.getCollMethod()));
-        target.setInformationSuppliers(toInformationSuppliers(source.getInformationSuppliers()));
+        target.setPublicInformationSuppliers(toPublicInformationSuppliers(source.getPublicInformationSuppliers()));
+        target.setPrivateInformationSuppliers(toInternationalString(source.getPrivateInformationSuppliers()));
         target.setFreqColls(toFreqColls(source.getFreqColl()));
         target.setDataValidation(toInternationalString(source.getDataValidation()));
         target.setDataCompilation(toInternationalString(source.getDataCompilation()));
@@ -1072,14 +1073,14 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         return targets;
     }
 
-    private InformationSuppliers toInformationSuppliers(Set<ExternalItem> sources) {
+    private PublicInformationSuppliers toPublicInformationSuppliers(Set<ExternalItem> sources) {
         if (sources == null || sources.size() == 0) {
             return null;
         }
-        InformationSuppliers targets = new InformationSuppliers();
-        toResourcesExternalItemsSrm(sources, targets.getInformationSuppliers());
+        PublicInformationSuppliers targets = new PublicInformationSuppliers();
+        toResourcesExternalItemsSrm(sources, targets.getPublicInformationSuppliers());
         targets.setKind(SrmRestConstants.KIND_DATA_PROVIDERS);
-        targets.setTotal(BigInteger.valueOf(targets.getInformationSuppliers().size()));
+        targets.setTotal(BigInteger.valueOf(targets.getPublicInformationSuppliers().size()));
         return targets;
     }
 

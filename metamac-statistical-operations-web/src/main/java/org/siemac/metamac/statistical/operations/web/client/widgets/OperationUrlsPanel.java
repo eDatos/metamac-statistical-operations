@@ -138,7 +138,7 @@ public class OperationUrlsPanel extends VLayout {
         listGrid.setAutoFitMaxRecords(10);
         listGrid.setAutoFitData(Autofit.VERTICAL);
         listGrid.setShowRowNumbers(true);
-        listGrid.setLeaveScrollbarGap(false);
+        listGrid.setLeaveScrollbarGap(true);
         listGrid.setAlternateRecordStyles(false);
         listGrid.setAnimateRollUnder(true);
         listGrid.setSelectionType(SelectionStyle.SIMPLE);

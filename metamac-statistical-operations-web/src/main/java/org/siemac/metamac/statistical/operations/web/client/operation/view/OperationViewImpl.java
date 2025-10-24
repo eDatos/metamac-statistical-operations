@@ -41,6 +41,7 @@ import org.siemac.metamac.statistical.operations.web.client.widgets.ListGridTool
 import org.siemac.metamac.statistical.operations.web.client.widgets.ModalWindow;
 import org.siemac.metamac.statistical.operations.web.client.widgets.NewInstanceForm;
 import org.siemac.metamac.statistical.operations.web.client.widgets.OperationMainFormLayout;
+import org.siemac.metamac.statistical.operations.web.client.widgets.OperationUrlsPanel;
 import org.siemac.metamac.statistical.operations.web.shared.external.GetUsersAccessControlListResult;
 import org.siemac.metamac.web.common.client.MetamacWebCommon;
 import org.siemac.metamac.web.common.client.utils.CommonWebUtils;
@@ -82,6 +83,7 @@ import org.siemac.metamac.web.common.shared.domain.ExternalItemsResult;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtplatform.mvp.client.ViewWithUiHandlers;
+import com.smartgwt.client.types.Alignment;
 import com.smartgwt.client.types.Overflow;
 import com.smartgwt.client.types.SortDirection;
 import com.smartgwt.client.types.Visibility;
@@ -91,6 +93,7 @@ import com.smartgwt.client.widgets.events.ClickHandler;
 import com.smartgwt.client.widgets.events.HasClickHandlers;
 import com.smartgwt.client.widgets.form.DynamicForm;
 import com.smartgwt.client.widgets.form.FormItemIfFunction;
+import com.smartgwt.client.widgets.form.fields.CanvasItem;
 import com.smartgwt.client.widgets.form.fields.FormItem;
 import com.smartgwt.client.widgets.form.fields.TextItem;
 import com.smartgwt.client.widgets.form.validator.CustomValidator;
@@ -147,6 +150,8 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
     private CustomCheckboxItem                        releaseCalendar;
     private CustomTextItem                            releaseCalendarAccess;
     private CustomCheckboxItem                        diffusionAndPublicationVisible;
+    private OperationUrlsPanel                        viewOperationUrlsPanel;
+    private OperationUrlsPanel                        editOperationUrlsPanel;
 
     // LEGAL ACTS
     private GroupDynamicForm                          legalActsForm;
@@ -476,6 +481,10 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         operationDto.setRevPolicy(diffusionEditionForm.getValueAsInternationalStringDto(OperationDS.REV_POLICY));
         operationDto.setRevPractice(diffusionEditionForm.getValueAsInternationalStringDto(OperationDS.REV_PRACTICE));
 
+        // OPERATION URLS
+        operationDto.getStatisticalOperationUrls().clear();
+        operationDto.getStatisticalOperationUrls().addAll(editOperationUrlsPanel.getOperationUrls());
+
         // LEGAL ACTS
         operationDto.setSpecificLegalActs(legalActsEditionForm.getValueAsInternationalStringDto(OperationDS.SPECIFIC_LEGAL_ACTS));
         operationDto.setSpecificDataSharing(legalActsEditionForm.getValueAsInternationalStringDto(OperationDS.SPECIFIC_DATA_SHARING));
@@ -663,8 +672,21 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         ViewMultiLanguageTextItem staticRevPolicyItem = new ViewMultiLanguageTextItem(OperationDS.REV_POLICY, getConstants().operationRevPolicy());
         ViewMultiLanguageTextItem staticRevPracticeItem = new ViewMultiLanguageTextItem(OperationDS.REV_PRACTICE, getConstants().operationRevPractice());
         ViewTextItem diffusionAndPublicationVisible = new ViewTextItem(OperationDS.DIFFUSION_AND_PUBLICATION, getConstants().visible());
+
+        viewOperationUrlsPanel = new OperationUrlsPanel(true);
+
+        VLayout viewOperationUrlsWrapper = new VLayout();
+        viewOperationUrlsWrapper.setAlign(Alignment.CENTER);
+        viewOperationUrlsWrapper.setMargin(10);
+        viewOperationUrlsWrapper.addMember(viewOperationUrlsPanel);
+
+        CanvasItem viewOperationUrlsPanelItem = new CanvasItem();
+        viewOperationUrlsPanelItem.setTitle(getConstants().statisticalOperationUrls());
+        viewOperationUrlsPanelItem.setCanvas(viewOperationUrlsWrapper);
+        viewOperationUrlsPanelItem.setColSpan("*");
+
         diffusionForm.setFields(publisher, commonMetadata, staticRelPolUsAc, releaseCalendar, releaseCalendarAccess, updateFreq, currentInst, currentInternalInst, invDate, staticRevPolicyItem,
-                staticRevPracticeItem, diffusionAndPublicationVisible);
+                staticRevPracticeItem, diffusionAndPublicationVisible, viewOperationUrlsPanelItem);
 
         // Legal acts
         legalActsForm = new GroupDynamicForm(getConstants().formLegalActs());
@@ -864,8 +886,21 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         ViewTextItem invDate = new ViewTextItem(OperationDS.INVENTORY_DATE, getConstants().operationInventoryDate());
         MultiLanguageRichTextEditorItem revPolicyItem = new MultiLanguageRichTextEditorItem(OperationDS.REV_POLICY, getConstants().operationRevPolicy());
         MultiLanguageRichTextEditorItem revPracticeItem = new MultiLanguageRichTextEditorItem(OperationDS.REV_PRACTICE, getConstants().operationRevPractice());
+
+        editOperationUrlsPanel = new OperationUrlsPanel(false);
+
+        VLayout editOperationUrlsWrapper = new VLayout();
+        editOperationUrlsWrapper.setAlign(Alignment.CENTER);
+        editOperationUrlsWrapper.setMargin(10);
+        editOperationUrlsWrapper.addMember(editOperationUrlsPanel);
+
+        CanvasItem editOperationUrlsPanelItem = new CanvasItem();
+        editOperationUrlsPanelItem.setTitle(getConstants().statisticalOperationUrls());
+        editOperationUrlsPanelItem.setCanvas(editOperationUrlsWrapper);
+        editOperationUrlsPanelItem.setColSpan("*");
+
         diffusionEditionForm.setFields(publishersItem, commonMetadataItem, relPolUsAc, releaseCalendar, releaseCalendarAccess, updateFrequencyItem, currentInst, currentInternalInst, invDate,
-                revPolicyItem, revPracticeItem, diffusionAndPublicationVisible);
+                revPolicyItem, revPracticeItem, diffusionAndPublicationVisible, editOperationUrlsPanelItem);
 
         // LEGAL ACTS
 
@@ -990,6 +1025,10 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
                         ? MetamacWebCommon.getConstants().yes()
                         : MetamacWebCommon.getConstants().no());
 
+        // OPERATION URLS
+
+        viewOperationUrlsPanel.setOperationUrls(operationDto.getStatisticalOperationUrls());
+
         // LEGAL ACTS
         legalActsForm.setValue(OperationDS.SPECIFIC_LEGAL_ACTS, operationDto.getSpecificLegalActs());
         legalActsForm.setValue(OperationDS.SPECIFIC_DATA_SHARING, operationDto.getSpecificDataSharing());
@@ -1056,7 +1095,6 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         productionDescriptorsEditionForm.setValue(OperationDS.PROC_STATUS, CommonUtils.getProcStatusName(operationDto.getProcStatus()));
         productionDescriptorsEditionForm.setValue(OperationDS.PROC_STATUS_VIEW, operationDto.getProcStatus().toString());
         productionDescriptorsEditionForm.setValue(OperationDS.GENDER_PERSPECTIVE, operationDto.getGenderPerspective());
-
         productionDescriptorsEditionForm.setRequiredTitleSuffix(requiredFieldsToNextProcStatus);
         productionDescriptorsEditionForm.markForRedraw();
 
@@ -1095,6 +1133,10 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
 
         diffusionEditionForm.setRequiredTitleSuffix(requiredFieldsToNextProcStatus);
         diffusionEditionForm.markForRedraw();
+
+        // OPERATION URLS
+
+        editOperationUrlsPanel.setOperationUrls(operationDto.getStatisticalOperationUrls());
 
         // LEGAL ACTS
 
@@ -1173,6 +1215,8 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         productionDescriptorsForm.setTranslationsShowed(translationsShowed);
         productionDescriptorsEditionForm.setTranslationsShowed(translationsShowed);
         diffusionForm.setTranslationsShowed(translationsShowed);
+        viewOperationUrlsPanel.setTranslationsShowed(translationsShowed);
+        editOperationUrlsPanel.setTranslationsShowed(translationsShowed);
         diffusionEditionForm.setTranslationsShowed(translationsShowed);
         annotationsViewForm.setTranslationsShowed(translationsShowed);
         annotationsEditionForm.setTranslationsShowed(translationsShowed);

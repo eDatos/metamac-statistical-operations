@@ -30,13 +30,14 @@ import org.siemac.metamac.rest.exception.utils.RestExceptionUtils;
 import org.siemac.metamac.rest.search.criteria.mapper.SculptorCriteria2RestCriteria;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.ClassSystems;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.CollMethods;
+import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Contributors;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Costs;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.DataSharings;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Families;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Family;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.FreqColls;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.GeographicGranularities;
-import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.InformationSuppliers;
+import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.PublicInformationSuppliers;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Instance;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.InstanceTypes;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Instances;
@@ -48,13 +49,13 @@ import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Opera
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.ProcStatus;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Producers;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Publishers;
-import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Contributors;
-import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Responsibles;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.ResourceInternal;
+import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Responsibles;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.SecondarySubjectAreas;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.StatConcDefs;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.StatisticalOperationSources;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.StatisticalOperationTypes;
+import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.StatisticalOperationUrls;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.StatisticalUnits;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.TemporalGranularities;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.UpdateFrequencies;
@@ -66,6 +67,7 @@ import org.siemac.metamac.statistical.operations.core.domain.CollMethod;
 import org.siemac.metamac.statistical.operations.core.domain.Cost;
 import org.siemac.metamac.statistical.operations.core.domain.InstanceType;
 import org.siemac.metamac.statistical.operations.core.domain.OfficialityType;
+import org.siemac.metamac.statistical.operations.core.domain.OperationUrl;
 import org.siemac.metamac.statistical.operations.core.domain.SurveySource;
 import org.siemac.metamac.statistical.operations.core.domain.SurveyType;
 import org.siemac.metamac.statistical.operations.core.enume.domain.EdatosMigrationStatusEnum;
@@ -144,6 +146,7 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         target.setInventoryDate(this.toDate(source.getInventoryDate()));
         target.setRevPolicy(this.toInternationalString(source.getRevPolicy()));
         target.setRevPractice(this.toInternationalString(source.getRevPractice()));
+        target.setStatisticalOperationUrls(toStatisticalOperationUrls(source.getStatisticalOperationUrls(), target.getStatisticalOperationUrls()));
         this.commonMetadataToOperation(source.getCommonMetadata(), target);
         target.setLegalActs(this.toOperationLegalActs(source.getSpecificLegalActs(), null, target.getLegalActs()));
         target.setDataSharings(this.toOperationDataSharings(source.getSpecificDataSharing(), null, target.getDataSharings()));
@@ -330,7 +333,8 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         target.setDocMethod(this.toInternationalString(source.getDocMethod()));
         target.setStatisticalOperationSource(this.toItem(source.getSurveySource()));
         target.setCollMethod(this.toItem(source.getCollMethod()));
-        target.setInformationSuppliers(this.toInformationSuppliers(source.getInformationSuppliers()));
+        target.setPublicInformationSuppliers(this.toPublicInformationSuppliers(source.getPublicInformationSuppliers()));
+        target.setPrivateInformationSuppliers(this.toInternationalString(source.getPrivateInformationSuppliers()));
         target.setFreqColls(this.toFreqColls(source.getFreqColl()));
         target.setDataValidation(this.toInternationalString(source.getDataValidation()));
         target.setDataCompilation(this.toInternationalString(source.getDataCompilation()));
@@ -552,6 +556,17 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         return target;
     }
 
+    private StatisticalOperationUrls toStatisticalOperationUrls(List<OperationUrl> sources, StatisticalOperationUrls target) {
+        if (target == null) {
+            target = new StatisticalOperationUrls();
+            target.setTotal(BigInteger.ZERO);
+        }
+        for (OperationUrl source : sources) {
+            target.getStatisticalOperationUrls().add(toInternationalString(source.getUrl()));
+            target.setTotal(target.getTotal().add(BigInteger.ONE));
+        }
+        return target;
+    }
     @Override
     public ResourceInternal toResource(org.siemac.metamac.statistical.operations.core.domain.Operation source) throws MetamacException {
         return toResource(source, null, null);
@@ -1075,14 +1090,14 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         return targets;
     }
 
-    private InformationSuppliers toInformationSuppliers(Set<ExternalItem> sources) {
+    private PublicInformationSuppliers toPublicInformationSuppliers(Set<ExternalItem> sources) {
         if (sources == null || sources.size() == 0) {
             return null;
         }
-        InformationSuppliers targets = new InformationSuppliers();
-        this.toResourcesExternalItemsSrm(sources, targets.getInformationSuppliers());
+        PublicInformationSuppliers targets = new PublicInformationSuppliers();
+        this.toResourcesExternalItemsSrm(sources, targets.getPublicInformationSuppliers());
         targets.setKind(SrmRestConstants.KIND_DATA_PROVIDERS);
-        targets.setTotal(BigInteger.valueOf(targets.getInformationSuppliers().size()));
+        targets.setTotal(BigInteger.valueOf(targets.getPublicInformationSuppliers().size()));
         return targets;
     }
 

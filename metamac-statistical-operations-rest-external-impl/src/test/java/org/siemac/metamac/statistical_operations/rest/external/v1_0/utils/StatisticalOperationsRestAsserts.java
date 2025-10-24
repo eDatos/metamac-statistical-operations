@@ -14,7 +14,7 @@ import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Families;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Family;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.FreqColls;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.GeographicGranularities;
-import org.siemac.metamac.rest.statistical_operations.v1_0.domain.InformationSuppliers;
+import org.siemac.metamac.rest.statistical_operations.v1_0.domain.PublicInformationSuppliers;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Instance;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.InstanceTypes;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Instances;
@@ -114,7 +114,7 @@ public class StatisticalOperationsRestAsserts {
         MetamacRestAsserts.assertEqualsInternationalString(expected.getDocMethod(), actual.getDocMethod());
         MetamacRestAsserts.assertEqualsItem(expected.getStatisticalOperationSource(), actual.getStatisticalOperationSource());
         MetamacRestAsserts.assertEqualsItem(expected.getCollMethod(), actual.getCollMethod());
-        assertEqualsInformationSuppliers(expected.getInformationSuppliers(), actual.getInformationSuppliers());
+        assertEqualsPublicInformationSuppliers(expected.getPublicInformationSuppliers(), actual.getPublicInformationSuppliers());
         assertEqualsFreqColls(expected.getFreqColls(), actual.getFreqColls());
         MetamacRestAsserts.assertEqualsInternationalString(expected.getDataValidation(), actual.getDataValidation());
         MetamacRestAsserts.assertEqualsInternationalString(expected.getDataCompilation(), actual.getDataCompilation());
@@ -228,13 +228,13 @@ public class StatisticalOperationsRestAsserts {
         assertEquals(expected.getTotal(), actual.getTotal());
     }
 
-    private static void assertEqualsInformationSuppliers(InformationSuppliers expected, InformationSuppliers actual) {
+    private static void assertEqualsPublicInformationSuppliers(PublicInformationSuppliers expected, PublicInformationSuppliers actual) {
         MetamacRestAsserts.assertEqualsNullability(expected, actual);
         if (expected == null) {
             return;
         }
         MetamacRestAsserts.assertEqualsListBase(expected, actual);
-        MetamacRestAsserts.assertEqualsResources(expected.getInformationSuppliers(), actual.getInformationSuppliers());
+        MetamacRestAsserts.assertEqualsResources(expected.getPublicInformationSuppliers(), actual.getPublicInformationSuppliers());
     }
 
     private static void assertEqualsFreqColls(FreqColls expected, FreqColls actual) {

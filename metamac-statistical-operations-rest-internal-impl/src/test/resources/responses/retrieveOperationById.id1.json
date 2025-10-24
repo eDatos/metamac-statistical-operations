@@ -500,6 +500,9 @@
 		"kind": "statisticalOperations#instance"
 	},
 	"inventoryDate": "2013-02-04T13:15:14Z",
+	"statisticalOperationUrls": {
+		"total": 0
+	},
 	"revPolicy": {
 		"text": [
 			{

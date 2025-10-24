@@ -63,7 +63,11 @@ public interface GlobalResources extends ClientBundle {
     ImageResource reload();
 
     @ImageOptions(repeatStyle = RepeatStyle.Both)
-    @Source("images/pending_publication.png")
-    ImageResource pending();
+    @Source("images/link.png")
+    ImageResource link();
+
+    @ImageOptions(repeatStyle = RepeatStyle.Both)
+    @Source("images/add_link.png")
+    ImageResource addLink();
 
 }

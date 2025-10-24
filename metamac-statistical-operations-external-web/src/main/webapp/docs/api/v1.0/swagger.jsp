@@ -263,16 +263,16 @@
          ],
          "description":"${msg['api.doc.swagger.definitions.geographicGranularities']}"
       },
-      "InformationSuppliers":{
+      "PublicInformationSuppliers":{
          "type":"object",
-         "title":"InformationSuppliers",
+         "title":"PublicInformationSuppliers",
          "allOf":[
             {
                "$ref":"#/definitions/ListBase"
             },
             {
                "properties":{
-                  "informationSupplier":{
+                  "publicInformationSupplier":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
@@ -282,7 +282,7 @@
                }
             }
          ],
-         "description":"${msg['api.doc.swagger.definitions.informationSuppliers']}"
+         "description":"${msg['api.doc.swagger.definitions.publicInformationSuppliers']}"
       },
       "Instance":{
          "type":"object",
@@ -466,12 +466,19 @@
                      "description":"${msg['api.doc.swagger.definitions.any.properties.id']}",
                      "type":"string"
                   },
-                  "informationSuppliers":{
+                  "publicInformationSuppliers":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"${msg['api.doc.swagger.definitions.instance.properties.informationSuppliers']}",
-                     "$ref":"#/definitions/InformationSuppliers"
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.publicInformationSuppliers']}",
+                     "$ref":"#/definitions/PublicInformationSuppliers"
+                  },
+                  "privateInformationSuppliers":{
+                     "xml":{
+                        "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
+                     },
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.privateInformationSuppliers']}",
+                     "$ref":"#/definitions/InternationalString"
                   },
                   "inventoryDate":{
                      "xml":{
@@ -925,6 +932,13 @@
                      },
                      "description":"${msg['api.doc.swagger.definitions.operation.properties.inventoryDate']}",
                      "type":"string"
+                  },
+                  "statisticalOperationUrl":{
+                      "xml":{
+                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
+                      },
+                      "description":"${msg['api.doc.swagger.definitions.operation.properties.statisticalOperationUrl']}",
+                      "$ref":"#/definitions/InternationalString"
                   },
                   "legalActs":{
                      "xml":{

@@ -65,7 +65,7 @@ public class PublishExternallyInstanceActionHandler extends SecurityActionHandle
         externalItemValidator.checkExternalItemsAreExternallyPublished(serviceContext, ServiceExceptionParameters.INSTANCE_STAT_CONC_DEF_LIST, instanceDto.getStatConcDefList(), metamacWebException);
         externalItemValidator.checkExternalItemsAreExternallyPublished(serviceContext, ServiceExceptionParameters.INSTANCE_CLASS_SYSTEM_LIST, instanceDto.getClassSystemList(), metamacWebException);
         externalItemValidator.checkExternalItemsAreExternallyPublished(serviceContext, ServiceExceptionParameters.INSTANCE_FREQ_COLL, instanceDto.getFreqColl(), metamacWebException);
-        externalItemValidator.checkExternalItemsAreExternallyPublished(serviceContext, ServiceExceptionParameters.INSTANCE_INFORMATION_SUPPLIERS, instanceDto.getInformationSuppliers(),
+        externalItemValidator.checkExternalItemsAreExternallyPublished(serviceContext, ServiceExceptionParameters.INSTANCE_PUBLIC_INFORMATION_SUPPLIERS, instanceDto.getPublicInformationSuppliers(),
                 metamacWebException);
 
         if (metamacWebException.getWebExceptionItems() != null && !metamacWebException.getWebExceptionItems().isEmpty()) {

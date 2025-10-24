@@ -156,7 +156,7 @@ public abstract class StatisticalOperationsBaseTest extends MetamacDBUnitBaseTes
         tables.add("TB_EI_CLASS_SYSTEM_LISTS");
         tables.add("TB_EI_CONC_DEF_LISTS");
         tables.add("TB_EI_FREQ_COLL");
-        tables.add("TB_EI_INF_SUPPLIERS");
+        tables.add("TB_EI_PUBLIC_INF_SUPPLIERS");
         tables.add("TB_EI_PRODUCERS");
         tables.add("TB_EI_PUBLISHERS");
         tables.add("TB_EI_REG_CONTRIBUTORS");

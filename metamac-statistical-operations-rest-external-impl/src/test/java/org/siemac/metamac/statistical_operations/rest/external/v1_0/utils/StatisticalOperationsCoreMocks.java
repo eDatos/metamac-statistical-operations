@@ -701,7 +701,7 @@ public class StatisticalOperationsCoreMocks {
         instance.setDocMethod(mockInternationalStringMetadata("docMethod", subCode));
         instance.setSurveySource(mockSurveySource("statisticalOperationSource1"));
         instance.setCollMethod(mockCollMethod("collMethod1"));
-        instance.addInformationSupplier(mockExternalItemSrm("informationSupplier1", "informationSuppliers", TypeExternalArtefactsEnum.CONCEPT));
+        instance.addPublicInformationSupplier(mockExternalItemSrm("publicInformationSupplier1", "publicInformationSuppliers", TypeExternalArtefactsEnum.CONCEPT));
         instance.addFreqColl(mockExternalItemSrm("freqColl1", "freqColls", TypeExternalArtefactsEnum.CATEGORY_SCHEME));
         instance.addFreqColl(mockExternalItemSrm("freqColl22", "freqColls", TypeExternalArtefactsEnum.CATEGORY_SCHEME));
         instance.setDataValidation(mockInternationalStringMetadata("dataValidation", subCode));

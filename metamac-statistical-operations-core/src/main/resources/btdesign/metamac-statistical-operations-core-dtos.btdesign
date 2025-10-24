@@ -194,7 +194,7 @@ Application StatisticalOperationsDto {
             - @InternationalStringDto docMethod nullable;
             - @SurveySourceDto surveySource nullable;
             - @CollMethodDto collMethod nullable;
-            - Set<@ExternalItemDto> informationSuppliers;
+            - Set<@ExternalItemDto> publicInformationSuppliers;
             - Set<@ExternalItemDto> freqColl;
             - @InternationalStringDto dataValidation nullable;
             - @InternationalStringDto dataCompilation nullable;
@@ -228,6 +228,7 @@ Application StatisticalOperationsDto {
 
             - @InternationalStringDto comment nullable;
             - @InternationalStringDto notes nullable;
+            - @InternationalStringDto privateInformationSuppliers nullable;
 
             Long optimisticLockingVersion;
         }

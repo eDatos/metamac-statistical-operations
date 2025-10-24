@@ -1,6 +1,8 @@
 package org.siemac.metamac.statistical.operations.core.mapper;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.dozer.DozerBeanMapper;
@@ -20,6 +22,7 @@ import org.siemac.metamac.statistical.operations.core.domain.Instance;
 import org.siemac.metamac.statistical.operations.core.domain.InstanceType;
 import org.siemac.metamac.statistical.operations.core.domain.OfficialityType;
 import org.siemac.metamac.statistical.operations.core.domain.Operation;
+import org.siemac.metamac.statistical.operations.core.domain.OperationUrl;
 import org.siemac.metamac.statistical.operations.core.domain.SurveySource;
 import org.siemac.metamac.statistical.operations.core.domain.SurveyType;
 import org.siemac.metamac.statistical.operations.core.dto.CollMethodDto;
@@ -32,6 +35,7 @@ import org.siemac.metamac.statistical.operations.core.dto.InstanceTypeDto;
 import org.siemac.metamac.statistical.operations.core.dto.OfficialityTypeDto;
 import org.siemac.metamac.statistical.operations.core.dto.OperationBaseDto;
 import org.siemac.metamac.statistical.operations.core.dto.OperationDto;
+import org.siemac.metamac.statistical.operations.core.dto.OperationUrlDto;
 import org.siemac.metamac.statistical.operations.core.dto.SurveySourceDto;
 import org.siemac.metamac.statistical.operations.core.dto.SurveyTypeDto;
 import org.siemac.metamac.statistical.operations.core.error.ServiceExceptionType;
@@ -343,6 +347,10 @@ public class Do2DtoMapperImpl extends BaseDo2DtoMapperImpl implements Do2DtoMapp
         target.setDisaggregationByAge(source.getDisaggregationByAge());
         target.setDisaggregationByNationality(source.getDisaggregationByNationality());
         target.setDisaggregationByDisability(source.getDisaggregationByDisability());
+
+        // STATISTICAL OPERATION URLs
+        target.getStatisticalOperationUrls().clear();
+        target.getStatisticalOperationUrls().addAll(operationUrlListToDto(source.getStatisticalOperationUrls()));
 
         return target;
     }
@@ -765,6 +773,30 @@ public class Do2DtoMapperImpl extends BaseDo2DtoMapperImpl implements Do2DtoMapp
         }
 
         return result;
+    }
+
+    private List<OperationUrlDto> operationUrlListToDto(List<OperationUrl> operationUrls) throws MetamacException {
+        List<OperationUrlDto> result = new ArrayList<OperationUrlDto>();
+
+        if (operationUrls != null) {
+            for (OperationUrl operationUrl : operationUrls) {
+                result.add(operationUrlToDto(operationUrl));
+            }
+        }
+
+        return result;
+    }
+
+    private OperationUrlDto operationUrlToDto(OperationUrl source) throws MetamacException {
+        OperationUrlDto target = new OperationUrlDto();
+
+        if (source == null) {
+            return null;
+        }
+        target.setId(source.getId());
+        target.setUrl(internationalStringToDto(source.getUrl()));
+
+        return target;
     }
 
 }

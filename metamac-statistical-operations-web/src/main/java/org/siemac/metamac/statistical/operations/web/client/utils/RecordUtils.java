@@ -7,11 +7,14 @@ import org.siemac.metamac.statistical.operations.core.dto.FamilyDto;
 import org.siemac.metamac.statistical.operations.core.dto.InstanceBaseDto;
 import org.siemac.metamac.statistical.operations.core.dto.InstanceDto;
 import org.siemac.metamac.statistical.operations.core.dto.OperationBaseDto;
+import org.siemac.metamac.statistical.operations.core.dto.OperationUrlDto;
 import org.siemac.metamac.statistical.operations.web.client.model.FamilyRecord;
 import org.siemac.metamac.statistical.operations.web.client.model.InstanceRecord;
 import org.siemac.metamac.statistical.operations.web.client.model.OperationRecord;
+import org.siemac.metamac.statistical.operations.web.client.model.OperationUrlRecord;
 import org.siemac.metamac.web.common.client.utils.CommonWebUtils;
 import org.siemac.metamac.web.common.client.utils.DateUtils;
+import org.siemac.metamac.web.common.client.utils.InternationalStringUtils;
 
 public class RecordUtils {
 
@@ -124,5 +127,15 @@ public class RecordUtils {
         record.setProcStatus(CommonUtils.getProcStatusName(instanceDto.getProcStatus()));
         record.setOrder(instanceDto.getOrder());
         return record;
+    }
+
+    /**
+     * Returns {@link OperationUrlRecord} from {@link OperationUrlDto} given a locale
+     *
+     * @param operationUrlDto
+     * @return
+     */
+    public static OperationUrlRecord getOperationUrlRecord(OperationUrlDto operationUrlDto, String locale) {
+        return new OperationUrlRecord(operationUrlDto.getId(), InternationalStringUtils.getLocalisedString(operationUrlDto.getUrl(), locale), operationUrlDto);
     }
 }

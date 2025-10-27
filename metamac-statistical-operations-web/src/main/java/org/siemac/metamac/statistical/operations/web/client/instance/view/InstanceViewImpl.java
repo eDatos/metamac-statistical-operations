@@ -27,6 +27,7 @@ import org.siemac.metamac.statistical.operations.web.client.utils.ConfigurationP
 import org.siemac.metamac.statistical.operations.web.client.utils.OperationsListUtils;
 import org.siemac.metamac.statistical.operations.web.client.utils.RequiredFieldUtils;
 import org.siemac.metamac.statistical.operations.web.client.widgets.InstanceMainFormLayout;
+import org.siemac.metamac.statistical.operations.web.client.widgets.external.SearchSrmListCodelistAndCodeItem;
 import org.siemac.metamac.statistical.operations.web.client.widgets.external.SearchSrmListConceptAndConceptSchemeItem;
 import org.siemac.metamac.statistical.operations.web.shared.external.ConceptSchemeTypeEnum;
 import org.siemac.metamac.statistical.operations.web.shared.external.RestWebCriteriaUtils;
@@ -44,6 +45,7 @@ import org.siemac.metamac.web.common.client.widgets.form.fields.ViewMultiLanguag
 import org.siemac.metamac.web.common.client.widgets.form.fields.ViewTextItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.external.ExternalItemListItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.external.SearchMultiExternalItemSimpleItem;
+import org.siemac.metamac.web.common.client.widgets.form.fields.external.SearchSrmItemLinkItemWithSchemeFilterItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.external.SearchSrmListItemWithSchemeFilterItem;
 import org.siemac.metamac.web.common.shared.criteria.MetamacWebCriteria;
 import org.siemac.metamac.web.common.shared.criteria.SrmExternalResourceRestCriteria;
@@ -156,7 +158,7 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
         // Set uiHandlers in formItems
 
         ((SearchSrmListConceptAndConceptSchemeItem) contentDescriptorsEditionForm.getItem(InstanceDS.STAT_CONC_DEF)).setUiHandlers(uiHandlers);
-        ((SearchSrmListConceptAndConceptSchemeItem) contentDescriptorsEditionForm.getItem(InstanceDS.UNIT_MEASURES)).setUiHandlers(uiHandlers);
+        ((SearchSrmListCodelistAndCodeItem) contentDescriptorsEditionForm.getItem(InstanceDS.UNIT_MEASURES)).setUiHandlers(uiHandlers);
     }
 
     /*
@@ -881,7 +883,7 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
             ((SearchSrmListConceptAndConceptSchemeItem) contentDescriptorsEditionForm.getItem(formItemName)).setItemSchemes(result);
 
         } else if (StringUtils.equals(InstanceDS.UNIT_MEASURES, formItemName)) {
-            ((SearchSrmListConceptAndConceptSchemeItem) contentDescriptorsEditionForm.getItem(formItemName)).setItemSchemes(result);
+            ((SearchSrmListCodelistAndCodeItem) contentDescriptorsEditionForm.getItem(formItemName)).setItemSchemes(result);
         }
     }
 
@@ -908,7 +910,7 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
             ((SearchSrmListConceptAndConceptSchemeItem) contentDescriptorsEditionForm.getItem(formItemName)).setItems(result);
 
         } else if (StringUtils.equals(InstanceDS.UNIT_MEASURES, formItemName)) {
-            ((SearchSrmListConceptAndConceptSchemeItem) contentDescriptorsEditionForm.getItem(formItemName)).setItems(result);
+            ((SearchSrmListCodelistAndCodeItem) contentDescriptorsEditionForm.getItem(formItemName)).setItems(result);
         }
     }
 
@@ -1037,17 +1039,9 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
         return item;
     }
 
-    private SearchSrmListConceptAndConceptSchemeItem createUnitMeasures() {
+    private SearchSrmListCodelistAndCodeItem createUnitMeasures() {
         final String field = InstanceDS.UNIT_MEASURES;
-        final SearchSrmListConceptAndConceptSchemeItem item = new SearchSrmListConceptAndConceptSchemeItem(field, getConstants().instanceUnitMeasure(),
-                StatisticalOperationsWebConstants.FORM_LIST_MAX_RESULTS) {
-
-            @Override
-            protected ConceptSchemeTypeEnum[] getConceptSchemeTypes() {
-                return RestWebCriteriaUtils.getConceptSchemeTypesForInstanceUnitMeasures();
-            }
-        };
-        return item;
+        return new SearchSrmListCodelistAndCodeItem(field, getConstants().instanceUnitMeasure(), StatisticalOperationsWebConstants.FORM_LIST_MAX_RESULTS) {};
     }
 
     private SearchSrmListConceptAndConceptSchemeItem createStatConcDef() {

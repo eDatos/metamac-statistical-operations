@@ -12,4 +12,7 @@ public interface InstanceUiHandlers extends SrmExternalResourcesUiHandlers {
     void deleteInstance(InstanceDto instanceDto);
     void retrieveConceptSchemes(String formItemName, SrmExternalResourceRestCriteria srmItemSchemeRestCriteria, int firstResult, int maxResults, ConceptSchemeTypeEnum[] types);
     void retrieveConcepts(String formItemName, SrmItemRestCriteria itemWebCriteria, int firstResult, int maxResults, ConceptSchemeTypeEnum[] types);
+
+    void retrieveCodelists(String formItemName, SrmExternalResourceRestCriteria srmItemSchemeRestCriteria, int firstResult, int maxResults);
+    void retrieveCodes(String formItemName, SrmItemRestCriteria itemWebCriteria, int firstResult, int maxResults);
 }

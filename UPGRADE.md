@@ -23,9 +23,9 @@ actualización de la versión 1.0.0 a la 2.0.0.*
   * [etc/changes-from-release/4.9.0/db/](etc/changes-from-release/4.9.0/db/)
 
 * **Atención especial IBESTAT:** Hay una petición especial de cambio de datos y jerarquización de valores. Por tanto, hay scripts que **SÓLO se ejecutarán en IBESTAT**:
-    1. Ejecutar el script `etc/changes-from-release/4.8.1/db/postgresql/20251009_1_new_column_cost_detail.sql.sql` en **todos los entornos**.
+    1. Ejecutar el script `etc/changes-from-release/4.9.0/db/postgresql/20251009_1_new_column_cost_detail.sql.sql` en **todos los entornos**.
     2. A continuación, sólo en IBESTAT ejecutar los scripts de la carpeta:  
-       `etc/changes-from-release/4.8.1/db/postgresql/IBESTAT`  
+       `etc/changes-from-release/4.9.0/db/postgresql/IBESTAT`  
        (El ISTAC e IESTADIS no requieren adecuación de datos de la tabla maestra).
 
 * Esta version depende de la version `5.15.2-SNAPSHOT de Web-common` . Por lo tanto, **no se puede subir la versión 4.8.2-SNAPSHOT de metamac-statistical-operations** sin haber subido previamente la versión 5.15.2-SNAPSHOT de Web-common de eUsuarios, los cambios se encuentran en el siguiente MR: https://git.arte-consultores.com/istac/metamac-web-common/-/merge_requests/168

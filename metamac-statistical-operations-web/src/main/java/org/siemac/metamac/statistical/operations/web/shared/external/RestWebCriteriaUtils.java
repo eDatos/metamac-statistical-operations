@@ -22,7 +22,7 @@ public class RestWebCriteriaUtils {
     //
 
     public static ConceptSchemeTypeEnum[] getConceptSchemeTypesForInstanceStatisticalUnit() {
-        return new ConceptSchemeTypeEnum[]{ConceptSchemeTypeEnum.TRANSVERSAL, ConceptSchemeTypeEnum.GLOSSARY, ConceptSchemeTypeEnum.OPERATION};
+        return new ConceptSchemeTypeEnum[]{ConceptSchemeTypeEnum.TRANSVERSAL, ConceptSchemeTypeEnum.GLOSSARY, ConceptSchemeTypeEnum.OPERATION, ConceptSchemeTypeEnum.MEASURE};
     }
 
     //

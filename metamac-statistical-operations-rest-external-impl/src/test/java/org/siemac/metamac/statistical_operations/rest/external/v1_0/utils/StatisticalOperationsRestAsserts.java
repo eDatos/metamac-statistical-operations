@@ -19,7 +19,6 @@ import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Instance;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.InstanceTypes;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Instances;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.LegalActs;
-import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Measures;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.OfficialityTypes;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Operation;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Operations;
@@ -34,6 +33,7 @@ import org.siemac.metamac.rest.statistical_operations.v1_0.domain.StatisticalOpe
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.StatisticalOperationTypes;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.StatisticalUnits;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.TemporalGranularities;
+import org.siemac.metamac.rest.statistical_operations.v1_0.domain.UnitMeasures;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.UpdateFrequencies;
 
 public class StatisticalOperationsRestAsserts {
@@ -270,7 +270,7 @@ public class StatisticalOperationsRestAsserts {
             return;
         }
         MetamacRestAsserts.assertEqualsListBase(expected, actual);
-        MetamacRestAsserts.assertEqualsResources(expected.getMeasures(), actual.getMeasures());
+        MetamacRestAsserts.assertEqualsResources(expected.getUnitMeasures(), actual.getUnitMeasures());
     }
 
     private static void assertEqualsStatisticalUnits(StatisticalUnits expected, StatisticalUnits actual) {

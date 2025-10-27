@@ -28,7 +28,6 @@ import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Instance;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.InstanceTypes;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Instances;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.LegalActs;
-import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Measures;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.OfficialityTypes;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Operation;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Operations;
@@ -44,6 +43,7 @@ import org.siemac.metamac.rest.statistical_operations.v1_0.domain.StatisticalOpe
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.StatisticalUnits;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Status;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.TemporalGranularities;
+import org.siemac.metamac.rest.statistical_operations.v1_0.domain.UnitMeasures;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.UpdateFrequencies;
 import org.siemac.metamac.rest.structural_resources.v1_0.domain.CategoryResource;
 import org.siemac.metamac.srm.rest.common.SrmRestConstants;
@@ -764,8 +764,8 @@ public class StatisticalOperationsRestMocks {
         instance.setBasePeriod("2012");
         instance.setUnitMeasures(new UnitMeasures());
         instance.getUnitMeasures().setTotal(BigInteger.valueOf(1));
-        instance.getUnitMeasures().setKind(SrmRestConstants.KIND_CONCEPTS);
-        instance.getUnitMeasures().getUnitMeasures().add(mockResourceFromExternalItemSrm("measure1", "measures", "structuralResources#concept"));
+        instance.getUnitMeasures().setKind(SrmRestConstants.KIND_CODES);
+        instance.getUnitMeasures().getUnitMeasures().add(mockResourceFromExternalItemSrm("measure1", "codes", "structuralResources#code"));
         instance.setStatConcDefsDescription(mockInternationalStringMetadata("statConcDef", subId));
         instance.setStatConcDefs(new StatConcDefs());
         instance.getStatConcDefs().setTotal(BigInteger.valueOf(3));

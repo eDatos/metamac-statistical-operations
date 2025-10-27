@@ -176,16 +176,16 @@
             <cdomain:text xml:lang="es">collMethod1 en Español</cdomain:text>
         </cdomain:name>
     </operations:collMethod>
-    <operations:informationSuppliers kind="structuralResources#dataProviders" total="1">
-        <operations:informationSupplier kind="structuralResources#concept">
-            <cdomain:id>informationSupplier1</cdomain:id>
-            <cdomain:urn>urn:informationSupplier1</cdomain:urn>
-            <cdomain:selfLink kind="structuralResources#concept" href="http://data.istac.es/apis/srm/v1.0/informationSuppliers/informationSupplier1"/>
+    <operations:publicInformationSuppliers kind="structuralResources#dataProviders" total="1">
+        <operations:PublicInformationSupplier kind="structuralResources#concept">
+            <cdomain:id>publicInformationSupplier1</cdomain:id>
+            <cdomain:urn>urn:publicInformationSupplier1</cdomain:urn>
+            <cdomain:selfLink kind="structuralResources#concept" href="http://data.istac.es/apis/srm/v1.0/publicInformationSuppliers/publicInformationSupplier1"/>
             <cdomain:name>
-                <cdomain:text xml:lang="es">informationSupplier1 en Español</cdomain:text>
+                <cdomain:text xml:lang="es">publicInformationSupplier1 en Español</cdomain:text>
             </cdomain:name>
-        </operations:informationSupplier>
-    </operations:informationSuppliers>
+        </operations:PublicInformationSupplier>
+    </operations:publicInformationSuppliers>
     <operations:freqColls kind="structuralResources#codes" total="2">
         <operations:freqColl kind="structuralResources#categoryScheme">
             <cdomain:id>freqColl1</cdomain:id>

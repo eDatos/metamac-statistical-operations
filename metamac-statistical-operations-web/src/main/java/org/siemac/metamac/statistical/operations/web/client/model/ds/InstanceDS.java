@@ -37,7 +37,8 @@ public class InstanceDS extends DataSource {
     public static final String DOC_METHOD                   = "in-doc-met";
     public static final String STATISTICAL_OPERATION_SOURCE = "in-ssource";
     public static final String COLL_METHOD                  = "in-coll-met";
-    public static final String INFORMATION_SUPPLIERS        = "in-suppliers";
+    public static final String PUBLIC_INFORMATION_SUPPLIERS  = "in-public-suppliers";
+    public static final String PRIVATE_INFORMATION_SUPPLIERS = "in-private-suppliers";
     public static final String FREQ_COLL                    = "in-freq-coll";
     public static final String DATA_VALIDATION              = "in-valid";
     public static final String DATA_COMPILATION             = "in-compil";

@@ -2,9 +2,11 @@ package org.siemac.metamac.statistical.operations.core.mapper;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.checkerframework.checker.units.qual.A;
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
 import org.joda.time.DateTime;
 import org.siemac.metamac.core.common.dto.ExternalItemDto;
@@ -28,6 +30,8 @@ import org.siemac.metamac.statistical.operations.core.domain.Instance;
 import org.siemac.metamac.statistical.operations.core.domain.InstanceType;
 import org.siemac.metamac.statistical.operations.core.domain.OfficialityType;
 import org.siemac.metamac.statistical.operations.core.domain.Operation;
+import org.siemac.metamac.statistical.operations.core.domain.OperationUrl;
+import org.siemac.metamac.statistical.operations.core.domain.OperationUrlRepository;
 import org.siemac.metamac.statistical.operations.core.domain.SurveySource;
 import org.siemac.metamac.statistical.operations.core.domain.SurveyType;
 import org.siemac.metamac.statistical.operations.core.dto.CollMethodDto;
@@ -37,6 +41,7 @@ import org.siemac.metamac.statistical.operations.core.dto.InstanceDto;
 import org.siemac.metamac.statistical.operations.core.dto.InstanceTypeDto;
 import org.siemac.metamac.statistical.operations.core.dto.OfficialityTypeDto;
 import org.siemac.metamac.statistical.operations.core.dto.OperationDto;
+import org.siemac.metamac.statistical.operations.core.dto.OperationUrlDto;
 import org.siemac.metamac.statistical.operations.core.dto.SurveySourceDto;
 import org.siemac.metamac.statistical.operations.core.dto.SurveyTypeDto;
 import org.siemac.metamac.statistical.operations.core.enume.domain.ProcStatusEnum;
@@ -62,6 +67,9 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
 
     @Autowired
     private ExternalItemRepository            externalItemRepository;
+
+    @Autowired
+    private OperationUrlRepository            operationUrlRepository;
 
     /**************************************************************************
      * PUBLIC - LISTS
@@ -389,6 +397,10 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
         // REV_PRACTICE
         target.setRevPractice(internationalStringToEntity(source.getRevPractice(), target.getRevPractice(), ServiceExceptionParameters.OPERATION_REV_PRACTICE));
 
+        // STATISTICAL_OPERATION_URL
+        target.getStatisticalOperationUrls().clear();
+        target.getStatisticalOperationUrls().addAll(operationUrlListToEntity(source.getStatisticalOperationUrls(), target));
+
         // CONTACT: Extracted from AppCommonMetadata
 
         // LEGAL_ACTS: Extracted from AppCommonMetadata
@@ -505,9 +517,12 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
         // COLL_METHOD
         target.setCollMethod(collMethodDtoToEntity(source.getCollMethod(), ctx));
 
-        // INFORMATION_SUPPLIERS
-        target.getInformationSuppliers()
-                .addAll(externalItemListToEntity(source.getInformationSuppliers(), target.getInformationSuppliers(), ServiceExceptionParameters.INSTANCE_INFORMATION_SUPPLIERS));
+        // PUBLIC_INFORMATION_SUPPLIERS
+        target.getPublicInformationSuppliers()
+                .addAll(externalItemListToEntity(source.getPublicInformationSuppliers(), target.getPublicInformationSuppliers(), ServiceExceptionParameters.INSTANCE_PUBLIC_INFORMATION_SUPPLIERS));
+
+        // PRIVATE_INFORMATION_SUPPLIERS
+        target.setPrivateInformationSuppliers(internationalStringToEntity(source.getPrivateInformationSuppliers(), target.getPrivateInformationSuppliers(), ServiceExceptionParameters.INSTANCE_PRIVATE_INFORMATION_SUPPLIERS));
 
         // FREQ_COLL
         target.getFreqColl().addAll(externalItemListToEntity(source.getFreqColl(), target.getFreqColl(), ServiceExceptionParameters.INSTANCE_FREQ_COLL));
@@ -700,6 +715,67 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
     private ExternalItem srmExternalItemDtoToDo(ExternalItemDto source, ExternalItem target) throws MetamacException {
         target.setUri(srmInternalApiUrlDtoToDo(source.getUri()));
         target.setManagementAppUrl(srmInternalWebAppUrlDtoToDo(source.getManagementAppUrl()));
+        return target;
+    }
+
+    private List<OperationUrl> operationUrlListToEntity(List<OperationUrlDto> sources, Operation operation) throws MetamacException {
+
+        List<OperationUrl> targetsBefore = new ArrayList<>(operation.getStatisticalOperationUrls());
+        List<OperationUrl> newTargets = new ArrayList<>();
+
+        for (OperationUrlDto source : sources) {
+            if (source == null) {
+                List<MetamacExceptionItem> exceptions = new ArrayList<MetamacExceptionItem>();
+                StatisticalOperationsValidationUtils.checkMetadataRequired(source, ServiceExceptionParameters.OPERATION_URL, exceptions);
+                ExceptionUtils.throwIfException(exceptions);
+            } else {
+                boolean existsBefore = false;
+                for (OperationUrl target : targetsBefore) {
+                    if (source.getId() != null && source.getId().equals(target.getId())) {
+                        newTargets.add(operationUrlDtoToEntity(source, target, operation));
+                        existsBefore = true;
+                        break;
+                    }
+                }
+                if (!existsBefore) {
+                    newTargets.add(operationUrlDtoToEntity(source, null, operation));
+                }
+            }
+        }
+
+        // Delete missing
+        for (OperationUrl oldTarget : targetsBefore) {
+            boolean found = false;
+            for (OperationUrl newTarget : newTargets) {
+                if (newTarget.getId() != null && newTarget.getId().equals(oldTarget.getId())) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                operationUrlDtoToEntity(null, oldTarget, operation);
+            }
+        }
+
+
+        return newTargets;
+    }
+
+    private OperationUrl operationUrlDtoToEntity(OperationUrlDto source, OperationUrl target, Operation operation) throws MetamacException {
+
+        if (source == null) {
+            if (target != null) {
+                // delete previous entity
+                operationUrlRepository.delete(target);
+            }
+            return null;
+        }
+
+        if (target == null) {
+            target = new OperationUrl();
+        }
+        target.setUrl(internationalStringToEntity(source.getUrl(), target.getUrl(), ServiceExceptionParameters.OPERATION_URL));
+        target.setOperation(operation);
         return target;
     }
 

@@ -10,6 +10,7 @@ import org.siemac.metamac.core.common.util.SdmxTimeUtils;
 import org.siemac.metamac.statistical.operations.core.domain.Family;
 import org.siemac.metamac.statistical.operations.core.domain.Instance;
 import org.siemac.metamac.statistical.operations.core.domain.Operation;
+import org.siemac.metamac.statistical.operations.core.domain.OperationUrl;
 import org.siemac.metamac.statistical.operations.core.error.ServiceExceptionParameters;
 import org.siemac.metamac.statistical.operations.core.error.ServiceExceptionType;
 
@@ -113,6 +114,23 @@ public class CheckMandatoryMetadataUtil {
         } else {
             StatisticalOperationsValidationUtils.checkMetadataRequired(operation.getReleaseCalendarAccess(), ServiceExceptionParameters.OPERATION_RELEASE_CALENDAR_ACCESS, exceptions);
             StatisticalOperationsValidationUtils.validateUrl(operation.getReleaseCalendarAccess(), ServiceExceptionParameters.OPERATION_RELEASE_CALENDAR_ACCESS, exceptions);
+        }
+
+        if (!operation.getStatisticalOperationUrls().isEmpty()) {
+            for (OperationUrl operationUrl : operation.getStatisticalOperationUrls()) {
+                if (operationUrl == null) {
+                    StatisticalOperationsValidationUtils.checkMetadataRequired(operationUrl, ServiceExceptionParameters.OPERATION_URL, exceptions);
+                } else {
+                    if (operationUrl.getUrl() != null && operationUrl.getUrl().getTexts() != null) {
+                        for (LocalisedString localisedString : operationUrl.getUrl().getTexts()) {
+                            String label = localisedString.getLabel();
+                            if (label != null) {
+                                StatisticalOperationsValidationUtils.validateUrl(label, ServiceExceptionParameters.OPERATION_URL, exceptions);
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         StatisticalOperationsValidationUtils.checkSemanticIdentifierAsMetamacID(operation.getCode(), ServiceExceptionParameters.OPERATION_CODE, exceptions);

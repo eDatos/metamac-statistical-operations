@@ -34,12 +34,10 @@ import org.siemac.metamac.rest.statistical_operations.v1_0.domain.CollMethods;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Contributors;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Costs;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.DataSharings;
-import org.siemac.metamac.rest.statistical_operations.v1_0.domain.EdatosMigrationStatus;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Families;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Family;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.FreqColls;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.GeographicGranularities;
-import org.siemac.metamac.rest.statistical_operations.v1_0.domain.PublicInformationSuppliers;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Instance;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.InstanceTypes;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Instances;
@@ -49,6 +47,7 @@ import org.siemac.metamac.rest.statistical_operations.v1_0.domain.OfficialityTyp
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Operation;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Operations;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Producers;
+import org.siemac.metamac.rest.statistical_operations.v1_0.domain.PublicInformationSuppliers;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Publishers;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.ResourceWithSubjectArea;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Responsibles;
@@ -555,6 +554,7 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         target.setId(source.getCode());
         target.setUrn(source.getUrn());
         target.setKind(StatisticalOperationsRestConstants.KIND_OPERATION);
+        target.setDescription(toInternationalString(source.getDescription()));
         target.setSelfLink(toOperationSelfLink(source));
         target.setName(toInternationalString(source.getTitle()));
         target.setSubjectArea(getSubjectAreaFromCache(source.getSubjectArea(), parsedFields, categoryResourcesCache));

@@ -14,7 +14,7 @@ actualización de la versión 1.0.0 a la 2.0.0.*
 
 *Se deberá realizar primero la actualización de la versión 1.0.0 a la 2.0.0 y luego desde la 2.0.0 a la 3.0.0*
 
-## 4.9.0 a 4.9.1-SNAPSHOT
+## 4.9.0 a 5.0.0
 
 * Esta versión contiene CAMBIOS QUE ROMPEN LA COMPATIBILIDAD DE LA API con versiones anteriores.
 

@@ -150,6 +150,7 @@
     </operations:contributors>
     <operations:createdDate>2011-01-02T15:14:13Z</operations:createdDate>
     <operations:internalInventoryDate>2012-12-01T13:15:14Z</operations:internalInventoryDate>
+    <operations:statisticalOperationUrls total="0"/>
     <operations:currentlyActive>false</operations:currentlyActive>
     <operations:status>DESIGN</operations:status>
     <operations:procStatus>INTERNALLY_PUBLISHED</operations:procStatus>

@@ -640,6 +640,7 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         target.setSelfLink(this.toInstanceSelfLink(source));
         target.setManagementAppLink(this.toInstanceManagementApplicationLink(source));
         target.setName(this.toInternationalString(source.getTitle()));
+        target.setDescription(toInternationalString(source.getDataDescription()));
         return target;
     }
 

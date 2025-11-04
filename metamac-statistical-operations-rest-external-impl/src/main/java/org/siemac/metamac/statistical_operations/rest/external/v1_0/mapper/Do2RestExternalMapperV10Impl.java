@@ -610,6 +610,7 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         target.setKind(StatisticalOperationsRestConstants.KIND_INSTANCE);
         target.setSelfLink(toInstanceSelfLink(source));
         target.setName(toInternationalString(source.getTitle()));
+        target.setDescription(toInternationalString(source.getDataDescription()));
         return target;
     }
 

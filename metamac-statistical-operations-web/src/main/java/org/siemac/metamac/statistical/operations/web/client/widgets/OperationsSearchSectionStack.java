@@ -2,11 +2,15 @@ package org.siemac.metamac.statistical.operations.web.client.widgets;
 
 import static org.siemac.metamac.statistical.operations.web.client.OperationsWeb.getConstants;
 
+import java.util.List;
+
 import org.siemac.metamac.core.common.util.shared.StringUtils;
+import org.siemac.metamac.statistical.operations.core.dto.OfficialityTypeDto;
 import org.siemac.metamac.statistical.operations.web.client.model.ds.OperationDS;
 import org.siemac.metamac.statistical.operations.web.client.operation.presenter.OperationListPresenter;
 import org.siemac.metamac.statistical.operations.web.client.operation.view.handlers.OperationListUiHandlers;
 import org.siemac.metamac.statistical.operations.web.client.utils.CommonUtils;
+import org.siemac.metamac.statistical.operations.web.client.utils.OperationsListUtils;
 import org.siemac.metamac.statistical.operations.web.shared.criteria.OperationCriteria;
 import org.siemac.metamac.web.common.client.MetamacWebCommon;
 import org.siemac.metamac.web.common.client.constants.CommonWebConstants;
@@ -25,9 +29,13 @@ public class OperationsSearchSectionStack extends BaseAdvancedSearchSectionStack
 
     private OperationListUiHandlers uiHandlers;
 
+    SelectItem                      officialityTypes;
+    List<OfficialityTypeDto>        officialityTypeDtos;
+
     public OperationsSearchSectionStack() {
 
     }
+
     public void clearSearchSection() {
         searchForm.clearValues();
         clearAndHideAdvancedSearchSection();
@@ -67,8 +75,10 @@ public class OperationsSearchSectionStack extends BaseAdvancedSearchSectionStack
         SelectItem disaggregationByDisability = new SelectItem(OperationDS.DISAGGREGATION_BY_DISABILITY, getConstants().operationDisaggregationByDisability());
         disaggregationByDisability.setValueMap(FormItemUtils.getBooleanHashMap());
 
-        FormItem[] advancedSearchFormItems = new FormItem[]{code, title, productionVersionProcStatus, edatosMigrationStatus, disaggregationBySex, disaggregationByAge, disaggregationByNationality, disaggregationByDisability,
-                searchItem};
+        officialityTypes = new SelectItem(OperationDS.OFFICIALITY_TYPE, getConstants().operationOfficialityType());
+
+        FormItem[] advancedSearchFormItems = new FormItem[]{code, title, productionVersionProcStatus, edatosMigrationStatus, disaggregationBySex, disaggregationByAge, disaggregationByNationality,
+                disaggregationByDisability, officialityTypes, searchItem};
         setFormItemsInAdvancedSearchForm(advancedSearchFormItems);
     }
 
@@ -98,6 +108,11 @@ public class OperationsSearchSectionStack extends BaseAdvancedSearchSectionStack
         criteria.setDisaggregationByNationality(advancedSearchForm.getValueAsString(OperationDS.DISAGGREGATION_BY_NATIONALITY));
         criteria.setDisaggregationByDisability(advancedSearchForm.getValueAsString(OperationDS.DISAGGREGATION_BY_DISABILITY));
 
+        OfficialityTypeDto officialityTypeDto = OperationsListUtils.getOfficialityTypeDto(advancedSearchForm.getValueAsString(OperationDS.OFFICIALITY_TYPE), this.officialityTypeDtos);
+        if (officialityTypeDto != null) {
+            criteria.setOfficialityType(officialityTypeDto.getIdentifier());
+        }
+
         return criteria;
     }
 
@@ -107,5 +122,10 @@ public class OperationsSearchSectionStack extends BaseAdvancedSearchSectionStack
 
     public OperationListUiHandlers getUiHandlers() {
         return uiHandlers;
+    }
+
+    public void setOperationsLists(List<OfficialityTypeDto> officialityTypeDtos) {
+        this.officialityTypeDtos = officialityTypeDtos;
+        officialityTypes.setValueMap(OperationsListUtils.getOfficialityTypeHashMap(officialityTypeDtos));
     }
 }

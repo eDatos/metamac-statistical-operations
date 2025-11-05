@@ -83,11 +83,6 @@ public class OperationsListUtils {
 
     }
 
-    private static String getArtificialKey(int positionInList, Long itemId) {
-        String paddedIndex = (LEFT_PADDED + positionInList).substring((LEFT_PADDED + positionInList).length() - LEFT_PADDED.length());
-        return paddedIndex + ARTIFICIAL_KEY_SEPARATOR + itemId;
-    }
-
     /**
      * Returns {@link LinkedHashMap} of {@link SurveySourceDto}
      * 

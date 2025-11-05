@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.siemac.metamac.core.common.enume.domain.TypeExternalArtefactsEnum;
 import org.siemac.metamac.core.common.util.shared.StringUtils;
+import org.siemac.metamac.statistical.operations.core.dto.OfficialityTypeDto;
 import org.siemac.metamac.statistical.operations.core.dto.OperationBaseDto;
 import org.siemac.metamac.statistical.operations.core.dto.OperationDto;
 import org.siemac.metamac.statistical.operations.navigation.shared.NameTokens;
@@ -14,6 +15,8 @@ import org.siemac.metamac.statistical.operations.web.client.LoggedInGatekeeper;
 import org.siemac.metamac.statistical.operations.web.client.constants.StatisticalOperationsWebConstants;
 import org.siemac.metamac.statistical.operations.web.client.enums.ToolStripButtonEnum;
 import org.siemac.metamac.statistical.operations.web.client.events.SelectMenuButtonEvent;
+import org.siemac.metamac.statistical.operations.web.client.events.UpdateOperationsListsEvent;
+import org.siemac.metamac.statistical.operations.web.client.events.UpdateOperationsListsEvent.UpdateOperationsListsHandler;
 import org.siemac.metamac.statistical.operations.web.client.model.OperationRecord;
 import org.siemac.metamac.statistical.operations.web.client.operation.view.handlers.OperationListUiHandlers;
 import org.siemac.metamac.statistical.operations.web.client.presenter.MainPagePresenter;
@@ -45,6 +48,7 @@ import com.gwtplatform.mvp.client.Presenter;
 import com.gwtplatform.mvp.client.View;
 import com.gwtplatform.mvp.client.annotations.NameToken;
 import com.gwtplatform.mvp.client.annotations.ProxyCodeSplit;
+import com.gwtplatform.mvp.client.annotations.ProxyEvent;
 import com.gwtplatform.mvp.client.annotations.TitleFunction;
 import com.gwtplatform.mvp.client.annotations.UseGatekeeper;
 import com.gwtplatform.mvp.client.proxy.Place;
@@ -59,7 +63,10 @@ import com.smartgwt.client.widgets.grid.events.HasRecordClickHandlers;
 import com.smartgwt.client.widgets.grid.events.RecordClickEvent;
 import com.smartgwt.client.widgets.grid.events.RecordClickHandler;
 
-public class OperationListPresenter extends Presenter<OperationListPresenter.OperationListView, OperationListPresenter.OperationsListProxy> implements OperationListUiHandlers {
+public class OperationListPresenter extends Presenter<OperationListPresenter.OperationListView, OperationListPresenter.OperationsListProxy>
+        implements
+            OperationListUiHandlers,
+            UpdateOperationsListsHandler {
 
     public final static int     OPERATION_LIST_FIRST_RESULT       = 0;
 
@@ -99,6 +106,9 @@ public class OperationListPresenter extends Presenter<OperationListPresenter.Ope
 
         void setItemSchemes(String formItemName, ExternalItemsResult result);
         void setItems(String formItemName, ExternalItemsResult result);
+
+        void setOperationsLists(List<OfficialityTypeDto> officialityTypeDtos);
+
     }
 
     @Inject
@@ -106,6 +116,7 @@ public class OperationListPresenter extends Presenter<OperationListPresenter.Ope
         super(eventBus, operationListView, operationsListProxy);
         this.dispatcher = dispatcher;
         this.placeManager = placeManager;
+
         getView().setUiHandlers(this);
     }
 
@@ -268,6 +279,12 @@ public class OperationListPresenter extends Presenter<OperationListPresenter.Ope
                 getView().setItems(formItemName, result.getExternalItemsResult());
             }
         });
+    }
+
+    @ProxyEvent
+    @Override
+    public void onUpdateOperationsLists(UpdateOperationsListsEvent event) {
+        getView().setOperationsLists(event.getOfficialityTypeDtos());
     }
 
     //

@@ -3,6 +3,7 @@ package org.siemac.metamac.statistical.operations.web.client.operation.view;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.siemac.metamac.statistical.operations.core.dto.OfficialityTypeDto;
 import org.siemac.metamac.statistical.operations.core.dto.OperationBaseDto;
 import org.siemac.metamac.statistical.operations.core.dto.OperationDto;
 import org.siemac.metamac.statistical.operations.web.client.OperationsWeb;
@@ -39,15 +40,17 @@ import com.smartgwt.client.widgets.toolbar.ToolStripButton;
 
 public class OperationListViewImpl extends ViewWithUiHandlers<OperationListUiHandlers> implements OperationListPresenter.OperationListView {
 
-    private VLayout                panel;
-    private ListGridToolStrip      listGridToolStrip;
-    private PaginatedCheckListGrid operationListGrid;
+    private VLayout                      panel;
+    private ListGridToolStrip            listGridToolStrip;
+    private PaginatedCheckListGrid       operationListGrid;
 
     // Modal window
-    private ModalWindow            window;
-    private NewOperationForm       newOperationForm;
+    private ModalWindow                  window;
+    private NewOperationForm             newOperationForm;
 
-    private OperationsSearchSectionStack     searchSectionStack;
+    private OperationsSearchSectionStack searchSectionStack;
+
+    private List<OfficialityTypeDto>     officialityTypeDtos;
 
     @Inject
     public OperationListViewImpl() {
@@ -80,7 +83,6 @@ public class OperationListViewImpl extends ViewWithUiHandlers<OperationListUiHan
         // Search
 
         searchSectionStack = new OperationsSearchSectionStack();
-
 
         // Export TSV search
         listGridToolStrip.getExportTsvButton().addClickHandler(new com.smartgwt.client.widgets.events.ClickHandler() {
@@ -286,6 +288,12 @@ public class OperationListViewImpl extends ViewWithUiHandlers<OperationListUiHan
     @Override
     public OperationCriteria getOperationCriteria() {
         return searchSectionStack.getSearchCriteria();
+    }
+
+    @Override
+    public void setOperationsLists(List<OfficialityTypeDto> officialityTypeDtos) {
+        this.officialityTypeDtos = officialityTypeDtos;
+        searchSectionStack.setOperationsLists(officialityTypeDtos);
     }
 
     // ------------------------------------------------------------------------------------------------------------

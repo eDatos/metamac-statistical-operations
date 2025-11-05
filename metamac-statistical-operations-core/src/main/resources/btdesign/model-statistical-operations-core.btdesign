@@ -254,10 +254,14 @@ Application StatisticalOperations {
     		not auditable
     		String identifier;
     		- @InternationalString description nullable;
+    		"visualisation element order"
+    		Integer visualisationOrder not nullable;
+    		Integer hierarchyLevel not nullable;
     		
     		Repository OfficialityTypeRepository {
     			findById;
     			findAll;
+    			findByCondition;
     		}
     	}
     	

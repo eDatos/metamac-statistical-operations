@@ -14,6 +14,10 @@ actualización de la versión 1.0.0 a la 2.0.0.*
 
 *Se deberá realizar primero la actualización de la versión 1.0.0 a la 2.0.0 y luego desde la 2.0.0 a la 3.0.0*
 
+## 5.0.0 a 5.0.1-SNAPSHOT
+•Se han realizado cambios en la base de datos PostgreSQL, por ello se proveen una serie de scripts SQL para adaptarse a la nueva versión.
+Ejecutar los scripts de la siguiente ruta en el esquema correspondiente por fecha y orden : etc/changes-from-release/5.0.0/db
+
 ## 4.9.0 a 5.0.0
 
 * Esta versión contiene CAMBIOS QUE ROMPEN LA COMPATIBILIDAD DE LA API con versiones anteriores.

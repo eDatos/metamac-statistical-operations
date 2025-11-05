@@ -795,7 +795,7 @@ public class Do2DtoMapperImpl extends BaseDo2DtoMapperImpl implements Do2DtoMapp
         }
         target.setId(source.getId());
         target.setUrl(internationalStringToDto(source.getUrl()));
-
+        target.setName(internationalStringToDto(source.getName()));
         return target;
     }
 

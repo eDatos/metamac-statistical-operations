@@ -256,6 +256,7 @@ Application StatisticalOperationsDto {
         "Dto for OperationUrl"
         DataTransferObject OperationUrlDto extends @IdentityDto {
             - @InternationalStringDto url not nullable;
+            - @InternationalStringDto name not nullable;
             JAVADATE createdAt nullable;
             - @OperationDto operationDto not nullable;
         }

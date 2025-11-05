@@ -2,11 +2,9 @@ package org.siemac.metamac.statistical.operations.core.mapper;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.checkerframework.checker.units.qual.A;
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
 import org.joda.time.DateTime;
 import org.siemac.metamac.core.common.dto.ExternalItemDto;
@@ -772,6 +770,7 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
             target = new OperationUrl();
         }
         target.setUrl(internationalStringToEntity(source.getUrl(), target.getUrl(), ServiceExceptionParameters.OPERATION_URL));
+        target.setName(internationalStringToEntity(source.getName(), target.getName(), ServiceExceptionParameters.OPERATION_URL_NAME));
         target.setOperation(operation);
         return target;
     }

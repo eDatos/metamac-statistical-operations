@@ -302,6 +302,8 @@ Application StatisticalOperations {
             - @InternationalString url cascade="all" databaseColumn="INTERNATIONAL_STRING_FK";
             "OPERATION"
             - @Operation operation not nullable cascade="merge" databaseColumn="OPERATION_FK" <-> statisticalOperationUrls;
+            "INTERNATIONAL_STRING"
+            - @InternationalString name cascade="all" databaseColumn="NAME_FK";
 
             Repository OperationUrlRepository {
                 findById;

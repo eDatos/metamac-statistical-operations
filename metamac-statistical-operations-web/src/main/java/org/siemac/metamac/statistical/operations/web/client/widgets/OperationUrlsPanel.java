@@ -48,247 +48,258 @@ import com.smartgwt.client.widgets.layout.VLayout;
 
 public class OperationUrlsPanel extends VLayout {
 
-    private static String         REMOVE_FIELD_NAME = "remove-field";
+	private static String REMOVE_FIELD_NAME = "remove-field";
 
-    private OperationUrlsListGrid listGrid;
-    private DynamicForm           form;
-    private SelectItem            selectItem;
-    private boolean               translationsShowed;
+	private OperationUrlsListGrid listGrid;
+	private DynamicForm           form;
+	private SelectItem            selectItem;
+	private boolean               translationsShowed;
 
-    private boolean               viewMode;
+	private boolean viewMode;
 
-    private Img                   operationUrlImg;
-    private Img                   addOperationUrlImg;
+	private Img operationUrlImg;
+	private Img addOperationUrlImg;
 
-    public OperationUrlsPanel(boolean viewMode) {
-        super();
-        this.viewMode = viewMode;
+	public OperationUrlsPanel(boolean viewMode) {
+		super();
+		this.viewMode = viewMode;
 
-        HLayout imgLayout = new HLayout();
-        imgLayout.setBorder("1px solid #A7ABB4");
-        imgLayout.setMembersMargin(10);
-        imgLayout.setAutoHeight();
-        imgLayout.setBackgroundColor("#fff");
-        imgLayout.setLayoutMargin(5);
-        imgLayout.setStyleName("operationUrlPanel");
+		HLayout imgLayout = new HLayout();
+		imgLayout.setBorder("1px solid #A7ABB4");
+		imgLayout.setMembersMargin(10);
+		imgLayout.setAutoHeight();
+		imgLayout.setBackgroundColor("#fff");
+		imgLayout.setLayoutMargin(5);
+		imgLayout.setStyleName("operationUrlPanel");
 
-        // OperationUrl icon
-        operationUrlImg = new Img(GlobalResources.RESOURCE.link().getURL());
-        operationUrlImg.setTooltip(getConstants().statisticalOperationUrls());
-        operationUrlImg.setSize(20);
-        operationUrlImg.setAlign(Alignment.LEFT);
-        imgLayout.addMember(operationUrlImg);
+		// OperationUrl icon
+		operationUrlImg = new Img(GlobalResources.RESOURCE.link().getURL());
+		operationUrlImg.setTooltip(getConstants().statisticalOperationUrls());
+		operationUrlImg.setSize(20);
+		operationUrlImg.setAlign(Alignment.LEFT);
+		imgLayout.addMember(operationUrlImg);
 
-        // Add operationUrl icon
-        addOperationUrlImg = new Img(GlobalResources.RESOURCE.addLink().getURL());
-        addOperationUrlImg.setTooltip(getConstants().addStatisticalOperationUrl());
-        addOperationUrlImg.setCursor(Cursor.POINTER);
-        addOperationUrlImg.setName("note-img");
-        addOperationUrlImg.setSize(20);
-        addOperationUrlImg.setAlign(Alignment.LEFT);
-        addOperationUrlImg.addClickHandler(new ClickHandler() {
+		// Add operationUrl icon
+		addOperationUrlImg = new Img(GlobalResources.RESOURCE.addLink().getURL());
+		addOperationUrlImg.setTooltip(getConstants().addStatisticalOperationUrl());
+		addOperationUrlImg.setCursor(Cursor.POINTER);
+		addOperationUrlImg.setName("note-img");
+		addOperationUrlImg.setSize(20);
+		addOperationUrlImg.setAlign(Alignment.LEFT);
+		addOperationUrlImg.addClickHandler(new ClickHandler() {
 
-            @Override
-            public void onClick(ClickEvent event) {
-                listGrid.startEditingNew();
-            }
-        });
-        imgLayout.addMember(addOperationUrlImg);
+			@Override
+			public void onClick(ClickEvent event) {
+				listGrid.startEditingNew();
+			}
+		});
+		imgLayout.addMember(addOperationUrlImg);
 
-        // Show translations form
+		// Show translations form
 
-        form = new DynamicForm();
-        form.setAutoHeight();
-        selectItem = new SelectItem("lang");
-        selectItem.setShowTitle(false);
-        LinkedHashMap<String, String> valueMap = new LinkedHashMap<String, String>();
-        LinkedHashMap<String, String> valueIcons = new LinkedHashMap<String, String>();
-        for (final String locale : ApplicationEditionLanguages.getLocales()) {
-            String iconSrc = ((ImageResource) org.siemac.metamac.web.common.client.resources.GlobalResources.RESOURCE.getResource(locale)).getURL();
-            valueMap.put(locale, MetamacWebCommon.getEnumConstants().getString(MetamacWebCommon.getEnumConstants().locale() + locale)); // Set locale name (English, Spanish...)
-            valueIcons.put(locale, iconSrc);
-        }
-        selectItem.setValueMap(valueMap);
-        selectItem.setValueIcons(valueIcons);
-        selectItem.setValue(ApplicationEditionLanguages.getCurrentLocale());
-        selectItem.setShowIfCondition(new FormItemIfFunction() {
+		form = new DynamicForm();
+		form.setAutoHeight();
+		selectItem = new SelectItem("lang");
+		selectItem.setShowTitle(false);
+		LinkedHashMap<String, String> valueMap = new LinkedHashMap<String, String>();
+		LinkedHashMap<String, String> valueIcons = new LinkedHashMap<String, String>();
+		for (final String locale : ApplicationEditionLanguages.getLocales()) {
+			String iconSrc = ((ImageResource) org.siemac.metamac.web.common.client.resources.GlobalResources.RESOURCE.getResource(locale)).getURL();
+			valueMap.put(locale, MetamacWebCommon.getEnumConstants().getString(MetamacWebCommon.getEnumConstants().locale() + locale)); // Set locale name (English, Spanish...)
+			valueIcons.put(locale, iconSrc);
+		}
+		selectItem.setValueMap(valueMap);
+		selectItem.setValueIcons(valueIcons);
+		selectItem.setValue(ApplicationEditionLanguages.getCurrentLocale());
+		selectItem.setShowIfCondition(new FormItemIfFunction() {
 
-            @Override
-            public boolean execute(FormItem item, Object value, DynamicForm form) {
-                return translationsShowed;
-            }
-        });
-        selectItem.addChangedHandler(new ChangedHandler() {
+			@Override
+			public boolean execute(FormItem item, Object value, DynamicForm form) {
+				return translationsShowed;
+			}
+		});
+		selectItem.addChangedHandler(new ChangedHandler() {
 
-            @Override
-            public void onChanged(ChangedEvent event) {
-                if (event.getValue() != null && event.getValue() instanceof String) {
-                    String selectedLocale = (String) event.getValue();
-                    changeOperationUrlsLanguage(selectedLocale);
-                }
-            }
-        });
-        form.setFields(selectItem);
-        imgLayout.addMember(form);
+			@Override
+			public void onChanged(ChangedEvent event) {
+				if (event.getValue() != null && event.getValue() instanceof String) {
+					String selectedLocale = (String) event.getValue();
+					changeOperationUrlsLanguage(selectedLocale);
+				}
+			}
+		});
+		form.setFields(selectItem);
+		imgLayout.addMember(form);
 
-        // OperationUrls list
+		// OperationUrls list
 
-        listGrid = new OperationUrlsListGrid();
-        listGrid.setCanFocus(false);
-        listGrid.setAutoFitMaxRecords(10);
-        listGrid.setAutoFitData(Autofit.VERTICAL);
-        listGrid.setShowRowNumbers(true);
-        listGrid.setLeaveScrollbarGap(true);
-        listGrid.setAlternateRecordStyles(false);
-        listGrid.setAnimateRollUnder(true);
-        listGrid.setSelectionType(SelectionStyle.SIMPLE);
-        listGrid.setShowSelectionCanvas(true);
-        listGrid.setAnimateSelectionUnder(true);
-        listGrid.setWrapCells(true);
-        listGrid.setBorder("1px solid #A7ABB4");
-        listGrid.setEditEvent(ListGridEditEvent.CLICK);
-        listGrid.setCanEdit(!viewMode);
-        listGrid.setCanRemoveRecords(!viewMode);
-        listGrid.setRemoveFieldTitle(getConstants().actionDelete());
-        listGrid.setRemoveIcon(org.siemac.metamac.web.common.client.resources.GlobalResources.RESOURCE.deleteListGrid().getURL());
-        listGrid.setRemoveIconSize(14);
-        listGrid.setShowHeaderContextMenu(false); // Do not show menu options (avoid to show remove field column)
-        listGrid.setShowAllRecords(true);
-        listGrid.addEditCompleteHandler(new EditCompleteHandler() {
-            @Override
-            public void onEditComplete(EditCompleteEvent event) {
-                if (event.getNewValues() != null && event.getNewValues().size() > 0) {
-                    Record record = listGrid.getRecord(event.getRowNum());
-                    OperationUrlDto operationUrlDto = new OperationUrlDto();
-                    if (record.getAttributeAsObject(OperationUrlDS.OPERATION_URL_DTO) != null && record.getAttributeAsObject(OperationUrlDS.OPERATION_URL_DTO) instanceof OperationUrlDto) {
-                        operationUrlDto = (OperationUrlDto) record.getAttributeAsObject(OperationUrlDS.OPERATION_URL_DTO);
-                    }
-                    if (event.getNewValues().containsKey(OperationUrlDS.URL)) {
-                        String locale = translationsShowed ? selectItem.getValueAsString() : ApplicationEditionLanguages.getCurrentLocale();
-                        String rawUrl = (String) event.getNewValues().get(OperationUrlDS.URL);
+		listGrid = new OperationUrlsListGrid();
+		listGrid.setCanFocus(false);
+		listGrid.setAutoFitMaxRecords(10);
+		listGrid.setAutoFitData(Autofit.VERTICAL);
+		listGrid.setShowRowNumbers(true);
+		listGrid.setLeaveScrollbarGap(true);
+		listGrid.setAlternateRecordStyles(false);
+		listGrid.setAnimateRollUnder(true);
+		listGrid.setSelectionType(SelectionStyle.SIMPLE);
+		listGrid.setShowSelectionCanvas(true);
+		listGrid.setAnimateSelectionUnder(true);
+		listGrid.setWrapCells(true);
+		listGrid.setBorder("1px solid #A7ABB4");
+		listGrid.setEditEvent(ListGridEditEvent.CLICK);
+		listGrid.setCanEdit(!viewMode);
+		listGrid.setCanRemoveRecords(!viewMode);
+		listGrid.setRemoveFieldTitle(getConstants().actionDelete());
+		listGrid.setRemoveIcon(org.siemac.metamac.web.common.client.resources.GlobalResources.RESOURCE.deleteListGrid().getURL());
+		listGrid.setRemoveIconSize(14);
+		listGrid.setShowHeaderContextMenu(false); // Do not show menu options (avoid to show remove field column)
+		listGrid.setShowAllRecords(true);
+		listGrid.addEditCompleteHandler(new EditCompleteHandler() {
 
-                        String normalizedUrl = null;
-                        if (rawUrl != null && !rawUrl.trim().isEmpty()) {
-                            normalizedUrl = UrlUtils.addHttpPrefixIfNeeded(rawUrl);
-                            if (!CommonWebUtils.isValidUrl(normalizedUrl)) {
-                                normalizedUrl = null;
-                            }
-                        }
-                        operationUrlDto.setUrl(InternationalStringUtils.updateInternationalString(locale, operationUrlDto.getUrl(), normalizedUrl));
-                    }
+			@Override
+			public void onEditComplete(EditCompleteEvent event) {
+				if (event.getNewValues() != null && event.getNewValues().size() > 0) {
+					Record record = listGrid.getRecord(event.getRowNum());
+					OperationUrlDto operationUrlDto = new OperationUrlDto();
+					String locale = translationsShowed ? selectItem.getValueAsString() : ApplicationEditionLanguages.getCurrentLocale();
+					if (record.getAttributeAsObject(OperationUrlDS.OPERATION_URL_DTO) != null && record.getAttributeAsObject(OperationUrlDS.OPERATION_URL_DTO) instanceof OperationUrlDto) {
+						operationUrlDto = (OperationUrlDto) record.getAttributeAsObject(OperationUrlDS.OPERATION_URL_DTO);
+					}
+					if (event.getNewValues().containsKey(OperationUrlDS.URL)) {
+						String rawUrl = (String) event.getNewValues().get(OperationUrlDS.URL);
 
-                    listGrid.getRecord(event.getRowNum()).setAttribute(OperationUrlDS.OPERATION_URL_DTO, operationUrlDto);
-                }
-            }
-        });
+						String normalizedUrl = null;
+						if (rawUrl != null && !rawUrl.trim().isEmpty()) {
+							normalizedUrl = UrlUtils.addHttpPrefixIfNeeded(rawUrl);
+							if (!CommonWebUtils.isValidUrl(normalizedUrl)) {
+								normalizedUrl = null;
+							}
+						}
+						operationUrlDto.setUrl(InternationalStringUtils.updateInternationalString(locale, operationUrlDto.getUrl(), normalizedUrl));
+					}
 
-        // ListGrid fields
+					// Name
+					if (event.getNewValues().containsKey(OperationUrlDS.URL_NAME)) {
+						operationUrlDto.setName(event.getNewValues().get(OperationUrlDS.URL_NAME) != null ? InternationalStringUtils.updateInternationalString(locale, operationUrlDto.getName(),
+								(String) event.getNewValues().get(OperationUrlDS.URL_NAME)) : null);
+					}
 
-        ListGridField urlField = new ListGridField(OperationUrlDS.URL, getConstants().statisticalOperationUrlText());
-        urlField.setShowHover(true);
-        urlField.setType(ListGridFieldType.LINK);
-        urlField.setHoverCustomizer(new HoverCustomizer() {
+					listGrid.getRecord(event.getRowNum()).setAttribute(OperationUrlDS.OPERATION_URL_DTO, operationUrlDto);
+				}
+			}
+		});
 
-            @Override
-            public String hoverHTML(Object value, ListGridRecord record, int rowNum, int colNum) {
-                return record.getAttribute(OperationUrlDS.URL);
-            }
-        });
-        urlField.setWidth("50%");
-        urlField.setValidators(CommonWebUtils.getUrlValidator());
+		// ListGrid fields
+		ListGridField nameField = new ListGridField(OperationUrlDS.URL_NAME, getConstants().statisticalOperationUrlName());
+		nameField.setShowHover(false);
+		nameField.setWidth("25%");
 
-        ListGridField removeField = new ListGridField(REMOVE_FIELD_NAME, getConstants().actionDelete());
-        removeField.setIsRemoveField(true);
+		ListGridField urlField = new ListGridField(OperationUrlDS.URL, getConstants().statisticalOperationUrlText());
+		urlField.setShowHover(true);
+		urlField.setType(ListGridFieldType.LINK);
+		urlField.setHoverCustomizer(new HoverCustomizer() {
 
-        listGrid.setFields(urlField, removeField);
-        // ListGrid style
+			@Override
+			public String hoverHTML(Object value, ListGridRecord record, int rowNum, int colNum) {
+				return record.getAttribute(OperationUrlDS.URL);
+			}
+		});
+		urlField.setWidth("75%");
+		urlField.setValidators(CommonWebUtils.getUrlValidator());
 
-        Canvas rollUnderCanvasProperties = new Canvas();
-        rollUnderCanvasProperties.setAnimateFadeTime(600);
-        rollUnderCanvasProperties.setAnimateShowEffect(AnimationEffect.FADE);
-        rollUnderCanvasProperties.setBackgroundColor("#ffe973");
-        rollUnderCanvasProperties.setOpacity(50);
-        listGrid.setRollUnderCanvasProperties(rollUnderCanvasProperties);
-        Canvas background = new Canvas();
-        background.setBackgroundColor("#FFFFE0");
-        listGrid.setBackgroundComponent(background);
+		ListGridField removeField = new ListGridField(REMOVE_FIELD_NAME, getConstants().actionDelete());
+		removeField.setIsRemoveField(true);
 
-        addMember(imgLayout);
-        addMember(listGrid);
-    }
+		listGrid.setFields(nameField, urlField, removeField);
+		// ListGrid style
 
-    public void setOperationUrls(List<OperationUrlDto> operationUrls) {
-        // Clear Operation URLs
-        listGrid.selectAllRecords();
-        listGrid.removeSelectedData();
-        listGrid.deselectAllRecords();
-        String selectedLocale = ApplicationEditionLanguages.getCurrentLocale();
-        if (selectItem.getValueAsString() != null && !selectItem.getValueAsString().isEmpty()) {
-            selectedLocale = selectItem.getValueAsString();
-        }
+		Canvas rollUnderCanvasProperties = new Canvas();
+		rollUnderCanvasProperties.setAnimateFadeTime(600);
+		rollUnderCanvasProperties.setAnimateShowEffect(AnimationEffect.FADE);
+		rollUnderCanvasProperties.setBackgroundColor("#ffe973");
+		rollUnderCanvasProperties.setOpacity(50);
+		listGrid.setRollUnderCanvasProperties(rollUnderCanvasProperties);
+		Canvas background = new Canvas();
+		background.setBackgroundColor("#FFFFE0");
+		listGrid.setBackgroundComponent(background);
 
-        // Set  Operation URLs in the selected locale
-        for (OperationUrlDto operationUrlDto : operationUrls) {
-            OperationUrlRecord record = RecordUtils.getOperationUrlRecord(operationUrlDto, selectedLocale);
-            listGrid.addData(record);
-        }
+		addMember(imgLayout);
+		addMember(listGrid);
+	}
 
-        // Show/hide Add and Remove icons
-        setCanAddOrRemoveOperationUrls(viewMode);
-    }
+	public void setOperationUrls(List<OperationUrlDto> operationUrls) {
+		// Clear Operation URLs
+		listGrid.selectAllRecords();
+		listGrid.removeSelectedData();
+		listGrid.deselectAllRecords();
+		String selectedLocale = ApplicationEditionLanguages.getCurrentLocale();
+		if (selectItem.getValueAsString() != null && !selectItem.getValueAsString().isEmpty()) {
+			selectedLocale = selectItem.getValueAsString();
+		}
 
-    public Set<OperationUrlDto> getOperationUrls() {
-        Set<OperationUrlDto> operationsUrls = new HashSet<OperationUrlDto>();
-        ListGridRecord[] records = listGrid.getRecords();
-        for (int i = 0; i < records.length; i++) {
-            OperationUrlDto annotationDto = (OperationUrlDto) records[i].getAttributeAsObject(OperationUrlDS.OPERATION_URL_DTO);
-            operationsUrls.add(annotationDto);
-        }
-        return operationsUrls;
-    }
+		// Set  Operation URLs in the selected locale
+		for (OperationUrlDto operationUrlDto : operationUrls) {
+			OperationUrlRecord record = RecordUtils.getOperationUrlRecord(operationUrlDto, selectedLocale);
+			listGrid.addData(record);
+		}
 
-    public void setTranslationsShowed(boolean translationsShowed) {
-        this.translationsShowed = translationsShowed;
-        form.markForRedraw();
-        // Show operationUrls in current locale
-        if (!ApplicationEditionLanguages.getCurrentLocale().equals(selectItem.getValueAsString())) {
-            changeOperationUrlsLanguage(ApplicationEditionLanguages.getCurrentLocale());
-        }
-        if (translationsShowed) {
-            selectItem.setValue(ApplicationEditionLanguages.getCurrentLocale());
-        }
-    }
+		// Show/hide Add and Remove icons
+		setCanAddOrRemoveOperationUrls(viewMode);
+	}
 
-    private void changeOperationUrlsLanguage(String locale) {
-        for (int i = 0; i < listGrid.getRecords().length; i++) {
-            if (listGrid.getRecord(i).getAttribute(OperationUrlDS.OPERATION_URL_DTO) != null) {
-                OperationUrlDto operationUrlDto = (OperationUrlDto) listGrid.getRecord(i).getAttributeAsObject(OperationUrlDS.OPERATION_URL_DTO);
-                listGrid.getRecord(i).setAttribute(OperationUrlDS.URL, InternationalStringUtils.getLocalisedString(operationUrlDto.getUrl(), locale));
-            }
-        }
-        listGrid.redraw();
-    }
+	public Set<OperationUrlDto> getOperationUrls() {
+		Set<OperationUrlDto> operationsUrls = new HashSet<OperationUrlDto>();
+		ListGridRecord[] records = listGrid.getRecords();
+		for (int i = 0; i < records.length; i++) {
+			OperationUrlDto annotationDto = (OperationUrlDto) records[i].getAttributeAsObject(OperationUrlDS.OPERATION_URL_DTO);
+			operationsUrls.add(annotationDto);
+		}
+		return operationsUrls;
+	}
 
-    private void setCanAddOrRemoveOperationUrls(boolean viewMode) {
-        addOperationUrlImg.hide();
-        operationUrlImg.hide();
+	public void setTranslationsShowed(boolean translationsShowed) {
+		this.translationsShowed = translationsShowed;
+		form.markForRedraw();
+		// Show operationUrls in current locale
+		if (!ApplicationEditionLanguages.getCurrentLocale().equals(selectItem.getValueAsString())) {
+			changeOperationUrlsLanguage(ApplicationEditionLanguages.getCurrentLocale());
+		}
+		if (translationsShowed) {
+			selectItem.setValue(ApplicationEditionLanguages.getCurrentLocale());
+		}
+	}
 
-        if (!viewMode) {
-            // URL can be created: edition mode is selected
-            addOperationUrlImg.show();
-            listGrid.showField(REMOVE_FIELD_NAME);
-        } else {
-            operationUrlImg.show();
-            listGrid.hideField(REMOVE_FIELD_NAME);
-        }
-    }
+	private void changeOperationUrlsLanguage(String locale) {
+		for (int i = 0; i < listGrid.getRecords().length; i++) {
+			if (listGrid.getRecord(i).getAttribute(OperationUrlDS.OPERATION_URL_DTO) != null) {
+				OperationUrlDto operationUrlDto = (OperationUrlDto) listGrid.getRecord(i).getAttributeAsObject(OperationUrlDS.OPERATION_URL_DTO);
+				listGrid.getRecord(i).setAttribute(OperationUrlDS.URL, InternationalStringUtils.getLocalisedString(operationUrlDto.getUrl(), locale));
+				listGrid.getRecord(i).setAttribute(OperationUrlDS.URL_NAME, InternationalStringUtils.getLocalisedString(operationUrlDto.getName(), locale));
+			}
+		}
+		listGrid.redraw();
+	}
 
-    private class OperationUrlsListGrid extends ListGrid {
+	private void setCanAddOrRemoveOperationUrls(boolean viewMode) {
+		addOperationUrlImg.hide();
+		operationUrlImg.hide();
 
-        @Override
-        protected boolean canEditCell(int rowNum, int colNum) {
-            // In view mode, NEVER edit cell values
-            return !viewMode;
-        }
-    }
+		if (!viewMode) {
+			// URL can be created: edition mode is selected
+			addOperationUrlImg.show();
+			listGrid.showField(REMOVE_FIELD_NAME);
+		} else {
+			operationUrlImg.show();
+			listGrid.hideField(REMOVE_FIELD_NAME);
+		}
+	}
+
+	private class OperationUrlsListGrid extends ListGrid {
+
+		@Override
+		protected boolean canEditCell(int rowNum, int colNum) {
+			// In view mode, NEVER edit cell values
+			return !viewMode;
+		}
+	}
 }

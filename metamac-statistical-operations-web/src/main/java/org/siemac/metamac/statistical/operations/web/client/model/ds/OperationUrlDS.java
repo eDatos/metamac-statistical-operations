@@ -8,6 +8,7 @@ public class OperationUrlDS extends DataSource {
     public static final String ID                  = "op-url-id";
 
     public static final String URL                 = "op-url-url";
+    public static final String URL_NAME               = "op-url-name";
     public static final String OPERATION_URL_DTO      = "op-url-dto";
 
     public OperationUrlDS() {

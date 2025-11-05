@@ -136,6 +136,6 @@ public class RecordUtils {
      * @return
      */
     public static OperationUrlRecord getOperationUrlRecord(OperationUrlDto operationUrlDto, String locale) {
-        return new OperationUrlRecord(operationUrlDto.getId(), InternationalStringUtils.getLocalisedString(operationUrlDto.getUrl(), locale), operationUrlDto);
+        return new OperationUrlRecord(operationUrlDto.getId(), InternationalStringUtils.getLocalisedString(operationUrlDto.getUrl(), locale), operationUrlDto, InternationalStringUtils.getLocalisedString(operationUrlDto.getName()));
     }
 }

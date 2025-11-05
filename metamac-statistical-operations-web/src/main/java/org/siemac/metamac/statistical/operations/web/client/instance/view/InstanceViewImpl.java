@@ -270,9 +270,10 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
         instanceDto.setSurveySource(OperationsListUtils.getSurveySourceDto(surveySourceItem.getValueAsString(), surveySourceDtos));
         instanceDto.setCollMethod(OperationsListUtils.getCollMethodDto(collMethodItem.getValueAsString(), collMethodDtos));
 
-        List<ExternalItemDto> informationSuppliers = ((ExternalItemListItem) productionDescriptorsEditionForm.getItem(InstanceDS.INFORMATION_SUPPLIERS)).getExternalItemDtos();
-        instanceDto.getInformationSuppliers().clear();
-        instanceDto.getInformationSuppliers().addAll(informationSuppliers);
+        List<ExternalItemDto> publicInformationSuppliers = ((ExternalItemListItem) productionDescriptorsEditionForm.getItem(InstanceDS.PUBLIC_INFORMATION_SUPPLIERS)).getExternalItemDtos();
+        instanceDto.getPublicInformationSuppliers().clear();
+        instanceDto.getPublicInformationSuppliers().addAll(publicInformationSuppliers);
+        instanceDto.setPrivateInformationSuppliers(productionDescriptorsEditionForm.getValueAsInternationalStringDto(InstanceDS.PRIVATE_INFORMATION_SUPPLIERS));
 
         List<ExternalItemDto> freqColls = ((ExternalItemListItem) productionDescriptorsEditionForm.getItem(InstanceDS.FREQ_COLL)).getExternalItemDtos();
         instanceDto.getFreqColl().clear();
@@ -370,7 +371,8 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
         ViewMultiLanguageTextItem staticDocMethodItem = new ViewMultiLanguageTextItem(InstanceDS.DOC_METHOD, getConstants().instanceDocMethod());
         ViewTextItem surveySource = new ViewTextItem(InstanceDS.STATISTICAL_OPERATION_SOURCE, getConstants().instanceStatisticalOperationSource());
         ViewTextItem collMethod = new ViewTextItem(InstanceDS.COLL_METHOD, getConstants().instanceCollMethod());
-        ExternalItemListItem informationSuppliers = new ExternalItemListItem(InstanceDS.INFORMATION_SUPPLIERS, getConstants().instanceInformationSuppliers(), false);
+        ExternalItemListItem publicInformationSuppliers = new ExternalItemListItem(InstanceDS.PUBLIC_INFORMATION_SUPPLIERS, getConstants().instancePublicInformationSuppliers(), false);
+        ViewMultiLanguageTextItem privateInformationSuppliers = new ViewMultiLanguageTextItem(InstanceDS.PRIVATE_INFORMATION_SUPPLIERS, getConstants().instancePrivateInformationSuppliers());
         ExternalItemListItem freqColl = new ExternalItemListItem(InstanceDS.FREQ_COLL, getConstants().instanceFreqColl(), false);
         ViewMultiLanguageTextItem staticDataValidationItem = new ViewMultiLanguageTextItem(InstanceDS.DATA_VALIDATION, getConstants().instanceDataValidation());
         ViewMultiLanguageTextItem staticDataCompilationItem = new ViewMultiLanguageTextItem(InstanceDS.DATA_COMPILATION, getConstants().instanceDataCompilation());
@@ -378,7 +380,7 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
         ViewMultiLanguageTextItem staticSeasonAdjustmentItem = new ViewMultiLanguageTextItem(InstanceDS.SEASONAL_ADJUSTMENT, getConstants().instanceSeasonalAdjustment());
         ViewMultiLanguageTextItem staticCostBurdenItem = new ViewMultiLanguageTextItem(InstanceDS.COST_BURDEN, getConstants().instanceCostBurden());
         ViewTextItem cost = new ViewTextItem(InstanceDS.COST, getConstants().instanceCost());
-        productionDescriptorsForm.setFields(createdDate, internalInventoryDate, procStatus, staticDocMethodItem, surveySource, collMethod, informationSuppliers, freqColl, staticDataValidationItem,
+        productionDescriptorsForm.setFields(createdDate, internalInventoryDate, procStatus, staticDocMethodItem, surveySource, collMethod, publicInformationSuppliers, privateInformationSuppliers, freqColl, staticDataValidationItem,
                 staticDataCompilationItem, staticAdjustmentItem, staticSeasonAdjustmentItem, staticCostBurdenItem, cost);
 
         // Diffusion and Publication
@@ -513,7 +515,8 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
         MultiLanguageRichTextEditorItem docMethodItem = new MultiLanguageRichTextEditorItem(InstanceDS.DOC_METHOD, getConstants().instanceDocMethod());
         surveySourceItem = new CustomSelectItem(InstanceDS.STATISTICAL_OPERATION_SOURCE, getConstants().instanceStatisticalOperationSource());
         collMethodItem = new CustomSelectItem(InstanceDS.COLL_METHOD, getConstants().instanceCollMethod());
-        ExternalItemListItem informationSuppliersItem = createInformationSuppliersItem();
+        ExternalItemListItem publicInformationSuppliersItem = createPublicInformationSuppliersItem();
+        MultiLanguageRichTextEditorItem privateInformationSuppliersItem = new MultiLanguageRichTextEditorItem(InstanceDS.PRIVATE_INFORMATION_SUPPLIERS, getConstants().instancePrivateInformationSuppliers());
         ExternalItemListItem freqCollItem = createFreqColl();
         MultiLanguageRichTextEditorItem dataValidationItem = new MultiLanguageRichTextEditorItem(InstanceDS.DATA_VALIDATION, getConstants().instanceDataValidation());
         MultiLanguageRichTextEditorItem dataCompilationItem = new MultiLanguageRichTextEditorItem(InstanceDS.DATA_COMPILATION, getConstants().instanceDataCompilation());
@@ -522,8 +525,8 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
         MultiLanguageRichTextEditorItem costBurdenItem = new MultiLanguageRichTextEditorItem(InstanceDS.COST_BURDEN, getConstants().instanceCostBurden());
         costItem = new CustomSelectItem(InstanceDS.COST, getConstants().instanceCost());
         costItem.setMultiple(true);
-        productionDescriptorsEditionForm.setFields(createdDate, internalInventoryDate, staticProcStatus, procStatus, docMethodItem, surveySourceItem, collMethodItem, informationSuppliersItem,
-                freqCollItem, dataValidationItem, dataCompilationItem, adjustmentItem, seasonAdjustmentItem, costBurdenItem, costItem);
+        productionDescriptorsEditionForm.setFields(createdDate, internalInventoryDate, staticProcStatus, procStatus, docMethodItem, surveySourceItem, collMethodItem, publicInformationSuppliersItem,
+                privateInformationSuppliersItem, freqCollItem, dataValidationItem, dataCompilationItem, adjustmentItem, seasonAdjustmentItem, costBurdenItem, costItem);
 
         // Diffusion and Publication
         diffusionEditionForm = new GroupDynamicForm(getConstants().instanceDiffusionDescriptors());
@@ -624,9 +627,10 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
         productionDescriptorsForm.setValue(InstanceDS.DOC_METHOD, instanceDto.getDocMethod());
         productionDescriptorsForm.setValue(InstanceDS.STATISTICAL_OPERATION_SOURCE,
                 instanceDto.getSurveySource() != null ? CommonWebUtils.getElementName(instanceDto.getSurveySource().getIdentifier(), instanceDto.getSurveySource().getDescription()) : "");
-        productionDescriptorsForm.setValue(InstanceDS.COLL_METHOD,
-                instanceDto.getCollMethod() != null ? CommonWebUtils.getElementName(instanceDto.getCollMethod().getIdentifier(), instanceDto.getCollMethod().getDescription(),0,false) : "");
-        ((ExternalItemListItem) productionDescriptorsForm.getItem(InstanceDS.INFORMATION_SUPPLIERS)).setExternalItems(instanceDto.getInformationSuppliers());
+		roductionDescriptorsForm.setValue(InstanceDS.COLL_METHOD,
+				instanceDto.getCollMethod() != null ? CommonWebUtils.getElementName(instanceDto.getCollMethod().getIdentifier(), instanceDto.getCollMethod().getDescription(),0,false) : "");
+		((ExternalItemListItem) productionDescriptorsForm.getItem(InstanceDS.PUBLIC_INFORMATION_SUPPLIERS)).setExternalItems(instanceDto.getPublicInformationSuppliers());
+        productionDescriptorsForm.setValue(InstanceDS.PRIVATE_INFORMATION_SUPPLIERS, instanceDto.getPrivateInformationSuppliers());
         ((ExternalItemListItem) productionDescriptorsForm.getItem(InstanceDS.FREQ_COLL)).setExternalItems(instanceDto.getFreqColl());
         productionDescriptorsForm.setValue(InstanceDS.DATA_VALIDATION, instanceDto.getDataValidation());
         productionDescriptorsForm.setValue(InstanceDS.DATA_COMPILATION, instanceDto.getDataCompilation());
@@ -733,8 +737,9 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
 
         productionDescriptorsEditionForm.setValue(InstanceDS.DOC_METHOD, instanceDto.getDocMethod());
         surveySourceItem.setValue(instanceDto.getSurveySource() != null ? instanceDto.getSurveySource().getId() : "");
-        collMethodItem.setValue(instanceDto.getCollMethod() != null ? OperationsListUtils.getCollMethodArtificialKey(collMethodDtos, instanceDto.getCollMethod().getId()) : null);
-        ((ExternalItemListItem) productionDescriptorsEditionForm.getItem(InstanceDS.INFORMATION_SUPPLIERS)).setExternalItems(instanceDto.getInformationSuppliers());
+		collMethodItem.setValue(instanceDto.getCollMethod() != null ? OperationsListUtils.getCollMethodArtificialKey(collMethodDtos, instanceDto.getCollMethod().getId()) : null);
+        ((ExternalItemListItem) productionDescriptorsEditionForm.getItem(InstanceDS.PUBLIC_INFORMATION_SUPPLIERS)).setExternalItems(instanceDto.getPublicInformationSuppliers());
+        productionDescriptorsEditionForm.setValue(InstanceDS.PRIVATE_INFORMATION_SUPPLIERS, instanceDto.getPrivateInformationSuppliers());
         ((ExternalItemListItem) productionDescriptorsEditionForm.getItem(InstanceDS.FREQ_COLL)).setExternalItems(instanceDto.getFreqColl());
         productionDescriptorsEditionForm.setValue(InstanceDS.DATA_VALIDATION, instanceDto.getDataValidation());
         productionDescriptorsEditionForm.setValue(InstanceDS.DATA_COMPILATION, instanceDto.getDataCompilation());

@@ -14,6 +14,7 @@ import org.siemac.metamac.statistical.operations.core.domain.CostRepository;
 import org.siemac.metamac.statistical.operations.core.domain.InstanceType;
 import org.siemac.metamac.statistical.operations.core.domain.InstanceTypeRepository;
 import org.siemac.metamac.statistical.operations.core.domain.OfficialityType;
+import org.siemac.metamac.statistical.operations.core.domain.OfficialityTypeProperties;
 import org.siemac.metamac.statistical.operations.core.domain.OfficialityTypeRepository;
 import org.siemac.metamac.statistical.operations.core.domain.SurveySource;
 import org.siemac.metamac.statistical.operations.core.domain.SurveySourceRepository;
@@ -121,7 +122,9 @@ public class StatisticalOperationsListsServiceImpl extends org.siemac.metamac.st
      * Delegates to {@link org.siemac.metamac.statistical.operations.lists.domain.OfficialityTypeRepository#findAll}
      */
     public List<OfficialityType> findAllOfficialityTypes(ServiceContext ctx) {
-        return officialityTypeRepository.findAll();
+
+        List<ConditionalCriteria> conditions = ConditionalCriteriaBuilder.criteriaFor(OfficialityType.class).orderBy(OfficialityTypeProperties.visualisationOrder()).ascending().build();
+        return officialityTypeRepository.findByCondition(conditions);
     }
 
     /**

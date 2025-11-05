@@ -254,10 +254,14 @@ Application StatisticalOperations {
     		not auditable
     		String identifier;
     		- @InternationalString description nullable;
+    		"visualisation element order"
+    		Integer visualisationOrder not nullable;
+    		Integer hierarchyLevel not nullable;
     		
     		Repository OfficialityTypeRepository {
     			findById;
     			findAll;
+    			findByCondition;
     		}
     	}
     	
@@ -294,6 +298,27 @@ Application StatisticalOperations {
     			findAll;
     		}
     	}
+
+    	"Operation URL"
+        Entity OperationUrl {
+            databaseTable="TB_LIS_OPERATION_URLS"
+            hint="idSequence=OPERATION_URLS"
+
+            not auditable
+
+            "INTERNATIONAL_STRING"
+            - @InternationalString url cascade="all" databaseColumn="INTERNATIONAL_STRING_FK";
+            "OPERATION"
+            - @Operation operation not nullable cascade="merge" databaseColumn="OPERATION_FK" <-> statisticalOperationUrls;
+
+            Repository OperationUrlRepository {
+                findById;
+                findByOperationId;
+                save;
+                delete;
+                findByCondition;
+            }
+        }
 		
 		
 		"Semantic grouping of statistical operations"
@@ -413,6 +438,8 @@ Application StatisticalOperations {
        		- @InternationalString revPolicy cascade="all" nullable databaseColumn="REV_POLICY_FK";
        		"Metadata REV_PRACTICE"
        		- @InternationalString revPractice cascade="all" nullable databaseColumn="REV_PRACTICE_FK";
+       		"Metadata STATISTICAL_OPERATION_URLS"
+            - Bag<@OperationUrl> statisticalOperationUrls inverse <-> operation cascade="all-delete-orphan";
        		// CONTAT: It comes from AppCommonMetadata
        		
        		
@@ -516,8 +543,8 @@ Application StatisticalOperations {
        		- @SurveySource surveySource cascade="none" nullable databaseColumn="SURVEY_SOURCE_FK";
        		"Metadata COLL_METHOD"
        		- @CollMethod collMethod cascade="none" nullable databaseColumn="COLL_METHOD_FK";
-       		"Metadata INFORMATION_SUPPLIERS. Its type is ORGANIZATION / CONCEPTS"
-       		- Set<@ExternalItem> informationSuppliers databaseColumn="INFORMATION_SUPPLIERS_FK" databaseJoinTable="TB_EI_INF_SUPPLIERS"  cascade="all-delete-orphan";
+       		"Metadata PUBLIC_INFORMATION_SUPPLIERS. Its type is ORGANIZATION / CONCEPTS"
+       		- Set<@ExternalItem> publicInformationSuppliers databaseColumn="PUBLIC_INF_SUPPLIERS_FK" databaseJoinTable="TB_EI_PUBLIC_INF_SUPPLIERS"  cascade="all-delete-orphan";
        		"Metadata FREQ_COLL. Its type is CODE"
        		- Set<@ExternalItem> freqColl databaseColumn="FREQ_COLL_FK" databaseJoinTable="TB_EI_FREQ_COLL"  cascade="all-delete-orphan";
        		"Metadata DATA_VALIDATION"
@@ -582,6 +609,8 @@ Application StatisticalOperations {
        		- @InternationalString comment cascade="all" nullable databaseColumn="COMMENT_FK";
        		"Metadata NOTES"
        		- @InternationalString notes cascade="all" nullable databaseColumn="NOTES_FK";
+       		"Metadata PRIVATE_INFORMATION_SUPPLIERS"
+       		- @InternationalString privateInformationSuppliers cascade="all" nullable databaseColumn="PRIVATE_INF_SUPPLIERS_FK";
        		
        		"Last update to optimistic locking"
 			DateTimeTZ updateDate nullable;

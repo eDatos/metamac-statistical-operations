@@ -14,27 +14,57 @@ actualización de la versión 1.0.0 a la 2.0.0.*
 
 *Se deberá realizar primero la actualización de la versión 1.0.0 a la 2.0.0 y luego desde la 2.0.0 a la 3.0.0*
 
-## 4.8.1 a 4.8.2-SNAPSHOT
 
-* Se han realizado cambios en la base de datos PostgreSQL. Se proveen scripts SQL para adaptarse a la nueva versión. Ejecutar los scripts del siguiente directorio en el esquema correspondiente, en orden de fecha:
-  * [etc/changes-from-release/4.8.1/db/](etc/changes-from-release/4.8.1/db/)
+## 5.0.0 a 5.0.1-SNAPSHOT
+•Se han realizado cambios en la base de datos PostgreSQL, por ello se proveen una serie de scripts SQL para adaptarse a la nueva versión.
+Ejecutar los scripts de la siguiente ruta en el esquema correspondiente por orden de fecha: etc/changes-from-release/5.0.0/db
 
 * **Atención especial IBESTAT:** Hay una petición especial de cambio de datos y jerarquización de valores. Por tanto, hay scripts que **SÓLO se ejecutarán en IBESTAT**:
-  1. Ejecutar el script `etc/changes-from-release/4.8.1/db/postgresql/20251015_1-update_tb_lis_coll_method.sql` en **todos los entornos**.
-  2. A continuación, sólo en IBESTAT ejecutar los scripts de la carpeta:  
-     `etc/changes-from-release/4.8.1/db/postgresql/Ibestat`  
-     (El ISTAC e IESTADIS no requieren adecuación de datos de la tabla maestra).
 
-* Esta versión depende de la versión `3.11.2-SNAPSHOT de eUsuarios`. Por lo tanto, **no se puede subir la versión 4.8.2-SNAPSHOT de metamac-statistical-operations** sin haber subido previamente la versión 3.11.2-SNAPSHOT de eUsuarios, y viceversa.
-* Esta version depende de la version `5.15.2-SNAPSHOT de Web-common` . Por lo tanto, **no se puede subir la versión 4.8.2-SNAPSHOT de metamac-statistical-operations** sin haber subido previamente la versión 5.15.2-SNAPSHOT de Web-common de eUsuarios, los cambios se encuentran en el siguiente MR: https://git.arte-consultores.com/istac/metamac-web-common/-/merge_requests/168
-  
-* Se debe resetear el schema registry para el topic `OPERATION_PUBLICATIONS`  debido a que se han modificado las propiedades de los mensajes que se publican en dicho topic. Para ello, ejecutar:
+- 1. Ejecutar scripts por orden de fecha de la carpeta etc/changes-from-release/5.0.0/db/postgresql en **todos los entornos**.
+- 2. A continuación, sólo en IBESTAT ejecutar los scripts de la carpeta etc/changes-from-release/5.0.0/db/postgresql/2_IBESTAT. El ISTAC e IESTADIS no requieren adecuación de datos de la tabla maestra.
+
+## 4.9.0 a 5.0.0
+
+* Esta versión contiene CAMBIOS QUE ROMPEN LA COMPATIBILIDAD DE LA API con versiones anteriores.
+
+* Se han realizado cambios en la base de datos PostgreSQL, por ello se proveen una serie de scripts SQL para adaptarse a
+  la nueva versión. Ejecutar los scripts de la siguiente ruta en el esquema correspondiente por orden de fecha:
+  * [etc/changes-from-release/4.9.0/db/](etc/changes-from-release/4.9.0/db/)
+
+* Se debe resetear el schema registry para el topic OPERATION_PUBLICATIONS debido a que se han modificado las 
+  propiedades de los mensajes que se publican en dicho topic:
+  ```shell 
+  curl -X DELETE http://localhost:8081/subjects/OPERATION_PUBLICATIONS-value
+  ````
+* Se han de borrar los mensajes existentes en el topic OPERATION_PUBLICATIONS:
+  ```shell 
+  /servers/kafka/confluent/bin/kafka-configs --bootstrap-server localhost:19092 --entity-type topics --entity-name 
+  OPERATION_PUBLICATIONS --add-config retention.ms=100 --alter
+  /servers/kafka/confluent/bin/kafka-configs --bootstrap-server localhost:19092 --entity-type topics --entity-name 
+  OPERATION_PUBLICATIONS --describe retention.ms
+  ````
+* Esperar 1 minuto antes de volver a restaurar con la siguiente sentencia
+  ```shell
+   /servers/kafka/confluent/bin/kafka-configs --bootstrap-server localhost:19092 --entity-type topics --entity-name 
+  OPERATION_PUBLICATIONS --delete-config retention.ms --alter
+  ```
+
+## 4.8.1 a 4.9.0
+
+* Se han realizado cambios en la base de datos PostgreSQL, por ello se proveen una serie de scripts SQL para adaptarse a
+  la nueva versión.Ejecutar los scripts de la siguiente ruta en el esquema correspondiente por orden de fecha:
+  * [etc/changes-from-release/4.8.1/db/](etc/changes-from-release/4.8.1/db/)
+* Esta versión depende de la versión 3.11.2-SNAPSHOT de eUsuarios. Por lo tanto, no se puede subir la versión 4.8.
+  2-SNAPSHOT de metamac-statistical-operations sin haber subido la versión 3.11.2-SNAPSHOT de eUsuarios y viceversa.
+* Se debe resetear el schema registry para el topic OPERATION_PUBLICATIONS debido a que se han modificado las 
+  propiedades de los mensajes que se publican en dicho topic. Para ello:
   
 ```shell 
   curl -X DELETE http://localhost:8081/subjects/OPERATION_PUBLICATIONS-value
   ````
 
-* Se han de Borrar los mensajes existentes en el topic OPERATION_PUBLICATIONS. Para ello, ejecutar:
+* Se han de Borrar los mensajes existentes en el topic OPERATION_PUBLICATIONS. Para ello,
 
 ```shell 
  /servers/kafka/confluent/bin/kafka-configs --bootstrap-server localhost:19092 --entity-type topics --entity-name OPERATION_PUBLICATIONS --add-config retention.ms=100 --alter
@@ -42,7 +72,6 @@ actualización de la versión 1.0.0 a la 2.0.0.*
   ````
 
 *  Esperar 1 minuto antes de volver a restaurar con la siguiente sentencia
-
 ```shell
  /servers/kafka/confluent/bin/kafka-configs --bootstrap-server localhost:19092 --entity-type topics --entity-name OPERATION_PUBLICATIONS --delete-config retention.ms --alter
 ````

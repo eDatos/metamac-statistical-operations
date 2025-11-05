@@ -29,6 +29,8 @@ Application StatisticalOperationsDto {
         DataTransferObject OfficialityTypeDto extends @IdentityDto {
             String identifier;
             - @InternationalStringDto description nullable;
+            Integer visualisationOrder;
+            Integer hierarchyLevel;
         }
 
         "Dto for CollMethod"
@@ -115,6 +117,7 @@ Application StatisticalOperationsDto {
             JAVADATE inventoryDate nullable;
             - @InternationalStringDto revPolicy nullable;
             - @InternationalStringDto revPractice nullable;
+            - Bag<@OperationUrlDto> statisticalOperationUrls nullable;
             // CONTAT: It comes from AppCommonMetadata
 
             // COMMON_LEGAL_ACTS: It comes from AppCommonMetadata
@@ -157,6 +160,7 @@ Application StatisticalOperationsDto {
             Boolean disaggregationByAge nullable;
             Boolean disaggregationByNationality nullable;
             Boolean disaggregationByDisability nullable;
+            - Bag<@OperationUrlDto> statisticalOperationUrls nullable;
             - @StatusEnum status nullable;
             
             JAVADATE internalInventoryDate nullable;
@@ -196,7 +200,7 @@ Application StatisticalOperationsDto {
             - @InternationalStringDto docMethod nullable;
             - @SurveySourceDto surveySource nullable;
             - @CollMethodDto collMethod nullable;
-            - Set<@ExternalItemDto> informationSuppliers;
+            - Set<@ExternalItemDto> publicInformationSuppliers;
             - Set<@ExternalItemDto> freqColl;
             - @InternationalStringDto dataValidation nullable;
             - @InternationalStringDto dataCompilation nullable;
@@ -230,6 +234,7 @@ Application StatisticalOperationsDto {
 
             - @InternationalStringDto comment nullable;
             - @InternationalStringDto notes nullable;
+            - @InternationalStringDto privateInformationSuppliers nullable;
 
             Long optimisticLockingVersion;
         }
@@ -250,6 +255,13 @@ Application StatisticalOperationsDto {
             Integer order;
             
             JAVADATE internalInventoryDate nullable;
+        }
+
+        "Dto for OperationUrl"
+        DataTransferObject OperationUrlDto extends @IdentityDto {
+            - @InternationalStringDto url not nullable;
+            JAVADATE createdAt nullable;
+            - @OperationDto operationDto not nullable;
         }
 
     }

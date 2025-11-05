@@ -8,19 +8,20 @@ import org.siemac.metamac.web.common.shared.criteria.MetamacWebCriteria;
 
 public class OperationCriteria extends MetamacWebCriteria {
 
-    private static final long serialVersionUID = -6655051147299387214L;
+    private static final long          serialVersionUID = -6655051147299387214L;
 
-    private String code;
-    private String title;
-    private String status;
-    private String edatosMigrationStatus;
+    private String                     code;
+    private String                     title;
+    private String                     status;
+    private String                     edatosMigrationStatus;
 
-    private String disaggregationBySex;
-    private String disaggregationByAge;
-    private String disaggregationByNationality;
-    private String disaggregationByDisability;
+    private String                     disaggregationBySex;
+    private String                     disaggregationByAge;
+    private String                     disaggregationByNationality;
+    private String                     disaggregationByDisability;
+    private String                     officialityType;
 
-    private List<MetamacCriteriaOrder> orders = new ArrayList<MetamacCriteriaOrder>();
+    private List<MetamacCriteriaOrder> orders           = new ArrayList<MetamacCriteriaOrder>();
 
     public OperationCriteria() {
     }
@@ -86,5 +87,13 @@ public class OperationCriteria extends MetamacWebCriteria {
     }
     public void setEdatosMigrationStatus(String edatosMigrationStatus) {
         this.edatosMigrationStatus = edatosMigrationStatus;
+    }
+
+    public String getOfficialityType() {
+        return officialityType;
+    }
+
+    public void setOfficialityType(String officialityType) {
+        this.officialityType = officialityType;
     }
 }

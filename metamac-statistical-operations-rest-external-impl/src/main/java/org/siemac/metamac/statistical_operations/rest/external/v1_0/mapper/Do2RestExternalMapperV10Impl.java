@@ -31,6 +31,7 @@ import org.siemac.metamac.rest.exception.utils.RestExceptionUtils;
 import org.siemac.metamac.rest.search.criteria.mapper.SculptorCriteria2RestCriteria;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.ClassSystems;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.CollMethods;
+import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Contributors;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Costs;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.DataSharings;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.EdatosMigrationStatus;
@@ -38,7 +39,7 @@ import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Families;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Family;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.FreqColls;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.GeographicGranularities;
-import org.siemac.metamac.rest.statistical_operations.v1_0.domain.InformationSuppliers;
+import org.siemac.metamac.rest.statistical_operations.v1_0.domain.PublicInformationSuppliers;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Instance;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.InstanceTypes;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Instances;
@@ -49,13 +50,13 @@ import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Operation;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Operations;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Producers;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Publishers;
-import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Contributors;
-import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Responsibles;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.ResourceWithSubjectArea;
+import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Responsibles;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.SecondarySubjectAreas;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.StatConcDefs;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.StatisticalOperationSources;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.StatisticalOperationTypes;
+import org.siemac.metamac.rest.statistical_operations.v1_0.domain.StatisticalOperationUrls;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.StatisticalUnits;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.TemporalGranularities;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.UpdateFrequencies;
@@ -66,6 +67,7 @@ import org.siemac.metamac.statistical.operations.core.domain.CollMethod;
 import org.siemac.metamac.statistical.operations.core.domain.Cost;
 import org.siemac.metamac.statistical.operations.core.domain.InstanceType;
 import org.siemac.metamac.statistical.operations.core.domain.OfficialityType;
+import org.siemac.metamac.statistical.operations.core.domain.OperationUrl;
 import org.siemac.metamac.statistical.operations.core.domain.SurveySource;
 import org.siemac.metamac.statistical.operations.core.domain.SurveyType;
 import org.siemac.metamac.statistical.operations.core.enume.domain.EdatosMigrationStatusEnum;
@@ -133,6 +135,7 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         target.setInventoryDate(toDate(source.getInventoryDate()));
         target.setRevPolicy(toInternationalString(source.getRevPolicy()));
         target.setRevPractice(toInternationalString(source.getRevPractice()));
+        target.setStatisticalOperationUrls(toStatisticalOperationUrls(source.getStatisticalOperationUrls(), target.getStatisticalOperationUrls()));
         commonMetadataToOperation(source.getCommonMetadata(), target);
         target.setLegalActs(toOperationLegalActs(source.getSpecificLegalActs(), null, target.getLegalActs()));
         target.setDataSharings(toOperationDataSharings(source.getSpecificDataSharing(), null, target.getDataSharings()));
@@ -309,7 +312,8 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         target.setDocMethod(toInternationalString(source.getDocMethod()));
         target.setStatisticalOperationSource(toItem(source.getSurveySource()));
         target.setCollMethod(toItem(source.getCollMethod()));
-        target.setInformationSuppliers(toInformationSuppliers(source.getInformationSuppliers()));
+        target.setPublicInformationSuppliers(toPublicInformationSuppliers(source.getPublicInformationSuppliers()));
+        target.setPrivateInformationSuppliers(toInternationalString(source.getPrivateInformationSuppliers()));
         target.setFreqColls(toFreqColls(source.getFreqColl()));
         target.setDataValidation(toInternationalString(source.getDataValidation()));
         target.setDataCompilation(toInternationalString(source.getDataCompilation()));
@@ -521,6 +525,18 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         }
         if (source2 != null) {
             target.getDataSharings().add(source2);
+            target.setTotal(target.getTotal().add(BigInteger.ONE));
+        }
+        return target;
+    }
+
+    private StatisticalOperationUrls toStatisticalOperationUrls(List<OperationUrl> sources, StatisticalOperationUrls target) {
+        if (target == null) {
+            target = new StatisticalOperationUrls();
+            target.setTotal(BigInteger.ZERO);
+        }
+        for (OperationUrl source : sources) {
+            target.getStatisticalOperationUrls().add(toInternationalString(source.getUrl()));
             target.setTotal(target.getTotal().add(BigInteger.ONE));
         }
         return target;
@@ -1057,14 +1073,14 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         return targets;
     }
 
-    private InformationSuppliers toInformationSuppliers(Set<ExternalItem> sources) {
+    private PublicInformationSuppliers toPublicInformationSuppliers(Set<ExternalItem> sources) {
         if (sources == null || sources.size() == 0) {
             return null;
         }
-        InformationSuppliers targets = new InformationSuppliers();
-        toResourcesExternalItemsSrm(sources, targets.getInformationSuppliers());
+        PublicInformationSuppliers targets = new PublicInformationSuppliers();
+        toResourcesExternalItemsSrm(sources, targets.getPublicInformationSuppliers());
         targets.setKind(SrmRestConstants.KIND_DATA_PROVIDERS);
-        targets.setTotal(BigInteger.valueOf(targets.getInformationSuppliers().size()));
+        targets.setTotal(BigInteger.valueOf(targets.getPublicInformationSuppliers().size()));
         return targets;
     }
 

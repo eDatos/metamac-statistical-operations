@@ -17,7 +17,8 @@ public enum OperationCriteriaPropertyEnum {
     DISAGGREGATION_BY_SEX,
     DISAGGREGATION_BY_AGE,
     DISAGGREGATION_BY_NATIONALITY,
-    DISAGGREGATION_BY_DISABILITY;
+    DISAGGREGATION_BY_DISABILITY,
+    OFFICIALITY_TYPE;
 
     public String value() {
         return name();

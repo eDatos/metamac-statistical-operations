@@ -562,7 +562,8 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
             target.setTotal(BigInteger.ZERO);
         }
         for (OperationUrl source : sources) {
-            target.getStatisticalOperationUrls().add(toInternationalString(source.getUrl()));
+            target.getUrls().add(toInternationalString(source.getUrl()));
+            target.getNames().add(toInternationalString(source.getName()));
             target.setTotal(target.getTotal().add(BigInteger.ONE));
         }
         return target;

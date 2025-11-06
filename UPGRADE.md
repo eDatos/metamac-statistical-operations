@@ -14,7 +14,16 @@ actualización de la versión 1.0.0 a la 2.0.0.*
 
 *Se deberá realizar primero la actualización de la versión 1.0.0 a la 2.0.0 y luego desde la 2.0.0 a la 3.0.0*
 
-## 4.9.0 a 4.9.1-SNAPSHOT
+
+## 5.0.0 a 5.0.1-SNAPSHOT
+•Se han realizado cambios en la base de datos PostgreSQL, por ello se proveen una serie de scripts SQL para adaptarse a la nueva versión.Ejecutar los scripts de la siguiente ruta en el esquema correspondiente por orden de fecha: etc/changes-from-release/5.0.0/db
+
+Hay que tener en cuenta que el IBESTAT tiene una petición especial de cambio de datos y jerarquización de los valores. Por tanto hay una serie de scripts que SÓLO se ejecutarán en IBESTAT.
+- 1. Ejecutar script etc/changes-from-release/5.0.0/db/postgresql/1_20251006-update_tables.sql en los distintos entornos.
+- 2. A continuación, sólo en IBESTAT ejecutar los scripts de la carpeta etc/changes-from-release/5.0.0/db/postgresql/2_IBESTAT. El ISTAC e IESTADIS no requieren adecuación de datos de la tabla maestra.
+
+
+## 4.9.0 a 5.0.0
 
 * Esta versión contiene CAMBIOS QUE ROMPEN LA COMPATIBILIDAD DE LA API con versiones anteriores.
 

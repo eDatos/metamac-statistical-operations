@@ -76,9 +76,12 @@ public class HandlersCriteriaUtils {
         disjuction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.TITLE.name(), operation, MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
         disjuction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.DESCRIPTION.name(), operation, MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
         disjuction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.ACRONYM.name(), operation, MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
-        disjuction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.TECHNICIAN_IN_CHARGE.name(), operation, MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
-        disjuction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.ASSISTANT_TECHNICIAN.name(), operation, MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
-        disjuction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.STATISTIC_PLAN_CODE.name(), operation, MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
+        disjuction.getRestrictions()
+                .add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.TECHNICIAN_IN_CHARGE.name(), operation, MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
+        disjuction.getRestrictions()
+                .add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.ASSISTANT_TECHNICIAN.name(), operation, MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
+        disjuction.getRestrictions()
+                .add(new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.STATISTIC_PLAN_CODE.name(), operation, MetamacCriteriaPropertyRestriction.OperationType.ILIKE));
 
         return disjuction;
     }
@@ -93,6 +96,7 @@ public class HandlersCriteriaUtils {
         addRestrictionIfExists(advanced, buildDisaggregationByAgeCriteria(operationCriteria));
         addRestrictionIfExists(advanced, buildDisaggregationByNationalityCriteria(operationCriteria));
         addRestrictionIfExists(advanced, buildDisaggregationByDisabilityCriteria(operationCriteria));
+        addRestrictionIfExists(advanced, buildOfficialityTypeCriteria(operationCriteria));
 
         return advanced;
     }
@@ -126,7 +130,8 @@ public class HandlersCriteriaUtils {
 
     private static MetamacCriteriaRestriction buildEdatosMigrationStatusCriteria(OperationCriteria criteria) {
         if (criteria != null && StringUtils.isNotBlank(criteria.getEdatosMigrationStatus())) {
-            return new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.EDATOS_MIGRATION_STATUS.name(), EdatosMigrationStatusEnum.valueOf(criteria.getEdatosMigrationStatus()), MetamacCriteriaPropertyRestriction.OperationType.EQ);
+            return new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.EDATOS_MIGRATION_STATUS.name(), EdatosMigrationStatusEnum.valueOf(criteria.getEdatosMigrationStatus()),
+                    MetamacCriteriaPropertyRestriction.OperationType.EQ);
         }
         return null;
     }
@@ -159,6 +164,13 @@ public class HandlersCriteriaUtils {
         if (criteria != null && StringUtils.isNotBlank(criteria.getDisaggregationByDisability())) {
             return new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.DISAGGREGATION_BY_DISABILITY.name(), Boolean.valueOf(criteria.getDisaggregationByDisability()),
                     MetamacCriteriaPropertyRestriction.OperationType.EQ);
+        }
+        return null;
+    }
+
+    private static MetamacCriteriaRestriction buildOfficialityTypeCriteria(OperationCriteria criteria) {
+        if (criteria != null && StringUtils.isNotBlank(criteria.getOfficialityType())) {
+            return new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.OFFICIALITY_TYPE.name(), criteria.getOfficialityType(), MetamacCriteriaPropertyRestriction.OperationType.EQ);
         }
         return null;
     }

@@ -29,6 +29,8 @@ Application StatisticalOperationsDto {
         DataTransferObject OfficialityTypeDto extends @IdentityDto {
             String identifier;
             - @InternationalStringDto description nullable;
+            Integer visualisationOrder;
+            Integer hierarchyLevel;
         }
 
         "Dto for CollMethod"

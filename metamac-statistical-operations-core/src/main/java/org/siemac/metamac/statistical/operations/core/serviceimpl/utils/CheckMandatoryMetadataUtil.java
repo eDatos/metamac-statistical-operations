@@ -209,12 +209,6 @@ public class CheckMandatoryMetadataUtil {
             exceptions.add(new MetamacExceptionItem(ServiceExceptionType.METADATA_INCORRECT, ServiceExceptionParameters.INSTANCE_BASE_PERIOD));
         }
 
-        if (instance.getCostDetail() != null && !StatisticalOperationsValidationUtils.isEmpty(instance.getCostDetail())) {
-            for (LocalisedString localisedString : instance.getCostDetail().getTexts()) {
-                StatisticalOperationsValidationUtils.validateUrl(localisedString.getLabel(), ServiceExceptionParameters.INSTANCE_COST_DETAILS, exceptions);
-            }
-        }
-
         StatisticalOperationsValidationUtils.checkSemanticIdentifierAsMetamacID(instance.getCode(), ServiceExceptionParameters.INSTANCE_CODE, exceptions);
 
         if (!exceptions.isEmpty()) {

@@ -527,7 +527,7 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
         MultiLanguageRichTextEditorItem costBurdenItem = new MultiLanguageRichTextEditorItem(InstanceDS.COST_BURDEN, getConstants().instanceCostBurden());
         costItem = new CustomSelectItem(InstanceDS.COST, getConstants().instanceCost());
         costItem.setMultiple(true);
-        MultiLanguageTextItem costDetailItem = new MultiLanguageTextItem(InstanceDS.COST_DETAIL, getConstants().instanceCostDetail());
+        MultiLanguageRichTextEditorItem costDetailItem = new MultiLanguageRichTextEditorItem(InstanceDS.COST_DETAIL, getConstants().instanceCostDetail());
 
         productionDescriptorsEditionForm.setFields(createdDate, internalInventoryDate, staticProcStatus, procStatus, docMethodItem, surveySourceItem, collMethodItem, publicInformationSuppliersItem,
                 privateInformationSuppliersItem, freqCollItem, dataValidationItem, dataCompilationItem, adjustmentItem, seasonAdjustmentItem, costBurdenItem, costItem, costDetailItem);

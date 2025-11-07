@@ -101,16 +101,16 @@
         <cdomain:text xml:lang="es">temporalComparability1 en Español</cdomain:text>
     </operations:temporalComparability>
     <operations:basePeriod>2012</operations:basePeriod>
-    <operations:measures kind="structuralResources#concepts" total="1">
-        <operations:measure kind="structuralResources#concept">
+    <operations:unitMeasures kind="structuralResources#codes" total="1">
+        <operations:unitMeasure kind="structuralResources#code">
             <cdomain:id>measure1</cdomain:id>
             <cdomain:urn>urn:measure1</cdomain:urn>
-            <cdomain:selfLink kind="structuralResources#concept" href="http://data.istac.es/apis/srm/v1.0/measures/measure1"/>
+            <cdomain:selfLink kind="structuralResources#code" href="http://data.istac.es/apis/srm/v1.0/codes/measure1"/>
             <cdomain:name>
                 <cdomain:text xml:lang="es">measure1 en Español</cdomain:text>
             </cdomain:name>
-        </operations:measure>
-    </operations:measures>
+        </operations:unitMeasure>
+    </operations:unitMeasures>
     <operations:statConcDefsDescription>
         <cdomain:text xml:lang="es">statConcDef1 en Español</cdomain:text>
     </operations:statConcDefsDescription>

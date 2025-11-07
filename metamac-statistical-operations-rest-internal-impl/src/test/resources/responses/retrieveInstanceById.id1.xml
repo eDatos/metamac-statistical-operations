@@ -111,35 +111,35 @@
         <cdomain:text xml:lang="es">temporalComparability1 en Español</cdomain:text>
     </operations:temporalComparability>
     <operations:basePeriod>2012</operations:basePeriod>
-    <operations:measures kind="structuralResources#concepts" total="3">
-        <operations:measure kind="structuralResources#concept">
-            <cdomain:id>measure2concept1</cdomain:id>
-            <cdomain:urn>urn:measure2concept1</cdomain:urn>
-            <cdomain:selfLink kind="structuralResources#concept" href="http://data.istac.es/apis/structural-resources-internal/v1.0/concepts/measure2concept1"/>
+    <operations:unitMeasures kind="structuralResources#codes" total="3">
+        <operations:unitMeasure kind="structuralResources#code">
+            <cdomain:id>measure2code1</cdomain:id>
+            <cdomain:urn>urn:measure2code1</cdomain:urn>
+            <cdomain:selfLink kind="structuralResources#code" href="http://data.istac.es/apis/structural-resources-internal/v1.0/codes/measure2code1"/>
             <cdomain:name>
-                <cdomain:text xml:lang="es">measure2concept1 en Español</cdomain:text>
+                <cdomain:text xml:lang="es">measure2code1 en Español</cdomain:text>
             </cdomain:name>
-            <operations:managementAppLink>http://localhost:8080/metamac-srm-web/concepts/measure2concept1</operations:managementAppLink>
-        </operations:measure>
-        <operations:measure kind="structuralResources#concept">
-            <cdomain:id>measure2concept2</cdomain:id>
-            <cdomain:urn>urn:measure2concept2</cdomain:urn>
-            <cdomain:selfLink kind="structuralResources#concept" href="http://data.istac.es/apis/structural-resources-internal/v1.0/concepts/measure2concept2"/>
+            <operations:managementAppLink>http://localhost:8080/metamac-srm-web/codes/measure2code1</operations:managementAppLink>
+        </operations:unitMeasure>
+        <operations:unitMeasure kind="structuralResources#code">
+            <cdomain:id>measure2code2</cdomain:id>
+            <cdomain:urn>urn:measure2code2</cdomain:urn>
+            <cdomain:selfLink kind="structuralResources#code" href="http://data.istac.es/apis/structural-resources-internal/v1.0/codes/measure2code2"/>
             <cdomain:name>
-                <cdomain:text xml:lang="es">measure2concept2 en Español</cdomain:text>
+                <cdomain:text xml:lang="es">measure2code2 en Español</cdomain:text>
             </cdomain:name>
-            <operations:managementAppLink>http://localhost:8080/metamac-srm-web/concepts/measure2concept2</operations:managementAppLink>
-        </operations:measure>
-        <operations:measure kind="structuralResources#concept">
+            <operations:managementAppLink>http://localhost:8080/metamac-srm-web/codes/measure2code2</operations:managementAppLink>
+        </operations:unitMeasure>
+        <operations:unitMeasure kind="structuralResources#code">
             <cdomain:id>measure1</cdomain:id>
             <cdomain:urn>urn:measure1</cdomain:urn>
-            <cdomain:selfLink kind="structuralResources#concept" href="http://data.istac.es/apis/structural-resources-internal/v1.0/concepts/measure1"/>
+            <cdomain:selfLink kind="structuralResources#code" href="http://data.istac.es/apis/structural-resources-internal/v1.0/codes/measure1"/>
             <cdomain:name>
                 <cdomain:text xml:lang="es">measure1 en Español</cdomain:text>
             </cdomain:name>
-            <operations:managementAppLink>http://localhost:8080/metamac-srm-web/concepts/measure1</operations:managementAppLink>
-        </operations:measure>
-    </operations:measures>
+            <operations:managementAppLink>http://localhost:8080/metamac-srm-web/codes/measure1</operations:managementAppLink>
+        </operations:unitMeasure>
+    </operations:unitMeasures>
     <operations:statConcDefsDescription>
         <cdomain:text xml:lang="es">statConcDef1 en Español</cdomain:text>
     </operations:statConcDefsDescription>

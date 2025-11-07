@@ -34,14 +34,6 @@ public class RestWebCriteriaUtils {
     }
 
     //
-    // INSTACE: MEASURES
-    //
-
-    public static ConceptSchemeTypeEnum[] getConceptSchemeTypesForInstanceMeasures() {
-        return new ConceptSchemeTypeEnum[]{ConceptSchemeTypeEnum.MEASURE};
-    }
-
-    //
     // COMMON CRITERIA
     //
 

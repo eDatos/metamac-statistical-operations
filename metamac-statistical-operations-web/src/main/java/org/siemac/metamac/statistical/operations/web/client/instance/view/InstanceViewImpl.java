@@ -27,6 +27,7 @@ import org.siemac.metamac.statistical.operations.web.client.utils.ConfigurationP
 import org.siemac.metamac.statistical.operations.web.client.utils.OperationsListUtils;
 import org.siemac.metamac.statistical.operations.web.client.utils.RequiredFieldUtils;
 import org.siemac.metamac.statistical.operations.web.client.widgets.InstanceMainFormLayout;
+import org.siemac.metamac.statistical.operations.web.client.widgets.external.SearchSrmListCodelistAndCodeItem;
 import org.siemac.metamac.statistical.operations.web.client.widgets.external.SearchSrmListConceptAndConceptSchemeItem;
 import org.siemac.metamac.statistical.operations.web.shared.external.ConceptSchemeTypeEnum;
 import org.siemac.metamac.statistical.operations.web.shared.external.RestWebCriteriaUtils;
@@ -44,6 +45,7 @@ import org.siemac.metamac.web.common.client.widgets.form.fields.ViewMultiLanguag
 import org.siemac.metamac.web.common.client.widgets.form.fields.ViewTextItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.external.ExternalItemListItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.external.SearchMultiExternalItemSimpleItem;
+import org.siemac.metamac.web.common.client.widgets.form.fields.external.SearchSrmItemLinkItemWithSchemeFilterItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.external.SearchSrmListItemWithSchemeFilterItem;
 import org.siemac.metamac.web.common.shared.criteria.MetamacWebCriteria;
 import org.siemac.metamac.web.common.shared.criteria.SrmExternalResourceRestCriteria;
@@ -156,7 +158,7 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
         // Set uiHandlers in formItems
 
         ((SearchSrmListConceptAndConceptSchemeItem) contentDescriptorsEditionForm.getItem(InstanceDS.STAT_CONC_DEF)).setUiHandlers(uiHandlers);
-        ((SearchSrmListConceptAndConceptSchemeItem) contentDescriptorsEditionForm.getItem(InstanceDS.MEASURES)).setUiHandlers(uiHandlers);
+        ((SearchSrmListCodelistAndCodeItem) contentDescriptorsEditionForm.getItem(InstanceDS.UNIT_MEASURES)).setUiHandlers(uiHandlers);
     }
 
     /*
@@ -244,9 +246,9 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
         instanceDto.setTemporalComparability(contentDescriptorsEditionForm.getValueAsInternationalStringDto(InstanceDS.TEMPORAL_COMPARABILITY));
         instanceDto.setBasePeriod(contentDescriptorsEditionForm.getValueAsString(InstanceDS.BASE_PERIOD));
 
-        List<ExternalItemDto> measures = ((ExternalItemListItem) contentDescriptorsEditionForm.getItem(InstanceDS.MEASURES)).getExternalItemDtos();
+        List<ExternalItemDto> unitMeasures = ((ExternalItemListItem) contentDescriptorsEditionForm.getItem(InstanceDS.UNIT_MEASURES)).getExternalItemDtos();
         instanceDto.getUnitMeasure().clear();
-        instanceDto.getUnitMeasure().addAll(measures);
+        instanceDto.getUnitMeasure().addAll(unitMeasures);
 
         instanceDto.setStatConcDef(contentDescriptorsEditionForm.getValueAsInternationalStringDto(InstanceDS.STAT_CONC_DEF_DESCRIPTION));
 
@@ -350,13 +352,13 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
         ExternalItemListItem temporalGranularities = new ExternalItemListItem(InstanceDS.TEMPORAL_GRANULARITIES, getConstants().instanceTemporalGranularity(), false);
         ViewMultiLanguageTextItem temporalComparability = new ViewMultiLanguageTextItem(InstanceDS.TEMPORAL_COMPARABILITY, getConstants().instanceTemporalComparability());
         ViewTextItem basePeriodItem = new ViewTextItem(InstanceDS.BASE_PERIOD, getConstants().instanceBasePeriod());
-        ExternalItemListItem measures = new ExternalItemListItem(InstanceDS.MEASURES, getConstants().instanceUnitMeasure(), false);
+        ExternalItemListItem unitMeasures = new ExternalItemListItem(InstanceDS.UNIT_MEASURES, getConstants().instanceUnitMeasure(), false);
         ViewMultiLanguageTextItem statConcDefDescription = new ViewMultiLanguageTextItem(InstanceDS.STAT_CONC_DEF_DESCRIPTION, getConstants().instanceStatisticalConceptDefinition());
         ExternalItemListItem statConcDefList = new ExternalItemListItem(InstanceDS.STAT_CONC_DEF, getConstants().instanceStatisticalConceptsDefinitions(), false);
         ExternalItemListItem classSystemList = new ExternalItemListItem(InstanceDS.CLASS_SYSTEM_LIST, getConstants().instanceClassSystemList(), false);
         ViewMultiLanguageTextItem classSystemDescription = new ViewMultiLanguageTextItem(InstanceDS.CLASS_SYSTEM_DESCRIPTION, getConstants().instanceClassSystem());
         contentDescriptorsForm.setFields(dataDescription, statisticalPopulation, statisticalUnit, basePeriodItem, geographicGranularities, temporalGranularities, geographicComparability,
-                temporalComparability, measures, statConcDefDescription, statConcDefList, classSystemList, classSystemDescription);
+                temporalComparability, unitMeasures, statConcDefDescription, statConcDefList, classSystemList, classSystemDescription);
 
         // Class descriptors
         classViewForm = new GroupDynamicForm(getConstants().instanceClassDescriptors());
@@ -476,7 +478,7 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
         TextItem basePeriodItem = new TextItem(InstanceDS.BASE_PERIOD, getConstants().instanceBasePeriod());
         basePeriodItem.setValidators(TimeVariableWebUtils.getTimeCustomValidator());
 
-        ExternalItemListItem measuresItem = createMeasures();
+        ExternalItemListItem measuresItem = createUnitMeasures();
 
         MultiLanguageRichTextEditorItem statConcDefDescriptionItem = new MultiLanguageRichTextEditorItem(InstanceDS.STAT_CONC_DEF_DESCRIPTION, getConstants().instanceStatisticalConceptDefinition());
 
@@ -604,7 +606,7 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
         contentDescriptorsForm.setValue(InstanceDS.TEMPORAL_COMPARABILITY, instanceDto.getTemporalComparability());
         contentDescriptorsForm.setValue(InstanceDS.BASE_PERIOD, instanceDto.getBasePeriod());
 
-        ((ExternalItemListItem) contentDescriptorsForm.getItem(InstanceDS.MEASURES)).setExternalItems(instanceDto.getUnitMeasure());
+        ((ExternalItemListItem) contentDescriptorsForm.getItem(InstanceDS.UNIT_MEASURES)).setExternalItems(instanceDto.getUnitMeasure());
 
         contentDescriptorsForm.setValue(InstanceDS.STAT_CONC_DEF_DESCRIPTION, instanceDto.getStatConcDef());
 
@@ -709,7 +711,7 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
         contentDescriptorsEditionForm.setValue(InstanceDS.TEMPORAL_COMPARABILITY, instanceDto.getTemporalComparability());
         contentDescriptorsEditionForm.setValue(InstanceDS.BASE_PERIOD, instanceDto.getBasePeriod());
 
-        ((ExternalItemListItem) contentDescriptorsEditionForm.getItem(InstanceDS.MEASURES)).setExternalItems(instanceDto.getUnitMeasure());
+        ((ExternalItemListItem) contentDescriptorsEditionForm.getItem(InstanceDS.UNIT_MEASURES)).setExternalItems(instanceDto.getUnitMeasure());
 
         contentDescriptorsEditionForm.setValue(InstanceDS.STAT_CONC_DEF_DESCRIPTION, instanceDto.getStatConcDef());
 
@@ -880,8 +882,8 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
         } else if (StringUtils.equals(InstanceDS.STAT_CONC_DEF, formItemName)) {
             ((SearchSrmListConceptAndConceptSchemeItem) contentDescriptorsEditionForm.getItem(formItemName)).setItemSchemes(result);
 
-        } else if (StringUtils.equals(InstanceDS.MEASURES, formItemName)) {
-            ((SearchSrmListConceptAndConceptSchemeItem) contentDescriptorsEditionForm.getItem(formItemName)).setItemSchemes(result);
+        } else if (StringUtils.equals(InstanceDS.UNIT_MEASURES, formItemName)) {
+            ((SearchSrmListCodelistAndCodeItem) contentDescriptorsEditionForm.getItem(formItemName)).setItemSchemes(result);
         }
     }
 
@@ -907,8 +909,8 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
         } else if (StringUtils.equals(InstanceDS.STAT_CONC_DEF, formItemName)) {
             ((SearchSrmListConceptAndConceptSchemeItem) contentDescriptorsEditionForm.getItem(formItemName)).setItems(result);
 
-        } else if (StringUtils.equals(InstanceDS.MEASURES, formItemName)) {
-            ((SearchSrmListConceptAndConceptSchemeItem) contentDescriptorsEditionForm.getItem(formItemName)).setItems(result);
+        } else if (StringUtils.equals(InstanceDS.UNIT_MEASURES, formItemName)) {
+            ((SearchSrmListCodelistAndCodeItem) contentDescriptorsEditionForm.getItem(formItemName)).setItems(result);
         }
     }
 
@@ -1037,17 +1039,9 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
         return item;
     }
 
-    private SearchSrmListConceptAndConceptSchemeItem createMeasures() {
-        final String field = InstanceDS.MEASURES;
-        final SearchSrmListConceptAndConceptSchemeItem item = new SearchSrmListConceptAndConceptSchemeItem(field, getConstants().instanceUnitMeasure(),
-                StatisticalOperationsWebConstants.FORM_LIST_MAX_RESULTS) {
-
-            @Override
-            protected ConceptSchemeTypeEnum[] getConceptSchemeTypes() {
-                return RestWebCriteriaUtils.getConceptSchemeTypesForInstanceMeasures();
-            }
-        };
-        return item;
+    private SearchSrmListCodelistAndCodeItem createUnitMeasures() {
+        final String field = InstanceDS.UNIT_MEASURES;
+        return new SearchSrmListCodelistAndCodeItem(field, getConstants().instanceUnitMeasure(), StatisticalOperationsWebConstants.FORM_LIST_MAX_RESULTS) {};
     }
 
     private SearchSrmListConceptAndConceptSchemeItem createStatConcDef() {

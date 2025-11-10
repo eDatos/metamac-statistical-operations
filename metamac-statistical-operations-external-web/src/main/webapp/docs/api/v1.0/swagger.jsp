@@ -2025,6 +2025,12 @@
                   "in":"query",
                   "type":"string",
                   "description":"${msg['api.doc.swagger.paths.operations.operationId.instances.get.parameters.query']}"
+               },
+               {
+                  "name":"fields",
+                  "in":"query",
+                  "type":"string",
+                  "description":"${msg['api.doc.swagger.paths.operations.operationId.get.instance.parameters.fields']}"
                }
             ],
             "responses":{

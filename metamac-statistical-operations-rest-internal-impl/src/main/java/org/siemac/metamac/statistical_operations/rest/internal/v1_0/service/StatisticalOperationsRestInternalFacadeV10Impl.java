@@ -52,8 +52,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import static org.siemac.metamac.core.common.util.rest.RequestUtil.parseFields;
-
 @Service("statisticalOperationsRestInternalFacadeV10")
 public class StatisticalOperationsRestInternalFacadeV10Impl implements StatisticalOperationsRestInternalFacadeV10 {
 
@@ -119,12 +117,15 @@ public class StatisticalOperationsRestInternalFacadeV10Impl implements Statistic
         Set<String> validFields = new HashSet<>();
         validFields.add(StatisticalOperationsRestConstants.FIELD_INCLUDE_SUBJECT_AREA);
         validFields.add(StatisticalOperationsRestConstants.DIFUSION_PUBLICATION_VISIBLE);
+        validFields.add(StatisticalOperationsRestConstants.FIELD_INCLUDE_DESCRIPTION);
         return parseFields(fields, validFields);
     }
 
     @Override
-    public Instances findInstances(String operationId, String query, String orderBy, String limit, String offset) {
+    public Instances findInstances(String operationId, String query, String orderBy, String limit, String offset, String fields) {
         try {
+            Set<String> parsedFields = parseFieldsOperationsInstanceListEndpoint(fields);
+
             // Retrieve instances by criteria
             SculptorCriteria sculptorCriteria = restCriteria2SculptorCriteriaMapper.getInstanceCriteriaMapper().restCriteriaToSculptorCriteria(query, orderBy, limit, offset);
             List<ConditionalCriteria> conditionalCriteria = new ArrayList<ConditionalCriteria>();
@@ -150,12 +151,18 @@ public class StatisticalOperationsRestInternalFacadeV10Impl implements Statistic
                     conditionalCriteria, sculptorCriteria.getPagingParameter());
 
             // Transform
-            Instances instances = do2RestInternalMapper.toInstances(operationEntity, instancesEntitiesResult, query, orderBy, sculptorCriteria.getLimit());
+            Instances instances = do2RestInternalMapper.toInstances(operationEntity, instancesEntitiesResult, query, orderBy, sculptorCriteria.getLimit(), parsedFields);
             return instances;
 
         } catch (Exception e) {
             throw manageException(e);
         }
+    }
+
+    private Set<String> parseFieldsOperationsInstanceListEndpoint(String fields) {
+        Set<String> validFields = new HashSet<>();
+        validFields.add(StatisticalOperationsRestConstants.FIELD_INCLUDE_DESCRIPTION);
+        return parseFields(fields, validFields);
     }
 
     @Override

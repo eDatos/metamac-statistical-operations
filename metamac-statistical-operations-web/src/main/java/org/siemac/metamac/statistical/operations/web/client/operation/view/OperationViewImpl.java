@@ -57,6 +57,7 @@ import org.siemac.metamac.web.common.client.widgets.actions.search.SearchPaginat
 import org.siemac.metamac.web.common.client.widgets.form.GroupDynamicForm;
 import org.siemac.metamac.web.common.client.widgets.form.fields.BooleanSelectItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.CustomCheckboxItem;
+import org.siemac.metamac.web.common.client.widgets.form.fields.CustomDateItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.CustomLinkItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.CustomSelectItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.CustomTextItem;
@@ -108,1382 +109,1390 @@ import com.smartgwt.client.widgets.toolbar.ToolStripButton;
 
 public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> implements OperationPresenter.OperationView {
 
-    public static final int                           FAMILY_LIST_MAX_RESULTS = 17;
-
-    private VLayout                                   panel;
-
-    private OperationMainFormLayout                   mainFormLayout;
-
-    private OperationDto                              operationDto;
-
-    // IDENTIFIERS
-    private GroupDynamicForm                          identifiersForm;
-    private GroupDynamicForm                          identifiersEditionForm;
-
-    // CONTENT CLASSIFIERS
-    private GroupDynamicForm                          contentClassifiersForm;
-    private GroupDynamicForm                          contentClassifiersEditionForm;
-
-    // CONTENT DESCRIPTORS
-    private GroupDynamicForm                          contentViewForm;
-    private GroupDynamicForm                          contentEditionForm;
-
-    // CLASS DESCRIPTORS
-    private GroupDynamicForm                          classForm;
-    private GroupDynamicForm                          classDescriptorsEditionForm;
-    private CustomSelectItem                          surveyType;
-    private CustomSelectItem                          officialityType;
-    private CustomCheckboxItem                        indSystem;
-
-    // PRODUCTION DESCRIPTORS
-    private CustomSelectItem                          technicianInCharge;
-    private CustomSelectItem                          assistantTechnician;
-    private GroupDynamicForm                          productionDescriptorsForm;
-    private GroupDynamicForm                          productionDescriptorsEditionForm;
-    private CustomCheckboxItem                        currentlyActiveItem;
-    private CustomSelectItem                          statusItem;
-    private CustomSelectItem                          edatosMigrationStatusItem;
-
-    // DIFUSSION AND PUBLICATION
-    private GroupDynamicForm                          diffusionForm;
-    private GroupDynamicForm                          diffusionEditionForm;
-    private CustomCheckboxItem                        releaseCalendar;
-    private CustomTextItem                            releaseCalendarAccess;
-    private CustomCheckboxItem                        diffusionAndPublicationVisible;
-    private OperationUrlsPanel                        viewOperationUrlsPanel;
-    private OperationUrlsPanel                        editOperationUrlsPanel;
-
-    // LEGAL ACTS
-    private GroupDynamicForm                          legalActsForm;
-    private GroupDynamicForm                          legalActsEditionForm;
-
-    // ANNOTATIONS
-    private GroupDynamicForm                          annotationsViewForm;
-    private GroupDynamicForm                          annotationsEditionForm;
-
-    // INSTANCES
-
-    private ListGridToolStrip                         instanceListGridToolStrip;
-    private CustomListGrid                            instanceListGrid;
-    private InstancesOrderFormLayout                  instancesOrderFormLayout;
-    // Instance modal window
-    private ModalWindow                               newInstanceWindow;
-    private NewInstanceForm                           newInstanceForm;
-
-    // FAMILIES
-
-    private ToolStrip                                 familiesToolStrip;
-    private ToolStripButton                           editFamiliesToolStripButton;
-    private BaseCustomListGrid                        familyListGrid;
-    private SearchMultipleExternalItemPaginatedWindow windowToAddFamiliesToOperation;
-
-    private List<FamilyBaseDto>                       familyBaseDtos;
-
-    private List<SurveyTypeDto>                       surveyTypeDtos;
-    private List<OfficialityTypeDto>                  officialityTypeDtos;
-
-    public OperationViewImpl() {
-        super();
-        panel = new VLayout();
-
-        // OPERATION
-
-        mainFormLayout = new OperationMainFormLayout();
-        mainFormLayout.getTranslateToolStripButton().addClickHandler(new ClickHandler() {
-
-            @Override
-            public void onClick(ClickEvent event) {
-                setTranslationsShowed(mainFormLayout.getTranslateToolStripButton().isSelected());
-            }
-        });
-        mainFormLayout.getDeleteConfirmationWindow().getYesButton().addClickHandler(new ClickHandler() {
-
-            @Override
-            public void onClick(ClickEvent event) {
-                getUiHandlers().deleteOperation(operationDto);
-            }
-        });
-        createViewForm();
-        mainFormLayout.getEditToolStripButton().addClickHandler(new ClickHandler() {
-
-            @Override
-            public void onClick(ClickEvent event) {
-                getUiHandlers().retrieveUsersAccessControl();
-            }
-        });
-        createEditionForm();
-
-        // INSTANCES
-
-        newInstanceForm = new NewInstanceForm();
-
-        newInstanceWindow = new ModalWindow();
-        newInstanceWindow.setTitle(getConstants().actionNewInstance());
-        newInstanceWindow.setAutoSize(true);
-        newInstanceWindow.addItem(newInstanceForm);
-
-        instanceListGridToolStrip = new ListGridToolStrip(getConstants().instanceDeleteConfirmation());
-        instanceListGridToolStrip.getNewButton().addClickHandler(new ClickHandler() {
-
-            @Override
-            public void onClick(ClickEvent event) {
-                // Clear new instance form
-                newInstanceForm.clearValues();
-
-                newInstanceWindow.show();
-            }
-        });
-
-        // Instances list
-        instanceListGrid = new CustomListGrid();
-        instanceListGrid.setHeight(150);
-        instanceListGrid.setFields(ResourceListFieldUtils.getInstanceFields());
-        instanceListGrid.addSelectionChangedHandler(new SelectionChangedHandler() {
-
-            @Override
-            public void onSelectionChanged(SelectionEvent event) {
-                if (instanceListGrid.getSelectedRecords() != null && instanceListGrid.getSelectedRecords().length == 1) {
-                    InstanceRecord record = (InstanceRecord) instanceListGrid.getSelectedRecord();
-                    selectInstance(record.getId());
-                } else {
-                    // No record selected
-                    deselectInstance();
-                    if (instanceListGrid.getSelectedRecords().length > 1) {
-                        // Delete more than one Instance with one click
-                        showInstanceListGridDeleteButton();
-                    }
-                }
-            }
-        });
-
-        CustomListGridSectionStack instancesSectionStack = new CustomListGridSectionStack(instanceListGrid, getConstants().instances(), "sectionStackStyle");
-        instancesSectionStack.setMargin(15);
-        instancesSectionStack.getDefaultSection().setItems(instanceListGridToolStrip, instanceListGrid);
-        instancesSectionStack.getDefaultSection().setExpanded(true);
-
-        // Instances order
-        instancesOrderFormLayout = new InstancesOrderFormLayout();
-        instancesOrderFormLayout.setMargin(0);
-        instancesOrderFormLayout.getSave().addClickHandler(new ClickHandler() {
-
-            @Override
-            public void onClick(ClickEvent event) {
-                getUiHandlers().updateInstancesOrder(instancesOrderFormLayout.getInstancesOrder());
-            }
-        });
-
-        SectionStackSection ordersSection = new SectionStackSection(getConstants().instancesOrder());
-        ordersSection.setExpanded(true);
-        ordersSection.setItems(instancesOrderFormLayout);
-
-        instancesSectionStack.addSection(ordersSection);
-
-        // FAMILIES
-
-        familiesToolStrip = new ToolStrip();
-        familiesToolStrip.setWidth100();
-        editFamiliesToolStripButton = new ToolStripButton(getConstants().actionEdit(), GlobalResources.RESOURCE.editListGrid().getURL());
-        editFamiliesToolStripButton.addClickHandler(new ClickHandler() {
-
-            @Override
-            public void onClick(ClickEvent event) {
-
-                windowToAddFamiliesToOperation = new SearchMultipleExternalItemPaginatedWindow(OperationsWeb.getConstants().actionAddOperationsToFamily(), FamilyViewImpl.OPERATION_LIST_MAX_RESULTS,
-                        new SearchPaginatedAction<MetamacWebCriteria>() {
-
-                            @Override
-                            public void retrieveResultSet(int firstResult, int maxResults, MetamacWebCriteria webCriteria) {
-                                getUiHandlers().retrieveFamilies(firstResult, maxResults, webCriteria);
-
-                            }
-                        });
-                windowToAddFamiliesToOperation.retrieveItems();
-                windowToAddFamiliesToOperation.setSelectedResources(CommonUtils.createFamilies(familyBaseDtos));
-                windowToAddFamiliesToOperation.setSaveAction(new com.smartgwt.client.widgets.form.fields.events.ClickHandler() {
-
-                    @Override
-                    public void onClick(com.smartgwt.client.widgets.form.fields.events.ClickEvent event) {
-
-                        List<Long> familiesToAdd = new ArrayList<Long>();
-                        List<Long> familiesToRemove = new ArrayList<Long>();
-                        CommonUtils.calculateFamiliesToUpdateInOperation(familyBaseDtos, windowToAddFamiliesToOperation.getSelectedResources(), familiesToAdd, familiesToRemove);
-                        getUiHandlers().updateOperationFamilies(familiesToAdd, familiesToRemove);
-                        windowToAddFamiliesToOperation.markForDestroy();
-                    }
-                });
-
-            }
-        });
-
-        familiesToolStrip.addButton(editFamiliesToolStripButton);
-
-        TitleLabel familiesTitleLabel = new TitleLabel(getConstants().families());
-        familiesTitleLabel.setStyleName("sectionTitleLeftMargin");
-
-        familyListGrid = new BaseCustomListGrid();
-        familyListGrid.setHeight(150);
-        familyListGrid.setFields(ResourceListFieldUtils.getFamilyFields());
-
-        CustomListGridSectionStack familiesSectionStack = new CustomListGridSectionStack(familyListGrid, getConstants().families(), "sectionStackStyle");
-        familiesSectionStack.setMargin(15);
-        familiesSectionStack.getDefaultSection().setItems(familiesToolStrip, familyListGrid);
-
-        VLayout subPanel = new VLayout();
-        subPanel.setHeight100();
-        subPanel.setOverflow(Overflow.SCROLL);
-        subPanel.addMember(mainFormLayout);
-
-        subPanel.addMember(instancesSectionStack);
-
-        subPanel.addMember(familiesSectionStack);
-
-        panel.addMember(subPanel);
-    }
-
-    @Override
-    public Widget asWidget() {
-        return panel;
-    }
-
-    @Override
-    public void setUiHandlers(OperationUiHandlers uiHandlers) {
-        super.setUiHandlers(uiHandlers);
-    }
-
-    /*
-     * GWTP will call setInSlot when a child presenter asks to be added under this view
-     */
-    @Override
-    public void setInSlot(Object slot, Widget content) {
-        if (slot == OperationPresenter.TYPE_SetContextAreaContentToolBar) {
-            if (content != null) {
-                Canvas[] canvas = ((ToolStrip) content).getMembers();
-                for (int i = 0; i < canvas.length; i++) {
-                    if (canvas[i] instanceof ToolStripButton) {
-                        if (ToolStripButtonEnum.OPERATIONS.getValue().equals(((ToolStripButton) canvas[i]).getID())) {
-                            ((ToolStripButton) canvas[i]).select();
-                        }
-                    }
-                }
-                panel.addMember(content, 0);
-            }
-        } else {
-            // To support inheritance in your views it is good practice to call super.setInSlot when you can't handle the call.
-            // Who knows, maybe the parent class knows what to do with this slot.
-            super.setInSlot(slot, content);
-        }
-    }
-
-    @Override
-    public HasRecordClickHandlers getSelectedFamily() {
-        return familyListGrid;
-    }
-
-    @Override
-    public HasRecordClickHandlers getSelectedInstance() {
-        return instanceListGrid;
-    }
-
-    @Override
-    public void setOperation(OperationDto operationDto, List<InstanceBaseDto> instanceBaseDtos, List<FamilyBaseDto> familyBaseDtos) {
-        this.operationDto = operationDto;
-
-        // Security
-        mainFormLayout.setCanEdit(ClientSecurityUtils.canUpdateOperation(operationDto.getCode()));
-        mainFormLayout.setCanDelete(ClientSecurityUtils.canDeleteOperation(operationDto.getCode(), operationDto.getProcStatus()));
-        mainFormLayout.setOperationCode(operationDto.getCode());
-        instancesOrderFormLayout.setCanEdit(ClientSecurityUtils.canUpdateInstancesOrder(operationDto.getCode()));
-        instanceListGridToolStrip.getNewButton().setVisibility(ClientSecurityUtils.canCreateInstance(operationDto.getCode()) ? Visibility.VISIBLE : Visibility.HIDDEN);
-        editFamiliesToolStripButton.setVisibility(ClientSecurityUtils.canAddFamilyToOperation(operationDto.getCode()) ? Visibility.VISIBLE : Visibility.HIDDEN);
-
-        // Operation
-        setOperation(operationDto);
-
-        // Set Instances
-        setInstances(instanceBaseDtos);
-
-        // Set Families
-        setOperationFamilies(familyBaseDtos);
-    }
-
-    @Override
-    public OperationDto getOperation(OperationDto operationDto) {
-
-        // IDENTIFIERS
-
-        operationDto.setCode(identifiersEditionForm.getValueAsString(OperationDS.CODE));
-        operationDto.setStatisticPlanCode(identifiersEditionForm.getValueAsString(OperationDS.STATISTIC_PLAN));
-        operationDto.setTitle(identifiersEditionForm.getValueAsInternationalStringDto(OperationDS.TITLE));
-        operationDto.setAcronym(identifiersEditionForm.getValueAsInternationalStringDto(OperationDS.ACRONYM));
-
-        // CONTENT CLASSIFIERS
-
-        operationDto.setSubjectArea(contentClassifiersEditionForm.getValueAsExternalItemDto(OperationDS.SUBJECT_AREA));
-
-        List<ExternalItemDto> secondarySubjectAreas = ((ExternalItemListItem) contentClassifiersEditionForm.getItem(OperationDS.SECONDARY_SUBJECT_AREAS)).getExternalItemDtos();
-        operationDto.getSecondarySubjectAreas().clear();
-        operationDto.getSecondarySubjectAreas().addAll(secondarySubjectAreas);
-
-        // CONTENT DESCRIPTORS
-
-        operationDto.setDescription(contentEditionForm.getValueAsInternationalStringDto(OperationDS.DESCRIPTION));
-        operationDto.setObjective(contentEditionForm.getValueAsInternationalStringDto(OperationDS.OBJECTIVE));
-
-        // CLASS DESCRIPTORS
-
-        operationDto.setSurveyType(OperationsListUtils.getSurveyTypeDto(surveyType.getValueAsString(), surveyTypeDtos));
-        operationDto.setOfficialityType(OperationsListUtils.getOfficialityTypeDto(officialityType.getValueAsString(), officialityTypeDtos));
-        operationDto.setIndicatorSystem(indSystem.getValueAsBoolean() == null ? false : indSystem.getValueAsBoolean());
-
-        // PRODUCTION DESCRIPTORS
-        operationDto.setTechnicianInCharge(technicianInCharge.getValueAsString() != null ? technicianInCharge.getValue().toString() : null);
-        operationDto.setAssistantTechnician(assistantTechnician.getValueAsString() != null ? assistantTechnician.getValue().toString() : null);
-        List<ExternalItemDto> producers = ((ExternalItemListItem) productionDescriptorsEditionForm.getItem(OperationDS.PRODUCER)).getExternalItemDtos();
-        operationDto.getProducer().clear();
-        operationDto.getProducer().addAll(producers);
-
-        List<ExternalItemDto> responsibles = ((ExternalItemListItem) productionDescriptorsEditionForm.getItem(OperationDS.REG_RESPONSIBLE)).getExternalItemDtos();
-        operationDto.getResponsible().clear();
-        operationDto.getResponsible().addAll(responsibles);
-
-        List<ExternalItemDto> contributors = ((ExternalItemListItem) productionDescriptorsEditionForm.getItem(OperationDS.REG_CONTRIBUTOR)).getExternalItemDtos();
-        operationDto.getContributor().clear();
-        operationDto.getContributor().addAll(contributors);
-
-        operationDto.setCurrentlyActive(currentlyActiveItem.getValueAsBoolean());
-        operationDto.setStatus(statusItem.getValueAsString() != null ? StatusEnum.valueOf(statusItem.getValueAsString()) : null);
-        operationDto.setEdatosMigrationStatus(edatosMigrationStatusItem.getValueAsString() != null ? EdatosMigrationStatusEnum.valueOf(edatosMigrationStatusItem.getValueAsString()) : null);
-
-        operationDto.setGenderPerspective(productionDescriptorsEditionForm.getValueAsInternationalStringDto(OperationDS.GENDER_PERSPECTIVE));
-
-        operationDto.setDisaggregationBySex(((BooleanSelectItem) productionDescriptorsEditionForm.getItem(OperationDS.DISAGGREGATION_BY_SEX)).getBooleanValue());
-        operationDto.setDisaggregationByAge(((BooleanSelectItem) productionDescriptorsEditionForm.getItem(OperationDS.DISAGGREGATION_BY_AGE)).getBooleanValue());
-        operationDto.setDisaggregationByNationality(((BooleanSelectItem) productionDescriptorsEditionForm.getItem(OperationDS.DISAGGREGATION_BY_NATIONALITY)).getBooleanValue());
-        operationDto.setDisaggregationByDisability(((BooleanSelectItem) productionDescriptorsEditionForm.getItem(OperationDS.DISAGGREGATION_BY_DISABILITY)).getBooleanValue());
-
-        // DIFFUSION AND PUBLICATION
-
-        List<ExternalItemDto> publishers = ((ExternalItemListItem) diffusionEditionForm.getItem(OperationDS.PUBLISHER)).getExternalItemDtos();
-        operationDto.getPublisher().clear();
-        operationDto.getPublisher().addAll(publishers);
-
-        operationDto.setCommonMetadata(diffusionEditionForm.getValueAsExternalItemDto(OperationDS.COMMON_METADATA));
-
-        operationDto.setRelPolUsAc(diffusionEditionForm.getValueAsInternationalStringDto(OperationDS.RE_POL_US_AC));
-        operationDto.setReleaseCalendar(releaseCalendar.getValueAsBoolean());
-        operationDto.setDiffusionAndPublicationVisible(diffusionAndPublicationVisible.getValueAsBoolean());
-        operationDto.setReleaseCalendarAccess(releaseCalendarAccess.getValueAsString());
-
-        List<ExternalItemDto> updateFrequencies = ((ExternalItemListItem) diffusionEditionForm.getItem(OperationDS.UPDATE_FREQUENCY)).getExternalItemDtos();
-        operationDto.getUpdateFrequency().clear();
-        operationDto.getUpdateFrequency().addAll(updateFrequencies);
-
-        operationDto.setRevPolicy(diffusionEditionForm.getValueAsInternationalStringDto(OperationDS.REV_POLICY));
-        operationDto.setRevPractice(diffusionEditionForm.getValueAsInternationalStringDto(OperationDS.REV_PRACTICE));
-
-        // OPERATION URLS
-        operationDto.getStatisticalOperationUrls().clear();
-        operationDto.getStatisticalOperationUrls().addAll(editOperationUrlsPanel.getOperationUrls());
-
-        // LEGAL ACTS
-        operationDto.setSpecificLegalActs(legalActsEditionForm.getValueAsInternationalStringDto(OperationDS.SPECIFIC_LEGAL_ACTS));
-        operationDto.setSpecificDataSharing(legalActsEditionForm.getValueAsInternationalStringDto(OperationDS.SPECIFIC_DATA_SHARING));
-
-        // ANNOTATIONS
-
-        operationDto.setComment(annotationsEditionForm.getValueAsInternationalStringDto(OperationDS.COMMENTS));
-        operationDto.setNotes(annotationsEditionForm.getValueAsInternationalStringDto(OperationDS.NOTES));
-        return operationDto;
-    }
-
-    @Override
-    public HasClickHandlers getSave() {
-        return mainFormLayout.getSave();
-    }
-
-    @Override
-    public void onOperationSaved(OperationDto operationDto) {
-        setOperation(operationDto);
-    }
-
-    @Override
-    public boolean validate() {
-        return identifiersEditionForm.validate(false) && productionDescriptorsEditionForm.validate(false) && contentEditionForm.validate(false) && contentClassifiersEditionForm.validate(false)
-                && diffusionEditionForm.validate(false) && classDescriptorsEditionForm.validate(false);
-    }
-
-    @Override
-    public com.smartgwt.client.widgets.form.fields.events.HasClickHandlers getSaveNewInstance() {
-        return newInstanceForm.getSave();
-    }
-
-    @Override
-    public InstanceDto getNewInstace() {
-        return newInstanceForm.getInstance();
-    }
-
-    @Override
-    public void onInstanceSaved(InstanceDto instanceDto) {
-        InstanceRecord record = RecordUtils.getInstanceRecord(instanceDto);
-        instanceListGrid.addData(record);
-        instanceListGrid.sort(InstanceDS.ORDER, SortDirection.DESCENDING);
-
-        instancesOrderFormLayout.addInstance(instanceDto);
-    }
-
-    @Override
-    public boolean validateNewInstance() {
-        return newInstanceForm.validate();
-    }
-
-    @Override
-    public void closeInstanceWindow() {
-        newInstanceWindow.hide();
-    }
-
-    @Override
-    public HasClickHandlers getDeleteInstance() {
-        return instanceListGridToolStrip.getDeleteConfirmationWindow().getYesButton();
-    }
-
-    @Override
-    public List<Long> getSelectedInstances() {
-        List<Long> selectedInstances = new ArrayList<Long>();
-        if (instanceListGrid.getSelectedRecords() != null) {
-            ListGridRecord[] records = instanceListGrid.getSelectedRecords();
-            for (int i = 0; i < records.length; i++) {
-                InstanceRecord record = (InstanceRecord) records[i];
-                selectedInstances.add(record.getId());
-            }
-        }
-        return selectedInstances;
-    }
-
-    @Override
-    public void setInstances(List<InstanceBaseDto> instanceBaseDtos) {
-        // Instances list
-        instanceListGrid.removeAllData();
-        if (instanceBaseDtos != null) {
-            for (InstanceBaseDto instanceBaseDto : instanceBaseDtos) {
-                instanceListGrid.addData(RecordUtils.getInstanceRecord(instanceBaseDto));
-            }
-        }
-        deselectInstance();
-
-        // Instances order
-        instancesOrderFormLayout.setInstances(instanceBaseDtos);
-        if (instanceBaseDtos == null || instanceBaseDtos.isEmpty()) {
-            instancesOrderFormLayout.hide();
-        } else {
-            instancesOrderFormLayout.show();
-        }
-    }
-
-    public void setOperationFamilies(List<FamilyBaseDto> familyBaseDtos) {
-        this.familyBaseDtos = familyBaseDtos;
-        // Set families in listGrid
-        familyListGrid.selectAllRecords();
-        familyListGrid.removeSelectedData();
-        familyListGrid.deselectAllRecords();
-        if (familyBaseDtos != null) {
-            for (FamilyBaseDto familyBaseDto : familyBaseDtos) {
-                familyListGrid.addData(RecordUtils.getFamilyRecord(familyBaseDto));
-            }
-        }
-        familyListGrid.setAutoFitMaxRecords(familyBaseDtos.size());
-    }
-
-    private void setOperation(OperationDto operationDto) {
-        mainFormLayout.setViewMode();
-        mainFormLayout.updatePublishSection(operationDto.getProcStatus());
-        // Set Family
-        mainFormLayout.setTitleLabelContents(InternationalStringUtils.getLocalisedString(operationDto.getTitle()));
-        // Form
-        setOperationViewMode(operationDto);
-        setOperationEditionMode(operationDto);
-    }
-
-    private void createViewForm() {
-        // Identifiers
-        identifiersForm = new GroupDynamicForm(getConstants().operationIdentifiers());
-        ViewTextItem identifier = new ViewTextItem(OperationDS.CODE, getConstants().operationCode());
-        ViewMultiLanguageTextItem title = new ViewMultiLanguageTextItem(OperationDS.TITLE, getConstants().operationTitle());
-        ViewMultiLanguageTextItem acronym = new ViewMultiLanguageTextItem(OperationDS.ACRONYM, getConstants().operationAcronym());
-        ViewTextItem statisticPlanCode = new ViewTextItem(OperationDS.STATISTIC_PLAN, getConstants().statisticPlanCode());
-        ViewTextItem urn = new ViewTextItem(OperationDS.URN, getConstants().operationUrn());
-        ViewTextItem publicationStreamStatus = new ViewTextItem(OperationDS.PUBLICATION_STREAM_STATUS, getConstants().lifeCycleStatisticalResourceStreamMsgStatus());
-        publicationStreamStatus.setWidth(20);
-
-        identifiersForm.setFields(identifier, statisticPlanCode, title, acronym, urn, publicationStreamStatus);
-
-        // Content Classifiers
-        contentClassifiersForm = new GroupDynamicForm(getConstants().operationContentClassifiers());
-        ExternalItemLinkItem subjectArea = new ExternalItemLinkItem(OperationDS.SUBJECT_AREA, getConstants().operationSubjectArea());
-        ExternalItemListItem secondarySubject = new ExternalItemListItem(OperationDS.SECONDARY_SUBJECT_AREAS, getConstants().operationSubjectAreasSecondary(), false);
-        contentClassifiersForm.setFields(subjectArea, secondarySubject);
-
-        // Content Descriptors
-        contentViewForm = new GroupDynamicForm(getConstants().operationContentDescriptors());
-        ViewMultiLanguageTextItem description = new ViewMultiLanguageTextItem(OperationDS.DESCRIPTION, getConstants().operationDescription());
-        ViewMultiLanguageTextItem objective = new ViewMultiLanguageTextItem(OperationDS.OBJECTIVE, getConstants().operationObjective());
-        contentViewForm.setFields(objective, description);
-
-        // Class Descriptors
-        classForm = new GroupDynamicForm(getConstants().operationClassDescriptors());
-        ViewTextItem survey = new ViewTextItem(OperationDS.STATISTICAL_OPERATION_TYPE, getConstants().operationSurveyType());
-        ViewTextItem officiality = new ViewTextItem(OperationDS.OFFICIALITY_TYPE, getConstants().operationOfficialityType());
-        ViewTextItem indSystem = new ViewTextItem(OperationDS.INDICATOR_SYSTEM, getConstants().operationIndicatorSystem());
-        classForm.setFields(survey, officiality, indSystem);
-
-        // Production descriptors
-        ViewTextItem techinicianInCharge = new ViewTextItem(OperationDS.TECHNICIAN_IN_CHARGE, getConstants().operationTechnicianInCharge());
-        ViewTextItem assistantTechnician = new ViewTextItem(OperationDS.ASSISTANT_TECHNICIAN, getConstants().operationAssistantTechnician());
-        productionDescriptorsForm = new GroupDynamicForm(getConstants().operationProductionDescriptors());
-        ExternalItemListItem producer = new ExternalItemListItem(OperationDS.PRODUCER, getConstants().operationProducers(), false);
-        ExternalItemListItem resposible = new ExternalItemListItem(OperationDS.REG_RESPONSIBLE, getConstants().operationResponsibles(), false);
-        ExternalItemListItem contibutor = new ExternalItemListItem(OperationDS.REG_CONTRIBUTOR, getConstants().operationContributors(), false);
-        ViewTextItem createdDate = new ViewTextItem(OperationDS.CREATED_DATE, getConstants().operationCreatedDate());
-        ViewTextItem inventoryDate = new ViewTextItem(OperationDS.INTERNAL_INVENTORY_DATE, getConstants().operationInternalInventoryDate());
-        ViewTextItem currentlyActive = new ViewTextItem(OperationDS.CURRENTLY_ACTIVE, getConstants().operationCurrentlyActive());
-        ViewTextItem status = new ViewTextItem(OperationDS.STATUS, getConstants().operationStatus());
-        ViewTextItem edatosMigrationStatus = new ViewTextItem(OperationDS.EDATOS_MIGRATION_STATUS, getConstants().edatosMigrationStatus());
-        ViewTextItem procStatus = new ViewTextItem(OperationDS.PROC_STATUS, getConstants().operationProcStatus());
-
-        ViewMultiLanguageTextItem genderPerspective = new ViewMultiLanguageTextItem(OperationDS.GENDER_PERSPECTIVE, getConstants().operationGenderPerspective());
-        ViewTextItem disaggregationBySex = new ViewTextItem(OperationDS.DISAGGREGATION_BY_SEX, getConstants().operationDisaggregationBySex());
-        ViewTextItem disaggregationByAge = new ViewTextItem(OperationDS.DISAGGREGATION_BY_AGE, getConstants().operationDisaggregationByAge());
-        ViewTextItem disaggregationByNationality = new ViewTextItem(OperationDS.DISAGGREGATION_BY_NATIONALITY, getConstants().operationDisaggregationByNationality());
-        ViewTextItem disaggregationByDisability = new ViewTextItem(OperationDS.DISAGGREGATION_BY_DISABILITY, getConstants().operationDisaggregationByDisability());
-
-        productionDescriptorsForm.setFields(techinicianInCharge, assistantTechnician, producer, resposible, contibutor, createdDate, inventoryDate, currentlyActive, status, procStatus,
-                genderPerspective, edatosMigrationStatus, disaggregationBySex, disaggregationByAge, disaggregationByNationality, disaggregationByDisability);
-
-        // Diffusion Descriptors
-        diffusionForm = new GroupDynamicForm(getConstants().operationDiffusionAndPublication());
-        ExternalItemListItem publisher = new ExternalItemListItem(OperationDS.PUBLISHER, getConstants().operationPublisher(), false);
-        ExternalItemLinkItem commonMetadata = new ExternalItemLinkItem(OperationDS.COMMON_METADATA, getConstants().operationCommonMetadata());
-        ViewMultiLanguageTextItem staticRelPolUsAc = new ViewMultiLanguageTextItem(OperationDS.RE_POL_US_AC, getConstants().operationReleaseUsersPolicy());
-        ViewTextItem releaseCalendar = new ViewTextItem(OperationDS.RELEASE_CALENDAR, getConstants().operationReleaseCalendar());
-        ViewTextItem releaseCalendarAccess = new ViewTextItem(OperationDS.RELEASE_CALENDAR_ACCESS, getConstants().operationReleaseCalendarAccess());
-        ExternalItemListItem updateFreq = new ExternalItemListItem(OperationDS.UPDATE_FREQUENCY, getConstants().operationUpdateFrequency(), false);
-        CustomLinkItem currentInst = new CustomLinkItem(OperationDS.CURRENT_INSTANCE, getConstants().operationCurrentInstance(), getCustomLinkItemNavigationClickHandler());
-        CustomLinkItem currentInternalInst = new CustomLinkItem(OperationDS.CURRENT_INTERNAL_INSTANCE, getConstants().operationCurrentInternalInstance(), getCustomLinkItemNavigationClickHandler());
-        ViewTextItem invDate = new ViewTextItem(OperationDS.INVENTORY_DATE, getConstants().operationInventoryDate());
-        ViewMultiLanguageTextItem staticRevPolicyItem = new ViewMultiLanguageTextItem(OperationDS.REV_POLICY, getConstants().operationRevPolicy());
-        ViewMultiLanguageTextItem staticRevPracticeItem = new ViewMultiLanguageTextItem(OperationDS.REV_PRACTICE, getConstants().operationRevPractice());
-        ViewTextItem diffusionAndPublicationVisible = new ViewTextItem(OperationDS.DIFFUSION_AND_PUBLICATION, getConstants().visible());
-
-        viewOperationUrlsPanel = new OperationUrlsPanel(true);
-
-        VLayout viewOperationUrlsWrapper = new VLayout();
-        viewOperationUrlsWrapper.setAlign(Alignment.CENTER);
-        viewOperationUrlsWrapper.setMargin(10);
-        viewOperationUrlsWrapper.addMember(viewOperationUrlsPanel);
-
-        CanvasItem viewOperationUrlsPanelItem = new CanvasItem();
-        viewOperationUrlsPanelItem.setTitle(getConstants().statisticalOperationUrls());
-        viewOperationUrlsPanelItem.setCanvas(viewOperationUrlsWrapper);
-        viewOperationUrlsPanelItem.setColSpan("*");
-
-        diffusionForm.setFields(publisher, commonMetadata, staticRelPolUsAc, releaseCalendar, releaseCalendarAccess, updateFreq, currentInst, currentInternalInst, invDate, staticRevPolicyItem,
-                staticRevPracticeItem, diffusionAndPublicationVisible, viewOperationUrlsPanelItem);
-
-        // Legal acts
-        legalActsForm = new GroupDynamicForm(getConstants().formLegalActs());
-        ViewMultiLanguageTextItem specificLegalActs = new ViewMultiLanguageTextItem(OperationDS.SPECIFIC_LEGAL_ACTS, getConstants().operationSpecificLegalActs());
-        ViewMultiLanguageTextItem specificDataSharing = new ViewMultiLanguageTextItem(OperationDS.SPECIFIC_DATA_SHARING, getConstants().operationSpecificDataSharing());
-        legalActsForm.setFields(specificLegalActs, specificDataSharing);
-
-        // Annotations
-        annotationsViewForm = new GroupDynamicForm(getConstants().operationAnnotations());
-        ViewMultiLanguageTextItem staticCommentItem = new ViewMultiLanguageTextItem(OperationDS.COMMENTS, getConstants().operationComments());
-        ViewMultiLanguageTextItem staticNotesItem = new ViewMultiLanguageTextItem(OperationDS.NOTES, getConstants().operationNotes());
-        annotationsViewForm.setFields(staticCommentItem, staticNotesItem);
-
-        // Add to main layout
-        mainFormLayout.addViewCanvas(identifiersForm);
-        mainFormLayout.addViewCanvas(contentClassifiersForm);
-        mainFormLayout.addViewCanvas(contentViewForm);
-        mainFormLayout.addViewCanvas(classForm);
-        mainFormLayout.addViewCanvas(productionDescriptorsForm);
-        mainFormLayout.addViewCanvas(diffusionForm);
-        mainFormLayout.addViewCanvas(legalActsForm);
-        mainFormLayout.addViewCanvas(annotationsViewForm);
-    }
-
-    private void createEditionForm() {
-
-        // IDENTIFIERS
-
-        identifiersEditionForm = new GroupDynamicForm(getConstants().operationIdentifiers());
-
-        RequiredTextItem code = new RequiredTextItem(OperationDS.CODE, getConstants().operationCode());
-        TextItem statisticPlan = new TextItem(OperationDS.STATISTIC_PLAN, getConstants().statisticPlanCode());
-        code.setShowIfCondition(new FormItemIfFunction() {
-
-            @Override
-            public boolean execute(FormItem item, Object value, DynamicForm form) {
-                return canOperationCodeBeEdited();
-            }
-        });
-        code.setValidators(CommonWebUtils.getSemanticIdentifierCustomValidator(), CommonUtils.getOperationCodeLengthValidator());
-        ViewTextItem staticCode = new ViewTextItem(OperationDS.CODE_VIEW, getConstants().operationCode());
-        staticCode.setShowIfCondition(new FormItemIfFunction() {
-
-            @Override
-            public boolean execute(FormItem item, Object value, DynamicForm form) {
-                return !canOperationCodeBeEdited();
-            }
-        });
-
-        MultiLanguageTextItem title = new MultiLanguageTextItem(OperationDS.TITLE, getConstants().operationTitle());
-        title.setRequired(true);
-        MultiLanguageTextItem acronym = new MultiLanguageTextItem(OperationDS.ACRONYM, getConstants().operationAcronym());
-        ViewTextItem urn = new ViewTextItem(OperationDS.URN, getConstants().operationUrn());
-        identifiersEditionForm.setFields(staticCode, code, statisticPlan, title, acronym, urn);
-
-        // CONTENT CLASSIFIERS
-
-        contentClassifiersEditionForm = new GroupDynamicForm(getConstants().operationContentClassifiers());
-        SearchExternalItemLinkItem subjectAreaItem = createSubjectAreaItem(OperationDS.SUBJECT_AREA, getConstants().operationSubjectArea());
-        subjectAreaItem.setRequired(true);
-        SearchMultiExternalItemSimpleItem secondarySubjectAreasItem = createSecondarySubjectAreasItem();
-        contentClassifiersEditionForm.setFields(subjectAreaItem, secondarySubjectAreasItem);
-
-        // CONTENT DESCRIPTORS
-
-        contentEditionForm = new GroupDynamicForm(getConstants().operationContentDescriptors());
-        MultiLanguageRichTextEditorItem description = new MultiLanguageRichTextEditorItem(OperationDS.DESCRIPTION, getConstants().operationDescription());
-
-        final MultiLanguageRichTextEditorItem objective = new MultiLanguageRichTextEditorItem(OperationDS.OBJECTIVE, getConstants().operationObjective());
-        objective.setValidators(new CustomRequiredValidator() {
-
-            @Override
-            protected boolean condition(Object value) {
-                return CommonUtils.isInternallyOrExternallyPublished(operationDto) ? objective.getValue() != null : true;
-            }
-        });
-
-        contentEditionForm.setFields(objective, description);
-
-        // CLASS DESCRIPTORS
-
-        classDescriptorsEditionForm = new GroupDynamicForm(getConstants().operationClassDescriptors());
-
-        surveyType = new CustomSelectItem(OperationDS.STATISTICAL_OPERATION_TYPE, getConstants().operationSurveyType());
-        surveyType.setValidators(new CustomRequiredValidator() {
-
-            @Override
-            protected boolean condition(Object value) {
-                return CommonUtils.isInternallyOrExternallyPublished(operationDto) ? !StringUtils.isBlank(surveyType.getValueAsString()) : true;
-            }
-        });
-
-        officialityType = new CustomSelectItem(OperationDS.OFFICIALITY_TYPE, getConstants().operationOfficialityType());
-        officialityType.setValidators(new CustomRequiredValidator() {
-
-            @Override
-            protected boolean condition(Object value) {
-                return CommonUtils.isInternallyOrExternallyPublished(operationDto) ? !StringUtils.isBlank(officialityType.getValueAsString()) : true;
-            }
-        });
-
-        indSystem = new CustomCheckboxItem(OperationDS.INDICATOR_SYSTEM, getConstants().operationIndicatorSystem());
-        indSystem.setTitleStyle("requiredFormLabel");
-        classDescriptorsEditionForm.setFields(surveyType, officialityType, indSystem);
-
-        // PRODUCTION DESCRIPTORS
-        productionDescriptorsEditionForm = new GroupDynamicForm(getConstants().operationProductionDescriptors());
-        technicianInCharge = new CustomSelectItem(OperationDS.TECHNICIAN_IN_CHARGE, getConstants().operationTechnicianInCharge());
-        technicianInCharge.setValidators(getTechnicianInChargeUserNotTheSameAsAssistantTechnicianUserValidator());
-
-        assistantTechnician = new CustomSelectItem(OperationDS.ASSISTANT_TECHNICIAN, getConstants().operationAssistantTechnician());
-        assistantTechnician.setValidators(getTechnicianInChargeUserNotTheSameAsAssistantTechnicianUserValidator());
-
-        final SearchSrmListItemWithSchemeFilterItem producerItem = createProducersItem();
-        producerItem.setValidators(new CustomRequiredValidator() {
-
-            @Override
-            protected boolean condition(Object value) {
-                return CommonUtils.isInternallyOrExternallyPublished(operationDto) ? !producerItem.getExternalItemDtos().isEmpty() : true;
-            }
-        });
-
-        final SearchSrmListItemWithSchemeFilterItem regionalResponsibleItem = createRegionaleResponsiblesItem();
-        regionalResponsibleItem.setValidators(new CustomRequiredValidator() {
-
-            @Override
-            protected boolean condition(Object value) {
-                return CommonUtils.isInternallyOrExternallyPublished(operationDto) ? !regionalResponsibleItem.getExternalItemDtos().isEmpty() : true;
-            }
-        });
-
-        SearchSrmListItemWithSchemeFilterItem regionalContributorItem = createRegionaleContributorsItem();
-
-        ViewTextItem createdDate = new ViewTextItem(OperationDS.CREATED_DATE, getConstants().operationCreatedDate());
-        ViewTextItem internalInventoryDate = new ViewTextItem(OperationDS.INTERNAL_INVENTORY_DATE, getConstants().operationInternalInventoryDate());
-        currentlyActiveItem = new CustomCheckboxItem(OperationDS.CURRENTLY_ACTIVE, getConstants().operationCurrentlyActive());
-
-        BooleanSelectItem disaggregationBySexItem = new BooleanSelectItem(OperationDS.DISAGGREGATION_BY_SEX, getConstants().operationDisaggregationBySex());
-        BooleanSelectItem disaggregationByAgeItem = new BooleanSelectItem(OperationDS.DISAGGREGATION_BY_AGE, getConstants().operationDisaggregationByAge());
-        BooleanSelectItem disaggregationByNationalityItem = new BooleanSelectItem(OperationDS.DISAGGREGATION_BY_NATIONALITY, getConstants().operationDisaggregationByNationality());
-        BooleanSelectItem disaggregationByDisabilityItem = new BooleanSelectItem(OperationDS.DISAGGREGATION_BY_DISABILITY, getConstants().operationDisaggregationByDisability());
-
-        statusItem = new CustomSelectItem(OperationDS.STATUS, getConstants().operationStatus());
-        statusItem.setValueMap(CommonUtils.getStatusEnumHashMap());
-        statusItem.setValidators(new CustomRequiredValidator() {
-
-            @Override
-            protected boolean condition(Object value) {
-                return CommonUtils.isInternallyOrExternallyPublished(operationDto) ? !StringUtils.isBlank(statusItem.getValueAsString()) : true;
-            }
-        });
-
-        edatosMigrationStatusItem = new CustomSelectItem(OperationDS.EDATOS_MIGRATION_STATUS, getConstants().edatosMigrationStatus());
-        edatosMigrationStatusItem.setValueMap(CommonUtils.getEdatosMigrationStatusEnumHashMap());
-        edatosMigrationStatusItem.setRequired(true);
-
-        ViewTextItem procStatus = new ViewTextItem(OperationDS.PROC_STATUS, getConstants().operationProcStatus());
-        ViewTextItem staticProcStatus = new ViewTextItem(OperationDS.PROC_STATUS_VIEW, getConstants().operationProcStatus());
-        staticProcStatus.setShowIfCondition(FormItemUtils.getFalseFormItemIfFunction());
-
-        MultiLanguageTextItem genderPerspective = new MultiLanguageTextItem(OperationDS.GENDER_PERSPECTIVE, getConstants().operationGenderPerspective());
-
-        productionDescriptorsEditionForm.setFields(technicianInCharge, assistantTechnician, producerItem, regionalResponsibleItem, regionalContributorItem, createdDate, internalInventoryDate,
-                currentlyActiveItem, statusItem, staticProcStatus, procStatus, genderPerspective, edatosMigrationStatusItem, disaggregationBySexItem, disaggregationByAgeItem, disaggregationByNationalityItem,
-                disaggregationByDisabilityItem);
-
-        // DIFFUSION AND PUBLICATION
-
-        diffusionEditionForm = new GroupDynamicForm(getConstants().operationDiffusionAndPublication());
-
-        final SearchSrmListItemWithSchemeFilterItem publishersItem = createPublishersItem();
-        publishersItem.setValidators(new CustomRequiredValidator() {
-
-            @Override
-            protected boolean condition(Object value) {
-                return CommonUtils.isInternallyOrExternallyPublished(operationDto) ? !publishersItem.getExternalItemDtos().isEmpty() : true;
-            }
-        });
-
-        final SearchSingleCommonConfigurationItem commonMetadataItem = createCommonMetadataItem(OperationDS.COMMON_METADATA, getConstants().operationCommonMetadata());
-        commonMetadataItem.setValidators(new CustomRequiredValidator() {
-
-            @Override
-            protected boolean condition(Object value) {
-                return CommonUtils.isInternallyOrExternallyPublished(operationDto) ? commonMetadataItem.getExternalItemDto() != null : true;
-            }
-        });
-
-        MultiLanguageRichTextEditorItem relPolUsAc = new MultiLanguageRichTextEditorItem(OperationDS.RE_POL_US_AC, getConstants().operationReleaseUsersPolicy());
-        releaseCalendar = new CustomCheckboxItem(OperationDS.RELEASE_CALENDAR, getConstants().operationReleaseCalendar());
-        diffusionAndPublicationVisible = new CustomCheckboxItem(OperationDS.DIFFUSION_AND_PUBLICATION, getConstants().visible());
-        releaseCalendarAccess = new CustomTextItem(OperationDS.RELEASE_CALENDAR_ACCESS, getConstants().operationReleaseCalendarAccess());
-        releaseCalendarAccess.setValidators(CommonWebUtils.getUrlValidator());
-        ExternalItemListItem updateFrequencyItem = createUpdateFrequencyItem();
-        CustomLinkItem currentInst = new CustomLinkItem(OperationDS.CURRENT_INSTANCE, getConstants().operationCurrentInstance(), getCustomLinkItemNavigationClickHandler());
-        CustomLinkItem currentInternalInst = new CustomLinkItem(OperationDS.CURRENT_INTERNAL_INSTANCE, getConstants().operationCurrentInternalInstance(), getCustomLinkItemNavigationClickHandler());
-        ViewTextItem invDate = new ViewTextItem(OperationDS.INVENTORY_DATE, getConstants().operationInventoryDate());
-        MultiLanguageRichTextEditorItem revPolicyItem = new MultiLanguageRichTextEditorItem(OperationDS.REV_POLICY, getConstants().operationRevPolicy());
-        MultiLanguageRichTextEditorItem revPracticeItem = new MultiLanguageRichTextEditorItem(OperationDS.REV_PRACTICE, getConstants().operationRevPractice());
-
-        editOperationUrlsPanel = new OperationUrlsPanel(false);
-
-        VLayout editOperationUrlsWrapper = new VLayout();
-        editOperationUrlsWrapper.setAlign(Alignment.CENTER);
-        editOperationUrlsWrapper.setMargin(10);
-        editOperationUrlsWrapper.addMember(editOperationUrlsPanel);
-
-        CanvasItem editOperationUrlsPanelItem = new CanvasItem();
-        editOperationUrlsPanelItem.setTitle(getConstants().statisticalOperationUrls());
-        editOperationUrlsPanelItem.setCanvas(editOperationUrlsWrapper);
-        editOperationUrlsPanelItem.setColSpan("*");
-
-        diffusionEditionForm.setFields(publishersItem, commonMetadataItem, relPolUsAc, releaseCalendar, releaseCalendarAccess, updateFrequencyItem, currentInst, currentInternalInst, invDate,
-                revPolicyItem, revPracticeItem, diffusionAndPublicationVisible, editOperationUrlsPanelItem);
-
-        // LEGAL ACTS
-
-        legalActsEditionForm = new GroupDynamicForm(getConstants().formLegalActs());
-        MultiLanguageRichTextEditorItem specificLegalActs = new MultiLanguageRichTextEditorItem(OperationDS.SPECIFIC_LEGAL_ACTS, getConstants().operationSpecificLegalActs());
-        MultiLanguageRichTextEditorItem specificDataSharing = new MultiLanguageRichTextEditorItem(OperationDS.SPECIFIC_DATA_SHARING, getConstants().operationSpecificDataSharing());
-        legalActsEditionForm.setFields(specificLegalActs, specificDataSharing);
-
-        // ANNOTATIONS
-
-        annotationsEditionForm = new GroupDynamicForm(getConstants().operationAnnotations());
-        MultiLanguageRichTextEditorItem commentItem = new MultiLanguageRichTextEditorItem(OperationDS.COMMENTS, getConstants().operationComments());
-        MultiLanguageRichTextEditorItem notesItem = new MultiLanguageRichTextEditorItem(OperationDS.NOTES, getConstants().operationNotes());
-        annotationsEditionForm.setFields(commentItem, notesItem);
-
-        // Add to main layout
-        mainFormLayout.addEditionCanvas(identifiersEditionForm);
-        mainFormLayout.addEditionCanvas(contentClassifiersEditionForm);
-        mainFormLayout.addEditionCanvas(contentEditionForm);
-        mainFormLayout.addEditionCanvas(classDescriptorsEditionForm);
-        mainFormLayout.addEditionCanvas(productionDescriptorsEditionForm);
-        mainFormLayout.addEditionCanvas(diffusionEditionForm);
-        mainFormLayout.addEditionCanvas(legalActsEditionForm);
-        mainFormLayout.addEditionCanvas(annotationsEditionForm);
-    }
-
-    private void setOperationViewMode(OperationDto operationDto) {
-        // IDENTIFIERS
-
-        identifiersForm.setValue(OperationDS.CODE, operationDto.getCode());
-        identifiersForm.setValue(OperationDS.STATISTIC_PLAN, operationDto.getStatisticPlanCode());
-        identifiersForm.setValue(OperationDS.TITLE, operationDto.getTitle());
-        identifiersForm.setValue(OperationDS.ACRONYM, operationDto.getAcronym());
-        identifiersForm.setValue(OperationDS.URN, operationDto.getUrn());
-        identifiersForm.getItem(OperationDS.PUBLICATION_STREAM_STATUS)
-                .setIcons(StreamMessageStatusEnum.PENDING.equals(operationDto.getStreamMessageStatus()) ? null : CommonUtils.getPublicationStreamStatusIcon(operationDto.getStreamMessageStatus()));
-
-        // CONTENT CLASSIFIERS
-
-        contentClassifiersForm.setValue(OperationDS.SUBJECT_AREA, operationDto.getSubjectArea());
-        ((ExternalItemListItem) contentClassifiersForm.getItem(OperationDS.SECONDARY_SUBJECT_AREAS)).setExternalItems(operationDto.getSecondarySubjectAreas());
-
-        // CONTENT DESCRIPTORS
-
-        contentViewForm.setValue(OperationDS.DESCRIPTION, operationDto.getDescription());
-        contentViewForm.setValue(OperationDS.OBJECTIVE, operationDto.getObjective());
-
-        // CLASS DESCRIPTORS
-
-        classForm.setValue(OperationDS.STATISTICAL_OPERATION_TYPE,
-                operationDto.getSurveyType() == null ? "" : CommonWebUtils.getElementName(operationDto.getSurveyType().getIdentifier(), operationDto.getSurveyType().getDescription()));
-        classForm.setValue(OperationDS.OFFICIALITY_TYPE,
-                operationDto.getOfficialityType() == null ? "" : CommonWebUtils.getElementName(operationDto.getOfficialityType().getIdentifier(), operationDto.getOfficialityType().getDescription()));
-        classForm.setValue(OperationDS.INDICATOR_SYSTEM,
-                (operationDto.getIndicatorSystem() != null && operationDto.getIndicatorSystem()) ? MetamacWebCommon.getConstants().yes() : MetamacWebCommon.getConstants().no());
-
-        // PRODUCTION DESCRIPTORS
-
-        productionDescriptorsForm.setValue(OperationDS.TECHNICIAN_IN_CHARGE, operationDto.getTechnicianInCharge() == null ? "" : operationDto.getTechnicianInCharge());
-        productionDescriptorsForm.setValue(OperationDS.ASSISTANT_TECHNICIAN, operationDto.getAssistantTechnician() == null ? "" : operationDto.getAssistantTechnician());
-        ((ExternalItemListItem) productionDescriptorsForm.getItem(OperationDS.PRODUCER)).setExternalItems(operationDto.getProducer());
-        ((ExternalItemListItem) productionDescriptorsForm.getItem(OperationDS.REG_RESPONSIBLE)).setExternalItems(operationDto.getResponsible());
-        ((ExternalItemListItem) productionDescriptorsForm.getItem(OperationDS.REG_CONTRIBUTOR)).setExternalItems(operationDto.getContributor());
-        productionDescriptorsForm.setValue(OperationDS.CREATED_DATE, operationDto.getCreatedDate());
-        productionDescriptorsForm.setValue(OperationDS.INTERNAL_INVENTORY_DATE, operationDto.getInternalInventoryDate());
-        productionDescriptorsForm.setValue(OperationDS.CURRENTLY_ACTIVE,
-                (operationDto.getCurrentlyActive() != null && operationDto.getCurrentlyActive()) ? MetamacWebCommon.getConstants().yes() : MetamacWebCommon.getConstants().no());
-        productionDescriptorsForm.setValue(OperationDS.DISAGGREGATION_BY_SEX,
-                operationDto.getDisaggregationBySex() == null ? "" : (operationDto.getDisaggregationBySex() ? MetamacWebCommon.getConstants().yes() : MetamacWebCommon.getConstants().no()));
-
-        productionDescriptorsForm.setValue(OperationDS.DISAGGREGATION_BY_AGE,
-                operationDto.getDisaggregationByAge() == null ? "" : (operationDto.getDisaggregationByAge() ? MetamacWebCommon.getConstants().yes() : MetamacWebCommon.getConstants().no()));
-
-        productionDescriptorsForm.setValue(OperationDS.DISAGGREGATION_BY_DISABILITY,
-                operationDto.getDisaggregationByDisability() == null
-                        ? ""
-                        : (operationDto.getDisaggregationByDisability() ? MetamacWebCommon.getConstants().yes() : MetamacWebCommon.getConstants().no()));
-
-        productionDescriptorsForm.setValue(OperationDS.DISAGGREGATION_BY_NATIONALITY,
-                operationDto.getDisaggregationByNationality() == null
-                        ? ""
-                        : (operationDto.getDisaggregationByNationality() ? MetamacWebCommon.getConstants().yes() : MetamacWebCommon.getConstants().no()));
-        productionDescriptorsForm.setValue(OperationDS.STATUS, CommonUtils.getStatusName(operationDto.getStatus()));
-        productionDescriptorsForm.setValue(OperationDS.EDATOS_MIGRATION_STATUS, CommonUtils.getEdatosMigrationStatusName(operationDto.getEdatosMigrationStatus()));
-        productionDescriptorsForm.setValue(OperationDS.PROC_STATUS, CommonUtils.getProcStatusName(operationDto.getProcStatus()));
-        productionDescriptorsForm.setValue(OperationDS.GENDER_PERSPECTIVE, operationDto.getGenderPerspective());
-
-        // DIFFUSION AND PUBLICATION
-
-        ((ExternalItemListItem) diffusionForm.getItem(OperationDS.PUBLISHER)).setExternalItems(operationDto.getPublisher());
-
-        diffusionForm.setValue(OperationDS.COMMON_METADATA, operationDto.getCommonMetadata());
-
-        diffusionForm.setValue(OperationDS.RE_POL_US_AC, operationDto.getRelPolUsAc());
-        diffusionForm.setValue(OperationDS.RELEASE_CALENDAR,
-                (operationDto.getReleaseCalendar() != null && operationDto.getReleaseCalendar()) ? MetamacWebCommon.getConstants().yes() : MetamacWebCommon.getConstants().no());
-        diffusionForm.setValue(OperationDS.RELEASE_CALENDAR_ACCESS, operationDto.getReleaseCalendarAccess());
-
-        ((ExternalItemListItem) diffusionForm.getItem(OperationDS.UPDATE_FREQUENCY)).setExternalItems(operationDto.getUpdateFrequency());
-
-        if (operationDto.getCurrentInstance() != null) {
-            ((CustomLinkItem) diffusionForm.getItem(OperationDS.CURRENT_INSTANCE)).setValue(
-                    CommonWebUtils.getElementName(operationDto.getCurrentInstance().getCode(), operationDto.getCurrentInstance().getTitle()),
-                    PlaceRequestUtils.buildAbsoluteInstancePlaceRequest(operationDto.getCode(), operationDto.getCurrentInstance().getCode()));
-        } else {
-            ((CustomLinkItem) diffusionForm.getItem(OperationDS.CURRENT_INSTANCE)).clearValue();
-        }
-
-        if (operationDto.getCurrentInternalInstance() != null) {
-            ((CustomLinkItem) diffusionForm.getItem(OperationDS.CURRENT_INTERNAL_INSTANCE)).setValue(
-                    CommonWebUtils.getElementName(operationDto.getCurrentInternalInstance().getCode(), operationDto.getCurrentInternalInstance().getTitle()),
-                    PlaceRequestUtils.buildAbsoluteInstancePlaceRequest(operationDto.getCode(), operationDto.getCurrentInternalInstance().getCode()));
-        } else {
-            ((CustomLinkItem) diffusionForm.getItem(OperationDS.CURRENT_INTERNAL_INSTANCE)).clearValue();
-        }
-
-        diffusionForm.setValue(OperationDS.INVENTORY_DATE, operationDto.getInventoryDate());
-        diffusionForm.setValue(OperationDS.REV_POLICY, operationDto.getRevPolicy());
-        diffusionForm.setValue(OperationDS.REV_PRACTICE, operationDto.getRevPractice());
-        diffusionForm.setValue(OperationDS.DIFFUSION_AND_PUBLICATION,
-                (operationDto.getDiffusionAndPublicationVisible() != null && operationDto.getDiffusionAndPublicationVisible())
-                        ? MetamacWebCommon.getConstants().yes()
-                        : MetamacWebCommon.getConstants().no());
-
-        // OPERATION URLS
-
-        viewOperationUrlsPanel.setOperationUrls(operationDto.getStatisticalOperationUrls());
-
-        // LEGAL ACTS
-        legalActsForm.setValue(OperationDS.SPECIFIC_LEGAL_ACTS, operationDto.getSpecificLegalActs());
-        legalActsForm.setValue(OperationDS.SPECIFIC_DATA_SHARING, operationDto.getSpecificDataSharing());
-
-        // ANNOTATIONS
-
-        annotationsViewForm.setValue(OperationDS.COMMENTS, operationDto.getComment());
-        annotationsViewForm.setValue(OperationDS.NOTES, operationDto.getNotes());
-    }
-
-    private void setOperationEditionMode(OperationDto operationDto) {
-
-        String[] requiredFieldsToNextProcStatus = RequiredFieldUtils.getOperationRequiredFieldsToNextProcStatus(operationDto.getProcStatus());
-
-        // IDENTIFIERS
-
-        identifiersEditionForm.setValue(OperationDS.CODE, operationDto.getCode());
-        identifiersEditionForm.setValue(OperationDS.STATISTIC_PLAN, operationDto.getStatisticPlanCode());
-        identifiersEditionForm.setValue(OperationDS.CODE_VIEW, operationDto.getCode());
-        identifiersEditionForm.setValue(OperationDS.TITLE, operationDto.getTitle());
-        identifiersEditionForm.setValue(OperationDS.ACRONYM, operationDto.getAcronym());
-        identifiersEditionForm.setValue(OperationDS.URN, operationDto.getUrn());
-        identifiersEditionForm.setRequiredTitleSuffix(requiredFieldsToNextProcStatus);
-        identifiersEditionForm.markForRedraw();
-
-        // CONTENT CLASSIFIERS
-
-        contentClassifiersEditionForm.setValue(OperationDS.SUBJECT_AREA, operationDto.getSubjectArea());
-        ((ExternalItemListItem) contentClassifiersEditionForm.getItem(OperationDS.SECONDARY_SUBJECT_AREAS)).setExternalItems(operationDto.getSecondarySubjectAreas());
-        contentClassifiersEditionForm.setRequiredTitleSuffix(requiredFieldsToNextProcStatus);
-        contentClassifiersEditionForm.markForRedraw();
-
-        // CONTENT DESCRIPTORS
-
-        contentEditionForm.setValue(OperationDS.DESCRIPTION, operationDto.getDescription());
-        contentEditionForm.setValue(OperationDS.OBJECTIVE, operationDto.getObjective());
-        contentEditionForm.setRequiredTitleSuffix(requiredFieldsToNextProcStatus);
-        contentEditionForm.markForRedraw();
-
-        // CLASS DESCRIPTORS
-
-        surveyType.setValue(operationDto.getSurveyType() != null ? operationDto.getSurveyType().getId() : null);
-
-        officialityType
-                .setValue(operationDto.getOfficialityType() != null ? OperationsListUtils.getOfficialityTypeArtificialKey(officialityTypeDtos, operationDto.getOfficialityType().getId()) : null);
-        indSystem.setValue(operationDto.getIndicatorSystem() == null ? false : operationDto.getIndicatorSystem());
-        classDescriptorsEditionForm.setRequiredTitleSuffix(requiredFieldsToNextProcStatus);
-        classDescriptorsEditionForm.markForRedraw();
-
-        // PRODUCTION DESCRIPTORS
-
-        technicianInCharge.setValue(operationDto.getTechnicianInCharge() != null ? CommonUtils.getUsernameUser(operationDto.getTechnicianInCharge()) : null);
-        assistantTechnician.setValue(operationDto.getAssistantTechnician() != null ? CommonUtils.getUsernameUser(operationDto.getAssistantTechnician()) : null);
-        ((ExternalItemListItem) productionDescriptorsEditionForm.getItem(OperationDS.PRODUCER)).setExternalItems(operationDto.getProducer());
-        ((ExternalItemListItem) productionDescriptorsEditionForm.getItem(OperationDS.REG_RESPONSIBLE)).setExternalItems(operationDto.getResponsible());
-        ((ExternalItemListItem) productionDescriptorsEditionForm.getItem(OperationDS.REG_CONTRIBUTOR)).setExternalItems(operationDto.getContributor());
-        productionDescriptorsEditionForm.setValue(OperationDS.CREATED_DATE, operationDto.getCreatedDate());
-        productionDescriptorsEditionForm.setValue(OperationDS.INTERNAL_INVENTORY_DATE, operationDto.getInternalInventoryDate());
-        currentlyActiveItem.setValue(operationDto.getCurrentlyActive() != null ? operationDto.getCurrentlyActive() : false);
-        ((BooleanSelectItem) productionDescriptorsEditionForm.getItem(OperationDS.DISAGGREGATION_BY_SEX)).setBooleanValue(operationDto.getDisaggregationBySex());
-        ((BooleanSelectItem) productionDescriptorsEditionForm.getItem(OperationDS.DISAGGREGATION_BY_AGE)).setBooleanValue(operationDto.getDisaggregationByAge());
-        ((BooleanSelectItem) productionDescriptorsEditionForm.getItem(OperationDS.DISAGGREGATION_BY_NATIONALITY)).setBooleanValue(operationDto.getDisaggregationByNationality());
-        ((BooleanSelectItem) productionDescriptorsEditionForm.getItem(OperationDS.DISAGGREGATION_BY_DISABILITY)).setBooleanValue(operationDto.getDisaggregationByDisability());
-        statusItem.setValue(operationDto.getStatus() == null ? null : operationDto.getStatus().toString());
-        edatosMigrationStatusItem.setValue(operationDto.getEdatosMigrationStatus() == null ? null : operationDto.getEdatosMigrationStatus().toString());
-        productionDescriptorsEditionForm.setValue(OperationDS.PROC_STATUS, CommonUtils.getProcStatusName(operationDto.getProcStatus()));
-        productionDescriptorsEditionForm.setValue(OperationDS.PROC_STATUS_VIEW, operationDto.getProcStatus().toString());
-        productionDescriptorsEditionForm.setValue(OperationDS.GENDER_PERSPECTIVE, operationDto.getGenderPerspective());
-        productionDescriptorsEditionForm.setRequiredTitleSuffix(requiredFieldsToNextProcStatus);
-        productionDescriptorsEditionForm.markForRedraw();
-
-        // DIFFUSION AND PUBLICATION
-
-        ((ExternalItemListItem) diffusionEditionForm.getItem(OperationDS.PUBLISHER)).setExternalItems(operationDto.getPublisher());
-
-        diffusionEditionForm.setValue(OperationDS.COMMON_METADATA, operationDto.getCommonMetadata());
-
-        diffusionEditionForm.setValue(OperationDS.RE_POL_US_AC, operationDto.getRelPolUsAc());
-        releaseCalendar.setValue(operationDto.getReleaseCalendar());
-        releaseCalendarAccess.setValue(operationDto.getReleaseCalendarAccess());
-        diffusionAndPublicationVisible.setValue(operationDto.getDiffusionAndPublicationVisible());
-
-        ((ExternalItemListItem) diffusionEditionForm.getItem(OperationDS.UPDATE_FREQUENCY)).setExternalItems(operationDto.getUpdateFrequency());
-
-        if (operationDto.getCurrentInstance() != null) {
-            ((CustomLinkItem) diffusionEditionForm.getItem(OperationDS.CURRENT_INSTANCE)).setValue(
-                    CommonWebUtils.getElementName(operationDto.getCurrentInstance().getCode(), operationDto.getCurrentInstance().getTitle()),
-                    PlaceRequestUtils.buildAbsoluteInstancePlaceRequest(operationDto.getCode(), operationDto.getCurrentInstance().getCode()));
-        } else {
-            ((CustomLinkItem) diffusionEditionForm.getItem(OperationDS.CURRENT_INSTANCE)).clearValue();
-        }
-
-        if (operationDto.getCurrentInternalInstance() != null) {
-            ((CustomLinkItem) diffusionEditionForm.getItem(OperationDS.CURRENT_INTERNAL_INSTANCE)).setValue(
-                    CommonWebUtils.getElementName(operationDto.getCurrentInternalInstance().getCode(), operationDto.getCurrentInternalInstance().getTitle()),
-                    PlaceRequestUtils.buildAbsoluteInstancePlaceRequest(operationDto.getCode(), operationDto.getCurrentInternalInstance().getCode()));
-        } else {
-            ((CustomLinkItem) diffusionEditionForm.getItem(OperationDS.CURRENT_INTERNAL_INSTANCE)).clearValue();
-        }
-
-        diffusionEditionForm.setValue(OperationDS.INVENTORY_DATE, operationDto.getInventoryDate());
-        diffusionEditionForm.setValue(OperationDS.REV_POLICY, operationDto.getRevPolicy());
-        diffusionEditionForm.setValue(OperationDS.REV_PRACTICE, operationDto.getRevPractice());
-
-        diffusionEditionForm.setRequiredTitleSuffix(requiredFieldsToNextProcStatus);
-        diffusionEditionForm.markForRedraw();
-
-        // OPERATION URLS
-
-        editOperationUrlsPanel.setOperationUrls(operationDto.getStatisticalOperationUrls());
-
-        // LEGAL ACTS
-
-        legalActsEditionForm.setValue(OperationDS.SPECIFIC_LEGAL_ACTS, operationDto.getSpecificLegalActs());
-        legalActsEditionForm.setValue(OperationDS.SPECIFIC_DATA_SHARING, operationDto.getSpecificDataSharing());
-        legalActsEditionForm.setRequiredTitleSuffix(requiredFieldsToNextProcStatus);
-        legalActsEditionForm.markForRedraw();
-
-        // ANNOTATIONS
-
-        annotationsEditionForm.setValue(OperationDS.COMMENTS, operationDto.getComment());
-        annotationsEditionForm.setValue(OperationDS.NOTES, operationDto.getNotes());
-        annotationsEditionForm.setRequiredTitleSuffix(requiredFieldsToNextProcStatus);
-        annotationsEditionForm.markForRedraw();
-
-        identifiersEditionForm.markForRedraw();
-        productionDescriptorsEditionForm.markForRedraw();
-    }
-
-    @Override
-    public HasClickHandlers getPublishOperationInternally() {
-        return mainFormLayout.getPublishInternally();
-    }
-
-    @Override
-    public HasClickHandlers getPublishOperationExternally() {
-        return mainFormLayout.getPublishExternally();
-    }
-
-    @Override
-    public HasClickHandlers getReSendStreamMessageOperation() {
-        return mainFormLayout.getLifeCycleReSendStreamMessage();
-    }
-
-    /**
-     * Select Instance in ListGrid
-     *
-     * @param id
-     */
-    private void selectInstance(Long id) {
-        if (id == null) {
-            // New instance
-            instanceListGridToolStrip.getDeleteButton().hide();
-            instanceListGrid.deselectAllRecords();
-        } else {
-            showInstanceListGridDeleteButton();
-        }
-    }
-
-    /**
-     * DeSelect Instance in ListGrid
-     */
-    private void deselectInstance() {
-        instanceListGridToolStrip.getDeleteButton().hide();
-    }
-
-    @Override
-    public void setOperationsLists(List<SurveyTypeDto> surveyTypeDtos, List<OfficialityTypeDto> officialityTypeDtos) {
-        this.surveyTypeDtos = surveyTypeDtos;
-        this.officialityTypeDtos = officialityTypeDtos;
-        surveyType.setValueMap(OperationsListUtils.getSurveyTypeHashMap(surveyTypeDtos));
-        officialityType.setValueMap(OperationsListUtils.getOfficialityTypeHashMap(officialityTypeDtos));
-    }
-
-    @Override
-    public void setCommonMetadataConfigurations(List<ExternalItemDto> commonMetadataConfigurations) {
-        ((SearchSingleCommonConfigurationItem) diffusionEditionForm.getItem(OperationDS.COMMON_METADATA)).setCommonConfigurationsList(commonMetadataConfigurations);
-    }
-
-    private void setTranslationsShowed(boolean translationsShowed) {
-        // Set translationsShowed value to international fields
-        identifiersForm.setTranslationsShowed(translationsShowed);
-        identifiersEditionForm.setTranslationsShowed(translationsShowed);
-        contentViewForm.setTranslationsShowed(translationsShowed);
-        contentEditionForm.setTranslationsShowed(translationsShowed);
-        productionDescriptorsForm.setTranslationsShowed(translationsShowed);
-        productionDescriptorsEditionForm.setTranslationsShowed(translationsShowed);
-        diffusionForm.setTranslationsShowed(translationsShowed);
-        viewOperationUrlsPanel.setTranslationsShowed(translationsShowed);
-        editOperationUrlsPanel.setTranslationsShowed(translationsShowed);
-        diffusionEditionForm.setTranslationsShowed(translationsShowed);
-        annotationsViewForm.setTranslationsShowed(translationsShowed);
-        annotationsEditionForm.setTranslationsShowed(translationsShowed);
-    }
-
-    private void showInstanceListGridDeleteButton() {
-        if (ClientSecurityUtils.canDeleteInstance(operationDto.getCode(), operationDto.getProcStatus())) {
-            instanceListGridToolStrip.getDeleteButton().show();
-        }
-    }
-
-    private boolean canOperationCodeBeEdited() {
-        // Operation code can be edited only when ProcStatus is DRAFT
-        return (productionDescriptorsEditionForm.getValue(OperationDS.PROC_STATUS_VIEW) != null
-                && ProcStatusEnum.DRAFT.toString().equals(productionDescriptorsEditionForm.getValue(OperationDS.PROC_STATUS_VIEW)));
-    }
-
-    public boolean isOperationInternallyPublished() {
-        return ProcStatusEnum.PUBLISH_INTERNALLY.equals(operationDto.getProcStatus());
-    }
-
-    public boolean isOperationExternallyPublished() {
-        return ProcStatusEnum.PUBLISH_EXTERNALLY.equals(operationDto.getProcStatus());
-    }
-
-    @Override
-    public void setFamilies(List<ExternalItemDto> families, int firstResult, int totalResults) {
-        if (windowToAddFamiliesToOperation != null) {
-            windowToAddFamiliesToOperation.setResources(families);
-            windowToAddFamiliesToOperation.refreshSourcePaginationInfo(firstResult, families.size(), totalResults);
-        }
-    }
-    @Override
-    public void setUsersAccessControl(GetUsersAccessControlListResult result) {
-        technicianInCharge.setValueMap(result.getUsers());
-        assistantTechnician.setValueMap(result.getUsers());
-    }
-
-    // ------------------------------------------------------------------------------------------------------------
-    // EXTERNAL RESOURCES DATA SETTERS
-    // ------------------------------------------------------------------------------------------------------------
-
-    @Override
-    public void setItemSchemes(String formItemName, ExternalItemsResult result) {
-        if (StringUtils.equals(OperationDS.SUBJECT_AREA, formItemName)) {
-            ((SearchSrmItemLinkItemWithSchemeFilterItem) contentClassifiersEditionForm.getItem(formItemName)).setFilterResources(result.getExternalItemDtos(), result.getFirstResult(),
-                    result.getExternalItemDtos().size(), result.getTotalResults());
-
-        } else if (StringUtils.equals(OperationDS.SECONDARY_SUBJECT_AREAS, formItemName)) {
-            ((SearchSrmListItemWithSchemeFilterItem) contentClassifiersEditionForm.getItem(formItemName)).setFilterResources(result.getExternalItemDtos(), result.getFirstResult(),
-                    result.getTotalResults());
-
-        } else if (StringUtils.equals(OperationDS.PRODUCER, formItemName)) {
-            ((SearchSrmListItemWithSchemeFilterItem) productionDescriptorsEditionForm.getItem(formItemName)).setFilterResources(result.getExternalItemDtos(), result.getFirstResult(),
-                    result.getTotalResults());
-
-        } else if (StringUtils.equals(OperationDS.REG_RESPONSIBLE, formItemName)) {
-            ((SearchSrmListItemWithSchemeFilterItem) productionDescriptorsEditionForm.getItem(formItemName)).setFilterResources(result.getExternalItemDtos(), result.getFirstResult(),
-                    result.getTotalResults());
-
-        } else if (StringUtils.equals(OperationDS.REG_CONTRIBUTOR, formItemName)) {
-            ((SearchSrmListItemWithSchemeFilterItem) productionDescriptorsEditionForm.getItem(formItemName)).setFilterResources(result.getExternalItemDtos(), result.getFirstResult(),
-                    result.getTotalResults());
-
-        } else if (StringUtils.equals(OperationDS.PUBLISHER, formItemName)) {
-            ((SearchSrmListItemWithSchemeFilterItem) diffusionEditionForm.getItem(formItemName)).setFilterResources(result.getExternalItemDtos(), result.getFirstResult(), result.getTotalResults());
-
-        } else if (StringUtils.equals(OperationDS.UPDATE_FREQUENCY, formItemName)) {
-            ((SearchSrmListItemWithSchemeFilterItem) diffusionEditionForm.getItem(formItemName)).setFilterResources(result.getExternalItemDtos(), result.getFirstResult(), result.getTotalResults());
-        }
-    }
-
-    @Override
-    public void setItems(String formItemName, ExternalItemsResult result) {
-        if (StringUtils.equals(OperationDS.SUBJECT_AREA, formItemName)) {
-            ((SearchExternalItemSimpleItem) contentClassifiersEditionForm.getItem(formItemName)).setResources(result.getExternalItemDtos(), result.getFirstResult(), result.getTotalResults());
-
-        } else if (StringUtils.equals(OperationDS.SECONDARY_SUBJECT_AREAS, formItemName)) {
-            ((SearchMultiExternalItemSimpleItem) contentClassifiersEditionForm.getItem(formItemName)).setResources(result.getExternalItemDtos(), result.getFirstResult(), result.getTotalResults());
-
-        } else if (StringUtils.equals(OperationDS.PRODUCER, formItemName)) {
-            ((SearchSrmListItemWithSchemeFilterItem) productionDescriptorsEditionForm.getItem(formItemName)).setResources(result.getExternalItemDtos(), result.getFirstResult(),
-                    result.getTotalResults());
-
-        } else if (StringUtils.equals(OperationDS.REG_RESPONSIBLE, formItemName)) {
-            ((SearchSrmListItemWithSchemeFilterItem) productionDescriptorsEditionForm.getItem(formItemName)).setResources(result.getExternalItemDtos(), result.getFirstResult(),
-                    result.getTotalResults());
-
-        } else if (StringUtils.equals(OperationDS.REG_CONTRIBUTOR, formItemName)) {
-            ((SearchSrmListItemWithSchemeFilterItem) productionDescriptorsEditionForm.getItem(formItemName)).setResources(result.getExternalItemDtos(), result.getFirstResult(),
-                    result.getTotalResults());
-
-        } else if (StringUtils.equals(OperationDS.PUBLISHER, formItemName)) {
-            ((SearchSrmListItemWithSchemeFilterItem) diffusionEditionForm.getItem(formItemName)).setResources(result.getExternalItemDtos(), result.getFirstResult(), result.getTotalResults());
-
-        } else if (StringUtils.equals(OperationDS.UPDATE_FREQUENCY, formItemName)) {
-            ((SearchSrmListItemWithSchemeFilterItem) diffusionEditionForm.getItem(formItemName)).setResources(result.getExternalItemDtos(), result.getFirstResult(), result.getTotalResults());
-        }
-    }
-
-    // ------------------------------------------------------------------------------------------------------------
-    // EXTERNAL RESOURCES ITEMS
-    // ------------------------------------------------------------------------------------------------------------
-
-    private SearchExternalItemSimpleItem createSubjectAreaItem(final String name, String title) {
-        return new SearchExternalItemSimpleItem(name, title, StatisticalOperationsWebConstants.FORM_LIST_MAX_RESULTS) {
-
-            @Override
-            protected void retrieveResources(int firstResult, int maxResults, MetamacWebCriteria webCriteria) {
-                TypeExternalArtefactsEnum[] type = {TypeExternalArtefactsEnum.CATEGORY_ELEMENT};
-
-                SrmItemRestCriteria restCriteria = new SrmItemRestCriteria();
-                restCriteria.setExternalArtifactType(TypeExternalArtefactsEnum.CATEGORY_ELEMENT);
-                restCriteria.setCriteria(webCriteria.getCriteria());
-
-                getUiHandlers().retrieveItems(name, restCriteria, type, firstResult, maxResults);
-            }
-        };
-    }
-
-    private SearchMultiExternalItemSimpleItem createSecondarySubjectAreasItem() {
-        final String field = OperationDS.SECONDARY_SUBJECT_AREAS;
-        return new SearchMultiExternalItemSimpleItem(field, getConstants().operationSubjectAreasSecondary(), StatisticalOperationsWebConstants.FORM_LIST_MAX_RESULTS) {
-
-            @Override
-            protected void retrieveResources(int firstResult, int maxResults, MetamacWebCriteria webCriteria) {
-                TypeExternalArtefactsEnum[] type = {TypeExternalArtefactsEnum.CATEGORY_ELEMENT};
-                SrmItemRestCriteria restCriteria = new SrmItemRestCriteria();
-                restCriteria.setExternalArtifactType(TypeExternalArtefactsEnum.CATEGORY_ELEMENT);
-                restCriteria.setCriteria(webCriteria.getCriteria());
-                getUiHandlers().retrieveItems(field, restCriteria, type, firstResult, maxResults);
-            }
-        };
-    }
-
-    private SearchSrmListItemWithSchemeFilterItem createProducersItem() {
-        final String field = OperationDS.PRODUCER;
-        final SearchSrmListItemWithSchemeFilterItem item = new SearchSrmListItemWithSchemeFilterItem(field, getConstants().operationProducers(),
-                StatisticalOperationsWebConstants.FORM_LIST_MAX_RESULTS) {
-
-            @Override
-            protected void retrieveItemSchemes(int firstResult, int maxResults, SrmExternalResourceRestCriteria webCriteria) {
-                getUiHandlers().retrieveItemSchemes(field, webCriteria, new TypeExternalArtefactsEnum[]{TypeExternalArtefactsEnum.ORGANISATION_UNIT_SCHEME}, firstResult, maxResults);
-            }
-
-            @Override
-            protected void retrieveItems(int firstResult, int maxResults, SrmItemRestCriteria webCriteria) {
-                getUiHandlers().retrieveItems(field, webCriteria, new TypeExternalArtefactsEnum[]{TypeExternalArtefactsEnum.ORGANISATION_UNIT}, firstResult, maxResults);
-            }
-        };
-        return item;
-    }
-
-    private SearchSrmListItemWithSchemeFilterItem createRegionaleResponsiblesItem() {
-        final String field = OperationDS.REG_RESPONSIBLE;
-        final SearchSrmListItemWithSchemeFilterItem item = new SearchSrmListItemWithSchemeFilterItem(field, getConstants().operationResponsibles(),
-                StatisticalOperationsWebConstants.FORM_LIST_MAX_RESULTS) {
-
-            @Override
-            protected void retrieveItemSchemes(int firstResult, int maxResults, SrmExternalResourceRestCriteria webCriteria) {
-                getUiHandlers().retrieveItemSchemes(field, webCriteria, new TypeExternalArtefactsEnum[]{TypeExternalArtefactsEnum.ORGANISATION_UNIT_SCHEME}, firstResult, maxResults);
-            }
-
-            @Override
-            protected void retrieveItems(int firstResult, int maxResults, SrmItemRestCriteria webCriteria) {
-                getUiHandlers().retrieveItems(field, webCriteria, new TypeExternalArtefactsEnum[]{TypeExternalArtefactsEnum.ORGANISATION_UNIT}, firstResult, maxResults);
-            }
-        };
-        return item;
-    }
-
-    private SearchSrmListItemWithSchemeFilterItem createRegionaleContributorsItem() {
-        final String field = OperationDS.REG_CONTRIBUTOR;
-        final SearchSrmListItemWithSchemeFilterItem item = new SearchSrmListItemWithSchemeFilterItem(field, getConstants().operationContributors(),
-                StatisticalOperationsWebConstants.FORM_LIST_MAX_RESULTS) {
-
-            @Override
-            protected void retrieveItemSchemes(int firstResult, int maxResults, SrmExternalResourceRestCriteria webCriteria) {
-                getUiHandlers().retrieveItemSchemes(field, webCriteria,
-                        new TypeExternalArtefactsEnum[]{TypeExternalArtefactsEnum.ORGANISATION_UNIT_SCHEME, TypeExternalArtefactsEnum.DATA_PROVIDER_SCHEME}, firstResult, maxResults);
-            }
-
-            @Override
-            protected void retrieveItems(int firstResult, int maxResults, SrmItemRestCriteria webCriteria) {
-                getUiHandlers().retrieveItems(field, webCriteria, new TypeExternalArtefactsEnum[]{TypeExternalArtefactsEnum.ORGANISATION_UNIT, TypeExternalArtefactsEnum.DATA_PROVIDER}, firstResult,
-                        maxResults);
-            }
-        };
-        return item;
-    }
-
-    private SearchSrmListItemWithSchemeFilterItem createPublishersItem() {
-        final String field = OperationDS.PUBLISHER;
-        final SearchSrmListItemWithSchemeFilterItem item = new SearchSrmListItemWithSchemeFilterItem(field, getConstants().operationPublisher(),
-                StatisticalOperationsWebConstants.FORM_LIST_MAX_RESULTS) {
-
-            @Override
-            protected void retrieveItemSchemes(int firstResult, int maxResults, SrmExternalResourceRestCriteria webCriteria) {
-                getUiHandlers().retrieveItemSchemes(field, webCriteria, new TypeExternalArtefactsEnum[]{TypeExternalArtefactsEnum.ORGANISATION_UNIT_SCHEME}, firstResult, maxResults);
-            }
-
-            @Override
-            protected void retrieveItems(int firstResult, int maxResults, SrmItemRestCriteria webCriteria) {
-                getUiHandlers().retrieveItems(field, webCriteria, new TypeExternalArtefactsEnum[]{TypeExternalArtefactsEnum.ORGANISATION_UNIT}, firstResult, maxResults);
-            }
-        };
-        return item;
-    }
-
-    private SearchSrmListItemWithSchemeFilterItem createUpdateFrequencyItem() {
-        final String field = OperationDS.UPDATE_FREQUENCY;
-        final SearchSrmListItemWithSchemeFilterItem item = new SearchSrmListItemWithSchemeFilterItem(field, getConstants().operationUpdateFrequency(),
-                StatisticalOperationsWebConstants.FORM_LIST_MAX_RESULTS) {
-
-            @Override
-            protected void retrieveItemSchemes(int firstResult, int maxResults, SrmExternalResourceRestCriteria webCriteria) {
-                getUiHandlers().retrieveItemSchemes(field, webCriteria, new TypeExternalArtefactsEnum[]{TypeExternalArtefactsEnum.CODELIST}, firstResult, maxResults);
-            }
-
-            @Override
-            protected void retrieveItems(int firstResult, int maxResults, SrmItemRestCriteria webCriteria) {
-                getUiHandlers().retrieveItems(field, webCriteria, new TypeExternalArtefactsEnum[]{TypeExternalArtefactsEnum.CODE}, firstResult, maxResults);
-            }
-        };
-        return item;
-    }
-
-    private SearchSingleCommonConfigurationItem createCommonMetadataItem(String name, String title) {
-        final SearchSingleCommonConfigurationItem item = new SearchSingleCommonConfigurationItem(name, title) {
-
-            @Override
-            protected void retrieveCommonConfigurations(CommonConfigurationRestCriteria criteria) {
-                getUiHandlers().retrieveCommonMetadataConfigurations(criteria);
-            }
-        };
-        return item;
-    }
-
-    // ------------------------------------------------------------------------------------------------------------
-    // CLICK HANDLERS
-    // ------------------------------------------------------------------------------------------------------------
-
-    private CustomLinkItemNavigationClickHandler getCustomLinkItemNavigationClickHandler() {
-        return new CustomLinkItemNavigationClickHandler() {
-
-            @Override
-            public BaseUiHandlers getBaseUiHandlers() {
-                return getUiHandlers();
-            }
-        };
-    }
-
-    // ------------------------------------------------------------------------------------------------------------
-    // VALIDATORS
-    // ------------------------------------------------------------------------------------------------------------
-    private CustomValidator getTechnicianInChargeUserNotTheSameAsAssistantTechnicianUserValidator() {
-        CustomValidator customValidator = new CustomValidator() {
-
-            @Override
-            protected boolean condition(Object value) {
-                return CommonUtils.isTechnicianInChargeUserNotTheSameAsAssistantTechnicianUser(technicianInCharge.getValueAsString(), assistantTechnician.getValueAsString());
-            }
-        };
-
-        customValidator.setErrorMessage(getMessages().validatorMessageTechnicianInChargeEqualsAssitantTechnician());
-        return customValidator;
-    }
+	public static final int FAMILY_LIST_MAX_RESULTS = 17;
+
+	private VLayout panel;
+
+	private OperationMainFormLayout mainFormLayout;
+
+	private OperationDto operationDto;
+
+	// IDENTIFIERS
+	private GroupDynamicForm identifiersForm;
+	private GroupDynamicForm identifiersEditionForm;
+
+	// CONTENT CLASSIFIERS
+	private GroupDynamicForm contentClassifiersForm;
+	private GroupDynamicForm contentClassifiersEditionForm;
+
+	// CONTENT DESCRIPTORS
+	private GroupDynamicForm contentViewForm;
+	private GroupDynamicForm contentEditionForm;
+
+	// CLASS DESCRIPTORS
+	private GroupDynamicForm   classForm;
+	private GroupDynamicForm   classDescriptorsEditionForm;
+	private CustomSelectItem   surveyType;
+	private CustomSelectItem   officialityType;
+	private CustomCheckboxItem indSystem;
+
+	// PRODUCTION DESCRIPTORS
+	private CustomSelectItem   technicianInCharge;
+	private CustomSelectItem   assistantTechnician;
+	private GroupDynamicForm   productionDescriptorsForm;
+	private GroupDynamicForm   productionDescriptorsEditionForm;
+	private CustomCheckboxItem currentlyActiveItem;
+	private CustomSelectItem   statusItem;
+	private CustomSelectItem   edatosMigrationStatusItem;
+
+	// DIFUSSION AND PUBLICATION
+	private GroupDynamicForm   diffusionForm;
+	private GroupDynamicForm   diffusionEditionForm;
+	private CustomCheckboxItem releaseCalendar;
+	private CustomTextItem     releaseCalendarAccess;
+	private CustomCheckboxItem diffusionAndPublicationVisible;
+	private OperationUrlsPanel viewOperationUrlsPanel;
+	private OperationUrlsPanel editOperationUrlsPanel;
+
+	// LEGAL ACTS
+	private GroupDynamicForm legalActsForm;
+	private GroupDynamicForm legalActsEditionForm;
+
+	// ANNOTATIONS
+	private GroupDynamicForm annotationsViewForm;
+	private GroupDynamicForm annotationsEditionForm;
+
+	// INSTANCES
+
+	private ListGridToolStrip        instanceListGridToolStrip;
+	private CustomListGrid           instanceListGrid;
+	private InstancesOrderFormLayout instancesOrderFormLayout;
+	// Instance modal window
+	private ModalWindow              newInstanceWindow;
+	private NewInstanceForm          newInstanceForm;
+
+	// FAMILIES
+
+	private ToolStrip                                 familiesToolStrip;
+	private ToolStripButton                           editFamiliesToolStripButton;
+	private BaseCustomListGrid                        familyListGrid;
+	private SearchMultipleExternalItemPaginatedWindow windowToAddFamiliesToOperation;
+
+	private List<FamilyBaseDto> familyBaseDtos;
+
+	private List<SurveyTypeDto>      surveyTypeDtos;
+	private List<OfficialityTypeDto> officialityTypeDtos;
+
+	public OperationViewImpl() {
+		super();
+		panel = new VLayout();
+
+		// OPERATION
+
+		mainFormLayout = new OperationMainFormLayout();
+		mainFormLayout.getTranslateToolStripButton().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				setTranslationsShowed(mainFormLayout.getTranslateToolStripButton().isSelected());
+			}
+		});
+		mainFormLayout.getDeleteConfirmationWindow().getYesButton().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				getUiHandlers().deleteOperation(operationDto);
+			}
+		});
+		createViewForm();
+		mainFormLayout.getEditToolStripButton().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				getUiHandlers().retrieveUsersAccessControl();
+			}
+		});
+		createEditionForm();
+
+		// INSTANCES
+
+		newInstanceForm = new NewInstanceForm();
+
+		newInstanceWindow = new ModalWindow();
+		newInstanceWindow.setTitle(getConstants().actionNewInstance());
+		newInstanceWindow.setAutoSize(true);
+		newInstanceWindow.addItem(newInstanceForm);
+
+		instanceListGridToolStrip = new ListGridToolStrip(getConstants().instanceDeleteConfirmation());
+		instanceListGridToolStrip.getNewButton().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				// Clear new instance form
+				newInstanceForm.clearValues();
+
+				newInstanceWindow.show();
+			}
+		});
+
+		// Instances list
+		instanceListGrid = new CustomListGrid();
+		instanceListGrid.setHeight(150);
+		instanceListGrid.setFields(ResourceListFieldUtils.getInstanceFields());
+		instanceListGrid.addSelectionChangedHandler(new SelectionChangedHandler() {
+
+			@Override
+			public void onSelectionChanged(SelectionEvent event) {
+				if (instanceListGrid.getSelectedRecords() != null && instanceListGrid.getSelectedRecords().length == 1) {
+					InstanceRecord record = (InstanceRecord) instanceListGrid.getSelectedRecord();
+					selectInstance(record.getId());
+				} else {
+					// No record selected
+					deselectInstance();
+					if (instanceListGrid.getSelectedRecords().length > 1) {
+						// Delete more than one Instance with one click
+						showInstanceListGridDeleteButton();
+					}
+				}
+			}
+		});
+
+		CustomListGridSectionStack instancesSectionStack = new CustomListGridSectionStack(instanceListGrid, getConstants().instances(), "sectionStackStyle");
+		instancesSectionStack.setMargin(15);
+		instancesSectionStack.getDefaultSection().setItems(instanceListGridToolStrip, instanceListGrid);
+		instancesSectionStack.getDefaultSection().setExpanded(true);
+
+		// Instances order
+		instancesOrderFormLayout = new InstancesOrderFormLayout();
+		instancesOrderFormLayout.setMargin(0);
+		instancesOrderFormLayout.getSave().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				getUiHandlers().updateInstancesOrder(instancesOrderFormLayout.getInstancesOrder());
+			}
+		});
+
+		SectionStackSection ordersSection = new SectionStackSection(getConstants().instancesOrder());
+		ordersSection.setExpanded(true);
+		ordersSection.setItems(instancesOrderFormLayout);
+
+		instancesSectionStack.addSection(ordersSection);
+
+		// FAMILIES
+
+		familiesToolStrip = new ToolStrip();
+		familiesToolStrip.setWidth100();
+		editFamiliesToolStripButton = new ToolStripButton(getConstants().actionEdit(), GlobalResources.RESOURCE.editListGrid().getURL());
+		editFamiliesToolStripButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+
+				windowToAddFamiliesToOperation = new SearchMultipleExternalItemPaginatedWindow(OperationsWeb.getConstants().actionAddOperationsToFamily(), FamilyViewImpl.OPERATION_LIST_MAX_RESULTS,
+						new SearchPaginatedAction<MetamacWebCriteria>() {
+
+							@Override
+							public void retrieveResultSet(int firstResult, int maxResults, MetamacWebCriteria webCriteria) {
+								getUiHandlers().retrieveFamilies(firstResult, maxResults, webCriteria);
+
+							}
+						});
+				windowToAddFamiliesToOperation.retrieveItems();
+				windowToAddFamiliesToOperation.setSelectedResources(CommonUtils.createFamilies(familyBaseDtos));
+				windowToAddFamiliesToOperation.setSaveAction(new com.smartgwt.client.widgets.form.fields.events.ClickHandler() {
+
+					@Override
+					public void onClick(com.smartgwt.client.widgets.form.fields.events.ClickEvent event) {
+
+						List<Long> familiesToAdd = new ArrayList<Long>();
+						List<Long> familiesToRemove = new ArrayList<Long>();
+						CommonUtils.calculateFamiliesToUpdateInOperation(familyBaseDtos, windowToAddFamiliesToOperation.getSelectedResources(), familiesToAdd, familiesToRemove);
+						getUiHandlers().updateOperationFamilies(familiesToAdd, familiesToRemove);
+						windowToAddFamiliesToOperation.markForDestroy();
+					}
+				});
+
+			}
+		});
+
+		familiesToolStrip.addButton(editFamiliesToolStripButton);
+
+		TitleLabel familiesTitleLabel = new TitleLabel(getConstants().families());
+		familiesTitleLabel.setStyleName("sectionTitleLeftMargin");
+
+		familyListGrid = new BaseCustomListGrid();
+		familyListGrid.setHeight(150);
+		familyListGrid.setFields(ResourceListFieldUtils.getFamilyFields());
+
+		CustomListGridSectionStack familiesSectionStack = new CustomListGridSectionStack(familyListGrid, getConstants().families(), "sectionStackStyle");
+		familiesSectionStack.setMargin(15);
+		familiesSectionStack.getDefaultSection().setItems(familiesToolStrip, familyListGrid);
+
+		VLayout subPanel = new VLayout();
+		subPanel.setHeight100();
+		subPanel.setOverflow(Overflow.SCROLL);
+		subPanel.addMember(mainFormLayout);
+
+		subPanel.addMember(instancesSectionStack);
+
+		subPanel.addMember(familiesSectionStack);
+
+		panel.addMember(subPanel);
+	}
+
+	@Override
+	public Widget asWidget() {
+		return panel;
+	}
+
+	@Override
+	public void setUiHandlers(OperationUiHandlers uiHandlers) {
+		super.setUiHandlers(uiHandlers);
+	}
+
+	/*
+	 * GWTP will call setInSlot when a child presenter asks to be added under this view
+	 */
+	@Override
+	public void setInSlot(Object slot, Widget content) {
+		if (slot == OperationPresenter.TYPE_SetContextAreaContentToolBar) {
+			if (content != null) {
+				Canvas[] canvas = ((ToolStrip) content).getMembers();
+				for (int i = 0; i < canvas.length; i++) {
+					if (canvas[i] instanceof ToolStripButton) {
+						if (ToolStripButtonEnum.OPERATIONS.getValue().equals(((ToolStripButton) canvas[i]).getID())) {
+							((ToolStripButton) canvas[i]).select();
+						}
+					}
+				}
+				panel.addMember(content, 0);
+			}
+		} else {
+			// To support inheritance in your views it is good practice to call super.setInSlot when you can't handle the call.
+			// Who knows, maybe the parent class knows what to do with this slot.
+			super.setInSlot(slot, content);
+		}
+	}
+
+	@Override
+	public HasRecordClickHandlers getSelectedFamily() {
+		return familyListGrid;
+	}
+
+	@Override
+	public HasRecordClickHandlers getSelectedInstance() {
+		return instanceListGrid;
+	}
+
+	@Override
+	public void setOperation(OperationDto operationDto, List<InstanceBaseDto> instanceBaseDtos, List<FamilyBaseDto> familyBaseDtos) {
+		this.operationDto = operationDto;
+
+		// Security
+		mainFormLayout.setCanEdit(ClientSecurityUtils.canUpdateOperation(operationDto.getCode()));
+		mainFormLayout.setCanDelete(ClientSecurityUtils.canDeleteOperation(operationDto.getCode(), operationDto.getProcStatus()));
+		mainFormLayout.setOperationCode(operationDto.getCode());
+		instancesOrderFormLayout.setCanEdit(ClientSecurityUtils.canUpdateInstancesOrder(operationDto.getCode()));
+		instanceListGridToolStrip.getNewButton().setVisibility(ClientSecurityUtils.canCreateInstance(operationDto.getCode()) ? Visibility.VISIBLE : Visibility.HIDDEN);
+		editFamiliesToolStripButton.setVisibility(ClientSecurityUtils.canAddFamilyToOperation(operationDto.getCode()) ? Visibility.VISIBLE : Visibility.HIDDEN);
+
+		// Operation
+		setOperation(operationDto);
+
+		// Set Instances
+		setInstances(instanceBaseDtos);
+
+		// Set Families
+		setOperationFamilies(familyBaseDtos);
+	}
+
+	@Override
+	public OperationDto getOperation(OperationDto operationDto) {
+
+		// IDENTIFIERS
+
+		operationDto.setCode(identifiersEditionForm.getValueAsString(OperationDS.CODE));
+		operationDto.setStatisticPlanCode(identifiersEditionForm.getValueAsString(OperationDS.STATISTIC_PLAN));
+		operationDto.setTitle(identifiersEditionForm.getValueAsInternationalStringDto(OperationDS.TITLE));
+		operationDto.setAcronym(identifiersEditionForm.getValueAsInternationalStringDto(OperationDS.ACRONYM));
+
+		// CONTENT CLASSIFIERS
+
+		operationDto.setSubjectArea(contentClassifiersEditionForm.getValueAsExternalItemDto(OperationDS.SUBJECT_AREA));
+
+		List<ExternalItemDto> secondarySubjectAreas = ((ExternalItemListItem) contentClassifiersEditionForm.getItem(OperationDS.SECONDARY_SUBJECT_AREAS)).getExternalItemDtos();
+		operationDto.getSecondarySubjectAreas().clear();
+		operationDto.getSecondarySubjectAreas().addAll(secondarySubjectAreas);
+
+		// CONTENT DESCRIPTORS
+
+		operationDto.setDescription(contentEditionForm.getValueAsInternationalStringDto(OperationDS.DESCRIPTION));
+		operationDto.setObjective(contentEditionForm.getValueAsInternationalStringDto(OperationDS.OBJECTIVE));
+
+		// CLASS DESCRIPTORS
+
+		operationDto.setSurveyType(OperationsListUtils.getSurveyTypeDto(surveyType.getValueAsString(), surveyTypeDtos));
+		operationDto.setOfficialityType(OperationsListUtils.getOfficialityTypeDto(officialityType.getValueAsString(), officialityTypeDtos));
+		operationDto.setIndicatorSystem(indSystem.getValueAsBoolean() == null ? false : indSystem.getValueAsBoolean());
+
+		// PRODUCTION DESCRIPTORS
+		operationDto.setTechnicianInCharge(technicianInCharge.getValueAsString() != null ? technicianInCharge.getValue().toString() : null);
+		operationDto.setAssistantTechnician(assistantTechnician.getValueAsString() != null ? assistantTechnician.getValue().toString() : null);
+		List<ExternalItemDto> producers = ((ExternalItemListItem) productionDescriptorsEditionForm.getItem(OperationDS.PRODUCER)).getExternalItemDtos();
+		operationDto.getProducer().clear();
+		operationDto.getProducer().addAll(producers);
+
+		List<ExternalItemDto> responsibles = ((ExternalItemListItem) productionDescriptorsEditionForm.getItem(OperationDS.REG_RESPONSIBLE)).getExternalItemDtos();
+		operationDto.getResponsible().clear();
+		operationDto.getResponsible().addAll(responsibles);
+
+		List<ExternalItemDto> contributors = ((ExternalItemListItem) productionDescriptorsEditionForm.getItem(OperationDS.REG_CONTRIBUTOR)).getExternalItemDtos();
+		operationDto.getContributor().clear();
+		operationDto.getContributor().addAll(contributors);
+
+		operationDto.setCurrentlyActive(currentlyActiveItem.getValueAsBoolean());
+		operationDto.setStatus(statusItem.getValueAsString() != null ? StatusEnum.valueOf(statusItem.getValueAsString()) : null);
+		operationDto.setEdatosMigrationStatus(edatosMigrationStatusItem.getValueAsString() != null ? EdatosMigrationStatusEnum.valueOf(edatosMigrationStatusItem.getValueAsString()) : null);
+
+		operationDto.setGenderPerspective(productionDescriptorsEditionForm.getValueAsInternationalStringDto(OperationDS.GENDER_PERSPECTIVE));
+
+		operationDto.setDisaggregationBySex(((BooleanSelectItem) productionDescriptorsEditionForm.getItem(OperationDS.DISAGGREGATION_BY_SEX)).getBooleanValue());
+		operationDto.setDisaggregationByAge(((BooleanSelectItem) productionDescriptorsEditionForm.getItem(OperationDS.DISAGGREGATION_BY_AGE)).getBooleanValue());
+		operationDto.setDisaggregationByNationality(((BooleanSelectItem) productionDescriptorsEditionForm.getItem(OperationDS.DISAGGREGATION_BY_NATIONALITY)).getBooleanValue());
+		operationDto.setDisaggregationByDisability(((BooleanSelectItem) productionDescriptorsEditionForm.getItem(OperationDS.DISAGGREGATION_BY_DISABILITY)).getBooleanValue());
+
+		// DIFFUSION AND PUBLICATION
+
+		List<ExternalItemDto> publishers = ((ExternalItemListItem) diffusionEditionForm.getItem(OperationDS.PUBLISHER)).getExternalItemDtos();
+		operationDto.getPublisher().clear();
+		operationDto.getPublisher().addAll(publishers);
+
+		operationDto.setCommonMetadata(diffusionEditionForm.getValueAsExternalItemDto(OperationDS.COMMON_METADATA));
+
+		operationDto.setRelPolUsAc(diffusionEditionForm.getValueAsInternationalStringDto(OperationDS.RE_POL_US_AC));
+		operationDto.setReleaseCalendar(releaseCalendar.getValueAsBoolean());
+		operationDto.setDiffusionAndPublicationVisible(diffusionAndPublicationVisible.getValueAsBoolean());
+		operationDto.setReleaseCalendarAccess(releaseCalendarAccess.getValueAsString());
+
+		List<ExternalItemDto> updateFrequencies = ((ExternalItemListItem) diffusionEditionForm.getItem(OperationDS.UPDATE_FREQUENCY)).getExternalItemDtos();
+		operationDto.getUpdateFrequency().clear();
+		operationDto.getUpdateFrequency().addAll(updateFrequencies);
+
+		operationDto.setRevPolicy(diffusionEditionForm.getValueAsInternationalStringDto(OperationDS.REV_POLICY));
+		operationDto.setRevPractice(diffusionEditionForm.getValueAsInternationalStringDto(OperationDS.REV_PRACTICE));
+
+		// OPERATION URLS
+		operationDto.getStatisticalOperationUrls().clear();
+		operationDto.getStatisticalOperationUrls().addAll(editOperationUrlsPanel.getOperationUrls());
+
+		// LEGAL ACTS
+		operationDto.setSpecificLegalActs(legalActsEditionForm.getValueAsInternationalStringDto(OperationDS.SPECIFIC_LEGAL_ACTS));
+		operationDto.setSpecificDataSharing(legalActsEditionForm.getValueAsInternationalStringDto(OperationDS.SPECIFIC_DATA_SHARING));
+
+		// ANNOTATIONS
+
+		operationDto.setComment(annotationsEditionForm.getValueAsInternationalStringDto(OperationDS.COMMENTS));
+		operationDto.setNotes(annotationsEditionForm.getValueAsInternationalStringDto(OperationDS.NOTES));
+		return operationDto;
+	}
+
+	@Override
+	public HasClickHandlers getSave() {
+		return mainFormLayout.getSave();
+	}
+
+	@Override
+	public void onOperationSaved(OperationDto operationDto) {
+		setOperation(operationDto);
+	}
+
+	@Override
+	public boolean validate() {
+		return identifiersEditionForm.validate(false) && productionDescriptorsEditionForm.validate(false) && contentEditionForm.validate(false) && contentClassifiersEditionForm.validate(
+				false) && diffusionEditionForm.validate(false) && classDescriptorsEditionForm.validate(false);
+	}
+
+	@Override
+	public com.smartgwt.client.widgets.form.fields.events.HasClickHandlers getSaveNewInstance() {
+		return newInstanceForm.getSave();
+	}
+
+	@Override
+	public InstanceDto getNewInstace() {
+		return newInstanceForm.getInstance();
+	}
+
+	@Override
+	public void onInstanceSaved(InstanceDto instanceDto) {
+		InstanceRecord record = RecordUtils.getInstanceRecord(instanceDto);
+		instanceListGrid.addData(record);
+		instanceListGrid.sort(InstanceDS.ORDER, SortDirection.DESCENDING);
+
+		instancesOrderFormLayout.addInstance(instanceDto);
+	}
+
+	@Override
+	public boolean validateNewInstance() {
+		return newInstanceForm.validate();
+	}
+
+	@Override
+	public void closeInstanceWindow() {
+		newInstanceWindow.hide();
+	}
+
+	@Override
+	public HasClickHandlers getDeleteInstance() {
+		return instanceListGridToolStrip.getDeleteConfirmationWindow().getYesButton();
+	}
+
+	@Override
+	public List<Long> getSelectedInstances() {
+		List<Long> selectedInstances = new ArrayList<Long>();
+		if (instanceListGrid.getSelectedRecords() != null) {
+			ListGridRecord[] records = instanceListGrid.getSelectedRecords();
+			for (int i = 0; i < records.length; i++) {
+				InstanceRecord record = (InstanceRecord) records[i];
+				selectedInstances.add(record.getId());
+			}
+		}
+		return selectedInstances;
+	}
+
+	@Override
+	public void setInstances(List<InstanceBaseDto> instanceBaseDtos) {
+		// Instances list
+		instanceListGrid.removeAllData();
+		if (instanceBaseDtos != null) {
+			for (InstanceBaseDto instanceBaseDto : instanceBaseDtos) {
+				instanceListGrid.addData(RecordUtils.getInstanceRecord(instanceBaseDto));
+			}
+		}
+		deselectInstance();
+
+		// Instances order
+		instancesOrderFormLayout.setInstances(instanceBaseDtos);
+		if (instanceBaseDtos == null || instanceBaseDtos.isEmpty()) {
+			instancesOrderFormLayout.hide();
+		} else {
+			instancesOrderFormLayout.show();
+		}
+	}
+
+	public void setOperationFamilies(List<FamilyBaseDto> familyBaseDtos) {
+		this.familyBaseDtos = familyBaseDtos;
+		// Set families in listGrid
+		familyListGrid.selectAllRecords();
+		familyListGrid.removeSelectedData();
+		familyListGrid.deselectAllRecords();
+		if (familyBaseDtos != null) {
+			for (FamilyBaseDto familyBaseDto : familyBaseDtos) {
+				familyListGrid.addData(RecordUtils.getFamilyRecord(familyBaseDto));
+			}
+		}
+		familyListGrid.setAutoFitMaxRecords(familyBaseDtos.size());
+	}
+
+	private void setOperation(OperationDto operationDto) {
+		mainFormLayout.setViewMode();
+		mainFormLayout.updatePublishSection(operationDto.getProcStatus());
+		// Set Family
+		mainFormLayout.setTitleLabelContents(InternationalStringUtils.getLocalisedString(operationDto.getTitle()));
+		// Form
+		setOperationViewMode(operationDto);
+		setOperationEditionMode(operationDto);
+	}
+
+	private void createViewForm() {
+		// Identifiers
+		identifiersForm = new GroupDynamicForm(getConstants().operationIdentifiers());
+		ViewTextItem identifier = new ViewTextItem(OperationDS.CODE, getConstants().operationCode());
+		ViewMultiLanguageTextItem title = new ViewMultiLanguageTextItem(OperationDS.TITLE, getConstants().operationTitle());
+		ViewMultiLanguageTextItem acronym = new ViewMultiLanguageTextItem(OperationDS.ACRONYM, getConstants().operationAcronym());
+		ViewTextItem statisticPlanCode = new ViewTextItem(OperationDS.STATISTIC_PLAN, getConstants().statisticPlanCode());
+		ViewTextItem urn = new ViewTextItem(OperationDS.URN, getConstants().operationUrn());
+		ViewTextItem publicationStreamStatus = new ViewTextItem(OperationDS.PUBLICATION_STREAM_STATUS, getConstants().lifeCycleStatisticalResourceStreamMsgStatus());
+		publicationStreamStatus.setWidth(20);
+
+		identifiersForm.setFields(identifier, statisticPlanCode, title, acronym, urn, publicationStreamStatus);
+
+		// Content Classifiers
+		contentClassifiersForm = new GroupDynamicForm(getConstants().operationContentClassifiers());
+		ExternalItemLinkItem subjectArea = new ExternalItemLinkItem(OperationDS.SUBJECT_AREA, getConstants().operationSubjectArea());
+		ExternalItemListItem secondarySubject = new ExternalItemListItem(OperationDS.SECONDARY_SUBJECT_AREAS, getConstants().operationSubjectAreasSecondary(), false);
+		contentClassifiersForm.setFields(subjectArea, secondarySubject);
+
+		// Content Descriptors
+		contentViewForm = new GroupDynamicForm(getConstants().operationContentDescriptors());
+		ViewMultiLanguageTextItem description = new ViewMultiLanguageTextItem(OperationDS.DESCRIPTION, getConstants().operationDescription());
+		ViewMultiLanguageTextItem objective = new ViewMultiLanguageTextItem(OperationDS.OBJECTIVE, getConstants().operationObjective());
+		contentViewForm.setFields(objective, description);
+
+		// Class Descriptors
+		classForm = new GroupDynamicForm(getConstants().operationClassDescriptors());
+		ViewTextItem survey = new ViewTextItem(OperationDS.STATISTICAL_OPERATION_TYPE, getConstants().operationSurveyType());
+		ViewTextItem officiality = new ViewTextItem(OperationDS.OFFICIALITY_TYPE, getConstants().operationOfficialityType());
+		ViewTextItem indSystem = new ViewTextItem(OperationDS.INDICATOR_SYSTEM, getConstants().operationIndicatorSystem());
+		classForm.setFields(survey, officiality, indSystem);
+
+		// Production descriptors
+		ViewTextItem techinicianInCharge = new ViewTextItem(OperationDS.TECHNICIAN_IN_CHARGE, getConstants().operationTechnicianInCharge());
+		ViewTextItem assistantTechnician = new ViewTextItem(OperationDS.ASSISTANT_TECHNICIAN, getConstants().operationAssistantTechnician());
+		productionDescriptorsForm = new GroupDynamicForm(getConstants().operationProductionDescriptors());
+		ExternalItemListItem producer = new ExternalItemListItem(OperationDS.PRODUCER, getConstants().operationProducers(), false);
+		ExternalItemListItem resposible = new ExternalItemListItem(OperationDS.REG_RESPONSIBLE, getConstants().operationResponsibles(), false);
+		ExternalItemListItem contibutor = new ExternalItemListItem(OperationDS.REG_CONTRIBUTOR, getConstants().operationContributors(), false);
+		ViewTextItem createdDate = new ViewTextItem(OperationDS.CREATED_DATE, getConstants().operationCreatedDate());
+		ViewTextItem inventoryDate = new ViewTextItem(OperationDS.INTERNAL_INVENTORY_DATE, getConstants().operationInternalInventoryDate());
+		ViewTextItem currentlyActive = new ViewTextItem(OperationDS.CURRENTLY_ACTIVE, getConstants().operationCurrentlyActive());
+		ViewTextItem status = new ViewTextItem(OperationDS.STATUS, getConstants().operationStatus());
+		ViewTextItem edatosMigrationStatus = new ViewTextItem(OperationDS.EDATOS_MIGRATION_STATUS, getConstants().edatosMigrationStatus());
+		ViewTextItem procStatus = new ViewTextItem(OperationDS.PROC_STATUS, getConstants().operationProcStatus());
+
+		ViewMultiLanguageTextItem genderPerspective = new ViewMultiLanguageTextItem(OperationDS.GENDER_PERSPECTIVE, getConstants().operationGenderPerspective());
+		ViewTextItem disaggregationBySex = new ViewTextItem(OperationDS.DISAGGREGATION_BY_SEX, getConstants().operationDisaggregationBySex());
+		ViewTextItem disaggregationByAge = new ViewTextItem(OperationDS.DISAGGREGATION_BY_AGE, getConstants().operationDisaggregationByAge());
+		ViewTextItem disaggregationByNationality = new ViewTextItem(OperationDS.DISAGGREGATION_BY_NATIONALITY, getConstants().operationDisaggregationByNationality());
+		ViewTextItem disaggregationByDisability = new ViewTextItem(OperationDS.DISAGGREGATION_BY_DISABILITY, getConstants().operationDisaggregationByDisability());
+
+		productionDescriptorsForm.setFields(techinicianInCharge, assistantTechnician, producer, resposible, contibutor, createdDate, inventoryDate, currentlyActive, status, procStatus,
+				genderPerspective, edatosMigrationStatus, disaggregationBySex, disaggregationByAge, disaggregationByNationality, disaggregationByDisability);
+
+		// Diffusion Descriptors
+		diffusionForm = new GroupDynamicForm(getConstants().operationDiffusionAndPublication());
+		ExternalItemListItem publisher = new ExternalItemListItem(OperationDS.PUBLISHER, getConstants().operationPublisher(), false);
+		ExternalItemLinkItem commonMetadata = new ExternalItemLinkItem(OperationDS.COMMON_METADATA, getConstants().operationCommonMetadata());
+		ViewMultiLanguageTextItem staticRelPolUsAc = new ViewMultiLanguageTextItem(OperationDS.RE_POL_US_AC, getConstants().operationReleaseUsersPolicy());
+		ViewTextItem releaseCalendar = new ViewTextItem(OperationDS.RELEASE_CALENDAR, getConstants().operationReleaseCalendar());
+		ViewTextItem releaseCalendarAccess = new ViewTextItem(OperationDS.RELEASE_CALENDAR_ACCESS, getConstants().operationReleaseCalendarAccess());
+		ExternalItemListItem updateFreq = new ExternalItemListItem(OperationDS.UPDATE_FREQUENCY, getConstants().operationUpdateFrequency(), false);
+		CustomLinkItem currentInst = new CustomLinkItem(OperationDS.CURRENT_INSTANCE, getConstants().operationCurrentInstance(), getCustomLinkItemNavigationClickHandler());
+		CustomLinkItem currentInternalInst = new CustomLinkItem(OperationDS.CURRENT_INTERNAL_INSTANCE, getConstants().operationCurrentInternalInstance(), getCustomLinkItemNavigationClickHandler());
+		ViewTextItem invDate = new ViewTextItem(OperationDS.INVENTORY_DATE, getConstants().operationInventoryDate());
+		ViewMultiLanguageTextItem staticRevPolicyItem = new ViewMultiLanguageTextItem(OperationDS.REV_POLICY, getConstants().operationRevPolicy());
+		ViewMultiLanguageTextItem staticRevPracticeItem = new ViewMultiLanguageTextItem(OperationDS.REV_PRACTICE, getConstants().operationRevPractice());
+		ViewTextItem diffusionAndPublicationVisible = new ViewTextItem(OperationDS.DIFFUSION_AND_PUBLICATION, getConstants().visible());
+		ViewTextItem dateNewnessUntil = new ViewTextItem(OperationDS.NEWNESS_UNTIL_DATE, getConstants().operationNewnessUntilDate());
+		ViewTextItem dateFeaturedUntil = new ViewTextItem(OperationDS.FEATURED_UNTIL_DATE, getConstants().operationFeaturedUntilDate());
+
+		viewOperationUrlsPanel = new OperationUrlsPanel(true);
+
+		VLayout viewOperationUrlsWrapper = new VLayout();
+		viewOperationUrlsWrapper.setAlign(Alignment.CENTER);
+		viewOperationUrlsWrapper.setMargin(10);
+		viewOperationUrlsWrapper.addMember(viewOperationUrlsPanel);
+
+		CanvasItem viewOperationUrlsPanelItem = new CanvasItem();
+		viewOperationUrlsPanelItem.setTitle(getConstants().statisticalOperationUrls());
+		viewOperationUrlsPanelItem.setCanvas(viewOperationUrlsWrapper);
+		viewOperationUrlsPanelItem.setColSpan("*");
+
+		diffusionForm.setFields(publisher, commonMetadata, staticRelPolUsAc, releaseCalendar, releaseCalendarAccess, updateFreq, currentInst, currentInternalInst, invDate, staticRevPolicyItem,
+				staticRevPracticeItem, diffusionAndPublicationVisible, dateNewnessUntil, dateFeaturedUntil, viewOperationUrlsPanelItem);
+
+		// Legal acts
+		legalActsForm = new GroupDynamicForm(getConstants().formLegalActs());
+		ViewMultiLanguageTextItem specificLegalActs = new ViewMultiLanguageTextItem(OperationDS.SPECIFIC_LEGAL_ACTS, getConstants().operationSpecificLegalActs());
+		ViewMultiLanguageTextItem specificDataSharing = new ViewMultiLanguageTextItem(OperationDS.SPECIFIC_DATA_SHARING, getConstants().operationSpecificDataSharing());
+		legalActsForm.setFields(specificLegalActs, specificDataSharing);
+
+		// Annotations
+		annotationsViewForm = new GroupDynamicForm(getConstants().operationAnnotations());
+		ViewMultiLanguageTextItem staticCommentItem = new ViewMultiLanguageTextItem(OperationDS.COMMENTS, getConstants().operationComments());
+		ViewMultiLanguageTextItem staticNotesItem = new ViewMultiLanguageTextItem(OperationDS.NOTES, getConstants().operationNotes());
+		annotationsViewForm.setFields(staticCommentItem, staticNotesItem);
+
+		// Add to main layout
+		mainFormLayout.addViewCanvas(identifiersForm);
+		mainFormLayout.addViewCanvas(contentClassifiersForm);
+		mainFormLayout.addViewCanvas(contentViewForm);
+		mainFormLayout.addViewCanvas(classForm);
+		mainFormLayout.addViewCanvas(productionDescriptorsForm);
+		mainFormLayout.addViewCanvas(diffusionForm);
+		mainFormLayout.addViewCanvas(legalActsForm);
+		mainFormLayout.addViewCanvas(annotationsViewForm);
+	}
+
+	private void createEditionForm() {
+
+		// IDENTIFIERS
+
+		identifiersEditionForm = new GroupDynamicForm(getConstants().operationIdentifiers());
+
+		RequiredTextItem code = new RequiredTextItem(OperationDS.CODE, getConstants().operationCode());
+		TextItem statisticPlan = new TextItem(OperationDS.STATISTIC_PLAN, getConstants().statisticPlanCode());
+		code.setShowIfCondition(new FormItemIfFunction() {
+
+			@Override
+			public boolean execute(FormItem item, Object value, DynamicForm form) {
+				return canOperationCodeBeEdited();
+			}
+		});
+		code.setValidators(CommonWebUtils.getSemanticIdentifierCustomValidator(), CommonUtils.getOperationCodeLengthValidator());
+		ViewTextItem staticCode = new ViewTextItem(OperationDS.CODE_VIEW, getConstants().operationCode());
+		staticCode.setShowIfCondition(new FormItemIfFunction() {
+
+			@Override
+			public boolean execute(FormItem item, Object value, DynamicForm form) {
+				return !canOperationCodeBeEdited();
+			}
+		});
+
+		MultiLanguageTextItem title = new MultiLanguageTextItem(OperationDS.TITLE, getConstants().operationTitle());
+		title.setRequired(true);
+		MultiLanguageTextItem acronym = new MultiLanguageTextItem(OperationDS.ACRONYM, getConstants().operationAcronym());
+		ViewTextItem urn = new ViewTextItem(OperationDS.URN, getConstants().operationUrn());
+		identifiersEditionForm.setFields(staticCode, code, statisticPlan, title, acronym, urn);
+
+		// CONTENT CLASSIFIERS
+
+		contentClassifiersEditionForm = new GroupDynamicForm(getConstants().operationContentClassifiers());
+		SearchExternalItemLinkItem subjectAreaItem = createSubjectAreaItem(OperationDS.SUBJECT_AREA, getConstants().operationSubjectArea());
+		subjectAreaItem.setRequired(true);
+		SearchMultiExternalItemSimpleItem secondarySubjectAreasItem = createSecondarySubjectAreasItem();
+		contentClassifiersEditionForm.setFields(subjectAreaItem, secondarySubjectAreasItem);
+
+		// CONTENT DESCRIPTORS
+
+		contentEditionForm = new GroupDynamicForm(getConstants().operationContentDescriptors());
+		MultiLanguageRichTextEditorItem description = new MultiLanguageRichTextEditorItem(OperationDS.DESCRIPTION, getConstants().operationDescription());
+
+		final MultiLanguageRichTextEditorItem objective = new MultiLanguageRichTextEditorItem(OperationDS.OBJECTIVE, getConstants().operationObjective());
+		objective.setValidators(new CustomRequiredValidator() {
+
+			@Override
+			protected boolean condition(Object value) {
+				return CommonUtils.isInternallyOrExternallyPublished(operationDto) ? objective.getValue() != null : true;
+			}
+		});
+
+		contentEditionForm.setFields(objective, description);
+
+		// CLASS DESCRIPTORS
+
+		classDescriptorsEditionForm = new GroupDynamicForm(getConstants().operationClassDescriptors());
+
+		surveyType = new CustomSelectItem(OperationDS.STATISTICAL_OPERATION_TYPE, getConstants().operationSurveyType());
+		surveyType.setValidators(new CustomRequiredValidator() {
+
+			@Override
+			protected boolean condition(Object value) {
+				return CommonUtils.isInternallyOrExternallyPublished(operationDto) ? !StringUtils.isBlank(surveyType.getValueAsString()) : true;
+			}
+		});
+
+		officialityType = new CustomSelectItem(OperationDS.OFFICIALITY_TYPE, getConstants().operationOfficialityType());
+		officialityType.setValidators(new CustomRequiredValidator() {
+
+			@Override
+			protected boolean condition(Object value) {
+				return CommonUtils.isInternallyOrExternallyPublished(operationDto) ? !StringUtils.isBlank(officialityType.getValueAsString()) : true;
+			}
+		});
+
+		indSystem = new CustomCheckboxItem(OperationDS.INDICATOR_SYSTEM, getConstants().operationIndicatorSystem());
+		indSystem.setTitleStyle("requiredFormLabel");
+		classDescriptorsEditionForm.setFields(surveyType, officialityType, indSystem);
+
+		// PRODUCTION DESCRIPTORS
+		productionDescriptorsEditionForm = new GroupDynamicForm(getConstants().operationProductionDescriptors());
+		technicianInCharge = new CustomSelectItem(OperationDS.TECHNICIAN_IN_CHARGE, getConstants().operationTechnicianInCharge());
+		technicianInCharge.setValidators(getTechnicianInChargeUserNotTheSameAsAssistantTechnicianUserValidator());
+
+		assistantTechnician = new CustomSelectItem(OperationDS.ASSISTANT_TECHNICIAN, getConstants().operationAssistantTechnician());
+		assistantTechnician.setValidators(getTechnicianInChargeUserNotTheSameAsAssistantTechnicianUserValidator());
+
+		final SearchSrmListItemWithSchemeFilterItem producerItem = createProducersItem();
+		producerItem.setValidators(new CustomRequiredValidator() {
+
+			@Override
+			protected boolean condition(Object value) {
+				return CommonUtils.isInternallyOrExternallyPublished(operationDto) ? !producerItem.getExternalItemDtos().isEmpty() : true;
+			}
+		});
+
+		final SearchSrmListItemWithSchemeFilterItem regionalResponsibleItem = createRegionaleResponsiblesItem();
+		regionalResponsibleItem.setValidators(new CustomRequiredValidator() {
+
+			@Override
+			protected boolean condition(Object value) {
+				return CommonUtils.isInternallyOrExternallyPublished(operationDto) ? !regionalResponsibleItem.getExternalItemDtos().isEmpty() : true;
+			}
+		});
+
+		SearchSrmListItemWithSchemeFilterItem regionalContributorItem = createRegionaleContributorsItem();
+
+		ViewTextItem createdDate = new ViewTextItem(OperationDS.CREATED_DATE, getConstants().operationCreatedDate());
+		ViewTextItem internalInventoryDate = new ViewTextItem(OperationDS.INTERNAL_INVENTORY_DATE, getConstants().operationInternalInventoryDate());
+		currentlyActiveItem = new CustomCheckboxItem(OperationDS.CURRENTLY_ACTIVE, getConstants().operationCurrentlyActive());
+
+		BooleanSelectItem disaggregationBySexItem = new BooleanSelectItem(OperationDS.DISAGGREGATION_BY_SEX, getConstants().operationDisaggregationBySex());
+		BooleanSelectItem disaggregationByAgeItem = new BooleanSelectItem(OperationDS.DISAGGREGATION_BY_AGE, getConstants().operationDisaggregationByAge());
+		BooleanSelectItem disaggregationByNationalityItem = new BooleanSelectItem(OperationDS.DISAGGREGATION_BY_NATIONALITY, getConstants().operationDisaggregationByNationality());
+		BooleanSelectItem disaggregationByDisabilityItem = new BooleanSelectItem(OperationDS.DISAGGREGATION_BY_DISABILITY, getConstants().operationDisaggregationByDisability());
+
+		statusItem = new CustomSelectItem(OperationDS.STATUS, getConstants().operationStatus());
+		statusItem.setValueMap(CommonUtils.getStatusEnumHashMap());
+		statusItem.setValidators(new CustomRequiredValidator() {
+
+			@Override
+			protected boolean condition(Object value) {
+				return CommonUtils.isInternallyOrExternallyPublished(operationDto) ? !StringUtils.isBlank(statusItem.getValueAsString()) : true;
+			}
+		});
+
+		edatosMigrationStatusItem = new CustomSelectItem(OperationDS.EDATOS_MIGRATION_STATUS, getConstants().edatosMigrationStatus());
+		edatosMigrationStatusItem.setValueMap(CommonUtils.getEdatosMigrationStatusEnumHashMap());
+		edatosMigrationStatusItem.setRequired(true);
+
+		ViewTextItem procStatus = new ViewTextItem(OperationDS.PROC_STATUS, getConstants().operationProcStatus());
+		ViewTextItem staticProcStatus = new ViewTextItem(OperationDS.PROC_STATUS_VIEW, getConstants().operationProcStatus());
+		staticProcStatus.setShowIfCondition(FormItemUtils.getFalseFormItemIfFunction());
+
+		MultiLanguageTextItem genderPerspective = new MultiLanguageTextItem(OperationDS.GENDER_PERSPECTIVE, getConstants().operationGenderPerspective());
+
+		productionDescriptorsEditionForm.setFields(technicianInCharge, assistantTechnician, producerItem, regionalResponsibleItem, regionalContributorItem, createdDate, internalInventoryDate,
+				currentlyActiveItem, statusItem, staticProcStatus, procStatus, genderPerspective, edatosMigrationStatusItem, disaggregationBySexItem, disaggregationByAgeItem,
+				disaggregationByNationalityItem, disaggregationByDisabilityItem);
+
+		// DIFFUSION AND PUBLICATION
+
+		diffusionEditionForm = new GroupDynamicForm(getConstants().operationDiffusionAndPublication());
+
+		final SearchSrmListItemWithSchemeFilterItem publishersItem = createPublishersItem();
+		publishersItem.setValidators(new CustomRequiredValidator() {
+
+			@Override
+			protected boolean condition(Object value) {
+				return CommonUtils.isInternallyOrExternallyPublished(operationDto) ? !publishersItem.getExternalItemDtos().isEmpty() : true;
+			}
+		});
+
+		final SearchSingleCommonConfigurationItem commonMetadataItem = createCommonMetadataItem(OperationDS.COMMON_METADATA, getConstants().operationCommonMetadata());
+		commonMetadataItem.setValidators(new CustomRequiredValidator() {
+
+			@Override
+			protected boolean condition(Object value) {
+				return CommonUtils.isInternallyOrExternallyPublished(operationDto) ? commonMetadataItem.getExternalItemDto() != null : true;
+			}
+		});
+
+		MultiLanguageRichTextEditorItem relPolUsAc = new MultiLanguageRichTextEditorItem(OperationDS.RE_POL_US_AC, getConstants().operationReleaseUsersPolicy());
+		releaseCalendar = new CustomCheckboxItem(OperationDS.RELEASE_CALENDAR, getConstants().operationReleaseCalendar());
+		diffusionAndPublicationVisible = new CustomCheckboxItem(OperationDS.DIFFUSION_AND_PUBLICATION, getConstants().visible());
+		releaseCalendarAccess = new CustomTextItem(OperationDS.RELEASE_CALENDAR_ACCESS, getConstants().operationReleaseCalendarAccess());
+		releaseCalendarAccess.setValidators(CommonWebUtils.getUrlValidator());
+		ExternalItemListItem updateFrequencyItem = createUpdateFrequencyItem();
+		CustomLinkItem currentInst = new CustomLinkItem(OperationDS.CURRENT_INSTANCE, getConstants().operationCurrentInstance(), getCustomLinkItemNavigationClickHandler());
+		CustomLinkItem currentInternalInst = new CustomLinkItem(OperationDS.CURRENT_INTERNAL_INSTANCE, getConstants().operationCurrentInternalInstance(), getCustomLinkItemNavigationClickHandler());
+		ViewTextItem invDate = new ViewTextItem(OperationDS.INVENTORY_DATE, getConstants().operationInventoryDate());
+		MultiLanguageRichTextEditorItem revPolicyItem = new MultiLanguageRichTextEditorItem(OperationDS.REV_POLICY, getConstants().operationRevPolicy());
+		MultiLanguageRichTextEditorItem revPracticeItem = new MultiLanguageRichTextEditorItem(OperationDS.REV_PRACTICE, getConstants().operationRevPractice());
+		CustomDateItem dateNewnessUntil = new CustomDateItem(OperationDS.NEWNESS_UNTIL_DATE, getConstants().operationNewnessUntilDate());
+		CustomDateItem dateFeaturedUntil = new CustomDateItem(OperationDS.FEATURED_UNTIL_DATE, getConstants().operationFeaturedUntilDate());
+
+		editOperationUrlsPanel = new OperationUrlsPanel(false);
+
+		VLayout editOperationUrlsWrapper = new VLayout();
+		editOperationUrlsWrapper.setAlign(Alignment.CENTER);
+		editOperationUrlsWrapper.setMargin(10);
+		editOperationUrlsWrapper.addMember(editOperationUrlsPanel);
+
+		CanvasItem editOperationUrlsPanelItem = new CanvasItem();
+		editOperationUrlsPanelItem.setTitle(getConstants().statisticalOperationUrls());
+		editOperationUrlsPanelItem.setCanvas(editOperationUrlsWrapper);
+		editOperationUrlsPanelItem.setColSpan("*");
+
+		diffusionEditionForm.setFields(publishersItem, commonMetadataItem, relPolUsAc, releaseCalendar, releaseCalendarAccess, updateFrequencyItem, currentInst, currentInternalInst, invDate,
+				revPolicyItem, revPracticeItem, diffusionAndPublicationVisible, dateNewnessUntil, dateFeaturedUntil, editOperationUrlsPanelItem);
+
+		// LEGAL ACTS
+
+		legalActsEditionForm = new GroupDynamicForm(getConstants().formLegalActs());
+		MultiLanguageRichTextEditorItem specificLegalActs = new MultiLanguageRichTextEditorItem(OperationDS.SPECIFIC_LEGAL_ACTS, getConstants().operationSpecificLegalActs());
+		MultiLanguageRichTextEditorItem specificDataSharing = new MultiLanguageRichTextEditorItem(OperationDS.SPECIFIC_DATA_SHARING, getConstants().operationSpecificDataSharing());
+		legalActsEditionForm.setFields(specificLegalActs, specificDataSharing);
+
+		// ANNOTATIONS
+
+		annotationsEditionForm = new GroupDynamicForm(getConstants().operationAnnotations());
+		MultiLanguageRichTextEditorItem commentItem = new MultiLanguageRichTextEditorItem(OperationDS.COMMENTS, getConstants().operationComments());
+		MultiLanguageRichTextEditorItem notesItem = new MultiLanguageRichTextEditorItem(OperationDS.NOTES, getConstants().operationNotes());
+		annotationsEditionForm.setFields(commentItem, notesItem);
+
+		// Add to main layout
+		mainFormLayout.addEditionCanvas(identifiersEditionForm);
+		mainFormLayout.addEditionCanvas(contentClassifiersEditionForm);
+		mainFormLayout.addEditionCanvas(contentEditionForm);
+		mainFormLayout.addEditionCanvas(classDescriptorsEditionForm);
+		mainFormLayout.addEditionCanvas(productionDescriptorsEditionForm);
+		mainFormLayout.addEditionCanvas(diffusionEditionForm);
+		mainFormLayout.addEditionCanvas(legalActsEditionForm);
+		mainFormLayout.addEditionCanvas(annotationsEditionForm);
+	}
+
+	private void setOperationViewMode(OperationDto operationDto) {
+		// IDENTIFIERS
+
+		identifiersForm.setValue(OperationDS.CODE, operationDto.getCode());
+		identifiersForm.setValue(OperationDS.STATISTIC_PLAN, operationDto.getStatisticPlanCode());
+		identifiersForm.setValue(OperationDS.TITLE, operationDto.getTitle());
+		identifiersForm.setValue(OperationDS.ACRONYM, operationDto.getAcronym());
+		identifiersForm.setValue(OperationDS.URN, operationDto.getUrn());
+		identifiersForm.getItem(OperationDS.PUBLICATION_STREAM_STATUS)
+				.setIcons(StreamMessageStatusEnum.PENDING.equals(operationDto.getStreamMessageStatus()) ? null : CommonUtils.getPublicationStreamStatusIcon(operationDto.getStreamMessageStatus()));
+
+		// CONTENT CLASSIFIERS
+
+		contentClassifiersForm.setValue(OperationDS.SUBJECT_AREA, operationDto.getSubjectArea());
+		((ExternalItemListItem) contentClassifiersForm.getItem(OperationDS.SECONDARY_SUBJECT_AREAS)).setExternalItems(operationDto.getSecondarySubjectAreas());
+
+		// CONTENT DESCRIPTORS
+
+		contentViewForm.setValue(OperationDS.DESCRIPTION, operationDto.getDescription());
+		contentViewForm.setValue(OperationDS.OBJECTIVE, operationDto.getObjective());
+
+		// CLASS DESCRIPTORS
+
+		classForm.setValue(OperationDS.STATISTICAL_OPERATION_TYPE,
+				operationDto.getSurveyType() == null ? "" : CommonWebUtils.getElementName(operationDto.getSurveyType().getIdentifier(), operationDto.getSurveyType().getDescription()));
+		classForm.setValue(OperationDS.OFFICIALITY_TYPE,
+				operationDto.getOfficialityType() == null ? "" : CommonWebUtils.getElementName(operationDto.getOfficialityType().getIdentifier(), operationDto.getOfficialityType().getDescription()));
+		classForm.setValue(OperationDS.INDICATOR_SYSTEM,
+				(operationDto.getIndicatorSystem() != null && operationDto.getIndicatorSystem()) ? MetamacWebCommon.getConstants().yes() : MetamacWebCommon.getConstants().no());
+
+		// PRODUCTION DESCRIPTORS
+
+		productionDescriptorsForm.setValue(OperationDS.TECHNICIAN_IN_CHARGE, operationDto.getTechnicianInCharge() == null ? "" : operationDto.getTechnicianInCharge());
+		productionDescriptorsForm.setValue(OperationDS.ASSISTANT_TECHNICIAN, operationDto.getAssistantTechnician() == null ? "" : operationDto.getAssistantTechnician());
+		((ExternalItemListItem) productionDescriptorsForm.getItem(OperationDS.PRODUCER)).setExternalItems(operationDto.getProducer());
+		((ExternalItemListItem) productionDescriptorsForm.getItem(OperationDS.REG_RESPONSIBLE)).setExternalItems(operationDto.getResponsible());
+		((ExternalItemListItem) productionDescriptorsForm.getItem(OperationDS.REG_CONTRIBUTOR)).setExternalItems(operationDto.getContributor());
+		productionDescriptorsForm.setValue(OperationDS.CREATED_DATE, operationDto.getCreatedDate());
+		productionDescriptorsForm.setValue(OperationDS.INTERNAL_INVENTORY_DATE, operationDto.getInternalInventoryDate());
+		productionDescriptorsForm.setValue(OperationDS.CURRENTLY_ACTIVE,
+				(operationDto.getCurrentlyActive() != null && operationDto.getCurrentlyActive()) ? MetamacWebCommon.getConstants().yes() : MetamacWebCommon.getConstants().no());
+		productionDescriptorsForm.setValue(OperationDS.DISAGGREGATION_BY_SEX,
+				operationDto.getDisaggregationBySex() == null ? "" : (operationDto.getDisaggregationBySex() ? MetamacWebCommon.getConstants().yes() : MetamacWebCommon.getConstants().no()));
+
+		productionDescriptorsForm.setValue(OperationDS.DISAGGREGATION_BY_AGE,
+				operationDto.getDisaggregationByAge() == null ? "" : (operationDto.getDisaggregationByAge() ? MetamacWebCommon.getConstants().yes() : MetamacWebCommon.getConstants().no()));
+
+		productionDescriptorsForm.setValue(OperationDS.DISAGGREGATION_BY_DISABILITY, operationDto.getDisaggregationByDisability() == null
+																							 ? ""
+																							 : (operationDto.getDisaggregationByDisability()
+																										? MetamacWebCommon.getConstants().yes()
+																										: MetamacWebCommon.getConstants().no()));
+
+		productionDescriptorsForm.setValue(OperationDS.DISAGGREGATION_BY_NATIONALITY, operationDto.getDisaggregationByNationality() == null
+																							  ? ""
+																							  : (operationDto.getDisaggregationByNationality()
+																										 ? MetamacWebCommon.getConstants().yes()
+																										 : MetamacWebCommon.getConstants().no()));
+		productionDescriptorsForm.setValue(OperationDS.STATUS, CommonUtils.getStatusName(operationDto.getStatus()));
+		productionDescriptorsForm.setValue(OperationDS.EDATOS_MIGRATION_STATUS, CommonUtils.getEdatosMigrationStatusName(operationDto.getEdatosMigrationStatus()));
+		productionDescriptorsForm.setValue(OperationDS.PROC_STATUS, CommonUtils.getProcStatusName(operationDto.getProcStatus()));
+		productionDescriptorsForm.setValue(OperationDS.GENDER_PERSPECTIVE, operationDto.getGenderPerspective());
+
+		// DIFFUSION AND PUBLICATION
+
+		((ExternalItemListItem) diffusionForm.getItem(OperationDS.PUBLISHER)).setExternalItems(operationDto.getPublisher());
+
+		diffusionForm.setValue(OperationDS.COMMON_METADATA, operationDto.getCommonMetadata());
+
+		diffusionForm.setValue(OperationDS.RE_POL_US_AC, operationDto.getRelPolUsAc());
+		diffusionForm.setValue(OperationDS.RELEASE_CALENDAR,
+				(operationDto.getReleaseCalendar() != null && operationDto.getReleaseCalendar()) ? MetamacWebCommon.getConstants().yes() : MetamacWebCommon.getConstants().no());
+		diffusionForm.setValue(OperationDS.RELEASE_CALENDAR_ACCESS, operationDto.getReleaseCalendarAccess());
+
+		((ExternalItemListItem) diffusionForm.getItem(OperationDS.UPDATE_FREQUENCY)).setExternalItems(operationDto.getUpdateFrequency());
+
+		if (operationDto.getCurrentInstance() != null) {
+			((CustomLinkItem) diffusionForm.getItem(OperationDS.CURRENT_INSTANCE)).setValue(
+					CommonWebUtils.getElementName(operationDto.getCurrentInstance().getCode(), operationDto.getCurrentInstance().getTitle()),
+					PlaceRequestUtils.buildAbsoluteInstancePlaceRequest(operationDto.getCode(), operationDto.getCurrentInstance().getCode()));
+		} else {
+			((CustomLinkItem) diffusionForm.getItem(OperationDS.CURRENT_INSTANCE)).clearValue();
+		}
+
+		if (operationDto.getCurrentInternalInstance() != null) {
+			((CustomLinkItem) diffusionForm.getItem(OperationDS.CURRENT_INTERNAL_INSTANCE)).setValue(
+					CommonWebUtils.getElementName(operationDto.getCurrentInternalInstance().getCode(), operationDto.getCurrentInternalInstance().getTitle()),
+					PlaceRequestUtils.buildAbsoluteInstancePlaceRequest(operationDto.getCode(), operationDto.getCurrentInternalInstance().getCode()));
+		} else {
+			((CustomLinkItem) diffusionForm.getItem(OperationDS.CURRENT_INTERNAL_INSTANCE)).clearValue();
+		}
+
+		diffusionForm.setValue(OperationDS.INVENTORY_DATE, operationDto.getInventoryDate());
+		diffusionForm.setValue(OperationDS.REV_POLICY, operationDto.getRevPolicy());
+		diffusionForm.setValue(OperationDS.REV_PRACTICE, operationDto.getRevPractice());
+		diffusionForm.setValue(OperationDS.DIFFUSION_AND_PUBLICATION, (operationDto.getDiffusionAndPublicationVisible() != null && operationDto.getDiffusionAndPublicationVisible())
+																			  ? MetamacWebCommon.getConstants().yes()
+																			  : MetamacWebCommon.getConstants().no());
+		diffusionForm.setValue(OperationDS.NEWNESS_UNTIL_DATE, operationDto.getNewnessUntilDate());
+		diffusionForm.setValue(OperationDS.FEATURED_UNTIL_DATE, operationDto.getFeaturedUntilDate());
+		// OPERATION URLS
+
+		viewOperationUrlsPanel.setOperationUrls(operationDto.getStatisticalOperationUrls());
+
+		// LEGAL ACTS
+		legalActsForm.setValue(OperationDS.SPECIFIC_LEGAL_ACTS, operationDto.getSpecificLegalActs());
+		legalActsForm.setValue(OperationDS.SPECIFIC_DATA_SHARING, operationDto.getSpecificDataSharing());
+
+		// ANNOTATIONS
+
+		annotationsViewForm.setValue(OperationDS.COMMENTS, operationDto.getComment());
+		annotationsViewForm.setValue(OperationDS.NOTES, operationDto.getNotes());
+	}
+
+	private void setOperationEditionMode(OperationDto operationDto) {
+
+		String[] requiredFieldsToNextProcStatus = RequiredFieldUtils.getOperationRequiredFieldsToNextProcStatus(operationDto.getProcStatus());
+
+		// IDENTIFIERS
+
+		identifiersEditionForm.setValue(OperationDS.CODE, operationDto.getCode());
+		identifiersEditionForm.setValue(OperationDS.STATISTIC_PLAN, operationDto.getStatisticPlanCode());
+		identifiersEditionForm.setValue(OperationDS.CODE_VIEW, operationDto.getCode());
+		identifiersEditionForm.setValue(OperationDS.TITLE, operationDto.getTitle());
+		identifiersEditionForm.setValue(OperationDS.ACRONYM, operationDto.getAcronym());
+		identifiersEditionForm.setValue(OperationDS.URN, operationDto.getUrn());
+		identifiersEditionForm.setRequiredTitleSuffix(requiredFieldsToNextProcStatus);
+		identifiersEditionForm.markForRedraw();
+
+		// CONTENT CLASSIFIERS
+
+		contentClassifiersEditionForm.setValue(OperationDS.SUBJECT_AREA, operationDto.getSubjectArea());
+		((ExternalItemListItem) contentClassifiersEditionForm.getItem(OperationDS.SECONDARY_SUBJECT_AREAS)).setExternalItems(operationDto.getSecondarySubjectAreas());
+		contentClassifiersEditionForm.setRequiredTitleSuffix(requiredFieldsToNextProcStatus);
+		contentClassifiersEditionForm.markForRedraw();
+
+		// CONTENT DESCRIPTORS
+
+		contentEditionForm.setValue(OperationDS.DESCRIPTION, operationDto.getDescription());
+		contentEditionForm.setValue(OperationDS.OBJECTIVE, operationDto.getObjective());
+		contentEditionForm.setRequiredTitleSuffix(requiredFieldsToNextProcStatus);
+		contentEditionForm.markForRedraw();
+
+		// CLASS DESCRIPTORS
+
+		surveyType.setValue(operationDto.getSurveyType() != null ? operationDto.getSurveyType().getId() : null);
+
+		officialityType.setValue(
+				operationDto.getOfficialityType() != null ? OperationsListUtils.getOfficialityTypeArtificialKey(officialityTypeDtos, operationDto.getOfficialityType().getId()) : null);
+		indSystem.setValue(operationDto.getIndicatorSystem() == null ? false : operationDto.getIndicatorSystem());
+		classDescriptorsEditionForm.setRequiredTitleSuffix(requiredFieldsToNextProcStatus);
+		classDescriptorsEditionForm.markForRedraw();
+
+		// PRODUCTION DESCRIPTORS
+
+		technicianInCharge.setValue(operationDto.getTechnicianInCharge() != null ? CommonUtils.getUsernameUser(operationDto.getTechnicianInCharge()) : null);
+		assistantTechnician.setValue(operationDto.getAssistantTechnician() != null ? CommonUtils.getUsernameUser(operationDto.getAssistantTechnician()) : null);
+		((ExternalItemListItem) productionDescriptorsEditionForm.getItem(OperationDS.PRODUCER)).setExternalItems(operationDto.getProducer());
+		((ExternalItemListItem) productionDescriptorsEditionForm.getItem(OperationDS.REG_RESPONSIBLE)).setExternalItems(operationDto.getResponsible());
+		((ExternalItemListItem) productionDescriptorsEditionForm.getItem(OperationDS.REG_CONTRIBUTOR)).setExternalItems(operationDto.getContributor());
+		productionDescriptorsEditionForm.setValue(OperationDS.CREATED_DATE, operationDto.getCreatedDate());
+		productionDescriptorsEditionForm.setValue(OperationDS.INTERNAL_INVENTORY_DATE, operationDto.getInternalInventoryDate());
+		currentlyActiveItem.setValue(operationDto.getCurrentlyActive() != null ? operationDto.getCurrentlyActive() : false);
+		((BooleanSelectItem) productionDescriptorsEditionForm.getItem(OperationDS.DISAGGREGATION_BY_SEX)).setBooleanValue(operationDto.getDisaggregationBySex());
+		((BooleanSelectItem) productionDescriptorsEditionForm.getItem(OperationDS.DISAGGREGATION_BY_AGE)).setBooleanValue(operationDto.getDisaggregationByAge());
+		((BooleanSelectItem) productionDescriptorsEditionForm.getItem(OperationDS.DISAGGREGATION_BY_NATIONALITY)).setBooleanValue(operationDto.getDisaggregationByNationality());
+		((BooleanSelectItem) productionDescriptorsEditionForm.getItem(OperationDS.DISAGGREGATION_BY_DISABILITY)).setBooleanValue(operationDto.getDisaggregationByDisability());
+		statusItem.setValue(operationDto.getStatus() == null ? null : operationDto.getStatus().toString());
+		edatosMigrationStatusItem.setValue(operationDto.getEdatosMigrationStatus() == null ? null : operationDto.getEdatosMigrationStatus().toString());
+		productionDescriptorsEditionForm.setValue(OperationDS.PROC_STATUS, CommonUtils.getProcStatusName(operationDto.getProcStatus()));
+		productionDescriptorsEditionForm.setValue(OperationDS.PROC_STATUS_VIEW, operationDto.getProcStatus().toString());
+		productionDescriptorsEditionForm.setValue(OperationDS.GENDER_PERSPECTIVE, operationDto.getGenderPerspective());
+		productionDescriptorsEditionForm.setRequiredTitleSuffix(requiredFieldsToNextProcStatus);
+		productionDescriptorsEditionForm.markForRedraw();
+
+		// DIFFUSION AND PUBLICATION
+
+		((ExternalItemListItem) diffusionEditionForm.getItem(OperationDS.PUBLISHER)).setExternalItems(operationDto.getPublisher());
+
+		diffusionEditionForm.setValue(OperationDS.COMMON_METADATA, operationDto.getCommonMetadata());
+
+		diffusionEditionForm.setValue(OperationDS.RE_POL_US_AC, operationDto.getRelPolUsAc());
+		releaseCalendar.setValue(operationDto.getReleaseCalendar());
+		releaseCalendarAccess.setValue(operationDto.getReleaseCalendarAccess());
+		diffusionAndPublicationVisible.setValue(operationDto.getDiffusionAndPublicationVisible());
+
+		((ExternalItemListItem) diffusionEditionForm.getItem(OperationDS.UPDATE_FREQUENCY)).setExternalItems(operationDto.getUpdateFrequency());
+
+		if (operationDto.getCurrentInstance() != null) {
+			((CustomLinkItem) diffusionEditionForm.getItem(OperationDS.CURRENT_INSTANCE)).setValue(
+					CommonWebUtils.getElementName(operationDto.getCurrentInstance().getCode(), operationDto.getCurrentInstance().getTitle()),
+					PlaceRequestUtils.buildAbsoluteInstancePlaceRequest(operationDto.getCode(), operationDto.getCurrentInstance().getCode()));
+		} else {
+			((CustomLinkItem) diffusionEditionForm.getItem(OperationDS.CURRENT_INSTANCE)).clearValue();
+		}
+
+		if (operationDto.getCurrentInternalInstance() != null) {
+			((CustomLinkItem) diffusionEditionForm.getItem(OperationDS.CURRENT_INTERNAL_INSTANCE)).setValue(
+					CommonWebUtils.getElementName(operationDto.getCurrentInternalInstance().getCode(), operationDto.getCurrentInternalInstance().getTitle()),
+					PlaceRequestUtils.buildAbsoluteInstancePlaceRequest(operationDto.getCode(), operationDto.getCurrentInternalInstance().getCode()));
+		} else {
+			((CustomLinkItem) diffusionEditionForm.getItem(OperationDS.CURRENT_INTERNAL_INSTANCE)).clearValue();
+		}
+
+		diffusionEditionForm.setValue(OperationDS.INVENTORY_DATE, operationDto.getInventoryDate());
+		diffusionEditionForm.setValue(OperationDS.REV_POLICY, operationDto.getRevPolicy());
+		diffusionEditionForm.setValue(OperationDS.REV_PRACTICE, operationDto.getRevPractice());
+
+		diffusionEditionForm.setRequiredTitleSuffix(requiredFieldsToNextProcStatus);
+		diffusionEditionForm.markForRedraw();
+
+		diffusionEditionForm.setValue(OperationDS.NEWNESS_UNTIL_DATE, operationDto.getNewnessUntilDate());
+		diffusionEditionForm.setValue(OperationDS.FEATURED_UNTIL_DATE, operationDto.getFeaturedUntilDate());
+		// OPERATION URLS
+
+		editOperationUrlsPanel.setOperationUrls(operationDto.getStatisticalOperationUrls());
+
+		// LEGAL ACTS
+
+		legalActsEditionForm.setValue(OperationDS.SPECIFIC_LEGAL_ACTS, operationDto.getSpecificLegalActs());
+		legalActsEditionForm.setValue(OperationDS.SPECIFIC_DATA_SHARING, operationDto.getSpecificDataSharing());
+		legalActsEditionForm.setRequiredTitleSuffix(requiredFieldsToNextProcStatus);
+		legalActsEditionForm.markForRedraw();
+
+		// ANNOTATIONS
+
+		annotationsEditionForm.setValue(OperationDS.COMMENTS, operationDto.getComment());
+		annotationsEditionForm.setValue(OperationDS.NOTES, operationDto.getNotes());
+		annotationsEditionForm.setRequiredTitleSuffix(requiredFieldsToNextProcStatus);
+		annotationsEditionForm.markForRedraw();
+
+		identifiersEditionForm.markForRedraw();
+		productionDescriptorsEditionForm.markForRedraw();
+	}
+
+	@Override
+	public HasClickHandlers getPublishOperationInternally() {
+		return mainFormLayout.getPublishInternally();
+	}
+
+	@Override
+	public HasClickHandlers getPublishOperationExternally() {
+		return mainFormLayout.getPublishExternally();
+	}
+
+	@Override
+	public HasClickHandlers getReSendStreamMessageOperation() {
+		return mainFormLayout.getLifeCycleReSendStreamMessage();
+	}
+
+	/**
+	 * Select Instance in ListGrid
+	 *
+	 * @param id
+	 */
+	private void selectInstance(Long id) {
+		if (id == null) {
+			// New instance
+			instanceListGridToolStrip.getDeleteButton().hide();
+			instanceListGrid.deselectAllRecords();
+		} else {
+			showInstanceListGridDeleteButton();
+		}
+	}
+
+	/**
+	 * DeSelect Instance in ListGrid
+	 */
+	private void deselectInstance() {
+		instanceListGridToolStrip.getDeleteButton().hide();
+	}
+
+	@Override
+	public void setOperationsLists(List<SurveyTypeDto> surveyTypeDtos, List<OfficialityTypeDto> officialityTypeDtos) {
+		this.surveyTypeDtos = surveyTypeDtos;
+		this.officialityTypeDtos = officialityTypeDtos;
+		surveyType.setValueMap(OperationsListUtils.getSurveyTypeHashMap(surveyTypeDtos));
+		officialityType.setValueMap(OperationsListUtils.getOfficialityTypeHashMap(officialityTypeDtos));
+	}
+
+	@Override
+	public void setCommonMetadataConfigurations(List<ExternalItemDto> commonMetadataConfigurations) {
+		((SearchSingleCommonConfigurationItem) diffusionEditionForm.getItem(OperationDS.COMMON_METADATA)).setCommonConfigurationsList(commonMetadataConfigurations);
+	}
+
+	private void setTranslationsShowed(boolean translationsShowed) {
+		// Set translationsShowed value to international fields
+		identifiersForm.setTranslationsShowed(translationsShowed);
+		identifiersEditionForm.setTranslationsShowed(translationsShowed);
+		contentViewForm.setTranslationsShowed(translationsShowed);
+		contentEditionForm.setTranslationsShowed(translationsShowed);
+		productionDescriptorsForm.setTranslationsShowed(translationsShowed);
+		productionDescriptorsEditionForm.setTranslationsShowed(translationsShowed);
+		diffusionForm.setTranslationsShowed(translationsShowed);
+		viewOperationUrlsPanel.setTranslationsShowed(translationsShowed);
+		editOperationUrlsPanel.setTranslationsShowed(translationsShowed);
+		diffusionEditionForm.setTranslationsShowed(translationsShowed);
+		annotationsViewForm.setTranslationsShowed(translationsShowed);
+		annotationsEditionForm.setTranslationsShowed(translationsShowed);
+	}
+
+	private void showInstanceListGridDeleteButton() {
+		if (ClientSecurityUtils.canDeleteInstance(operationDto.getCode(), operationDto.getProcStatus())) {
+			instanceListGridToolStrip.getDeleteButton().show();
+		}
+	}
+
+	private boolean canOperationCodeBeEdited() {
+		// Operation code can be edited only when ProcStatus is DRAFT
+		return (productionDescriptorsEditionForm.getValue(OperationDS.PROC_STATUS_VIEW) != null && ProcStatusEnum.DRAFT.toString()
+																										   .equals(productionDescriptorsEditionForm.getValue(OperationDS.PROC_STATUS_VIEW)));
+	}
+
+	public boolean isOperationInternallyPublished() {
+		return ProcStatusEnum.PUBLISH_INTERNALLY.equals(operationDto.getProcStatus());
+	}
+
+	public boolean isOperationExternallyPublished() {
+		return ProcStatusEnum.PUBLISH_EXTERNALLY.equals(operationDto.getProcStatus());
+	}
+
+	@Override
+	public void setFamilies(List<ExternalItemDto> families, int firstResult, int totalResults) {
+		if (windowToAddFamiliesToOperation != null) {
+			windowToAddFamiliesToOperation.setResources(families);
+			windowToAddFamiliesToOperation.refreshSourcePaginationInfo(firstResult, families.size(), totalResults);
+		}
+	}
+	@Override
+	public void setUsersAccessControl(GetUsersAccessControlListResult result) {
+		technicianInCharge.setValueMap(result.getUsers());
+		assistantTechnician.setValueMap(result.getUsers());
+	}
+
+	// ------------------------------------------------------------------------------------------------------------
+	// EXTERNAL RESOURCES DATA SETTERS
+	// ------------------------------------------------------------------------------------------------------------
+
+	@Override
+	public void setItemSchemes(String formItemName, ExternalItemsResult result) {
+		if (StringUtils.equals(OperationDS.SUBJECT_AREA, formItemName)) {
+			((SearchSrmItemLinkItemWithSchemeFilterItem) contentClassifiersEditionForm.getItem(formItemName)).setFilterResources(result.getExternalItemDtos(), result.getFirstResult(),
+					result.getExternalItemDtos().size(), result.getTotalResults());
+
+		} else if (StringUtils.equals(OperationDS.SECONDARY_SUBJECT_AREAS, formItemName)) {
+			((SearchSrmListItemWithSchemeFilterItem) contentClassifiersEditionForm.getItem(formItemName)).setFilterResources(result.getExternalItemDtos(), result.getFirstResult(),
+					result.getTotalResults());
+
+		} else if (StringUtils.equals(OperationDS.PRODUCER, formItemName)) {
+			((SearchSrmListItemWithSchemeFilterItem) productionDescriptorsEditionForm.getItem(formItemName)).setFilterResources(result.getExternalItemDtos(), result.getFirstResult(),
+					result.getTotalResults());
+
+		} else if (StringUtils.equals(OperationDS.REG_RESPONSIBLE, formItemName)) {
+			((SearchSrmListItemWithSchemeFilterItem) productionDescriptorsEditionForm.getItem(formItemName)).setFilterResources(result.getExternalItemDtos(), result.getFirstResult(),
+					result.getTotalResults());
+
+		} else if (StringUtils.equals(OperationDS.REG_CONTRIBUTOR, formItemName)) {
+			((SearchSrmListItemWithSchemeFilterItem) productionDescriptorsEditionForm.getItem(formItemName)).setFilterResources(result.getExternalItemDtos(), result.getFirstResult(),
+					result.getTotalResults());
+
+		} else if (StringUtils.equals(OperationDS.PUBLISHER, formItemName)) {
+			((SearchSrmListItemWithSchemeFilterItem) diffusionEditionForm.getItem(formItemName)).setFilterResources(result.getExternalItemDtos(), result.getFirstResult(), result.getTotalResults());
+
+		} else if (StringUtils.equals(OperationDS.UPDATE_FREQUENCY, formItemName)) {
+			((SearchSrmListItemWithSchemeFilterItem) diffusionEditionForm.getItem(formItemName)).setFilterResources(result.getExternalItemDtos(), result.getFirstResult(), result.getTotalResults());
+		}
+	}
+
+	@Override
+	public void setItems(String formItemName, ExternalItemsResult result) {
+		if (StringUtils.equals(OperationDS.SUBJECT_AREA, formItemName)) {
+			((SearchExternalItemSimpleItem) contentClassifiersEditionForm.getItem(formItemName)).setResources(result.getExternalItemDtos(), result.getFirstResult(), result.getTotalResults());
+
+		} else if (StringUtils.equals(OperationDS.SECONDARY_SUBJECT_AREAS, formItemName)) {
+			((SearchMultiExternalItemSimpleItem) contentClassifiersEditionForm.getItem(formItemName)).setResources(result.getExternalItemDtos(), result.getFirstResult(), result.getTotalResults());
+
+		} else if (StringUtils.equals(OperationDS.PRODUCER, formItemName)) {
+			((SearchSrmListItemWithSchemeFilterItem) productionDescriptorsEditionForm.getItem(formItemName)).setResources(result.getExternalItemDtos(), result.getFirstResult(),
+					result.getTotalResults());
+
+		} else if (StringUtils.equals(OperationDS.REG_RESPONSIBLE, formItemName)) {
+			((SearchSrmListItemWithSchemeFilterItem) productionDescriptorsEditionForm.getItem(formItemName)).setResources(result.getExternalItemDtos(), result.getFirstResult(),
+					result.getTotalResults());
+
+		} else if (StringUtils.equals(OperationDS.REG_CONTRIBUTOR, formItemName)) {
+			((SearchSrmListItemWithSchemeFilterItem) productionDescriptorsEditionForm.getItem(formItemName)).setResources(result.getExternalItemDtos(), result.getFirstResult(),
+					result.getTotalResults());
+
+		} else if (StringUtils.equals(OperationDS.PUBLISHER, formItemName)) {
+			((SearchSrmListItemWithSchemeFilterItem) diffusionEditionForm.getItem(formItemName)).setResources(result.getExternalItemDtos(), result.getFirstResult(), result.getTotalResults());
+
+		} else if (StringUtils.equals(OperationDS.UPDATE_FREQUENCY, formItemName)) {
+			((SearchSrmListItemWithSchemeFilterItem) diffusionEditionForm.getItem(formItemName)).setResources(result.getExternalItemDtos(), result.getFirstResult(), result.getTotalResults());
+		}
+	}
+
+	// ------------------------------------------------------------------------------------------------------------
+	// EXTERNAL RESOURCES ITEMS
+	// ------------------------------------------------------------------------------------------------------------
+
+	private SearchExternalItemSimpleItem createSubjectAreaItem(final String name, String title) {
+		return new SearchExternalItemSimpleItem(name, title, StatisticalOperationsWebConstants.FORM_LIST_MAX_RESULTS) {
+
+			@Override
+			protected void retrieveResources(int firstResult, int maxResults, MetamacWebCriteria webCriteria) {
+				TypeExternalArtefactsEnum[] type = {TypeExternalArtefactsEnum.CATEGORY_ELEMENT};
+
+				SrmItemRestCriteria restCriteria = new SrmItemRestCriteria();
+				restCriteria.setExternalArtifactType(TypeExternalArtefactsEnum.CATEGORY_ELEMENT);
+				restCriteria.setCriteria(webCriteria.getCriteria());
+
+				getUiHandlers().retrieveItems(name, restCriteria, type, firstResult, maxResults);
+			}
+		};
+	}
+
+	private SearchMultiExternalItemSimpleItem createSecondarySubjectAreasItem() {
+		final String field = OperationDS.SECONDARY_SUBJECT_AREAS;
+		return new SearchMultiExternalItemSimpleItem(field, getConstants().operationSubjectAreasSecondary(), StatisticalOperationsWebConstants.FORM_LIST_MAX_RESULTS) {
+
+			@Override
+			protected void retrieveResources(int firstResult, int maxResults, MetamacWebCriteria webCriteria) {
+				TypeExternalArtefactsEnum[] type = {TypeExternalArtefactsEnum.CATEGORY_ELEMENT};
+				SrmItemRestCriteria restCriteria = new SrmItemRestCriteria();
+				restCriteria.setExternalArtifactType(TypeExternalArtefactsEnum.CATEGORY_ELEMENT);
+				restCriteria.setCriteria(webCriteria.getCriteria());
+				getUiHandlers().retrieveItems(field, restCriteria, type, firstResult, maxResults);
+			}
+		};
+	}
+
+	private SearchSrmListItemWithSchemeFilterItem createProducersItem() {
+		final String field = OperationDS.PRODUCER;
+		final SearchSrmListItemWithSchemeFilterItem item = new SearchSrmListItemWithSchemeFilterItem(field, getConstants().operationProducers(),
+				StatisticalOperationsWebConstants.FORM_LIST_MAX_RESULTS) {
+
+			@Override
+			protected void retrieveItemSchemes(int firstResult, int maxResults, SrmExternalResourceRestCriteria webCriteria) {
+				getUiHandlers().retrieveItemSchemes(field, webCriteria, new TypeExternalArtefactsEnum[]{TypeExternalArtefactsEnum.ORGANISATION_UNIT_SCHEME}, firstResult, maxResults);
+			}
+
+			@Override
+			protected void retrieveItems(int firstResult, int maxResults, SrmItemRestCriteria webCriteria) {
+				getUiHandlers().retrieveItems(field, webCriteria, new TypeExternalArtefactsEnum[]{TypeExternalArtefactsEnum.ORGANISATION_UNIT}, firstResult, maxResults);
+			}
+		};
+		return item;
+	}
+
+	private SearchSrmListItemWithSchemeFilterItem createRegionaleResponsiblesItem() {
+		final String field = OperationDS.REG_RESPONSIBLE;
+		final SearchSrmListItemWithSchemeFilterItem item = new SearchSrmListItemWithSchemeFilterItem(field, getConstants().operationResponsibles(),
+				StatisticalOperationsWebConstants.FORM_LIST_MAX_RESULTS) {
+
+			@Override
+			protected void retrieveItemSchemes(int firstResult, int maxResults, SrmExternalResourceRestCriteria webCriteria) {
+				getUiHandlers().retrieveItemSchemes(field, webCriteria, new TypeExternalArtefactsEnum[]{TypeExternalArtefactsEnum.ORGANISATION_UNIT_SCHEME}, firstResult, maxResults);
+			}
+
+			@Override
+			protected void retrieveItems(int firstResult, int maxResults, SrmItemRestCriteria webCriteria) {
+				getUiHandlers().retrieveItems(field, webCriteria, new TypeExternalArtefactsEnum[]{TypeExternalArtefactsEnum.ORGANISATION_UNIT}, firstResult, maxResults);
+			}
+		};
+		return item;
+	}
+
+	private SearchSrmListItemWithSchemeFilterItem createRegionaleContributorsItem() {
+		final String field = OperationDS.REG_CONTRIBUTOR;
+		final SearchSrmListItemWithSchemeFilterItem item = new SearchSrmListItemWithSchemeFilterItem(field, getConstants().operationContributors(),
+				StatisticalOperationsWebConstants.FORM_LIST_MAX_RESULTS) {
+
+			@Override
+			protected void retrieveItemSchemes(int firstResult, int maxResults, SrmExternalResourceRestCriteria webCriteria) {
+				getUiHandlers().retrieveItemSchemes(field, webCriteria,
+						new TypeExternalArtefactsEnum[]{TypeExternalArtefactsEnum.ORGANISATION_UNIT_SCHEME, TypeExternalArtefactsEnum.DATA_PROVIDER_SCHEME}, firstResult, maxResults);
+			}
+
+			@Override
+			protected void retrieveItems(int firstResult, int maxResults, SrmItemRestCriteria webCriteria) {
+				getUiHandlers().retrieveItems(field, webCriteria, new TypeExternalArtefactsEnum[]{TypeExternalArtefactsEnum.ORGANISATION_UNIT, TypeExternalArtefactsEnum.DATA_PROVIDER}, firstResult,
+						maxResults);
+			}
+		};
+		return item;
+	}
+
+	private SearchSrmListItemWithSchemeFilterItem createPublishersItem() {
+		final String field = OperationDS.PUBLISHER;
+		final SearchSrmListItemWithSchemeFilterItem item = new SearchSrmListItemWithSchemeFilterItem(field, getConstants().operationPublisher(),
+				StatisticalOperationsWebConstants.FORM_LIST_MAX_RESULTS) {
+
+			@Override
+			protected void retrieveItemSchemes(int firstResult, int maxResults, SrmExternalResourceRestCriteria webCriteria) {
+				getUiHandlers().retrieveItemSchemes(field, webCriteria, new TypeExternalArtefactsEnum[]{TypeExternalArtefactsEnum.ORGANISATION_UNIT_SCHEME}, firstResult, maxResults);
+			}
+
+			@Override
+			protected void retrieveItems(int firstResult, int maxResults, SrmItemRestCriteria webCriteria) {
+				getUiHandlers().retrieveItems(field, webCriteria, new TypeExternalArtefactsEnum[]{TypeExternalArtefactsEnum.ORGANISATION_UNIT}, firstResult, maxResults);
+			}
+		};
+		return item;
+	}
+
+	private SearchSrmListItemWithSchemeFilterItem createUpdateFrequencyItem() {
+		final String field = OperationDS.UPDATE_FREQUENCY;
+		final SearchSrmListItemWithSchemeFilterItem item = new SearchSrmListItemWithSchemeFilterItem(field, getConstants().operationUpdateFrequency(),
+				StatisticalOperationsWebConstants.FORM_LIST_MAX_RESULTS) {
+
+			@Override
+			protected void retrieveItemSchemes(int firstResult, int maxResults, SrmExternalResourceRestCriteria webCriteria) {
+				getUiHandlers().retrieveItemSchemes(field, webCriteria, new TypeExternalArtefactsEnum[]{TypeExternalArtefactsEnum.CODELIST}, firstResult, maxResults);
+			}
+
+			@Override
+			protected void retrieveItems(int firstResult, int maxResults, SrmItemRestCriteria webCriteria) {
+				getUiHandlers().retrieveItems(field, webCriteria, new TypeExternalArtefactsEnum[]{TypeExternalArtefactsEnum.CODE}, firstResult, maxResults);
+			}
+		};
+		return item;
+	}
+
+	private SearchSingleCommonConfigurationItem createCommonMetadataItem(String name, String title) {
+		final SearchSingleCommonConfigurationItem item = new SearchSingleCommonConfigurationItem(name, title) {
+
+			@Override
+			protected void retrieveCommonConfigurations(CommonConfigurationRestCriteria criteria) {
+				getUiHandlers().retrieveCommonMetadataConfigurations(criteria);
+			}
+		};
+		return item;
+	}
+
+	// ------------------------------------------------------------------------------------------------------------
+	// CLICK HANDLERS
+	// ------------------------------------------------------------------------------------------------------------
+
+	private CustomLinkItemNavigationClickHandler getCustomLinkItemNavigationClickHandler() {
+		return new CustomLinkItemNavigationClickHandler() {
+
+			@Override
+			public BaseUiHandlers getBaseUiHandlers() {
+				return getUiHandlers();
+			}
+		};
+	}
+
+	// ------------------------------------------------------------------------------------------------------------
+	// VALIDATORS
+	// ------------------------------------------------------------------------------------------------------------
+	private CustomValidator getTechnicianInChargeUserNotTheSameAsAssistantTechnicianUserValidator() {
+		CustomValidator customValidator = new CustomValidator() {
+
+			@Override
+			protected boolean condition(Object value) {
+				return CommonUtils.isTechnicianInChargeUserNotTheSameAsAssistantTechnicianUser(technicianInCharge.getValueAsString(), assistantTechnician.getValueAsString());
+			}
+		};
+
+		customValidator.setErrorMessage(getMessages().validatorMessageTechnicianInChargeEqualsAssitantTechnician());
+		return customValidator;
+	}
 }

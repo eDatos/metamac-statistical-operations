@@ -42,7 +42,7 @@ import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Instance;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.InstanceTypes;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Instances;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.LegalActs;
-import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Measures;
+import org.siemac.metamac.rest.statistical_operations.v1_0.domain.UnitMeasures;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.OfficialityTypes;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Operation;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Operations;
@@ -303,7 +303,7 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
 		target.setTemporalGranularity(toTemporalGranularities(source.getTemporalGranularity()));
 		target.setTemporalComparability(toInternationalString(source.getTemporalComparability()));
 		target.setBasePeriod(source.getBasePeriod());
-		target.setMeasures(toMeasures(source.getUnitMeasure()));
+        target.setUnitMeasures(toUnitMeasures(source.getUnitMeasure()));
 		target.setStatConcDefsDescription(toInternationalString(source.getStatConcDef()));
 		target.setStatConcDefs(toStatConcDefs(source.getStatConcDefList()));
 		target.setClassSystemsDescription(toInternationalString(source.getClassSystem()));
@@ -1004,14 +1004,14 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
 		return targets;
 	}
 
-	private Measures toMeasures(Set<ExternalItem> sources) {
+    private UnitMeasures toUnitMeasures(Set<ExternalItem> sources) {
 		if (sources == null || sources.size() == 0) {
 			return null;
 		}
-		Measures targets = new Measures();
-		toResourcesFromExternalItemWithConceptSchemesAndConcepts(sources, targets.getMeasures());
-		targets.setKind(SrmRestConstants.KIND_CONCEPTS);
-		targets.setTotal(BigInteger.valueOf(targets.getMeasures().size()));
+        UnitMeasures targets = new UnitMeasures();
+        toResourcesExternalItemsSrm(sources, targets.getUnitMeasures());
+        targets.setKind(SrmRestConstants.KIND_CODES);
+        targets.setTotal(BigInteger.valueOf(targets.getUnitMeasures().size()));
 		return targets;
 	}
 

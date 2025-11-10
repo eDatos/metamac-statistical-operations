@@ -37,11 +37,12 @@ import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Famil
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Family;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.FreqColls;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.GeographicGranularities;
+import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.PublicInformationSuppliers;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Instance;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.InstanceTypes;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Instances;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.LegalActs;
-import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Measures;
+import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.UnitMeasures;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.OfficialityTypes;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Operation;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Operations;
@@ -321,7 +322,7 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
 		target.setTemporalGranularity(this.toTemporalGranularities(source.getTemporalGranularity()));
 		target.setTemporalComparability(this.toInternationalString(source.getTemporalComparability()));
 		target.setBasePeriod(source.getBasePeriod());
-		target.setMeasures(this.toMeasures(source.getUnitMeasure()));
+        target.setUnitMeasures(this.toUnitMeasures(source.getUnitMeasure()));
 		target.setStatConcDefsDescription(this.toInternationalString(source.getStatConcDef()));
 		target.setStatConcDefs(this.toStatConcDefs(source.getStatConcDefList()));
 		target.setClassSystemsDescription(this.toInternationalString(source.getClassSystem()));
@@ -1048,14 +1049,14 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
 		return targets;
 	}
 
-	private Measures toMeasures(Set<ExternalItem> sources) {
+    private UnitMeasures toUnitMeasures(Set<ExternalItem> sources) {
 		if (sources == null || sources.size() == 0) {
 			return null;
 		}
-		Measures targets = new Measures();
-		this.toResourcesInternalFromExternalItemWithConceptSchemesAndConcepts(sources, targets.getMeasures());
-		targets.setKind(SrmRestConstants.KIND_CONCEPTS);
-		targets.setTotal(BigInteger.valueOf(targets.getMeasures().size()));
+        UnitMeasures targets = new UnitMeasures();
+        this.toResourcesExternalItemsSrm(sources, targets.getUnitMeasures());
+        targets.setKind(SrmRestConstants.KIND_CODES);
+        targets.setTotal(BigInteger.valueOf(targets.getUnitMeasures().size()));
 		return targets;
 	}
 

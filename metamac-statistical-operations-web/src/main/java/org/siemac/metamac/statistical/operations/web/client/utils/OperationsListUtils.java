@@ -83,11 +83,6 @@ public class OperationsListUtils {
 
     }
 
-    private static String getArtificialKey(int positionInList, Long itemId) {
-        String paddedIndex = (LEFT_PADDED + positionInList).substring((LEFT_PADDED + positionInList).length() - LEFT_PADDED.length());
-        return paddedIndex + ARTIFICIAL_KEY_SEPARATOR + itemId;
-    }
-
     /**
      * Returns {@link LinkedHashMap} of {@link SurveySourceDto}
      * 
@@ -109,11 +104,53 @@ public class OperationsListUtils {
      */
     public static LinkedHashMap<String, String> getCollMethodsHashMap(List<CollMethodDto> list) {
         LinkedHashMap<String, String> hashMap = new LinkedHashMap<String, String>();
-        hashMap.put(new String(), new String());
-        for (CollMethodDto type : list) {
-            hashMap.put(type.getId().toString(), CommonWebUtils.getElementName(type.getIdentifier(), type.getDescription()));
+        hashMap.put("", "");
+        for (int i = 0; i < list.size(); i++) {
+            CollMethodDto dto = list.get(i);
+            hashMap.put(getArtificialKey(i, dto.getId()), CommonWebUtils.getElementName(dto.getIdentifier(), dto.getDescription(), dto.getHierarchyLevel(),false));
         }
         return hashMap;
+    }
+
+
+    /**
+     * Returns {@link LinkedHashMap} of {@link CollMethodDto}
+     *
+     * @return
+     */
+    public static String getCollMethodArtificialKey(List<CollMethodDto> collMethodDtosList, Long id) {
+        String selectedKey = null;
+
+        for (int i = 0; i < collMethodDtosList.size(); i++) {
+            CollMethodDto dtoItem = collMethodDtosList.get(i);
+
+            if (dtoItem.getId().equals(id)) {
+                selectedKey = getArtificialKey(i, dtoItem.getId());
+                break;
+            }
+        }
+
+        return selectedKey;
+
+    }
+
+    private static String getArtificialKey(int positionInList, Long itemId) {
+        String paddedIndex = (LEFT_PADDED + positionInList).substring((LEFT_PADDED + positionInList).length() - LEFT_PADDED.length());
+        return paddedIndex + ARTIFICIAL_KEY_SEPARATOR + itemId;
+    }
+
+    /**
+     * return real key from an artificial key with five number and "-" at the beggining of the real key.
+     * Returns {@String}
+     *
+     * @param key
+     * @return
+     */
+    private static String getCollMethodKey(String key) {
+        if (StringUtils.isEmpty(key)) {
+            return null;
+        }
+        return key.split(ARTIFICIAL_KEY_SEPARATOR)[1];
     }
 
     /**
@@ -230,6 +267,7 @@ public class OperationsListUtils {
      */
     public static CollMethodDto getCollMethodDto(String id, List<CollMethodDto> list) {
         if (id != null && !id.isEmpty()) {
+            id = getCollMethodKey(id);
             Long idType = Long.valueOf(id);
             for (CollMethodDto o : list) {
                 if (o.getId().compareTo(idType) == 0) {

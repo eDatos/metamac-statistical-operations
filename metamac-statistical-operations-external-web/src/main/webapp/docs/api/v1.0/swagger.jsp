@@ -494,12 +494,12 @@
                      "description":"${msg['api.doc.swagger.definitions.instance.properties.inventoryDate.measurementError']}",
                      "$ref":"#/definitions/Measures"
                   },
-                  "measures":{
+                  "unitMeasures":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"${msg['api.doc.swagger.definitions.instance.properties.measures']}",
-                     "$ref":"#/definitions/Measures"
+                     "description":"${msg['api.doc.swagger.definitions.instance.properties.unit_measures']}",
+                     "$ref":"#/definitions/UnitMeasures"
                   },
                   "modelError":{
                      "xml":{
@@ -751,16 +751,16 @@
          ],
          "description":"${msg['api.doc.swagger.definitions.legalActs']}"
       },
-      "Measures":{
+      "UnitMeasures":{
          "type":"object",
-         "title":"Measures",
+         "title":"UnitMeasures",
          "allOf":[
             {
                "$ref":"#/definitions/ListBase"
             },
             {
                "properties":{
-                  "measure":{
+                  "unitMeasure":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
@@ -770,7 +770,7 @@
                }
             }
          ],
-         "description":"${msg['api.doc.swagger.definitions.measures']}"
+         "description":"${msg['api.doc.swagger.definitions.unit_measures']}"
       },
       "OfficialityTypes":{
          "type":"object",

@@ -693,8 +693,9 @@ public class StatisticalOperationsCoreMocks {
         instance.addTemporalGranularity(mockExternalItemSrm("temporalGranularity02", "codelists", TypeExternalArtefactsEnum.CODELIST));
         instance.setTemporalComparability(mockInternationalStringMetadata("temporalComparability", subCode));
         instance.setBasePeriod("2012");
-        instance.addUnitMeasure(mockExternalItemSrm("measure1", "concepts", TypeExternalArtefactsEnum.CONCEPT));
-        instance.addUnitMeasure(mockExternalItemSrm("measure2", "concepts", TypeExternalArtefactsEnum.CONCEPT_SCHEME));
+        instance.addUnitMeasure(mockExternalItemSrm("measure2code1", "codes", TypeExternalArtefactsEnum.CODE));
+        instance.addUnitMeasure(mockExternalItemSrm("measure2code2", "codes", TypeExternalArtefactsEnum.CODE));
+        instance.addUnitMeasure(mockExternalItemSrm("measure1", "codes", TypeExternalArtefactsEnum.CODE));
         instance.setStatConcDef(mockInternationalStringMetadata("statConcDef", subCode));
         instance.addStatConcDefList(mockExternalItemSrm("statConcDefList1", "concepts", TypeExternalArtefactsEnum.CONCEPT));
         instance.addStatConcDefList(mockExternalItemSrm("statConcDefList22", "concepts", TypeExternalArtefactsEnum.CONCEPT_SCHEME));

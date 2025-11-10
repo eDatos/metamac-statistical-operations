@@ -19,7 +19,6 @@ import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Insta
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.InstanceTypes;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Instances;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.LegalActs;
-import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Measures;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.OfficialityTypes;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Operation;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Operations;
@@ -34,6 +33,7 @@ import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Stati
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.StatisticalOperationTypes;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.StatisticalUnits;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.TemporalGranularities;
+import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.UnitMeasures;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.UpdateFrequencies;
 
 public class StatisticalOperationsRestAsserts {
@@ -117,7 +117,7 @@ public class StatisticalOperationsRestAsserts {
         assertEqualsTemporalGranularities(expected.getTemporalGranularity(), actual.getTemporalGranularity());
         MetamacRestAsserts.assertEqualsInternationalString(expected.getTemporalComparability(), actual.getTemporalComparability());
         assertEquals(expected.getBasePeriod(), actual.getBasePeriod());
-        assertEqualsMeasures(expected.getMeasures(), actual.getMeasures());
+        assertEqualsUnitMeasures(expected.getUnitMeasures(), actual.getUnitMeasures());
         MetamacRestAsserts.assertEqualsInternationalString(expected.getStatConcDefsDescription(), actual.getStatConcDefsDescription());
         assertEqualsStatConcDefs(expected.getStatConcDefs(), actual.getStatConcDefs());
         MetamacRestAsserts.assertEqualsInternationalString(expected.getClassSystemsDescription(), actual.getClassSystemsDescription());
@@ -274,13 +274,13 @@ public class StatisticalOperationsRestAsserts {
         assertEqualsResourcesInternal(expected.getStatConcDefs(), actual.getStatConcDefs());
     }
 
-    private static void assertEqualsMeasures(Measures expected, Measures actual) {
+    private static void assertEqualsUnitMeasures(UnitMeasures expected, UnitMeasures actual) {
         MetamacRestAsserts.assertEqualsNullability(expected, actual);
         if (expected == null) {
             return;
         }
         MetamacRestAsserts.assertEqualsListBase(expected, actual);
-        assertEqualsResourcesInternal(expected.getMeasures(), actual.getMeasures());
+        assertEqualsResourcesInternal(expected.getUnitMeasures(), actual.getUnitMeasures());
     }
 
     private static void assertEqualsStatisticalUnits(StatisticalUnits expected, StatisticalUnits actual) {

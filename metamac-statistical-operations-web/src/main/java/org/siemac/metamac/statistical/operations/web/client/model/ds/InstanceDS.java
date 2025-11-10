@@ -23,7 +23,7 @@ public class InstanceDS extends DataSource {
     public static final String TEMPORAL_GRANULARITIES        = "in-tem-gran";
     public static final String TEMPORAL_COMPARABILITY        = "in-tem-com";
     public static final String BASE_PERIOD                   = "in-basep";
-    public static final String MEASURES                      = "in-umeas";
+    public static final String UNIT_MEASURES                 = "in-umeas";
     public static final String STAT_CONC_DEF_DESCRIPTION     = "in-sta-con";
     public static final String STAT_CONC_DEF                 = "in-sta-con-list";
     public static final String CLASS_SYSTEM_DESCRIPTION      = "in-class-sys";

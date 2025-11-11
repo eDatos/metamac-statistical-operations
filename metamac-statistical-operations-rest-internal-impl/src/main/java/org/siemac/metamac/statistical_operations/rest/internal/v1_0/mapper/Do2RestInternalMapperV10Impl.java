@@ -37,12 +37,10 @@ import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Famil
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Family;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.FreqColls;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.GeographicGranularities;
-import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.PublicInformationSuppliers;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Instance;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.InstanceTypes;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Instances;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.LegalActs;
-import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.UnitMeasures;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.OfficialityTypes;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Operation;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Operations;
@@ -59,6 +57,7 @@ import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Stati
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.StatisticalOperationUrls;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.StatisticalUnits;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.TemporalGranularities;
+import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.UnitMeasures;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.UpdateFrequencies;
 import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.CategoryResourceInternal;
 import org.siemac.metamac.rest.utils.RestUtils;
@@ -147,6 +146,8 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
 		target.setInventoryDate(this.toDate(source.getInventoryDate()));
 		target.setRevPolicy(this.toInternationalString(source.getRevPolicy()));
 		target.setRevPractice(this.toInternationalString(source.getRevPractice()));
+		target.setNewnessUntilDate(toDate(source.getNewnessUntilDate()));
+		target.setFeaturedUntilDate(toDate(source.getFeaturedUntilDate()));
 		target.setStatisticalOperationUrls(toStatisticalOperationUrls(source.getStatisticalOperationUrls(), target.getStatisticalOperationUrls()));
 		this.commonMetadataToOperation(source.getCommonMetadata(), target);
 		target.setLegalActs(this.toOperationLegalActs(source.getSpecificLegalActs(), null, target.getLegalActs()));

@@ -134,6 +134,8 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
 		target.setInventoryDate(toDate(source.getInventoryDate()));
 		target.setRevPolicy(toInternationalString(source.getRevPolicy()));
 		target.setRevPractice(toInternationalString(source.getRevPractice()));
+		target.setNewnessUntilDate(toDate(source.getNewnessUntilDate()));
+		target.setFeaturedUntilDate(toDate(source.getFeaturedUntilDate()));
 		target.setStatisticalOperationUrls(toStatisticalOperationUrls(source.getStatisticalOperationUrls(), target.getStatisticalOperationUrls()));
 		commonMetadataToOperation(source.getCommonMetadata(), target);
 		target.setLegalActs(toOperationLegalActs(source.getSpecificLegalActs(), null, target.getLegalActs()));

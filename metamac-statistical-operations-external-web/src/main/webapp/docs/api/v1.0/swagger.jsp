@@ -1038,6 +1038,20 @@
                      "description":"${msg['api.doc.swagger.definitions.operation.properties.revPractice']}",
                      "$ref":"#/definitions/InternationalString"
                   },
+                  "newnessUntilDate":{
+                     "xml":{
+                        "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
+                     },
+                     "description":"${msg['api.doc.swagger.definitions.operation.properties.newnessUntilDate']}",
+                     "type":"string"
+                  },
+                  "featuredUntilDate":{
+                     "xml":{
+                        "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
+                     },
+                     "description":"${msg['api.doc.swagger.definitions.operation.properties.featuredUntilDate']}",
+                     "type":"string"
+                  },
                   "secondarySubjectAreas":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"

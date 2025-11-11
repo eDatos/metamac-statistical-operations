@@ -288,6 +288,7 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
         instanceDto.setCostBurden(productionDescriptorsEditionForm.getValueAsInternationalStringDto(InstanceDS.COST_BURDEN));
         instanceDto.getCost().clear();
         instanceDto.getCost().addAll(OperationsListUtils.getCostDtos(costItem.getValues(), costDtos));
+        instanceDto.setCostDetail(productionDescriptorsEditionForm.getValueAsInternationalStringDto(InstanceDS.COST_DETAIL));
 
         // QUALITY DESCRIPTORS
 
@@ -382,8 +383,9 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
         ViewMultiLanguageTextItem staticSeasonAdjustmentItem = new ViewMultiLanguageTextItem(InstanceDS.SEASONAL_ADJUSTMENT, getConstants().instanceSeasonalAdjustment());
         ViewMultiLanguageTextItem staticCostBurdenItem = new ViewMultiLanguageTextItem(InstanceDS.COST_BURDEN, getConstants().instanceCostBurden());
         ViewTextItem cost = new ViewTextItem(InstanceDS.COST, getConstants().instanceCost());
+        ViewMultiLanguageTextItem staticCostDetail = new ViewMultiLanguageTextItem(InstanceDS.COST_DETAIL, getConstants().instanceCostDetail());
         productionDescriptorsForm.setFields(createdDate, internalInventoryDate, procStatus, staticDocMethodItem, surveySource, collMethod, publicInformationSuppliers, privateInformationSuppliers, freqColl, staticDataValidationItem,
-                staticDataCompilationItem, staticAdjustmentItem, staticSeasonAdjustmentItem, staticCostBurdenItem, cost);
+                staticDataCompilationItem, staticAdjustmentItem, staticSeasonAdjustmentItem, staticCostBurdenItem, cost,staticCostDetail);
 
         // Diffusion and Publication
         diffusionViewForm = new GroupDynamicForm(getConstants().instanceDiffusionDescriptors());
@@ -527,8 +529,10 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
         MultiLanguageRichTextEditorItem costBurdenItem = new MultiLanguageRichTextEditorItem(InstanceDS.COST_BURDEN, getConstants().instanceCostBurden());
         costItem = new CustomSelectItem(InstanceDS.COST, getConstants().instanceCost());
         costItem.setMultiple(true);
+        MultiLanguageRichTextEditorItem costDetailItem = new MultiLanguageRichTextEditorItem(InstanceDS.COST_DETAIL, getConstants().instanceCostDetail());
+
         productionDescriptorsEditionForm.setFields(createdDate, internalInventoryDate, staticProcStatus, procStatus, docMethodItem, surveySourceItem, collMethodItem, publicInformationSuppliersItem,
-                privateInformationSuppliersItem, freqCollItem, dataValidationItem, dataCompilationItem, adjustmentItem, seasonAdjustmentItem, costBurdenItem, costItem);
+                privateInformationSuppliersItem, freqCollItem, dataValidationItem, dataCompilationItem, adjustmentItem, seasonAdjustmentItem, costBurdenItem, costItem, costDetailItem);
 
         // Diffusion and Publication
         diffusionEditionForm = new GroupDynamicForm(getConstants().instanceDiffusionDescriptors());
@@ -642,6 +646,7 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
 
         productionDescriptorsForm.setValue(InstanceDS.COST, OperationsListUtils.getCostDtoListToString(instanceDto.getCost()));
 
+        productionDescriptorsForm.setValue(InstanceDS.COST_DETAIL, instanceDto.getCostDetail());
         // DIFFUSION AND PUBLICATION
 
         diffusionViewForm.setValue(InstanceDS.INVENTORY_DATE, instanceDto.getInventoryDate());
@@ -751,6 +756,7 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
 
         productionDescriptorsEditionForm.setValue(InstanceDS.COST_BURDEN, instanceDto.getCostBurden());
         costItem.setValues(getCostIds(instanceDto.getCost()));
+        productionDescriptorsEditionForm.setValue(InstanceDS.COST_DETAIL, instanceDto.getCostDetail());
         productionDescriptorsEditionForm.setRequiredTitleSuffix(requiredFieldsToNextProcStatus);
         productionDescriptorsEditionForm.markForRedraw();
 

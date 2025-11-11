@@ -541,6 +541,9 @@ public class Do2DtoMapperImpl extends BaseDo2DtoMapperImpl implements Do2DtoMapp
         // COST
         target.getCost().addAll(costListToDto(source.getCost()));
 
+        // COST_DETAIL
+        target.setCostDetail(internationalStringToDto(source.getCostDetail()));
+
         // INVENTORY_DATE
         // Not necessary
 

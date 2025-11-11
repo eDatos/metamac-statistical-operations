@@ -551,6 +551,9 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
 		// COST
 		target.getCost().addAll(costDtoListToCostList(source.getCost(), target.getCost(), ctx));
 
+        // COST_DETAIL
+        target.setCostDetail(internationalStringToEntity(source.getCostDetail(), target.getCostDetail(), ServiceExceptionParameters.INSTANCE_COST_DETAILS));
+
 		// INVENTORY_DATE
 		// Not necessary. It can't be manually edited.
 

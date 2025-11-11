@@ -324,10 +324,10 @@ public class Do2DtoMapperImpl extends BaseDo2DtoMapperImpl implements Do2DtoMapp
         // REV_PRACTICE_URL
         // Not necessary
 
-        //NEWNESS_UNTIL_DATE
+        // NEWNESS_UNTIL_DATE
         target.setNewnessUntilDate(dateTimeToDate(source.getNewnessUntilDate()));
 
-        //FEATURED_UNTIL_DATE
+        // FEATURED_UNTIL_DATE
         target.setFeaturedUntilDate(dateTimeToDate(source.getFeaturedUntilDate()));
 
         // CONTACT: Extracted from AppCommonMetadata

@@ -482,6 +482,9 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
 		operationDto.setRevPolicy(diffusionEditionForm.getValueAsInternationalStringDto(OperationDS.REV_POLICY));
 		operationDto.setRevPractice(diffusionEditionForm.getValueAsInternationalStringDto(OperationDS.REV_PRACTICE));
 
+		operationDto.setNewnessUntilDate(((CustomDateItem) diffusionEditionForm.getItem(OperationDS.NEWNESS_UNTIL_DATE)).getValueAsDate());
+		operationDto.setFeaturedUntilDate(((CustomDateItem) diffusionEditionForm.getItem(OperationDS.FEATURED_UNTIL_DATE)).getValueAsDate());
+
 		// OPERATION URLS
 		operationDto.getStatisticalOperationUrls().clear();
 		operationDto.getStatisticalOperationUrls().addAll(editOperationUrlsPanel.getOperationUrls());

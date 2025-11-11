@@ -1,11 +1,13 @@
 package org.siemac.metamac.statistical.operations.core.mapper;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.dozer.DozerBeanMapper;
+import org.joda.time.DateTime;
 import org.siemac.metamac.core.common.dto.ExternalItemDto;
 import org.siemac.metamac.core.common.dto.InternationalStringDto;
 import org.siemac.metamac.core.common.dto.LocalisedStringDto;
@@ -321,6 +323,12 @@ public class Do2DtoMapperImpl extends BaseDo2DtoMapperImpl implements Do2DtoMapp
         target.setRevPractice(internationalStringToDto(source.getRevPractice()));
         // REV_PRACTICE_URL
         // Not necessary
+
+        //NEWNESS_UNTIL_DATE
+        target.setNewnessUntilDate(dateTimeToDate(source.getNewnessUntilDate()));
+
+        //FEATURED_UNTIL_DATE
+        target.setFeaturedUntilDate(dateTimeToDate(source.getFeaturedUntilDate()));
 
         // CONTACT: Extracted from AppCommonMetadata
 
@@ -797,6 +805,13 @@ public class Do2DtoMapperImpl extends BaseDo2DtoMapperImpl implements Do2DtoMapp
         target.setUrl(internationalStringToDto(source.getUrl()));
         target.setName(internationalStringToDto(source.getName()));
         return target;
+    }
+
+    private Date dateTimeToDate(DateTime source) {
+        if (source == null) {
+            return null;
+        }
+        return source.toDate();
     }
 
 }

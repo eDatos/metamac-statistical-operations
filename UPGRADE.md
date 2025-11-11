@@ -24,6 +24,9 @@ Ejecutar los scripts de la siguiente ruta en el esquema correspondiente por orde
 - 1. Ejecutar scripts por orden de fecha de la carpeta etc/changes-from-release/5.0.0/db/postgresql en **todos los entornos**.
 - 2. A continuación, sólo en IBESTAT ejecutar los scripts de la carpeta etc/changes-from-release/5.0.0/db/postgresql/2_IBESTAT. El ISTAC e IESTADIS no requieren adecuación de datos de la tabla maestra.
 
+* Esta version depende de la version `5.15.2-SNAPSHOT de Web-common` . Por lo tanto, **no se puede subir la versión 4.8.2-SNAPSHOT de metamac-statistical-operations** sin haber subido previamente la versión 5.15.2-SNAPSHOT de Web-common de eUsuarios, los cambios se encuentran en el siguiente MR: https://git.arte-consultores.com/istac/metamac-web-common/-/merge_requests/168
+
+
 ## 4.9.0 a 5.0.0
 
 * Esta versión contiene CAMBIOS QUE ROMPEN LA COMPATIBILIDAD DE LA API con versiones anteriores.
@@ -55,8 +58,8 @@ Ejecutar los scripts de la siguiente ruta en el esquema correspondiente por orde
 * Se han realizado cambios en la base de datos PostgreSQL, por ello se proveen una serie de scripts SQL para adaptarse a
   la nueva versión.Ejecutar los scripts de la siguiente ruta en el esquema correspondiente por orden de fecha:
   * [etc/changes-from-release/4.8.1/db/](etc/changes-from-release/4.8.1/db/)
-* Esta versión depende de la versión 3.11.2-SNAPSHOT de eUsuarios. Por lo tanto, no se puede subir la versión 4.8.
-  2-SNAPSHOT de metamac-statistical-operations sin haber subido la versión 3.11.2-SNAPSHOT de eUsuarios y viceversa.
+* Esta versión depende de la versión 3.11.2 de eUsuarios. Por lo tanto, no se puede subir la versión 4.9.
+  0 de metamac-statistical-operations sin haber subido la versión 3.11.2 de eUsuarios y viceversa.
 * Se debe resetear el schema registry para el topic OPERATION_PUBLICATIONS debido a que se han modificado las 
   propiedades de los mensajes que se publican en dicho topic. Para ello:
   

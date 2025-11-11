@@ -342,6 +342,7 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         target.setSeasonalAdjustment(toInternationalString(source.getSeasonalAdjustment()));
         target.setCostBurden(this.toInternationalString(source.getCostBurden()));
         target.setCosts(this.toCosts(source.getCost()));
+        target.setCostDetail(this.toInternationalString(source.getCostDetail()));
         target.setInventoryDate(this.toDate(source.getInventoryDate()));
         target.setQualityDoc(this.toInternationalString(source.getQualityDoc()));
         target.setQualityAssure(this.toInternationalString(source.getQualityAssure()));

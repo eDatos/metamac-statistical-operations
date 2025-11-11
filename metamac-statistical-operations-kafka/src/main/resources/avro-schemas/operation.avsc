@@ -32,6 +32,8 @@
         {"name": "relPolUsAc", "type": ["null", "InternationalStringAvro"]},
         {"name": "revPolicy", "type": ["null", "InternationalStringAvro"]},
         {"name": "revPractice", "type": ["null", "InternationalStringAvro"]},
+        {"name" : "newnessUntilDate" , "type" : ["null", "DatetimeAvro"]},
+        {"name" : "featuredUntilDate" , "type" : ["null", "DatetimeAvro"]},
         {"name": "specificLegalActs", "type": ["null", "InternationalStringAvro"]},
         {"name": "specificDataSharing", "type": ["null", "InternationalStringAvro"]},
         {"name": "comment", "type": ["null", "InternationalStringAvro"]},

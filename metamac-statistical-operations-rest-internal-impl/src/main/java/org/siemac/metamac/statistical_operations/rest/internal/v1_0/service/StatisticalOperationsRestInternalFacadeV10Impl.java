@@ -118,6 +118,7 @@ public class StatisticalOperationsRestInternalFacadeV10Impl implements Statistic
         validFields.add(StatisticalOperationsRestConstants.FIELD_INCLUDE_SUBJECT_AREA);
         validFields.add(StatisticalOperationsRestConstants.DIFUSION_PUBLICATION_VISIBLE);
         validFields.add(StatisticalOperationsRestConstants.FIELD_INCLUDE_DESCRIPTION);
+        validFields.add(StatisticalOperationsRestConstants.FIELD_INCLUDE_FEATURED_UNTIL_DATE);
         return parseFields(fields, validFields);
     }
 

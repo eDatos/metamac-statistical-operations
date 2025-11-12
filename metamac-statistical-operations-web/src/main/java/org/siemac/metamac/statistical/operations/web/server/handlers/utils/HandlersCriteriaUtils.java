@@ -9,6 +9,7 @@ import org.siemac.metamac.core.common.criteria.MetamacCriteriaConjunctionRestric
 import org.siemac.metamac.core.common.criteria.MetamacCriteriaDisjunctionRestriction;
 import org.siemac.metamac.core.common.criteria.MetamacCriteriaPaginator;
 import org.siemac.metamac.core.common.criteria.MetamacCriteriaPropertyRestriction;
+import org.siemac.metamac.core.common.criteria.MetamacCriteriaPropertyRestriction.OperationType;
 import org.siemac.metamac.core.common.criteria.MetamacCriteriaRestriction;
 import org.siemac.metamac.core.common.criteria.shared.MetamacCriteriaOrder;
 import org.siemac.metamac.statistical.operations.core.criteria.FamilyCriteriaPropertyEnum;
@@ -97,7 +98,8 @@ public class HandlersCriteriaUtils {
         addRestrictionIfExists(advanced, buildDisaggregationByNationalityCriteria(operationCriteria));
         addRestrictionIfExists(advanced, buildDisaggregationByDisabilityCriteria(operationCriteria));
         addRestrictionIfExists(advanced, buildOfficialityTypeCriteria(operationCriteria));
-
+        addRestrictionIfExists(advanced, buildNewnessUntilDateCriteria(operationCriteria));
+        addRestrictionIfExists(advanced, buildFeaturedUntilDateCriteria(operationCriteria));
         return advanced;
     }
 
@@ -174,4 +176,18 @@ public class HandlersCriteriaUtils {
         }
         return null;
     }
+    private static MetamacCriteriaRestriction buildNewnessUntilDateCriteria(OperationCriteria criteria) {
+        if (criteria.getNewnessUntilDate() != null) {
+            return new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.NEWNESS_UNTIL_DATE.name(), criteria.getNewnessUntilDate(), OperationType.GE);
+        }
+        return null;
+    }
+
+    private static MetamacCriteriaRestriction buildFeaturedUntilDateCriteria(OperationCriteria criteria) {
+        if (criteria.getFeaturedUntilDate() != null) {
+            return new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.FEATURED_UNTIL_DATE.name(), criteria.getFeaturedUntilDate(), OperationType.GE);
+        }
+        return null;
+    }
+
 }

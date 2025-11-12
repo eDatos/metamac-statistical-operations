@@ -8,6 +8,7 @@ import org.siemac.metamac.core.common.criteria.SculptorPropertyCriteria;
 import org.siemac.metamac.core.common.criteria.mapper.MetamacCriteria2SculptorCriteria;
 import org.siemac.metamac.core.common.criteria.mapper.MetamacCriteria2SculptorCriteria.CriteriaCallback;
 import org.siemac.metamac.core.common.criteria.shared.MetamacCriteriaOrder;
+import org.siemac.metamac.core.common.criteria.utils.CriteriaUtils;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.statistical.operations.core.criteria.FamilyCriteriaOrderEnum;
 import org.siemac.metamac.statistical.operations.core.criteria.FamilyCriteriaPropertyEnum;
@@ -162,6 +163,12 @@ public class MetamacCriteria2SculptorCriteriaMapperImpl implements MetamacCriter
                     return new SculptorPropertyCriteria(OperationProperties.disaggregationByDisability(), propertyRestriction.getBooleanValue(), propertyRestriction.getOperationType());
                 case OFFICIALITY_TYPE:
                     return new SculptorPropertyCriteria(OperationProperties.officialityType().identifier(), propertyRestriction.getStringValue(), propertyRestriction.getOperationType());
+                case NEWNESS_UNTIL_DATE:
+                    return new SculptorPropertyCriteria(CriteriaUtils.getDatetimeLeafPropertyEmbedded(OperationProperties.newnessUntilDate(), Operation.class), propertyRestriction.getDateValue(),
+                            propertyRestriction.getOperationType());
+                case FEATURED_UNTIL_DATE:
+                    return new SculptorPropertyCriteria(CriteriaUtils.getDatetimeLeafPropertyEmbedded(OperationProperties.featuredUntilDate(), Operation.class), propertyRestriction.getDateValue(),
+                            propertyRestriction.getOperationType());
                 default:
                     throw new MetamacException(ServiceExceptionType.PARAMETER_INCORRECT, propertyRestriction.getPropertyName());
             }

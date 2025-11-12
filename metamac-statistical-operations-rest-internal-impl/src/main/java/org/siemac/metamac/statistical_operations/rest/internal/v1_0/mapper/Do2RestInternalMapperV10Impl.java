@@ -54,6 +54,7 @@ import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.Secon
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.StatConcDefs;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.StatisticalOperationSources;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.StatisticalOperationTypes;
+import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.StatisticalOperationUrlEntry;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.StatisticalOperationUrls;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.StatisticalUnits;
 import org.siemac.metamac.rest.statistical_operations_internal.v1_0.domain.TemporalGranularities;
@@ -560,13 +561,20 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
 	}
 
 	private StatisticalOperationUrls toStatisticalOperationUrls(List<OperationUrl> sources, StatisticalOperationUrls target) {
+		if (sources == null || sources.isEmpty()) {
+			return null;
+		}
+
 		if (target == null) {
 			target = new StatisticalOperationUrls();
 			target.setTotal(BigInteger.ZERO);
 		}
+
 		for (OperationUrl source : sources) {
-			target.getUrls().add(toInternationalString(source.getUrl()));
-			target.getNames().add(toInternationalString(source.getName()));
+			StatisticalOperationUrlEntry entry = new StatisticalOperationUrlEntry();
+			entry.setUrl(toInternationalString(source.getUrl()));
+			entry.setName(toInternationalString(source.getName()));
+			target.getOperationUrls().add(entry);
 			target.setTotal(target.getTotal().add(BigInteger.ONE));
 		}
 		return target;

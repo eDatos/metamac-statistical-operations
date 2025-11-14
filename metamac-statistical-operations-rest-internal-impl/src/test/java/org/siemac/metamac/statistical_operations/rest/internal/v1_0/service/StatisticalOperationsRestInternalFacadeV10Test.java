@@ -599,6 +599,7 @@ public class StatisticalOperationsRestInternalFacadeV10Test extends MetamacRestB
     public void testRetrieveInstanceByIdXml() throws Exception {
 
         // Retrieve
+        //FIXME: EDATOS-5286 No pasa este test tras la modificacion en StatisticalOperationsRestExternalFacadeV10Impl
         Instance instance = getStatisticalOperationsRestInternalFacadeClientXml().retrieveInstanceById(OPERATION_1, INSTANCE_1);
 
         // Validation
@@ -607,7 +608,7 @@ public class StatisticalOperationsRestInternalFacadeV10Test extends MetamacRestB
 
     @Test
     public void testRetrieveInstanceByIdXmlWithoutJaxbTransformation() throws Exception {
-
+        //FIXME: EDATOS-5286 No pasa este test tras la modificacion en StatisticalOperationsRestExternalFacadeV10Impl
         String requestUri = getRequestUriRetrieveInstanceById(OPERATION_1, INSTANCE_1);
         InputStream responseExpected = StatisticalOperationsRestInternalFacadeV10Test.class.getResourceAsStream("/responses/retrieveInstanceById.id1.xml");
 

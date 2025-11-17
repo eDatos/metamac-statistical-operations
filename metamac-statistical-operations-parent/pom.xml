@@ -11,7 +11,7 @@
 
     <groupId>org.siemac.metamac.metamac-statistical-operations</groupId>
     <artifactId>metamac-statistical-operations-parent</artifactId>
-    <version>5.0.1-SNAPSHOT</version>
+    <version>5.1.0</version>
     <packaging>pom</packaging>
     <name>METAMAC :: STATISTICAL OPERATIONS :: PARENT</name>
     <description>METAMAC :: STATISTICAL OPERATIONS :: PARENT</description>
@@ -51,4 +51,8 @@
         <!-- WEB -->
         <jstl.version>1.2</jstl.version>
     </properties>
+
+  <scm>
+    <tag>20251117-1235-v5.1.0</tag>
+  </scm>
 </project>

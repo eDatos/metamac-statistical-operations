@@ -14,14 +14,17 @@ import org.siemac.metamac.statistical_operations.rest.common.StatisticalOperatio
 public class FindInstancesByOperationMatcher extends ConditionalCriteriasMatcher {
 
     private final String                    operationCode;
+    private final String                    instanceCode;
     private final List<ConditionalCriteria> conditionalCriteriaQueries;
     private final List<ConditionalCriteria> conditionalCriteriaOrderBy;
 
-    public FindInstancesByOperationMatcher(String operationCode, List<ConditionalCriteria> conditionalCriteriaQueries, List<ConditionalCriteria> conditionalCriteriaOrderBy) {
+    public FindInstancesByOperationMatcher(String operationCode, String instanceCode, List<ConditionalCriteria> conditionalCriteriaQueries, List<ConditionalCriteria> conditionalCriteriaOrderBy) {
         this.operationCode = operationCode;
+        this.instanceCode = instanceCode;
         this.conditionalCriteriaQueries = conditionalCriteriaQueries;
         this.conditionalCriteriaOrderBy = conditionalCriteriaOrderBy;
     }
+
 
     @Override
     public boolean matches(Object actual) {
@@ -32,6 +35,12 @@ public class FindInstancesByOperationMatcher extends ConditionalCriteriasMatcher
         if (!StatisticalOperationsRestConstants.WILDCARD_ALL.equals(operationCode)) {
             expected.add(ConditionalCriteriaBuilder.criteriaFor(Instance.class).withProperty(InstanceProperties.operation().code()).eq(operationCode).buildSingle());
         }
+
+        // By instance code
+        if (instanceCode != null) {
+            expected.add(ConditionalCriteriaBuilder.criteriaFor(Instance.class).withProperty(InstanceProperties.code()).eq(instanceCode).buildSingle());
+        }
+
         // By procStatus
         expected.add(ConditionalCriteriaBuilder.criteriaFor(Instance.class).withProperty(InstanceProperties.procStatus()).in(ProcStatusEnum.PUBLISH_INTERNALLY, ProcStatusEnum.PUBLISH_EXTERNALLY)
                 .buildSingle());
@@ -39,7 +48,7 @@ public class FindInstancesByOperationMatcher extends ConditionalCriteriasMatcher
         // orderBy
         if (conditionalCriteriaOrderBy != null) {
             expected.addAll(conditionalCriteriaOrderBy);
-        } else {
+        } else if (instanceCode == null){
             // default order
             expected.add(ConditionalCriteriaBuilder.criteriaFor(Instance.class).orderBy(InstanceProperties.id()).ascending().buildSingle());
         }

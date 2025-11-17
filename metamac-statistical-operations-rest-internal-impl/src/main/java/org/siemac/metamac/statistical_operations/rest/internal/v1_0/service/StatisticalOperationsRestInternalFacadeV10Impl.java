@@ -253,7 +253,7 @@ public class StatisticalOperationsRestInternalFacadeV10Impl implements Statistic
 
             List<ConditionalCriteria> conditionalCriteria = ConditionalCriteriaBuilder.criteriaFor(org.siemac.metamac.statistical.operations.core.domain.Instance.class)
                     .withProperty(InstanceProperties.operation().code()).eq(operationId).withProperty(InstanceProperties.code()).eq(id)
-                    .withProperty(InstanceProperties.procStatus()).in(ProcStatusEnum.PUBLISH_EXTERNALLY, ProcStatusEnum.PUBLISH_INTERNALLY).distinctRoot().build();
+                    .withProperty(InstanceProperties.procStatus()).in(ProcStatusEnum.PUBLISH_INTERNALLY, ProcStatusEnum.PUBLISH_EXTERNALLY).distinctRoot().build();
 
             List<org.siemac.metamac.statistical.operations.core.domain.Instance> instances = statisticalOperationsBaseService.findInstanceByCondition(serviceContextRestInternal, conditionalCriteria);
 

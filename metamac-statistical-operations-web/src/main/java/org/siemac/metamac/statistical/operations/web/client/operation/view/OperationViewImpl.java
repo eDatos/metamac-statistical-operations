@@ -1071,7 +1071,9 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
         // CLASS DESCRIPTORS
 
         surveyType.setValue(operationDto.getSurveyType() != null ? operationDto.getSurveyType().getId() : null);
-        officialityType.setValue(operationDto.getOfficialityType() != null ? operationDto.getOfficialityType().getId() : null);
+
+        officialityType
+                .setValue(operationDto.getOfficialityType() != null ? OperationsListUtils.getOfficialityTypeArtificialKey(officialityTypeDtos, operationDto.getOfficialityType().getId()) : null);
         indSystem.setValue(operationDto.getIndicatorSystem() == null ? false : operationDto.getIndicatorSystem());
         classDescriptorsEditionForm.setRequiredTitleSuffix(requiredFieldsToNextProcStatus);
         classDescriptorsEditionForm.markForRedraw();

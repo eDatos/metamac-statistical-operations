@@ -254,10 +254,14 @@ Application StatisticalOperations {
     		not auditable
     		String identifier;
     		- @InternationalString description nullable;
+    		"visualisation element order"
+    		Integer visualisationOrder not nullable;
+    		Integer hierarchyLevel not nullable;
     		
     		Repository OfficialityTypeRepository {
     			findById;
     			findAll;
+    			findByCondition;
     		}
     	}
     	
@@ -269,10 +273,14 @@ Application StatisticalOperations {
     		not auditable
     		String identifier;
     		- @InternationalString description nullable;
-    		
+    		"visualisation element order"
+            Integer visualisationOrder not nullable;
+            Integer hierarchyLevel not nullable;
+
     		Repository CollMethodRepository {
     			findById;
     			findAll;
+    			findByCondition;
     		}
     	}
     	
@@ -551,6 +559,8 @@ Application StatisticalOperations {
        		- @InternationalString costBurden cascade="all" nullable databaseColumn="COST_BURDEN_FK";
        		"Metadata COST"
        		- Set<@Cost> cost cascade="none" databaseColumn="COST_FK" databaseJoinTable="TB_INSTANCES_COSTS";
+       		"Metadata COST_DETAIL"
+            - @InternationalString costDetail cascade="all" nullable databaseColumn="COST_DETAIL_FK";
 
        		"INVENTORY_DATE"
        		DateTimeTZ inventoryDate nullable;

@@ -2,15 +2,19 @@ package org.siemac.metamac.statistical.operations.core.serviceimpl;
 
 import java.util.List;
 
+import org.fornax.cartridges.sculptor.framework.accessapi.ConditionalCriteria;
+import org.fornax.cartridges.sculptor.framework.accessapi.ConditionalCriteriaBuilder;
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.statistical.operations.core.domain.CollMethod;
+import org.siemac.metamac.statistical.operations.core.domain.CollMethodProperties;
 import org.siemac.metamac.statistical.operations.core.domain.CollMethodRepository;
 import org.siemac.metamac.statistical.operations.core.domain.Cost;
 import org.siemac.metamac.statistical.operations.core.domain.CostRepository;
 import org.siemac.metamac.statistical.operations.core.domain.InstanceType;
 import org.siemac.metamac.statistical.operations.core.domain.InstanceTypeRepository;
 import org.siemac.metamac.statistical.operations.core.domain.OfficialityType;
+import org.siemac.metamac.statistical.operations.core.domain.OfficialityTypeProperties;
 import org.siemac.metamac.statistical.operations.core.domain.OfficialityTypeRepository;
 import org.siemac.metamac.statistical.operations.core.domain.SurveySource;
 import org.siemac.metamac.statistical.operations.core.domain.SurveySourceRepository;
@@ -30,7 +34,7 @@ import org.springframework.stereotype.Service;
  * Implementation of StatisticalOperationsListsService.
  */
 @Service("statisticalOperationsListsService")
-public class StatisticalOperationsListsServiceImpl extends StatisticalOperationsListsServiceImplBase {
+public class StatisticalOperationsListsServiceImpl extends org.siemac.metamac.statistical.operations.core.serviceimpl.StatisticalOperationsListsServiceImplBase {
 
     @Autowired
     private SurveyTypeRepository      surveyTypeRepository;
@@ -118,7 +122,9 @@ public class StatisticalOperationsListsServiceImpl extends StatisticalOperations
      * Delegates to {@link org.siemac.metamac.statistical.operations.lists.domain.OfficialityTypeRepository#findAll}
      */
     public List<OfficialityType> findAllOfficialityTypes(ServiceContext ctx) {
-        return officialityTypeRepository.findAll();
+
+        List<ConditionalCriteria> conditions = ConditionalCriteriaBuilder.criteriaFor(OfficialityType.class).orderBy(OfficialityTypeProperties.visualisationOrder()).ascending().build();
+        return officialityTypeRepository.findByCondition(conditions);
     }
 
     /**
@@ -133,10 +139,11 @@ public class StatisticalOperationsListsServiceImpl extends StatisticalOperations
     }
 
     /**
-     * Delegates to {@link org.siemac.metamac.statistical.operations.lists.domain.CollMethodsRepository#findAll}
+     * Delegates to {@link org.siemac.metamac.statistical.operations.lists.domain.CollMethodsRepository#findByCondition}
      */
     public List<CollMethod> findAllCollMethods(ServiceContext ctx) {
-        return collMethodRepository.findAll();
+        List<ConditionalCriteria> conditions = ConditionalCriteriaBuilder.criteriaFor(CollMethod.class).orderBy(CollMethodProperties.visualisationOrder()).ascending().build();
+        return collMethodRepository.findByCondition(conditions);
     }
 
     /**

@@ -160,6 +160,8 @@ public class MetamacCriteria2SculptorCriteriaMapperImpl implements MetamacCriter
                     return new SculptorPropertyCriteria(OperationProperties.disaggregationByNationality(), propertyRestriction.getBooleanValue(), propertyRestriction.getOperationType());
                 case DISAGGREGATION_BY_DISABILITY:
                     return new SculptorPropertyCriteria(OperationProperties.disaggregationByDisability(), propertyRestriction.getBooleanValue(), propertyRestriction.getOperationType());
+                case OFFICIALITY_TYPE:
+                    return new SculptorPropertyCriteria(OperationProperties.officialityType().identifier(), propertyRestriction.getStringValue(), propertyRestriction.getOperationType());
                 default:
                     throw new MetamacException(ServiceExceptionType.PARAMETER_INCORRECT, propertyRestriction.getPropertyName());
             }

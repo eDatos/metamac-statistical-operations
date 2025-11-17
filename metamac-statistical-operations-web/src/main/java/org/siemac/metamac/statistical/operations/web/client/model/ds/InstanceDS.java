@@ -23,7 +23,7 @@ public class InstanceDS extends DataSource {
     public static final String TEMPORAL_GRANULARITIES        = "in-tem-gran";
     public static final String TEMPORAL_COMPARABILITY        = "in-tem-com";
     public static final String BASE_PERIOD                   = "in-basep";
-    public static final String MEASURES                      = "in-umeas";
+    public static final String UNIT_MEASURES                 = "in-umeas";
     public static final String STAT_CONC_DEF_DESCRIPTION     = "in-sta-con";
     public static final String STAT_CONC_DEF                 = "in-sta-con-list";
     public static final String CLASS_SYSTEM_DESCRIPTION      = "in-class-sys";
@@ -31,22 +31,23 @@ public class InstanceDS extends DataSource {
     // CLASS DESCRIPTORS
     public static final String INSTANCE_TYPE                 = "in-intype";
     // PRODUCTION DESCRIPTORS
-    public static final String INTERNAL_INVENTORY_DATE       = "in-int-inv-date";
-    public static final String PROC_STATUS                   = "in-proc-status";
-    public static final String PROC_STATUS_VIEW              = "in-proc-status-view";          // Not mapped in DTO
-    public static final String DOC_METHOD                    = "in-doc-met";
-    public static final String STATISTICAL_OPERATION_SOURCE  = "in-ssource";
-    public static final String COLL_METHOD                   = "in-coll-met";
+    public static final String INTERNAL_INVENTORY_DATE      = "in-int-inv-date";
+    public static final String PROC_STATUS                  = "in-proc-status";
+    public static final String PROC_STATUS_VIEW             = "in-proc-status-view"; // Not mapped in DTO
+    public static final String DOC_METHOD                   = "in-doc-met";
+    public static final String STATISTICAL_OPERATION_SOURCE = "in-ssource";
+    public static final String COLL_METHOD                  = "in-coll-met";
     public static final String PUBLIC_INFORMATION_SUPPLIERS  = "in-public-suppliers";
     public static final String PRIVATE_INFORMATION_SUPPLIERS = "in-private-suppliers";
-    public static final String FREQ_COLL                     = "in-freq-coll";
-    public static final String DATA_VALIDATION               = "in-valid";
-    public static final String DATA_COMPILATION              = "in-compil";
-    public static final String ADJUSTMENT                    = "in-adjust";
-    public static final String SEASONAL_ADJUSTMENT           = "in-season-adjust";
-    public static final String COST_BURDEN                   = "in-cost-burden";
-    public static final String COST                          = "in-cost";
-    public static final String CREATED_DATE                  = "in-created-date";
+    public static final String FREQ_COLL                    = "in-freq-coll";
+    public static final String DATA_VALIDATION              = "in-valid";
+    public static final String DATA_COMPILATION             = "in-compil";
+    public static final String ADJUSTMENT                   = "in-adjust";
+    public static final String SEASONAL_ADJUSTMENT          = "in-season-adjust";
+    public static final String COST_BURDEN                  = "in-cost-burden";
+    public static final String COST_DETAIL                  = "in-cost-detail";
+    public static final String COST                         = "in-cost";
+    public static final String CREATED_DATE               = "in-created-date";
     public static final String DISAGGREGATION_BY_SEX         = "in-disaggregation-sex";
     public static final String DISAGGREGATION_BY_AGE         = "in-disaggregation-age";
     public static final String DISAGGREGATION_BY_NATIONALITY = "in-disaggregation-nationality";

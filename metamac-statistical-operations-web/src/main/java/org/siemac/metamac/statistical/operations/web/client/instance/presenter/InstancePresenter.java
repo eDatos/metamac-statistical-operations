@@ -334,6 +334,32 @@ public class InstancePresenter extends Presenter<InstancePresenter.InstanceView,
         });
     }
 
+    @Override
+    public void retrieveCodelists(final String formItemName, SrmExternalResourceRestCriteria srmItemSchemeRestCriteria, int firstResult, int maxResults) {
+        srmItemSchemeRestCriteria = RestWebCriteriaUtils.buildItemSchemeWebCriteria(srmItemSchemeRestCriteria, new TypeExternalArtefactsEnum[]{TypeExternalArtefactsEnum.CODELIST});
+        GetExternalResourcesAction.Builder builder = new Builder(srmItemSchemeRestCriteria, firstResult, maxResults);
+        dispatcher.execute(builder.build(), new WaitingAsyncCallbackHandlingError<GetExternalResourcesResult>(this) {
+
+            @Override
+            public void onWaitSuccess(GetExternalResourcesResult result) {
+                getView().setItemSchemes(formItemName, result.getExternalItemsResult());
+            }
+        });
+    }
+
+    @Override
+    public void retrieveCodes(final String formItemName, SrmItemRestCriteria itemWebCriteria, int firstResult, int maxResults) {
+        itemWebCriteria = RestWebCriteriaUtils.buildItemWebCriteria(itemWebCriteria, new TypeExternalArtefactsEnum[]{TypeExternalArtefactsEnum.CODE});
+        GetExternalResourcesAction.Builder builder = new Builder(itemWebCriteria, firstResult, maxResults);
+        dispatcher.execute(builder.build(), new WaitingAsyncCallbackHandlingError<GetExternalResourcesResult>(this) {
+
+            @Override
+            public void onWaitSuccess(GetExternalResourcesResult result) {
+                getView().setItems(formItemName, result.getExternalItemsResult());
+            }
+        });
+    }
+
     //
     // NAVIGATION
     //

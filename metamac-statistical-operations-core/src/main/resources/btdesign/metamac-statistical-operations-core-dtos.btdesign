@@ -29,12 +29,16 @@ Application StatisticalOperationsDto {
         DataTransferObject OfficialityTypeDto extends @IdentityDto {
             String identifier;
             - @InternationalStringDto description nullable;
+            Integer visualisationOrder;
+            Integer hierarchyLevel;
         }
 
         "Dto for CollMethod"
         DataTransferObject CollMethodDto extends @IdentityDto {
             String identifier;
             - @InternationalStringDto description nullable;
+            Integer visualisationOrder;
+            Integer hierarchyLevel;
         }
 
         "Dto for Cost"
@@ -204,6 +208,7 @@ Application StatisticalOperationsDto {
             - @InternationalStringDto seasonalAdjustment nullable;
             - @InternationalStringDto costBurden nullable;
             - Set<@CostDto> cost;
+            - @InternationalStringDto costDetail nullable;
 
             JAVADATE inventoryDate nullable;
 
@@ -233,6 +238,8 @@ Application StatisticalOperationsDto {
             - @InternationalStringDto privateInformationSuppliers nullable;
 
             Long optimisticLockingVersion;
+
+
         }
 
         "Dto for InstanceBaseDto"

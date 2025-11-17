@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
+import org.siemac.edatos.core.common.util.shared.StringUtils;
 import org.siemac.metamac.statistical.operations.core.dto.CollMethodDto;
 import org.siemac.metamac.statistical.operations.core.dto.CostDto;
 import org.siemac.metamac.statistical.operations.core.dto.InstanceTypeDto;
@@ -14,6 +15,9 @@ import org.siemac.metamac.statistical.operations.core.dto.SurveyTypeDto;
 import org.siemac.metamac.web.common.client.utils.CommonWebUtils;
 
 public class OperationsListUtils {
+
+    private static final String LEFT_PADDED              = "00000";
+    private static final String ARTIFICIAL_KEY_SEPARATOR = "_";
 
     /**
      * Returns {@link LinkedHashMap} of {@link SurveyTypeDto}
@@ -48,13 +52,35 @@ public class OperationsListUtils {
      * 
      * @return
      */
-    public static LinkedHashMap<String, String> getOfficialityTypeHashMap(List<OfficialityTypeDto> list) {
+    public static LinkedHashMap<String, String> getOfficialityTypeHashMap(List<OfficialityTypeDto> officialityTypeDtos) {
         LinkedHashMap<String, String> hashMap = new LinkedHashMap<String, String>();
-        hashMap.put(new String(), new String());
-        for (OfficialityTypeDto type : list) {
-            hashMap.put(type.getId().toString(), CommonWebUtils.getElementName(type.getIdentifier(), type.getDescription()));
+        hashMap.put("", "");
+        for (int i = 0; i < officialityTypeDtos.size(); i++) {
+            OfficialityTypeDto dto = officialityTypeDtos.get(i);
+            hashMap.put(getArtificialKey(i, dto.getId()), CommonWebUtils.getElementName(dto.getIdentifier(), dto.getDescription(), dto.getHierarchyLevel(), false));
         }
         return hashMap;
+    }
+
+    /**
+     * Returns {@link LinkedHashMap} of {@link OfficialityTypeDto}
+     * 
+     * @return
+     */
+    public static String getOfficialityTypeArtificialKey(List<OfficialityTypeDto> officialityTypeDtos, Long id) {
+        String selectedKey = null;
+
+        for (int i = 0; i < officialityTypeDtos.size(); i++) {
+            OfficialityTypeDto dtoItem = officialityTypeDtos.get(i);
+
+            if (dtoItem.getId().equals(id)) {
+                selectedKey = getArtificialKey(i, dtoItem.getId());
+                break;
+            }
+        }
+
+        return selectedKey;
+
     }
 
     /**
@@ -78,11 +104,53 @@ public class OperationsListUtils {
      */
     public static LinkedHashMap<String, String> getCollMethodsHashMap(List<CollMethodDto> list) {
         LinkedHashMap<String, String> hashMap = new LinkedHashMap<String, String>();
-        hashMap.put(new String(), new String());
-        for (CollMethodDto type : list) {
-            hashMap.put(type.getId().toString(), CommonWebUtils.getElementName(type.getIdentifier(), type.getDescription()));
+        hashMap.put("", "");
+        for (int i = 0; i < list.size(); i++) {
+            CollMethodDto dto = list.get(i);
+            hashMap.put(getArtificialKey(i, dto.getId()), CommonWebUtils.getElementName(dto.getIdentifier(), dto.getDescription(), dto.getHierarchyLevel(),false));
         }
         return hashMap;
+    }
+
+
+    /**
+     * Returns {@link LinkedHashMap} of {@link CollMethodDto}
+     *
+     * @return
+     */
+    public static String getCollMethodArtificialKey(List<CollMethodDto> collMethodDtosList, Long id) {
+        String selectedKey = null;
+
+        for (int i = 0; i < collMethodDtosList.size(); i++) {
+            CollMethodDto dtoItem = collMethodDtosList.get(i);
+
+            if (dtoItem.getId().equals(id)) {
+                selectedKey = getArtificialKey(i, dtoItem.getId());
+                break;
+            }
+        }
+
+        return selectedKey;
+
+    }
+
+    private static String getArtificialKey(int positionInList, Long itemId) {
+        String paddedIndex = (LEFT_PADDED + positionInList).substring((LEFT_PADDED + positionInList).length() - LEFT_PADDED.length());
+        return paddedIndex + ARTIFICIAL_KEY_SEPARATOR + itemId;
+    }
+
+    /**
+     * return real key from an artificial key with five number and "-" at the beggining of the real key.
+     * Returns {@String}
+     *
+     * @param key
+     * @return
+     */
+    private static String getCollMethodKey(String key) {
+        if (StringUtils.isEmpty(key)) {
+            return null;
+        }
+        return key.split(ARTIFICIAL_KEY_SEPARATOR)[1];
     }
 
     /**
@@ -94,7 +162,7 @@ public class OperationsListUtils {
         LinkedHashMap<String, String> hashMap = new LinkedHashMap<String, String>();
         hashMap.put(new String(), new String());
         for (CostDto type : list) {
-            hashMap.put(type.getId().toString(), CommonWebUtils.getElementName(type.getIdentifier(), type.getDescription()));
+            hashMap.put(type.getId().toString(), CommonWebUtils.getElementName(type.getIdentifier(), type.getDescription(),0,false));
         }
         return hashMap;
     }
@@ -165,6 +233,7 @@ public class OperationsListUtils {
      */
     public static OfficialityTypeDto getOfficialityTypeDto(String id, List<OfficialityTypeDto> list) {
         if (id != null && !id.isEmpty()) {
+            id = getOfficialityTypeKey(id);
             Long idOfficialityType = Long.valueOf(id);
             for (OfficialityTypeDto o : list) {
                 if (o.getId().compareTo(idOfficialityType) == 0) {
@@ -176,6 +245,20 @@ public class OperationsListUtils {
     }
 
     /**
+     * return real key from an artificial key with five number and "-" at the beggining of the real key.
+     * Returns {@String}
+     * 
+     * @param key
+     * @return
+     */
+    private static String getOfficialityTypeKey(String key) {
+        if (StringUtils.isEmpty(key)) {
+            return null;
+        }
+        return key.split(ARTIFICIAL_KEY_SEPARATOR)[1];
+    }
+
+    /**
      * Returns {@link CollMethodDto} from id
      * 
      * @param officialityTypeDtos
@@ -184,6 +267,7 @@ public class OperationsListUtils {
      */
     public static CollMethodDto getCollMethodDto(String id, List<CollMethodDto> list) {
         if (id != null && !id.isEmpty()) {
+            id = getCollMethodKey(id);
             Long idType = Long.valueOf(id);
             for (CollMethodDto o : list) {
                 if (o.getId().compareTo(idType) == 0) {
@@ -242,7 +326,7 @@ public class OperationsListUtils {
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < list.size(); i++) {
             builder.append(i != 0 ? ",  " : "");
-            builder.append(list.get(i).getIdentifier());
+            builder.append(CommonWebUtils.getElementName(list.get(i).getIdentifier(), list.get(i).getDescription(),0,false));
         }
         return builder.toString();
     }

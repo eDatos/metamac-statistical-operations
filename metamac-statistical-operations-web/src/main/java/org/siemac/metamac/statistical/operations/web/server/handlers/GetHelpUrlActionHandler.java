@@ -30,7 +30,7 @@ public class GetHelpUrlActionHandler extends SecurityActionHandler<GetHelpUrlAct
             String helpUrl = configurationService.retrieveHelpUrl();
             return new GetHelpUrlResult(helpUrl);
         } catch (MetamacException e) {
-            log.debug("Error retrieving application notices OPTIONAL help url", e);
+            log.debug("Error retrieving application statistical operations OPTIONAL help url", e);
             return new GetHelpUrlResult("");
         }
     }

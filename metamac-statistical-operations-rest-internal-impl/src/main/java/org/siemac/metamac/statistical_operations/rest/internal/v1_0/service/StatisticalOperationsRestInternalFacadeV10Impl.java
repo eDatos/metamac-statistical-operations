@@ -52,8 +52,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import static org.siemac.metamac.core.common.util.rest.RequestUtil.parseFields;
-
 @Service("statisticalOperationsRestInternalFacadeV10")
 public class StatisticalOperationsRestInternalFacadeV10Impl implements StatisticalOperationsRestInternalFacadeV10 {
 
@@ -103,8 +101,8 @@ public class StatisticalOperationsRestInternalFacadeV10Impl implements Statistic
             conditionalCriteria.addAll(sculptorCriteria.getConditions());
 
             // Retrieve
-            PagedResult<org.siemac.metamac.statistical.operations.core.domain.Operation> operationsEntitiesResult = statisticalOperationsBaseService.findOperationByCondition(
-                    serviceContextRestInternal, conditionalCriteria, sculptorCriteria.getPagingParameter());
+            PagedResult<org.siemac.metamac.statistical.operations.core.domain.Operation> operationsEntitiesResult = statisticalOperationsBaseService
+                    .findOperationByCondition(serviceContextRestInternal, conditionalCriteria, sculptorCriteria.getPagingParameter());
 
             // Transform
             Operations operations = do2RestInternalMapper.toOperations(operationsEntitiesResult, query, orderBy, sculptorCriteria.getLimit(), parsedFields);
@@ -237,8 +235,8 @@ public class StatisticalOperationsRestInternalFacadeV10Impl implements Statistic
             conditionalCriteria.addAll(sculptorCriteria.getConditions());
 
             // Retrieve
-            PagedResult<org.siemac.metamac.statistical.operations.core.domain.Operation> operationsEntitiesResult = statisticalOperationsBaseService.findOperationByCondition(
-                    serviceContextRestInternal, conditionalCriteria, sculptorCriteria.getPagingParameter());
+            PagedResult<org.siemac.metamac.statistical.operations.core.domain.Operation> operationsEntitiesResult = statisticalOperationsBaseService
+                    .findOperationByCondition(serviceContextRestInternal, conditionalCriteria, sculptorCriteria.getPagingParameter());
 
             // Transform
             Operations operations = do2RestInternalMapper.toOperationsByFamily(family, operationsEntitiesResult, query, orderBy, sculptorCriteria.getLimit());
@@ -252,15 +250,21 @@ public class StatisticalOperationsRestInternalFacadeV10Impl implements Statistic
     @Override
     public Instance retrieveInstanceById(String operationId, String id) {
         try {
-            org.siemac.metamac.statistical.operations.core.domain.Instance instanceEntity = statisticalOperationsBaseService.findInstanceByCode(serviceContextRestInternal, id);
-            if (instanceEntity == null || (!ProcStatusEnum.PUBLISH_EXTERNALLY.equals(instanceEntity.getProcStatus()) && !ProcStatusEnum.PUBLISH_INTERNALLY.equals(instanceEntity.getProcStatus()))) {
+
+            List<ConditionalCriteria> conditionalCriteria = ConditionalCriteriaBuilder.criteriaFor(org.siemac.metamac.statistical.operations.core.domain.Instance.class)
+                    .withProperty(InstanceProperties.operation().code()).eq(operationId).withProperty(InstanceProperties.code()).eq(id)
+                    .withProperty(InstanceProperties.procStatus()).in(ProcStatusEnum.PUBLISH_INTERNALLY, ProcStatusEnum.PUBLISH_EXTERNALLY).distinctRoot().build();
+
+            List<org.siemac.metamac.statistical.operations.core.domain.Instance> instances = statisticalOperationsBaseService.findInstanceByCondition(serviceContextRestInternal, conditionalCriteria);
+
+            if (instances == null || instances.isEmpty()) {
                 // Instance not found
                 org.siemac.metamac.rest.common.v1_0.domain.Exception exception = RestExceptionUtils.getException(RestServiceExceptionType.INSTANCE_NOT_FOUND, id);
                 throw new RestException(exception, Status.NOT_FOUND);
             }
 
             // Transform and return
-            Instance instance = do2RestInternalMapper.toInstance(instanceEntity);
+            Instance instance = do2RestInternalMapper.toInstance(instances.get(0));
             return instance;
 
         } catch (Exception e) {

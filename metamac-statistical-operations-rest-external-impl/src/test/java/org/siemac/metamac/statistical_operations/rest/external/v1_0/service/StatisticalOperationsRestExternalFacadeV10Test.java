@@ -630,7 +630,6 @@ public class StatisticalOperationsRestExternalFacadeV10Test extends MetamacRestB
 
     @Test
     public void testRetrieveInstanceByIdXml() throws Exception {
-
         // Retrieve
         Instance instance = getStatisticalOperationsRestExternalFacadeClientXml().retrieveInstanceById(OPERATION_1, INSTANCE_1);
 
@@ -640,7 +639,6 @@ public class StatisticalOperationsRestExternalFacadeV10Test extends MetamacRestB
 
     @Test
     public void testRetrieveInstanceByIdXmlWithoutJaxbTransformation() throws Exception {
-
         String requestUri = getRequestUriRetrieveInstanceById(OPERATION_1, INSTANCE_1);
         InputStream responseExpected = StatisticalOperationsRestExternalFacadeV10Test.class.getResourceAsStream("/responses/retrieveInstanceById.id1.xml");
 
@@ -1238,6 +1236,8 @@ public class StatisticalOperationsRestExternalFacadeV10Test extends MetamacRestB
         // Retrieve instance
         when(statisticalOperationsBaseService.findInstanceByCode(any(ServiceContext.class), eq(INSTANCE_1))).thenReturn(statisticalOperationsCoreMocks.mockInstance1());
         when(statisticalOperationsBaseService.findInstanceByCode(any(ServiceContext.class), eq(NOT_EXISTS))).thenReturn(null);
+        mockitoFindInstanceByCondition(statisticalOperationsBaseService, OPERATION_1, INSTANCE_1);
+        mockitoFindInstanceByCondition(statisticalOperationsBaseService, OPERATION_1, NOT_EXISTS);
         // Find instances
         mockitoFindInstanceByConditionByOperation(statisticalOperationsBaseService, OPERATION_1, 25, 0, null);
         mockitoFindInstanceByConditionByOperation(statisticalOperationsBaseService, OPERATION_1, 1000, 0, null);
@@ -1311,7 +1311,7 @@ public class StatisticalOperationsRestExternalFacadeV10Test extends MetamacRestB
         }
         when(statisticalOperationsBaseService.findOperationByCondition(any(ServiceContext.class), argThat(new FindOperationsMatcher(conditionalCriterias, null)),
                 argThat(new PagingParameterMatcher(PagingParameter.rowAccess(offset, offset + limit, Boolean.TRUE)))))
-                        .thenReturn(statisticalOperationsCoreMocks.mockOperationsPagedResult(String.valueOf(limit), String.valueOf(offset), query));
+                .thenReturn(statisticalOperationsCoreMocks.mockOperationsPagedResult(String.valueOf(limit), String.valueOf(offset), query));
     }
 
     private static void mockitoFindFamilyByConditionByOperation(StatisticalOperationsBaseService statisticalOperationsBaseService, String operation) throws MetamacException {
@@ -1335,7 +1335,7 @@ public class StatisticalOperationsRestExternalFacadeV10Test extends MetamacRestB
         }
         when(statisticalOperationsBaseService.findFamilyByCondition(any(ServiceContext.class), argThat(new FindFamiliesMatcher(conditionalCriterias, null)),
                 argThat(new PagingParameterMatcher(PagingParameter.rowAccess(offset, offset + limit, Boolean.TRUE)))))
-                        .thenReturn(statisticalOperationsCoreMocks.mockFamiliesPagedResult(String.valueOf(limit), String.valueOf(offset), query));
+                .thenReturn(statisticalOperationsCoreMocks.mockFamiliesPagedResult(String.valueOf(limit), String.valueOf(offset), query));
     }
 
     private static void mockitoFindInstanceByConditionByOperation(StatisticalOperationsBaseService statisticalOperationsBaseService, String operation, int limit, int offset, String query)
@@ -1355,7 +1355,7 @@ public class StatisticalOperationsRestExternalFacadeV10Test extends MetamacRestB
             fail("Operation non supported. Operation = " + operation);
         }
         // Mock
-        when(statisticalOperationsBaseService.findInstanceByCondition(any(ServiceContext.class), argThat(new FindInstancesByOperationMatcher(operation, conditionalCriterias, null)),
+        when(statisticalOperationsBaseService.findInstanceByCondition(any(ServiceContext.class), argThat(new FindInstancesByOperationMatcher(operation, null, conditionalCriterias, null)),
                 argThat(new PagingParameterMatcher(PagingParameter.rowAccess(offset, offset + limit, Boolean.TRUE))))).thenReturn(pagedResult);
     }
 
@@ -1364,4 +1364,20 @@ public class StatisticalOperationsRestExternalFacadeV10Test extends MetamacRestB
         WebClient.client(statisticalOperationsRestExternalFacadeClientXml).accept(APPLICATION_XML);
         return statisticalOperationsRestExternalFacadeClientXml;
     }
+
+    private static void mockitoFindInstanceByCondition(StatisticalOperationsBaseService statisticalOperationsBaseService, String operationId, String instanceId) throws MetamacException {
+
+		List<org.siemac.metamac.statistical.operations.core.domain.Instance> instanceResult = new ArrayList<>();
+        
+        // Mock
+        if (INSTANCE_1.equals(instanceId)) {
+            instanceResult.add(statisticalOperationsCoreMocks.mockInstance1());
+            when(statisticalOperationsBaseService.findInstanceByCondition(any(ServiceContext.class), argThat(new FindInstancesByOperationMatcher(operationId, instanceId, null, null))))
+                    .thenReturn(instanceResult);
+        } else if (NOT_EXISTS.equals(instanceId)) {
+            when(statisticalOperationsBaseService.findInstanceByCondition(any(ServiceContext.class), argThat(new FindInstancesByOperationMatcher(operationId, instanceId, null, null))))
+                    .thenReturn(new ArrayList<>());
+        }
+    }
+
 }

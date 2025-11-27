@@ -1,5 +1,8 @@
 package org.siemac.metamac.statistical.operations.web.server.stream;
 
+import static io.confluent.kafka.serializers.AbstractKafkaSchemaSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG;
+import static org.apache.kafka.clients.producer.ProducerConfig.BOOTSTRAP_SERVERS_CONFIG;
+
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,13 +24,8 @@ import org.siemac.metamac.core.common.exception.MetamacExceptionBuilder;
 import org.siemac.metamac.statistical.operations.core.error.ServiceExceptionType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import io.confluent.kafka.serializers.KafkaAvroSerializer;
-
-import static io.confluent.kafka.serializers.AbstractKafkaSchemaSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG;
-import static org.apache.kafka.clients.producer.ProducerConfig.BOOTSTRAP_SERVERS_CONFIG;
 
 public class KafkaCustomProducer<K, V extends SpecificRecordBase> implements ProducerBase<K, V> {
     private static final Logger LOGGER = LoggerFactory.getLogger(KafkaCustomProducer.class);
@@ -60,6 +58,7 @@ public class KafkaCustomProducer<K, V extends SpecificRecordBase> implements Pro
             Future<RecordMetadata> sendResult = producer.send(producerRecord);
             sendResult.get(KAFKA_TIMEOUT, TimeUnit.MILLISECONDS);
         } catch (SerializationException | ExecutionException | TimeoutException e) {
+            LOGGER.error("KafkaCustomProducer - Thread interrupted, could not send message. Cause {}",e.getMessage(), e );
             throw MetamacExceptionBuilder.builder().withCause(e).build();
         } catch (InterruptedException e) {
             LOGGER.error("Thread interrupted, could not send message", e);

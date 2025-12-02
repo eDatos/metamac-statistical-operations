@@ -257,15 +257,20 @@ public class StatisticalOperationsRestExternalFacadeV10Impl implements Statistic
     @Override
     public Instance retrieveInstanceById(String operationId, String id) {
         try {
-            org.siemac.metamac.statistical.operations.core.domain.Instance instanceEntity = statisticalOperationsBaseService.findInstanceByCode(serviceContextRestExternal, id);
-            if (instanceEntity == null || !ProcStatusEnum.PUBLISH_EXTERNALLY.equals(instanceEntity.getProcStatus())) {
+            List<ConditionalCriteria> conditionalCriteria = ConditionalCriteriaBuilder.criteriaFor(org.siemac.metamac.statistical.operations.core.domain.Instance.class)
+                    .withProperty(InstanceProperties.operation().code()).eq(operationId).withProperty(InstanceProperties.code()).eq(id).withProperty(InstanceProperties.procStatus())
+                    .eq(ProcStatusEnum.PUBLISH_EXTERNALLY).distinctRoot().build();
+
+            List<org.siemac.metamac.statistical.operations.core.domain.Instance> instances = statisticalOperationsBaseService.findInstanceByCondition(serviceContextRestExternal, conditionalCriteria);
+
+            if (instances == null || instances.isEmpty()) {
                 // Instance not found
                 org.siemac.metamac.rest.common.v1_0.domain.Exception exception = RestExceptionUtils.getException(RestServiceExceptionType.INSTANCE_NOT_FOUND, id);
                 throw new RestException(exception, Status.NOT_FOUND);
             }
 
             // Transform and return
-            Instance instance = do2RestExternalMapper.toInstance(instanceEntity);
+            Instance instance = do2RestExternalMapper.toInstance(instances.get(0));
             return instance;
 
         } catch (Exception e) {

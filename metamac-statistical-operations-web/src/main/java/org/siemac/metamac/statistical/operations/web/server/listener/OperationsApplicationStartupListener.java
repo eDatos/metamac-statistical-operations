@@ -39,6 +39,6 @@ public class OperationsApplicationStartupListener extends InternalApplicationSta
         checkOptionalDefaultCodelistTemporalGranularityUrn();
         checkOptionalDefaultCodelistGeographicalGranularityUrn();
 
-        checkRequiredProperty(StatisticalOperationsConfigurationConstants.HELP_URL);
+        checkOptionalProperty(StatisticalOperationsConfigurationConstants.HELP_URL);
     }
 }

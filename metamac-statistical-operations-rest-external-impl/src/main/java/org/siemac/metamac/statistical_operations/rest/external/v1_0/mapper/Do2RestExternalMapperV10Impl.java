@@ -31,6 +31,8 @@ import org.siemac.metamac.rest.exception.utils.RestExceptionUtils;
 import org.siemac.metamac.rest.search.criteria.mapper.SculptorCriteria2RestCriteria;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.ClassSystems;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.CollMethods;
+import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Contact;
+import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Contacts;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Contributors;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Costs;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.DataSharings;
@@ -61,6 +63,7 @@ import org.siemac.metamac.rest.statistical_operations.v1_0.domain.TemporalGranul
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.UnitMeasures;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.UpdateFrequencies;
 import org.siemac.metamac.rest.structural_resources.v1_0.domain.CategoryResource;
+import org.siemac.metamac.rest.structural_resources.v1_0.domain.Organisation;
 import org.siemac.metamac.rest.utils.RestUtils;
 import org.siemac.metamac.srm.rest.common.SrmRestConstants;
 import org.siemac.metamac.statistical.operations.core.domain.CollMethod;
@@ -101,10 +104,13 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
     }
 
     @Override
-    public Operation toOperation(org.siemac.metamac.statistical.operations.core.domain.Operation source) throws MetamacException {
+    public Operation toOperation(org.siemac.metamac.statistical.operations.core.domain.Operation source, Set<String> parsedFields) throws MetamacException {
         if (source == null) {
             return null;
         }
+
+        boolean includeContactDetails = containsField(parsedFields, StatisticalOperationsRestConstants.FIELD_INCLUDE_CONTACT_DETAILS);
+
         Operation target = new Operation();
         target.setId(source.getCode());
         target.setUrn(source.getUrn());
@@ -149,7 +155,9 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         target.setDisaggregationByAge(source.getDisaggregationByAge());
         target.setDisaggregationByNationality(source.getDisaggregationByNationality());
         target.setDisaggregationByDisability(source.getDisaggregationByDisability());
-
+        if (includeContactDetails) {
+            setContactDetailsToOperation(target);
+        }
         return target;
     }
 
@@ -492,6 +500,41 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         target.setDataSharings(toOperationDataSharings(null, configuration.getDataSharing(), target.getDataSharings()));
         target.setConfidentialityPolicy(configuration.getConfPolicy());
         target.setConfidentialityDataTreatment(configuration.getConfDataTreatment());
+    }
+
+    private void setContactDetailsToOperation(Operation target) {
+        Organisation organisation = srmRestExternalFacade.retrieveOrganisation(target.getContact().getUrn());
+        target.setContactDetails(toContacts(organisation.getContacts()));
+
+    }
+    private Contacts toContacts(org.siemac.metamac.rest.structural_resources.v1_0.domain.Contacts sources) {
+        if (sources == null) {
+            return null;
+        }
+        Contacts targets = new Contacts();
+        for (org.siemac.metamac.rest.structural_resources.v1_0.domain.Contact source : sources.getContacts()) {
+            Contact target = toContact(source);
+            targets.getContacts().add(target);
+        }
+        targets.setTotal(BigInteger.valueOf(sources.getContacts().size()));
+
+        return targets;
+    }
+
+    private Contact toContact(org.siemac.metamac.rest.structural_resources.v1_0.domain.Contact source) {
+        if (source == null) {
+            return null;
+        }
+        Contact target = new Contact();
+        target.setId(source.getId());
+        target.setName(source.getName());
+        target.setOrganisationUnit(source.getOrganisationUnit());
+        target.setResponsibility(source.getResponsibility());
+        target.getTelephones().addAll(source.getTelephones());
+        target.getFaxes().addAll(source.getFaxes());
+        target.getUrls().addAll(source.getUrls());
+        target.getEmails().addAll(source.getEmails());
+        return target;
     }
 
     private LegalActs toOperationLegalActs(org.siemac.metamac.core.common.ent.domain.InternationalString source1, InternationalString source2, LegalActs target) {

@@ -1250,6 +1250,7 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
 		}
 		ResourceInternal target = new ResourceInternal();
 		target.setId(source.getId());
+		target.setNestedId(source.getNestedId());
 		target.setUrn(source.getUrn());
 		target.setKind(source.getKind());
 		target.setSelfLink(source.getSelfLink());

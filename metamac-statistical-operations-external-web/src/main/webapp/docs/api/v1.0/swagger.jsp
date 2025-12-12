@@ -1974,6 +1974,12 @@
                   "type":"string",
                   "description":"${msg['api.doc.swagger.paths.operationsIdParam.idDescription']}",
                   "required":true
+               },
+               {
+               "name":"fields",
+               "in":"query",
+               "type":"string",
+               "description":"${msg['api.doc.swagger.paths.operationsFieldsParam.fieldsDescription']}"
                }
             ],
             "responses":{

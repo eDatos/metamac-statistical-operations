@@ -18,6 +18,7 @@ import org.siemac.metamac.rest.structural_resources.v1_0.domain.CategoryCriteria
 import org.siemac.metamac.rest.structural_resources.v1_0.domain.CategoryResource;
 import org.siemac.metamac.rest.structural_resources.v1_0.domain.ConceptResource;
 import org.siemac.metamac.rest.structural_resources.v1_0.domain.Concepts;
+import org.siemac.metamac.rest.structural_resources.v1_0.domain.Organisation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -181,6 +182,20 @@ public class SrmRestExternalFacadeImpl implements SrmRestExternalFacade {
     private RestException toRestException(Exception e) {
         logger.error("Error", e);
         return RestExceptionUtils.toRestException(e, WebClient.client(restApiLocator.getSrmRestExternalFacadeV10()));
+    }
+
+    @Override
+    public Organisation retrieveOrganisation(String urn) {
+        try {
+            String[] urnSplited = UrnUtils.splitUrnItem(urn);
+            String agencyID = urnSplited[0];
+            String resourceID = urnSplited[1];
+            String version = urnSplited[2];
+            String organisationID = urnSplited[3];
+            return restApiLocator.getSrmRestExternalFacadeV10().retrieveOrganisation(agencyID, resourceID, version, organisationID);
+        } catch (Exception e) {
+            throw toRestException(e);
+        }
     }
 
 }

@@ -71,13 +71,14 @@ public class StatisticalOperationsRestExternalFacadeV10Impl implements Statistic
     private final Logger                        logger                     = LoggerFactory.getLogger(StatisticalOperationsRestExternalFacadeV10Impl.class);
 
     @Override
-    public Operation retrieveOperationById(String id) {
+    public Operation retrieveOperationById(String id, String fields) {
         try {
+            Set<String> parsedFields = parseFieldsOperationEndpoint(fields);
             // Retrieve
             org.siemac.metamac.statistical.operations.core.domain.Operation operationEntity = retrieveOperationEntityPublishedExternally(id);
 
             // Transform
-            Operation operation = do2RestExternalMapper.toOperation(operationEntity);
+            Operation operation = do2RestExternalMapper.toOperation(operationEntity, parsedFields);
             return operation;
 
         } catch (Exception e) {
@@ -85,6 +86,11 @@ public class StatisticalOperationsRestExternalFacadeV10Impl implements Statistic
         }
     }
 
+    private Set<String> parseFieldsOperationEndpoint(String fields) {
+        Set<String> validFields = new HashSet<>();
+        validFields.add(StatisticalOperationsRestConstants.FIELD_INCLUDE_CONTACT_DETAILS);
+        return parseFields(fields, validFields);
+    }
     @Override
     public Operations findOperations(String query, String orderBy, String limit, String offset, String fields) {
         try {

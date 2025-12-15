@@ -156,8 +156,7 @@ public class StatisticalOperationsRestInternalFacadeV10Test extends MetamacRestB
     public void testRetrieveOperationByIdXml() throws Exception {
 
         // Retrieve
-        Operation operation = getStatisticalOperationsRestInternalFacadeClientXml().retrieveOperationById(OPERATION_1);
-
+        Operation operation = getStatisticalOperationsRestInternalFacadeClientXml().retrieveOperationById(OPERATION_1, null);
         // Validation
         StatisticalOperationsRestAsserts.assertEqualsOperation(statisticalOperationsRestMocks.mockOperation1(), operation, statisticalOperationsRestMocks);
     }
@@ -225,7 +224,7 @@ public class StatisticalOperationsRestInternalFacadeV10Test extends MetamacRestB
     @Test
     public void testRetrieveOperationByIdErrorNotExistsXml() throws Exception {
         try {
-            getStatisticalOperationsRestInternalFacadeClientXml().retrieveOperationById(NOT_EXISTS);
+            getStatisticalOperationsRestInternalFacadeClientXml().retrieveOperationById(NOT_EXISTS,null);
         } catch (ServerWebApplicationException e) {
             org.siemac.metamac.rest.common.v1_0.domain.Exception exception = extractErrorFromException(statisticalOperationsRestInternalFacadeClientXml, e);
 
@@ -649,7 +648,7 @@ public class StatisticalOperationsRestInternalFacadeV10Test extends MetamacRestB
             String offset = null;
             String query = null;
             String orderBy = null;
-            Instances instances = getStatisticalOperationsRestInternalFacadeClientXml().findInstances(OPERATION_1, query, orderBy, limit, offset);
+            Instances instances = getStatisticalOperationsRestInternalFacadeClientXml().findInstances(OPERATION_1, query, orderBy, limit, offset,null);
             StatisticalOperationsRestAsserts.assertEqualsInstances(statisticalOperationsRestMocks.mockInstancesByOperation1(limit, offset), instances);
         }
         {
@@ -658,7 +657,7 @@ public class StatisticalOperationsRestInternalFacadeV10Test extends MetamacRestB
             String offset = null;
             String query = null;
             String orderBy = null;
-            Instances instances = getStatisticalOperationsRestInternalFacadeClientXml().findInstances(OPERATION_1, query, orderBy, limit, offset);
+            Instances instances = getStatisticalOperationsRestInternalFacadeClientXml().findInstances(OPERATION_1, query, orderBy, limit, offset,null);
             StatisticalOperationsRestAsserts.assertEqualsInstances(statisticalOperationsRestMocks.mockInstancesByOperation1(limit, offset), instances);
         }
         {
@@ -667,7 +666,7 @@ public class StatisticalOperationsRestInternalFacadeV10Test extends MetamacRestB
             String offset = "0";
             String query = null;
             String orderBy = null;
-            Instances instances = getStatisticalOperationsRestInternalFacadeClientXml().findInstances(OPERATION_1, query, orderBy, limit, offset);
+            Instances instances = getStatisticalOperationsRestInternalFacadeClientXml().findInstances(OPERATION_1, query, orderBy, limit, offset,null);
             StatisticalOperationsRestAsserts.assertEqualsInstances(statisticalOperationsRestMocks.mockInstancesByOperation1(limit, offset), instances);
         }
         {
@@ -676,7 +675,7 @@ public class StatisticalOperationsRestInternalFacadeV10Test extends MetamacRestB
             String offset = "0";
             String query = null;
             String orderBy = null;
-            Instances instances = getStatisticalOperationsRestInternalFacadeClientXml().findInstances(OPERATION_1, query, orderBy, limit, offset);
+            Instances instances = getStatisticalOperationsRestInternalFacadeClientXml().findInstances(OPERATION_1, query, orderBy, limit, offset,null);
             StatisticalOperationsRestAsserts.assertEqualsInstances(statisticalOperationsRestMocks.mockInstancesByOperation1(limit, offset), instances);
         }
         {
@@ -685,7 +684,7 @@ public class StatisticalOperationsRestInternalFacadeV10Test extends MetamacRestB
             String offset = "2";
             String query = null;
             String orderBy = null;
-            Instances instances = getStatisticalOperationsRestInternalFacadeClientXml().findInstances(OPERATION_1, query, orderBy, limit, offset);
+            Instances instances = getStatisticalOperationsRestInternalFacadeClientXml().findInstances(OPERATION_1, query, orderBy, limit, offset,null);
             StatisticalOperationsRestAsserts.assertEqualsInstances(statisticalOperationsRestMocks.mockInstancesByOperation1(limit, offset), instances);
         }
         {
@@ -694,7 +693,7 @@ public class StatisticalOperationsRestInternalFacadeV10Test extends MetamacRestB
             String offset = "4";
             String query = null;
             String orderBy = null;
-            Instances instances = getStatisticalOperationsRestInternalFacadeClientXml().findInstances(OPERATION_1, query, orderBy, limit, offset);
+            Instances instances = getStatisticalOperationsRestInternalFacadeClientXml().findInstances(OPERATION_1, query, orderBy, limit, offset,null);
             StatisticalOperationsRestAsserts.assertEqualsInstances(statisticalOperationsRestMocks.mockInstancesByOperation1(limit, offset), instances);
         }
         {
@@ -703,7 +702,7 @@ public class StatisticalOperationsRestInternalFacadeV10Test extends MetamacRestB
             String offset = "9";
             String query = null;
             String orderBy = null;
-            Instances instances = getStatisticalOperationsRestInternalFacadeClientXml().findInstances(OPERATION_1, query, orderBy, limit, offset);
+            Instances instances = getStatisticalOperationsRestInternalFacadeClientXml().findInstances(OPERATION_1, query, orderBy, limit, offset,null);
             StatisticalOperationsRestAsserts.assertEqualsInstances(statisticalOperationsRestMocks.mockInstancesByOperation1(limit, offset), instances);
         }
 
@@ -714,7 +713,7 @@ public class StatisticalOperationsRestInternalFacadeV10Test extends MetamacRestB
             String offset = null;
             String query = QUERY_INSTANCE_ID_LIKE_1; // instance1 and instance15
             String orderBy = null;
-            Instances instances = getStatisticalOperationsRestInternalFacadeClientXml().findInstances(OPERATION_1, query, orderBy, limit, offset);
+            Instances instances = getStatisticalOperationsRestInternalFacadeClientXml().findInstances(OPERATION_1, query, orderBy, limit, offset,null);
             StatisticalOperationsRestAsserts.assertEqualsInstances(statisticalOperationsRestMocks.mockInstancesByOperation1(limit, offset, query), instances);
         }
         {
@@ -723,7 +722,7 @@ public class StatisticalOperationsRestInternalFacadeV10Test extends MetamacRestB
             String offset = "0";
             String query = QUERY_INSTANCE_ID_LIKE_1; // instance1 and instance15
             String orderBy = null;
-            Instances instances = getStatisticalOperationsRestInternalFacadeClientXml().findInstances(OPERATION_1, query, orderBy, limit, offset);
+            Instances instances = getStatisticalOperationsRestInternalFacadeClientXml().findInstances(OPERATION_1, query, orderBy, limit, offset,null);
             StatisticalOperationsRestAsserts.assertEqualsInstances(statisticalOperationsRestMocks.mockInstancesByOperation1(limit, offset, query), instances);
         }
     }
@@ -757,7 +756,7 @@ public class StatisticalOperationsRestInternalFacadeV10Test extends MetamacRestB
     @Test
     public void testFindInstancesErrorOperationNotExistsXml() throws Exception {
         try {
-            getStatisticalOperationsRestInternalFacadeClientXml().findInstances(NOT_EXISTS, null, null, null, null);
+            getStatisticalOperationsRestInternalFacadeClientXml().findInstances(NOT_EXISTS, null, null, null, null,null);
         } catch (ServerWebApplicationException e) {
             org.siemac.metamac.rest.common.v1_0.domain.Exception exception = extractErrorFromException(statisticalOperationsRestInternalFacadeClientXml, e);
 

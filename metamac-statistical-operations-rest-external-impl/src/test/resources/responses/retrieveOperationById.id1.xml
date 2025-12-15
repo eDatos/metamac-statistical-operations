@@ -136,7 +136,6 @@
             </cdomain:name>
         </operations:contributor>
     </operations:contributors>
-    <operations:statisticalOperationUrls total="0"/>
     <operations:currentlyActive>false</operations:currentlyActive>
     <operations:status>DESIGN</operations:status>
     <operations:publishers kind="structuralResources#organisationUnits" total="3">

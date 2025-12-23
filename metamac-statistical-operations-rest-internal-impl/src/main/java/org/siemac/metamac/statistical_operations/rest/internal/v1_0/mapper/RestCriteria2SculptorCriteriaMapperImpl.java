@@ -224,6 +224,8 @@ public class RestCriteria2SculptorCriteriaMapperImpl implements RestCriteria2Scu
             switch (propertyNameCriteria) {
                 case ID:
                     return OperationProperties.code();
+                case FEATURED_UNTIL_DATE:
+                    return OperationProperties.featuredUntilDate();
                 default:
                     throw toRestExceptionParameterIncorrect(propertyNameCriteria.name());
             }

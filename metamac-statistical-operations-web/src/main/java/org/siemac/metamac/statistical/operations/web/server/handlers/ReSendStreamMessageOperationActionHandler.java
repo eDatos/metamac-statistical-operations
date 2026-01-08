@@ -54,9 +54,12 @@ public class ReSendStreamMessageOperationActionHandler extends SecurityActionHan
             e.getExceptionItems().addAll(list);
             operationException = WebExceptionUtils.createMetamacWebException(e);
             try {
+                result.setContent(statisticalOperationsServiceFacade.findOperationById(serviceContext, action.getOperationId()));
                 noticesRestInternalFacade.createNotificationForStreamError(serviceContext, result.getContent());
             } catch (MetamacWebException noticeException) {
                 operationException.getWebExceptionItems().addAll(noticeException.getWebExceptionItems());
+            } catch (MetamacException ex) {
+                throw new RuntimeException(ex);
             }
         }
 

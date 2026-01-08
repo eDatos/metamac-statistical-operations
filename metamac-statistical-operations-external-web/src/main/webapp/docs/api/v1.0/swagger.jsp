@@ -403,7 +403,7 @@
                      "description":"${msg['api.doc.swagger.definitions.instance.properties.completeness']}",
                      "$ref":"#/definitions/InternationalString"
                   },
-                  "coverageError":{
+                  "coverageErr":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
@@ -487,12 +487,12 @@
                      "description":"${msg['api.doc.swagger.definitions.instance.properties.inventoryDate']}",
                      "type":"string"
                   },
-                  "measurementError":{
+                  "measurementErr":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
                      "description":"${msg['api.doc.swagger.definitions.instance.properties.inventoryDate.measurementError']}",
-                     "$ref":"#/definitions/Measures"
+                     "$ref":"#/definitions/InternationalString"
                   },
                   "unitMeasures":{
                      "xml":{
@@ -501,12 +501,12 @@
                      "description":"${msg['api.doc.swagger.definitions.instance.properties.unit_measures']}",
                      "$ref":"#/definitions/UnitMeasures"
                   },
-                  "modelError":{
+                  "modelErr":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
                      "description":"${msg['api.doc.swagger.definitions.instance.properties.modelError']}",
-                     "$ref":"#/definitions/Measures"
+                     "$ref":"#/definitions/InternationalString"
                   },
                   "name":{
                      "xml":{
@@ -515,7 +515,7 @@
                      "description":"${msg['api.doc.swagger.definitions.instance.properties.name']}",
                      "$ref":"#/definitions/InternationalString"
                   },
-                  "nonResponseError":{
+                  "nonResponseErr":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
@@ -543,12 +543,12 @@
                      "description":"${msg['api.doc.swagger.definitions.instance.properties.predecessor']}",
                      "$ref":"#/definitions/Resource"
                   },
-                  "processingError":{
+                  "processingErr":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
                      "description":"${msg['api.doc.swagger.definitions.instance.properties.processingError']}",
-                     "$ref":"#/definitions/Resource"
+                     "$ref":"#/definitions/InternationalString"
                   },
                   "punctuality":{
                      "xml":{

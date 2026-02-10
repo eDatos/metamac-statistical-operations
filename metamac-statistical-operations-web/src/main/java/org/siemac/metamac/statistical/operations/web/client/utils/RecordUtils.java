@@ -122,6 +122,10 @@ public class RecordUtils {
         record.setInternalInventoryDate(DateUtils.getFormattedDate(instanceDto.getInternalInventoryDate()));
         record.setProcStatus(CommonUtils.getProcStatusName(instanceDto.getProcStatus()));
         record.setOrder(instanceDto.getOrder());
+        record.setDisaggregationBySex(CommonWebUtils.getBooleanValueAsString(instanceDto.getDisaggregationBySex()));
+        record.setDisaggregationByAge(CommonWebUtils.getBooleanValueAsString(instanceDto.getDisaggregationByAge()));
+        record.setDisaggregationByDisability(CommonWebUtils.getBooleanValueAsString(instanceDto.getDisaggregationByDisability()));
+        record.setDisaggregationByNationality(CommonWebUtils.getBooleanValueAsString(instanceDto.getDisaggregationByNationality()));
         return record;
     }
 

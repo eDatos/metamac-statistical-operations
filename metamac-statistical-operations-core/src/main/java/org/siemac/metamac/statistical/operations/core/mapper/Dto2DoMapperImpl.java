@@ -606,6 +606,18 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
         // NOTES
         target.setNotes(internationalStringToEntity(source.getNotes(), target.getNotes(), ServiceExceptionParameters.INSTANCE_NOTES));
 
+        // DISAGGREGATION_BY_SEX
+        target.setDisaggregationBySex(source.getDisaggregationBySex());
+
+        // DISAGGREGATION_BY_AGE
+        target.setDisaggregationByAge(source.getDisaggregationByAge());
+
+        // DISAGGREGATION_BY_DISABILITY
+        target.setDisaggregationByDisability(source.getDisaggregationByDisability());
+
+        // DISAGGREGATION_BY_NATIONALITY
+        target.setDisaggregationByNationality(source.getDisaggregationByNationality());
+
         // Optimistic locking: Update "update date" attribute to force update of the root entity in order to increase attribute "version"
         target.setUpdateDate(new DateTime());
 

@@ -93,10 +93,6 @@ public class HandlersCriteriaUtils {
         addRestrictionIfExists(advanced, buildTitleCriteria(operationCriteria));
         addRestrictionIfExists(advanced, buildStatusCriteria(operationCriteria));
         addRestrictionIfExists(advanced, buildEdatosMigrationStatusCriteria(operationCriteria));
-        addRestrictionIfExists(advanced, buildDisaggregationBySexCriteria(operationCriteria));
-        addRestrictionIfExists(advanced, buildDisaggregationByAgeCriteria(operationCriteria));
-        addRestrictionIfExists(advanced, buildDisaggregationByNationalityCriteria(operationCriteria));
-        addRestrictionIfExists(advanced, buildDisaggregationByDisabilityCriteria(operationCriteria));
         addRestrictionIfExists(advanced, buildOfficialityTypeCriteria(operationCriteria));
         addRestrictionIfExists(advanced, buildNewnessUntilDateCriteria(operationCriteria));
         addRestrictionIfExists(advanced, buildFeaturedUntilDateCriteria(operationCriteria));
@@ -138,37 +134,6 @@ public class HandlersCriteriaUtils {
         return null;
     }
 
-    private static MetamacCriteriaRestriction buildDisaggregationBySexCriteria(OperationCriteria criteria) {
-        if (criteria != null && StringUtils.isNotBlank(criteria.getDisaggregationBySex())) {
-            return new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.DISAGGREGATION_BY_SEX.name(), Boolean.valueOf(criteria.getDisaggregationBySex()),
-                    MetamacCriteriaPropertyRestriction.OperationType.EQ);
-        }
-        return null;
-    }
-
-    private static MetamacCriteriaRestriction buildDisaggregationByAgeCriteria(OperationCriteria criteria) {
-        if (criteria != null && StringUtils.isNotBlank(criteria.getDisaggregationByAge())) {
-            return new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.DISAGGREGATION_BY_AGE.name(), Boolean.valueOf(criteria.getDisaggregationByAge()),
-                    MetamacCriteriaPropertyRestriction.OperationType.EQ);
-        }
-        return null;
-    }
-
-    private static MetamacCriteriaRestriction buildDisaggregationByNationalityCriteria(OperationCriteria criteria) {
-        if (criteria != null && StringUtils.isNotBlank(criteria.getDisaggregationByNationality())) {
-            return new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.DISAGGREGATION_BY_NATIONALITY.name(), Boolean.valueOf(criteria.getDisaggregationByNationality()),
-                    MetamacCriteriaPropertyRestriction.OperationType.EQ);
-        }
-        return null;
-    }
-
-    private static MetamacCriteriaRestriction buildDisaggregationByDisabilityCriteria(OperationCriteria criteria) {
-        if (criteria != null && StringUtils.isNotBlank(criteria.getDisaggregationByDisability())) {
-            return new MetamacCriteriaPropertyRestriction(OperationCriteriaPropertyEnum.DISAGGREGATION_BY_DISABILITY.name(), Boolean.valueOf(criteria.getDisaggregationByDisability()),
-                    MetamacCriteriaPropertyRestriction.OperationType.EQ);
-        }
-        return null;
-    }
 
     private static MetamacCriteriaRestriction buildOfficialityTypeCriteria(OperationCriteria criteria) {
         if (criteria != null && StringUtils.isNotBlank(criteria.getOfficialityType())) {

@@ -167,10 +167,6 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
 		target.setTechnicianInCharge(source.getTechnicianInCharge());
 		target.setAssistantTechnician(source.getAssistantTechnician());
 		target.setGenderPerspective(this.toInternationalString(source.getGenderPerspective()));
-		target.setDisaggregationBySex(source.getDisaggregationBySex());
-		target.setDisaggregationByAge(source.getDisaggregationByAge());
-		target.setDisaggregationByNationality(source.getDisaggregationByNationality());
-		target.setDisaggregationByDisability(source.getDisaggregationByDisability());
 		if (includeContactDetails) {
 			setContactDetailsToOperation(target);
 		}

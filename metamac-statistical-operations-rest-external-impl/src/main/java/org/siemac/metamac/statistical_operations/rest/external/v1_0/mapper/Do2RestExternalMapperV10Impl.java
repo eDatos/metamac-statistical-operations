@@ -151,10 +151,6 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         target.setParentLink(toOperationParentLink());
         target.setChildLinks(toOperationChildLinks(source));
         target.setGenderPerspective(toInternationalString(source.getGenderPerspective()));
-        target.setDisaggregationBySex(source.getDisaggregationBySex());
-        target.setDisaggregationByAge(source.getDisaggregationByAge());
-        target.setDisaggregationByNationality(source.getDisaggregationByNationality());
-        target.setDisaggregationByDisability(source.getDisaggregationByDisability());
         if (includeContactDetails) {
             setContactDetailsToOperation(target);
         }

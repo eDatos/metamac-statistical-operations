@@ -622,6 +622,19 @@ public class Do2DtoMapperImpl extends BaseDo2DtoMapperImpl implements Do2DtoMapp
         // COHER_NATIONAL_ACCOUNTS
         target.setCoherNationalAccounts(internationalStringToDto(source.getCoherNationalAccounts()));
 
+        // DISAGGREGATION_BY_SEX
+        target.setDisaggregationBySex(source.getDisaggregationBySex());
+
+        // DISAGGREGATION_BY_AGE
+        target.setDisaggregationByAge(source.getDisaggregationByAge());
+
+        // DISAGGREGATION_BY_DISABILITY
+        target.setDisaggregationByDisability(source.getDisaggregationByDisability());
+
+        // DISAGGREGATION_BY_NATIONALITY
+        target.setDisaggregationByNationality(source.getDisaggregationByNationality());
+
+
         // COHER_X_DOMAIN_URL
         // Not necessary
 

@@ -34,21 +34,19 @@ import org.siemac.metamac.rest.statistical_operations.v1_0.domain.CollMethods;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Contributors;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Costs;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.DataSharings;
-import org.siemac.metamac.rest.statistical_operations.v1_0.domain.EdatosMigrationStatus;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Families;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Family;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.FreqColls;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.GeographicGranularities;
-import org.siemac.metamac.rest.statistical_operations.v1_0.domain.PublicInformationSuppliers;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Instance;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.InstanceTypes;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Instances;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.LegalActs;
-import org.siemac.metamac.rest.statistical_operations.v1_0.domain.UnitMeasures;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.OfficialityTypes;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Operation;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Operations;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Producers;
+import org.siemac.metamac.rest.statistical_operations.v1_0.domain.PublicInformationSuppliers;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Publishers;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.ResourceWithSubjectArea;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.Responsibles;
@@ -59,6 +57,7 @@ import org.siemac.metamac.rest.statistical_operations.v1_0.domain.StatisticalOpe
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.StatisticalOperationUrls;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.StatisticalUnits;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.TemporalGranularities;
+import org.siemac.metamac.rest.statistical_operations.v1_0.domain.UnitMeasures;
 import org.siemac.metamac.rest.statistical_operations.v1_0.domain.UpdateFrequencies;
 import org.siemac.metamac.rest.structural_resources.v1_0.domain.CategoryResource;
 import org.siemac.metamac.rest.utils.RestUtils;
@@ -143,10 +142,6 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         target.setParentLink(toOperationParentLink());
         target.setChildLinks(toOperationChildLinks(source));
         target.setGenderPerspective(toInternationalString(source.getGenderPerspective()));
-        target.setDisaggregationBySex(source.getDisaggregationBySex());
-        target.setDisaggregationByAge(source.getDisaggregationByAge());
-        target.setDisaggregationByNationality(source.getDisaggregationByNationality());
-        target.setDisaggregationByDisability(source.getDisaggregationByDisability());
 
         return target;
     }

@@ -15,10 +15,6 @@ public class OperationCriteria extends MetamacWebCriteria {
     private String                     status;
     private String                     edatosMigrationStatus;
 
-    private String                     disaggregationBySex;
-    private String                     disaggregationByAge;
-    private String                     disaggregationByNationality;
-    private String                     disaggregationByDisability;
     private String                     officialityType;
 
     private List<MetamacCriteriaOrder> orders           = new ArrayList<MetamacCriteriaOrder>();
@@ -47,33 +43,6 @@ public class OperationCriteria extends MetamacWebCriteria {
         this.status = status;
     }
 
-    public String getDisaggregationBySex() {
-        return disaggregationBySex;
-    }
-    public void setDisaggregationBySex(String disaggregationBySex) {
-        this.disaggregationBySex = disaggregationBySex;
-    }
-
-    public String getDisaggregationByAge() {
-        return disaggregationByAge;
-    }
-    public void setDisaggregationByAge(String disaggregationByAge) {
-        this.disaggregationByAge = disaggregationByAge;
-    }
-
-    public String getDisaggregationByNationality() {
-        return disaggregationByNationality;
-    }
-    public void setDisaggregationByNationality(String disaggregationByNationality) {
-        this.disaggregationByNationality = disaggregationByNationality;
-    }
-
-    public String getDisaggregationByDisability() {
-        return disaggregationByDisability;
-    }
-    public void setDisaggregationByDisability(String disaggregationByDisability) {
-        this.disaggregationByDisability = disaggregationByDisability;
-    }
 
     public List<MetamacCriteriaOrder> getOrders() {
         return orders;

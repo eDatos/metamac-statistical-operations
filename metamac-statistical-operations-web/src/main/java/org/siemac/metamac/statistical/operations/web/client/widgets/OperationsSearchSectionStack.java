@@ -14,7 +14,6 @@ import org.siemac.metamac.statistical.operations.web.client.utils.OperationsList
 import org.siemac.metamac.statistical.operations.web.shared.criteria.OperationCriteria;
 import org.siemac.metamac.web.common.client.MetamacWebCommon;
 import org.siemac.metamac.web.common.client.constants.CommonWebConstants;
-import org.siemac.metamac.web.common.client.utils.FormItemUtils;
 import org.siemac.metamac.web.common.client.widgets.BaseAdvancedSearchSectionStack;
 import org.siemac.metamac.web.common.client.widgets.form.GroupDynamicForm;
 import org.siemac.metamac.web.common.client.widgets.form.fields.CustomButtonItem;
@@ -63,22 +62,9 @@ public class OperationsSearchSectionStack extends BaseAdvancedSearchSectionStack
             }
         });
 
-        SelectItem disaggregationBySex = new SelectItem(OperationDS.DISAGGREGATION_BY_SEX, getConstants().operationDisaggregationBySex());
-        disaggregationBySex.setValueMap(FormItemUtils.getBooleanHashMap());
-
-        SelectItem disaggregationByAge = new SelectItem(OperationDS.DISAGGREGATION_BY_AGE, getConstants().operationDisaggregationByAge());
-        disaggregationByAge.setValueMap(FormItemUtils.getBooleanHashMap());
-
-        SelectItem disaggregationByNationality = new SelectItem(OperationDS.DISAGGREGATION_BY_NATIONALITY, getConstants().operationDisaggregationByNationality());
-        disaggregationByNationality.setValueMap(FormItemUtils.getBooleanHashMap());
-
-        SelectItem disaggregationByDisability = new SelectItem(OperationDS.DISAGGREGATION_BY_DISABILITY, getConstants().operationDisaggregationByDisability());
-        disaggregationByDisability.setValueMap(FormItemUtils.getBooleanHashMap());
-
         officialityTypes = new SelectItem(OperationDS.OFFICIALITY_TYPE, getConstants().operationOfficialityType());
 
-        FormItem[] advancedSearchFormItems = new FormItem[]{code, title, productionVersionProcStatus, edatosMigrationStatus, disaggregationBySex, disaggregationByAge, disaggregationByNationality,
-                disaggregationByDisability, officialityTypes, searchItem};
+        FormItem[] advancedSearchFormItems = new FormItem[]{code, title, productionVersionProcStatus, edatosMigrationStatus,officialityTypes, searchItem};
         setFormItemsInAdvancedSearchForm(advancedSearchFormItems);
     }
 
@@ -103,10 +89,6 @@ public class OperationsSearchSectionStack extends BaseAdvancedSearchSectionStack
         criteria.setStatus(advancedSearchForm.getValueAsString(OperationDS.STATUS));
         criteria.setEdatosMigrationStatus(advancedSearchForm.getValueAsString(OperationDS.EDATOS_MIGRATION_STATUS));
 
-        criteria.setDisaggregationBySex(advancedSearchForm.getValueAsString(OperationDS.DISAGGREGATION_BY_SEX));
-        criteria.setDisaggregationByAge(advancedSearchForm.getValueAsString(OperationDS.DISAGGREGATION_BY_AGE));
-        criteria.setDisaggregationByNationality(advancedSearchForm.getValueAsString(OperationDS.DISAGGREGATION_BY_NATIONALITY));
-        criteria.setDisaggregationByDisability(advancedSearchForm.getValueAsString(OperationDS.DISAGGREGATION_BY_DISABILITY));
 
         OfficialityTypeDto officialityTypeDto = OperationsListUtils.getOfficialityTypeDto(advancedSearchForm.getValueAsString(OperationDS.OFFICIALITY_TYPE), this.officialityTypeDtos);
         if (officialityTypeDto != null) {

@@ -125,6 +125,7 @@ public class StatisticalOperationsRestExternalFacadeV10Impl implements Statistic
         validFields.add(StatisticalOperationsRestConstants.DIFUSION_PUBLICATION_VISIBLE);
         validFields.add(StatisticalOperationsRestConstants.FIELD_INCLUDE_DESCRIPTION);
         validFields.add(StatisticalOperationsRestConstants.FIELD_INCLUDE_FEATURED_UNTIL_DATE);
+        validFields.add(StatisticalOperationsRestConstants.FIELD_INCLUDE_NEWNESS_UNTIL_DATE);
         return parseFields(fields, validFields);
     }
 

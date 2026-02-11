@@ -635,6 +635,8 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
 		}
 		boolean includeDescription = containsField(parsedFields, StatisticalOperationsRestConstants.FIELD_INCLUDE_DESCRIPTION);
 		boolean includeFeaturedUntilDate = containsField(parsedFields, StatisticalOperationsRestConstants.FIELD_INCLUDE_FEATURED_UNTIL_DATE);
+		boolean includeNewnessUntilDate = containsField(parsedFields, StatisticalOperationsRestConstants.FIELD_INCLUDE_NEWNESS_UNTIL_DATE);
+
 		ResourceInternal target = new ResourceInternal();
 		target.setId(source.getCode());
 		target.setUrn(source.getUrn());
@@ -649,6 +651,9 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
 		}
 		if (includeFeaturedUntilDate) {
 			target.setFeaturedUntilDate(toDate(source.getFeaturedUntilDate()));
+		}
+		if (includeNewnessUntilDate) {
+			target.setNewnessUntilDate(toDate(source.getNewnessUntilDate()));
 		}
 		return target;
 	}

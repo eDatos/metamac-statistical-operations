@@ -607,6 +607,7 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         }
         boolean includeDescription = containsField(parsedFields, StatisticalOperationsRestConstants.FIELD_INCLUDE_DESCRIPTION);
         boolean includeFeaturedUntilDate = containsField(parsedFields, StatisticalOperationsRestConstants.FIELD_INCLUDE_FEATURED_UNTIL_DATE);
+        boolean includeNewnessUntilDate = containsField(parsedFields, StatisticalOperationsRestConstants.FIELD_INCLUDE_NEWNESS_UNTIL_DATE);
 
         ResourceWithSubjectArea target = new ResourceWithSubjectArea();
         target.setId(source.getCode());
@@ -621,6 +622,9 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         }
         if (includeFeaturedUntilDate) {
             target.setFeaturedUntilDate(toDate(source.getFeaturedUntilDate()));
+        }
+        if (includeNewnessUntilDate) {
+            target.setNewnessUntilDate(toDate(source.getNewnessUntilDate()));
         }
         return target;
     }

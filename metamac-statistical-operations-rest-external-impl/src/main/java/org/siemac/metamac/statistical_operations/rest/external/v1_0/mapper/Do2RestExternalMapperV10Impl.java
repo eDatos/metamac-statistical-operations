@@ -69,7 +69,6 @@ import org.siemac.metamac.statistical.operations.core.domain.OfficialityType;
 import org.siemac.metamac.statistical.operations.core.domain.OperationUrl;
 import org.siemac.metamac.statistical.operations.core.domain.SurveySource;
 import org.siemac.metamac.statistical.operations.core.domain.SurveyType;
-import org.siemac.metamac.statistical.operations.core.enume.domain.EdatosMigrationStatusEnum;
 import org.siemac.metamac.statistical.operations.core.enume.domain.ProcStatusEnum;
 import org.siemac.metamac.statistical.operations.core.enume.domain.StatusEnum;
 import org.siemac.metamac.statistical_operations.rest.common.StatisticalOperationsRestConstants;
@@ -123,7 +122,6 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         target.setContributors(toContributors(source.getContributor()));
         target.setCurrentlyActive(source.getCurrentlyActive());
         target.setStatus(toStatus(source.getStatus()));
-        target.setEdatosMigrationStatus(toEdatosMigrationStatus(source.getEdatosMigrationStatus()));
         target.setPublishers(toPublishers(source.getPublisher()));
         target.setRelPolUsAc(toInternationalString(source.getRelPolUsAc()));
         target.setReleaseCalendar(source.getReleaseCalendar());
@@ -874,22 +872,6 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         }
     }
 
-    private org.siemac.metamac.rest.statistical_operations.v1_0.domain.EdatosMigrationStatus toEdatosMigrationStatus(EdatosMigrationStatusEnum source) {
-        if (source == null) {
-            return null;
-        }
-        switch (source) {
-            case NOT_STARTED:
-                return org.siemac.metamac.rest.statistical_operations.v1_0.domain.EdatosMigrationStatus.NOT_STARTED;
-            case IN_PROGRESS:
-                return org.siemac.metamac.rest.statistical_operations.v1_0.domain.EdatosMigrationStatus.IN_PROGRESS;
-            case COMPLETE:
-                return org.siemac.metamac.rest.statistical_operations.v1_0.domain.EdatosMigrationStatus.COMPLETE;
-            default:
-                org.siemac.metamac.rest.common.v1_0.domain.Exception exception = RestExceptionUtils.getException(RestServiceExceptionType.UNKNOWN);
-                throw new RestException(exception, Status.INTERNAL_SERVER_ERROR);
-        }
-    }
 
     private SecondarySubjectAreas toSecondarySubjectAreas(List<Resource> categories) {
         if (categories == null || categories.size() == 0) {

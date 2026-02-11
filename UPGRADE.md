@@ -37,6 +37,9 @@ actualización de la versión 1.0.0 a la 2.0.0.*
    /servers/kafka/confluent/bin/kafka-configs --bootstrap-server localhost:19092 --entity-type topics --entity-name 
   OPERATION_PUBLICATIONS --delete-config retention.ms --alter
   ```
+  
+- Se han realizado cambios en la base de datos, por ello se proveen una serie de scripts SQL para adaptarse a la nueva versión.
+  Ejecutar los scripts de la siguiente ruta en el orden correspondiente: [etc/changes-from-release/5.1.3/db/statistical-operations/postgresql](etc/changes-from-release/5.1.3/db/statistical-operations/postgresql)
 
 ## 5.1.0 a 5.1.1
 - Se han realizado cambios en la base de datos, por ello se proveen una serie de scripts SQL para adaptarse a la nueva versión.

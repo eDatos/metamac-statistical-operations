@@ -638,7 +638,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
 		ViewTextItem assistantTechnician = new ViewTextItem(OperationDS.ASSISTANT_TECHNICIAN, getConstants().operationAssistantTechnician());
 		productionDescriptorsForm = new GroupDynamicForm(getConstants().operationProductionDescriptors());
 		ExternalItemListItem producer = new ExternalItemListItem(OperationDS.PRODUCER, getConstants().operationProducers(), false);
-		ExternalItemListItem resposible = new ExternalItemListItem(OperationDS.REG_RESPONSIBLE, getConstants().operationResponsibles(), false);
+        ExternalItemListItem responsible = new ExternalItemListItem(OperationDS.REG_RESPONSIBLE, getConstants().operationResponsibles(), false);
 		ExternalItemListItem contibutor = new ExternalItemListItem(OperationDS.REG_CONTRIBUTOR, getConstants().operationContributors(), false);
 		ViewTextItem createdDate = new ViewTextItem(OperationDS.CREATED_DATE, getConstants().operationCreatedDate());
 		ViewTextItem inventoryDate = new ViewTextItem(OperationDS.INTERNAL_INVENTORY_DATE, getConstants().operationInternalInventoryDate());
@@ -648,7 +648,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
 		ViewTextItem procStatus = new ViewTextItem(OperationDS.PROC_STATUS, getConstants().operationProcStatus());
 
 		ViewMultiLanguageTextItem genderPerspective = new ViewMultiLanguageTextItem(OperationDS.GENDER_PERSPECTIVE, getConstants().operationGenderPerspective());
-		productionDescriptorsForm.setFields(techinicianInCharge, assistantTechnician, producer, resposible, contibutor, createdDate, inventoryDate, currentlyActive, status, procStatus,
+        productionDescriptorsForm.setFields(techinicianInCharge, assistantTechnician, responsible, producer, contibutor, createdDate, inventoryDate, currentlyActive, status, procStatus,
                 genderPerspective, edatosMigrationStatus);
 
 		// Diffusion Descriptors
@@ -840,7 +840,7 @@ public class OperationViewImpl extends ViewWithUiHandlers<OperationUiHandlers> i
 
 		MultiLanguageTextItem genderPerspective = new MultiLanguageTextItem(OperationDS.GENDER_PERSPECTIVE, getConstants().operationGenderPerspective());
 
-		productionDescriptorsEditionForm.setFields(technicianInCharge, assistantTechnician, producerItem, regionalResponsibleItem, regionalContributorItem, createdDate, internalInventoryDate,
+        productionDescriptorsEditionForm.setFields(technicianInCharge, assistantTechnician, regionalResponsibleItem, producerItem, regionalContributorItem, createdDate, internalInventoryDate,
 				currentlyActiveItem, statusItem, staticProcStatus, procStatus, genderPerspective, edatosMigrationStatusItem);
 
 		// DIFFUSION AND PUBLICATION

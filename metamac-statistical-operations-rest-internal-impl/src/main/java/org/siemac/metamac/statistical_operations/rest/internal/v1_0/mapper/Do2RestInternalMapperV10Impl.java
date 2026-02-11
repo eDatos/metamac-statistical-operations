@@ -126,8 +126,8 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         target.setStatisticalOperationType(this.toItem(source.getSurveyType()));
         target.setOfficialityType(this.toItem(source.getOfficialityType()));
         target.setIndicatorSystem(source.getIndicatorSystem());
-        target.setProducers(this.toProducers(source.getProducer()));
         target.setResponsibles(this.toResponsibles(source.getResponsible()));
+        target.setProducers(this.toProducers(source.getProducer()));
         target.setContributors(this.toContributors(source.getContributor()));
         target.setCreatedDate(this.toDate(source.getCreatedDate()));
         target.setInternalInventoryDate(this.toDate(source.getInternalInventoryDate()));

@@ -117,8 +117,8 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         target.setStatisticalOperationType(toItem(source.getSurveyType()));
         target.setOfficialityType(toItem(source.getOfficialityType()));
         target.setIndicatorSystem(source.getIndicatorSystem());
-        target.setProducers(toProducers(source.getProducer()));
         target.setResponsibles(toResponsibles(source.getResponsible()));
+        target.setProducers(toProducers(source.getProducer()));
         target.setContributors(toContributors(source.getContributor()));
         target.setCurrentlyActive(source.getCurrentlyActive());
         target.setStatus(toStatus(source.getStatus()));

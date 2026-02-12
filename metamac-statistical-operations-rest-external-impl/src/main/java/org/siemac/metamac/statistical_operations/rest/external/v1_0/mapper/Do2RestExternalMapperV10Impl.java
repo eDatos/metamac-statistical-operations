@@ -345,6 +345,10 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         target.setCoherNationalAccounts(toInternationalString(source.getCoherNationalAccounts()));
         target.setCoherInternal(toInternationalString(source.getCoherInternal()));
         target.setComment(toInternationalString(source.getComment()));
+        target.setDisaggregationBySex(source.getDisaggregationBySex());
+        target.setDisaggregationByAge(source.getDisaggregationByAge());
+        target.setDisaggregationByNationality(source.getDisaggregationByNationality());
+        target.setDisaggregationByDisability(source.getDisaggregationByDisability());
         target.setParentLink(toInstanceParentLink(source));
         target.setChildLinks(toInstanceChildLinks(source));
         return target;

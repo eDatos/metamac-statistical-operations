@@ -409,6 +409,10 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
 		target.setCoherInternal(this.toInternationalString(source.getCoherInternal()));
 		target.setComment(this.toInternationalString(source.getComment()));
 		target.setNotes(this.toInternationalString(source.getNotes()));
+        target.setDisaggregationBySex(source.getDisaggregationBySex());
+        target.setDisaggregationByAge(source.getDisaggregationByAge());
+        target.setDisaggregationByNationality(source.getDisaggregationByNationality());
+        target.setDisaggregationByDisability(source.getDisaggregationByDisability());
 		target.setParentLink(this.toInstanceParentLink(source));
 		target.setChildLinks(this.toInstanceChildLinks(source));
 		target.setManagementAppLink(this.toInstanceManagementApplicationLink(source));

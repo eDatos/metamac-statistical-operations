@@ -14,11 +14,11 @@ actualización de la versión 1.0.0 a la 2.0.0.*
 
 *Se deberá realizar primero la actualización de la versión 1.0.0 a la 2.0.0 y luego desde la 2.0.0 a la 3.0.0*
 
-## 5.1.1 a 5.1.2-SNAPSHOT
+## 5.1.3 a 5.1.4-SNAPSHOT
 * Esta versión contiene CAMBIOS QUE ROMPEN LA COMPATIBILIDAD DE LA API con versiones anteriores.
 
 * Se han realizado cambios en la base de datos PostgreSQL, por ello se proveen una serie de scripts SQL para adaptarse a la nueva versión.
-  Ejecutar los scripts de la siguiente ruta en el esquema correspondiente por orden de fecha: etc/changes-from-release/5.1.1/db
+  Ejecutar los scripts de la siguiente ruta en el esquema correspondiente por orden de fecha: etc/changes-from-release/5.1.3/db
 
 * Se debe resetear el schema registry para el topic OPERATION_PUBLICATIONS debido a que se han modificado las
   propiedades de los mensajes que se publican en dicho topic:

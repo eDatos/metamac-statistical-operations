@@ -18,6 +18,7 @@ import org.siemac.metamac.web.common.client.utils.FormItemUtils;
 import org.siemac.metamac.web.common.client.widgets.BaseAdvancedSearchSectionStack;
 import org.siemac.metamac.web.common.client.widgets.form.GroupDynamicForm;
 import org.siemac.metamac.web.common.client.widgets.form.fields.CustomButtonItem;
+import org.siemac.metamac.web.common.client.widgets.form.fields.CustomDateItem;
 
 import com.smartgwt.client.widgets.form.fields.FormItem;
 import com.smartgwt.client.widgets.form.fields.SelectItem;
@@ -77,8 +78,14 @@ public class OperationsSearchSectionStack extends BaseAdvancedSearchSectionStack
 
         officialityTypes = new SelectItem(OperationDS.OFFICIALITY_TYPE, getConstants().operationOfficialityType());
 
+        CustomDateItem newnessUntilDate = new CustomDateItem(OperationDS.NEWNESS_UNTIL_DATE, getConstants().operationNewnessUntilDate());
+
+        CustomDateItem featuredUntilDate = new CustomDateItem(OperationDS.FEATURED_UNTIL_DATE, getConstants().operationFeaturedUntilDate());
+
+
         FormItem[] advancedSearchFormItems = new FormItem[]{code, title, productionVersionProcStatus, edatosMigrationStatus, disaggregationBySex, disaggregationByAge, disaggregationByNationality,
-                disaggregationByDisability, officialityTypes, searchItem};
+                disaggregationByDisability, officialityTypes, newnessUntilDate, featuredUntilDate, searchItem};
+
         setFormItemsInAdvancedSearchForm(advancedSearchFormItems);
     }
 
@@ -107,6 +114,8 @@ public class OperationsSearchSectionStack extends BaseAdvancedSearchSectionStack
         criteria.setDisaggregationByAge(advancedSearchForm.getValueAsString(OperationDS.DISAGGREGATION_BY_AGE));
         criteria.setDisaggregationByNationality(advancedSearchForm.getValueAsString(OperationDS.DISAGGREGATION_BY_NATIONALITY));
         criteria.setDisaggregationByDisability(advancedSearchForm.getValueAsString(OperationDS.DISAGGREGATION_BY_DISABILITY));
+        criteria.setNewnessUntilDate(((CustomDateItem) advancedSearchForm.getItem(OperationDS.NEWNESS_UNTIL_DATE)).getValueAsDate());
+        criteria.setFeaturedUntilDate(((CustomDateItem) advancedSearchForm.getItem(OperationDS.FEATURED_UNTIL_DATE)).getValueAsDate());
 
         OfficialityTypeDto officialityTypeDto = OperationsListUtils.getOfficialityTypeDto(advancedSearchForm.getValueAsString(OperationDS.OFFICIALITY_TYPE), this.officialityTypeDtos);
         if (officialityTypeDto != null) {

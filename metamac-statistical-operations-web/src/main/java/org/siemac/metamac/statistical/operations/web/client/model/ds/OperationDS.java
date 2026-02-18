@@ -51,6 +51,8 @@ public class OperationDS extends DataSource {
     public static final String REV_PRACTICE               = "op-rev-pract";
     public static final String COMMON_METADATA            = "op-com-met";
     public static final String PUBLISH_MSG_STATUS_KAFKA   = "op-publish-msg-kafka";
+    public static final String NEWNESS_UNTIL_DATE         = "op-date-new-until";
+    public static final String FEATURED_UNTIL_DATE        = "op-date-featured-until";
     // LEGAL ACTS
     public static final String SPECIFIC_LEGAL_ACTS        = "op-spe-legal-acts";
     public static final String SPECIFIC_DATA_SHARING      = "op-spe-data-shar";

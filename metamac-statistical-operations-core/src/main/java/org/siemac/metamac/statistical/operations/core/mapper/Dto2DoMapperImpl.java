@@ -1,12 +1,11 @@
 package org.siemac.metamac.statistical.operations.core.mapper;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.checkerframework.checker.units.qual.A;
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
 import org.joda.time.DateTime;
 import org.siemac.metamac.core.common.dto.ExternalItemDto;
@@ -397,6 +396,12 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
         // REV_PRACTICE
         target.setRevPractice(internationalStringToEntity(source.getRevPractice(), target.getRevPractice(), ServiceExceptionParameters.OPERATION_REV_PRACTICE));
 
+        // NEWNESS_UNTIL_DATE
+        target.setNewnessUntilDate(dateToDateTime(source.getNewnessUntilDate()));
+
+        // FEATURED_UNTIL_DATE
+        target.setFeaturedUntilDate(dateToDateTime(source.getFeaturedUntilDate()));
+
         // STATISTICAL_OPERATION_URL
         target.getStatisticalOperationUrls().clear();
         target.getStatisticalOperationUrls().addAll(operationUrlListToEntity(source.getStatisticalOperationUrls(), target));
@@ -522,7 +527,8 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
                 .addAll(externalItemListToEntity(source.getPublicInformationSuppliers(), target.getPublicInformationSuppliers(), ServiceExceptionParameters.INSTANCE_PUBLIC_INFORMATION_SUPPLIERS));
 
         // PRIVATE_INFORMATION_SUPPLIERS
-        target.setPrivateInformationSuppliers(internationalStringToEntity(source.getPrivateInformationSuppliers(), target.getPrivateInformationSuppliers(), ServiceExceptionParameters.INSTANCE_PRIVATE_INFORMATION_SUPPLIERS));
+        target.setPrivateInformationSuppliers(
+                internationalStringToEntity(source.getPrivateInformationSuppliers(), target.getPrivateInformationSuppliers(), ServiceExceptionParameters.INSTANCE_PRIVATE_INFORMATION_SUPPLIERS));
 
         // FREQ_COLL
         target.getFreqColl().addAll(externalItemListToEntity(source.getFreqColl(), target.getFreqColl(), ServiceExceptionParameters.INSTANCE_FREQ_COLL));
@@ -757,7 +763,6 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
             }
         }
 
-
         return newTargets;
     }
 
@@ -775,6 +780,7 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
             target = new OperationUrl();
         }
         target.setUrl(internationalStringToEntity(source.getUrl(), target.getUrl(), ServiceExceptionParameters.OPERATION_URL));
+        target.setName(internationalStringToEntity(source.getName(), target.getName(), ServiceExceptionParameters.OPERATION_URL_NAME));
         target.setOperation(operation);
         return target;
     }
@@ -879,6 +885,13 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
         }
 
         return result;
+    }
+
+    private DateTime dateToDateTime(Date source) {
+        if (source == null) {
+            return null;
+        }
+        return new DateTime(source);
     }
 
 }

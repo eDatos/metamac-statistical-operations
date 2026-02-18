@@ -1,6 +1,7 @@
 package org.siemac.metamac.statistical.operations.web.shared.criteria;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.siemac.metamac.core.common.criteria.shared.MetamacCriteriaOrder;
@@ -20,6 +21,8 @@ public class OperationCriteria extends MetamacWebCriteria {
     private String                     disaggregationByNationality;
     private String                     disaggregationByDisability;
     private String                     officialityType;
+    private Date                       newnessUntilDate;
+    private Date                       featuredUntilDate;
 
     private List<MetamacCriteriaOrder> orders           = new ArrayList<MetamacCriteriaOrder>();
 
@@ -95,5 +98,17 @@ public class OperationCriteria extends MetamacWebCriteria {
 
     public void setOfficialityType(String officialityType) {
         this.officialityType = officialityType;
+    }
+    public Date getNewnessUntilDate() {
+        return newnessUntilDate;
+    }
+    public void setNewnessUntilDate(Date newnessUntilDate) {
+        this.newnessUntilDate = newnessUntilDate;
+    }
+    public Date getFeaturedUntilDate() {
+        return featuredUntilDate;
+    }
+    public void setFeaturedUntilDate(Date featuredUntilDate) {
+        this.featuredUntilDate = featuredUntilDate;
     }
 }

@@ -77,6 +77,7 @@ public class OperationDo2AvroMapper implements Do2AvroMapper<Operation, Operatio
                 .setProcStatus(procStatusDo2AvroMapper.toAvro(source.getProcStatus())).setStatus(statusDo2AvroMapper.toAvro(source.getStatus()))
                 .setEdatosMigrationStatus(edatosMigrationStatusDo2AvroMapper.toAvro(source.getEdatosMigrationStatus()))
                 .setRelPolUsAc(internationalStringDo2AvroMapper.toAvro(source.getRelPolUsAc())).setRevPolicy(internationalStringDo2AvroMapper.toAvro(source.getRevPolicy()))
+                .setNewnessUntilDate(datetimeDo2AvroMapper.toAvro(source.getNewnessUntilDate())).setFeaturedUntilDate(datetimeDo2AvroMapper.toAvro(source.getFeaturedUntilDate()))
                 .setRevPractice(internationalStringDo2AvroMapper.toAvro(source.getRevPractice())).setSpecificLegalActs(internationalStringDo2AvroMapper.toAvro(source.getSpecificLegalActs()))
                 .setSpecificDataSharing(internationalStringDo2AvroMapper.toAvro(source.getSpecificDataSharing())).setComment(internationalStringDo2AvroMapper.toAvro(source.getComment()))
                 .setNotes(internationalStringDo2AvroMapper.toAvro(source.getNotes())).setFamilies(familyDo2AvroMapper.toAvros(source.getFamilies()))

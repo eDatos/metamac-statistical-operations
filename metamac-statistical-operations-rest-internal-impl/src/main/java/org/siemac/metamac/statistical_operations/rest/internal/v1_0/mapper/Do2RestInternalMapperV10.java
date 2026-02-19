@@ -31,7 +31,7 @@ public interface Do2RestInternalMapperV10 {
     // --------------
     // Operations
     // --------------
-    Operation toOperation(org.siemac.metamac.statistical.operations.core.domain.Operation source) throws MetamacException;
+    Operation toOperation(org.siemac.metamac.statistical.operations.core.domain.Operation source, Set<String> parsedFields) throws MetamacException;
 
     Operations toOperations(PagedResult<org.siemac.metamac.statistical.operations.core.domain.Operation> sources, String query, String orderBy, Integer limit, Set<String> parsedFields)
             throws MetamacException;
@@ -54,7 +54,7 @@ public interface Do2RestInternalMapperV10 {
     Instance toInstance(org.siemac.metamac.statistical.operations.core.domain.Instance source) throws MetamacException;
 
     Instances toInstances(org.siemac.metamac.statistical.operations.core.domain.Operation operation, PagedResult<org.siemac.metamac.statistical.operations.core.domain.Instance> sources, String query,
-            String orderBy, Integer limit);
+            String orderBy, Integer limit, Set<String> parsedFields);
 
     // --------------
     // List of values

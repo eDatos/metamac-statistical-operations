@@ -118,6 +118,8 @@ Application StatisticalOperationsDto {
             - @InternationalStringDto revPolicy nullable;
             - @InternationalStringDto revPractice nullable;
             - Bag<@OperationUrlDto> statisticalOperationUrls nullable;
+            JAVADATE newnessUntilDate nullable;
+            JAVADATE featuredUntilDate nullable;
             // CONTAT: It comes from AppCommonMetadata
 
             // COMMON_LEGAL_ACTS: It comes from AppCommonMetadata
@@ -162,7 +164,9 @@ Application StatisticalOperationsDto {
             Boolean disaggregationByDisability nullable;
             - Bag<@OperationUrlDto> statisticalOperationUrls nullable;
             - @StatusEnum status nullable;
-            
+            JAVADATE newnessUntilDate nullable;
+            JAVADATE featuredUntilDate nullable;
+
             JAVADATE internalInventoryDate nullable;
             - @StreamMessageStatusEnum streamMessageStatus;
             - @EdatosMigrationStatusEnum edatosMigrationStatus;
@@ -263,6 +267,7 @@ Application StatisticalOperationsDto {
         "Dto for OperationUrl"
         DataTransferObject OperationUrlDto extends @IdentityDto {
             - @InternationalStringDto url not nullable;
+            - @InternationalStringDto name not nullable;
             JAVADATE createdAt nullable;
             - @OperationDto operationDto not nullable;
         }

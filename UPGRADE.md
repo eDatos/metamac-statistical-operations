@@ -14,6 +14,30 @@ actualización de la versión 1.0.0 a la 2.0.0.*
 
 *Se deberá realizar primero la actualización de la versión 1.0.0 a la 2.0.0 y luego desde la 2.0.0 a la 3.0.0*
 
+## 5.1.3 a 5.1.4-SNAPSHOT
+* Esta versión contiene CAMBIOS QUE ROMPEN LA COMPATIBILIDAD DE LA API con versiones anteriores.
+
+* Se han realizado cambios en la base de datos PostgreSQL, por ello se proveen una serie de scripts SQL para adaptarse a la nueva versión.
+  Ejecutar los scripts de la siguiente ruta en el esquema correspondiente por orden de fecha: etc/changes-from-release/5.1.3/db
+
+* Se debe resetear el schema registry para el topic OPERATION_PUBLICATIONS debido a que se han modificado las
+  propiedades de los mensajes que se publican en dicho topic:
+  ```shell 
+  curl -X DELETE http://localhost:8081/subjects/OPERATION_PUBLICATIONS-value
+  ````
+* Se han de borrar los mensajes existentes en el topic OPERATION_PUBLICATIONS:
+  ```shell 
+  /servers/kafka/confluent/bin/kafka-configs --bootstrap-server localhost:19092 --entity-type topics --entity-name 
+  OPERATION_PUBLICATIONS --add-config retention.ms=100 --alter
+  /servers/kafka/confluent/bin/kafka-configs --bootstrap-server localhost:19092 --entity-type topics --entity-name 
+  OPERATION_PUBLICATIONS --describe retention.ms
+  ````
+* Esperar 1 minuto antes de volver a restaurar con la siguiente sentencia
+  ```shell
+   /servers/kafka/confluent/bin/kafka-configs --bootstrap-server localhost:19092 --entity-type topics --entity-name 
+  OPERATION_PUBLICATIONS --delete-config retention.ms --alter
+  ```
+
 ## 5.1.0 a 5.1.1
 - Se han realizado cambios en la base de datos, por ello se proveen una serie de scripts SQL para adaptarse a la nueva versión.
   Ejecutar los scripts de la siguiente ruta en el esquema correspondiente **EXCEPTO  istac pre e istac pro**: [etc/changes-from-release/5.1.0/db/common-metadata/postgresql/](etc/changes-from-release/5.1.0/db/common-metadata/postgresql)

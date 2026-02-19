@@ -7,6 +7,7 @@ import org.siemac.metamac.rest.common.query.domain.OperationTypeEnum;
 import org.siemac.metamac.rest.structural_resources.v1_0.domain.Categories;
 import org.siemac.metamac.rest.structural_resources.v1_0.domain.Category;
 import org.siemac.metamac.rest.structural_resources.v1_0.domain.CategoryResource;
+import org.siemac.metamac.rest.structural_resources.v1_0.domain.Organisation;
 
 public interface SrmRestExternalFacade {
 
@@ -15,4 +16,5 @@ public interface SrmRestExternalFacade {
     public Map<String, CategoryResource> retrieveDefaultCategoriesByCategoryElementCode(String categorySchemeUrn);
     public Category retrieveCategoryByUrn(String categoryUrn);
     public Categories retrieveCategoriesByUrn(String categorySchemeUrn, List<String> urnCategories, OperationTypeEnum operationType);
+    Organisation retrieveOrganisation(String urn);
 }

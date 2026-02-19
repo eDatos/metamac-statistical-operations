@@ -186,6 +186,14 @@ public class RestCriteria2SculptorCriteriaMapperImpl implements RestCriteria2Scu
                     return buildSculptorPropertyCriteria(OperationProperties.status(), PropertyTypeEnum.STATUS, propertyRestriction);
                 case PUBLISHER_URN:
                     return buildSculptorPropertyCriteria(OperationProperties.publisher().urn(), PropertyTypeEnum.STRING, propertyRestriction);
+                case NEWNESS_UNTIL_DATE:
+                    return buildSculptorPropertyCriteria(
+                            new LeafProperty<Operation>(OperationProperties.newnessUntilDate().getName(), CoreCommonConstants.CRITERIA_DATETIME_COLUMN_DATETIME, true, Operation.class),
+                            PropertyTypeEnum.DATE, propertyRestriction);
+                case FEATURED_UNTIL_DATE:
+                    return buildSculptorPropertyCriteria(
+                            new LeafProperty<Operation>(OperationProperties.featuredUntilDate().getName(), CoreCommonConstants.CRITERIA_DATETIME_COLUMN_DATETIME, true, Operation.class),
+                            PropertyTypeEnum.DATE, propertyRestriction);
                 case DIFFUSION_PUBLICATION_VISIBLE:
                     return buildSculptorPropertyCriteria(OperationProperties.diffusionPublicationVisible(), PropertyTypeEnum.BOOLEAN, propertyRestriction);
                 case INVENTORY_DATE:
@@ -204,6 +212,8 @@ public class RestCriteria2SculptorCriteriaMapperImpl implements RestCriteria2Scu
             switch (propertyNameCriteria) {
                 case ID:
                     return OperationProperties.code();
+                case FEATURED_UNTIL_DATE:
+                    return OperationProperties.featuredUntilDate();
                 default:
                     throw toRestExceptionParameterIncorrect(propertyNameCriteria.name());
             }

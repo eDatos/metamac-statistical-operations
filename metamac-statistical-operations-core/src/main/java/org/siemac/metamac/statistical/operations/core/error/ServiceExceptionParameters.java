@@ -49,6 +49,7 @@ public class ServiceExceptionParameters extends CommonServiceExceptionParameters
 
     public static final String OPERATION_GENDER_PERSPECTIVE      = "parameter.operations.operation.gender_perspective";
     public static final String OPERATION_URL                     = "parameter.operations.operation.operation_url";
+    public static final String OPERATION_URL_NAME                = "parameter.operations.operation.operation_url_name";
     public static final String INSTANCE_CODE                     = "parameter.operations.instance.code";
     public static final String INSTANCE_URN                      = "parameter.operations.instance.urn";
     public static final String INSTANCE_TITLE                    = "parameter.operations.instance.title";

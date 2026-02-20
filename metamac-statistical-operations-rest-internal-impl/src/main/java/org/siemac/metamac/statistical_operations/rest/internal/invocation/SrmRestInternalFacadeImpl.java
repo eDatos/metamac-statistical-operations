@@ -18,6 +18,7 @@ import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.Categor
 import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.CategoryResourceInternal;
 import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.ConceptResourceInternal;
 import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.Concepts;
+import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.Organisation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -175,6 +176,19 @@ public class SrmRestInternalFacadeImpl implements SrmRestInternalFacade {
                 .append(ComparisonOperator.IS_NOT_NULL);
 
         return queryBuilder.toString();
+    }
+    @Override
+    public Organisation retrieveOrganisation(String urn) {
+        try {
+            String[] urnSplited = UrnUtils.splitUrnItem(urn);
+            String agencyID = urnSplited[0];
+            String resourceID = urnSplited[1];
+            String version = urnSplited[2];
+            String organisationID = urnSplited[3];
+            return restApiLocator.getSrmRestInternalFacadeV10().retrieveOrganisation(agencyID, resourceID, version, organisationID);
+        } catch (Exception e) {
+            throw toRestException(e);
+        }
     }
 
     private RestException toRestException(Exception e) {

@@ -310,6 +310,8 @@ Application StatisticalOperations {
             - @InternationalString url cascade="all" databaseColumn="INTERNATIONAL_STRING_FK";
             "OPERATION"
             - @Operation operation not nullable cascade="merge" databaseColumn="OPERATION_FK" <-> statisticalOperationUrls;
+            "INTERNATIONAL_STRING"
+            - @InternationalString name cascade="all" databaseColumn="NAME_FK";
 
             Repository OperationUrlRepository {
                 findById;
@@ -440,6 +442,10 @@ Application StatisticalOperations {
        		- @InternationalString revPractice cascade="all" nullable databaseColumn="REV_PRACTICE_FK";
        		"Metadata STATISTICAL_OPERATION_URLS"
             - Bag<@OperationUrl> statisticalOperationUrls inverse <-> operation cascade="all-delete-orphan";
+            "Metadata NEWNESS_UNTIL_DATE"
+            DateTimeTZ newnessUntilDate nullable;
+            "Metadata FEATURED_UNTIL_DATE"
+            DateTimeTZ featuredUntilDate nullable;
        		// CONTAT: It comes from AppCommonMetadata
        		
        		

@@ -27,7 +27,7 @@ import org.siemac.metamac.statistical.operations.core.domain.SurveyType;
 public interface Do2RestExternalMapperV10 {
 
     // Operations
-    public Operation toOperation(org.siemac.metamac.statistical.operations.core.domain.Operation source) throws MetamacException;
+    public Operation toOperation(org.siemac.metamac.statistical.operations.core.domain.Operation source, Set<String> parsedFields) throws MetamacException;
     public Operations toOperations(PagedResult<org.siemac.metamac.statistical.operations.core.domain.Operation> sources, String query, String orderBy, Integer limit, Set<String> parsedFields)
             throws MetamacException;
     public Operations toOperationsByFamily(org.siemac.metamac.statistical.operations.core.domain.Family family, PagedResult<org.siemac.metamac.statistical.operations.core.domain.Operation> sources,
@@ -41,7 +41,7 @@ public interface Do2RestExternalMapperV10 {
     // Instances
     public Instance toInstance(org.siemac.metamac.statistical.operations.core.domain.Instance source) throws MetamacException;
     public Instances toInstances(org.siemac.metamac.statistical.operations.core.domain.Operation operation, PagedResult<org.siemac.metamac.statistical.operations.core.domain.Instance> sources,
-            String query, String orderBy, Integer limit);
+            String query, String orderBy, Integer limit, Set<String> parsedFields );
 
     // List of values
     public StatisticalOperationTypes toStatisticalOperationTypes(List<SurveyType> sources);

@@ -71,18 +71,26 @@ public class StatisticalOperationsRestInternalFacadeV10Impl implements Statistic
     private final Logger                        logger                     = LoggerFactory.getLogger(StatisticalOperationsRestInternalFacadeV10Impl.class);
 
     @Override
-    public Operation retrieveOperationById(String id) {
+    public Operation retrieveOperationById(String id, String fields) {
         try {
+            Set<String> parsedFields = parseFieldsOperationEndpoint(fields);
+
             // Retrieve
             org.siemac.metamac.statistical.operations.core.domain.Operation operationEntity = retrieveOperationEntityPublishedInternalOrExternally(id);
 
             // Transform
-            Operation operation = do2RestInternalMapper.toOperation(operationEntity);
+            Operation operation = do2RestInternalMapper.toOperation(operationEntity, parsedFields);
             return operation;
 
         } catch (Exception e) {
             throw manageException(e);
         }
+    }
+
+    private Set<String> parseFieldsOperationEndpoint(String fields) {
+        Set<String> validFields = new HashSet<>();
+        validFields.add(StatisticalOperationsRestConstants.FIELD_INCLUDE_CONTACT_DETAILS);
+        return parseFields(fields, validFields);
     }
 
     @Override
@@ -117,12 +125,17 @@ public class StatisticalOperationsRestInternalFacadeV10Impl implements Statistic
         Set<String> validFields = new HashSet<>();
         validFields.add(StatisticalOperationsRestConstants.FIELD_INCLUDE_SUBJECT_AREA);
         validFields.add(StatisticalOperationsRestConstants.DIFUSION_PUBLICATION_VISIBLE);
+        validFields.add(StatisticalOperationsRestConstants.FIELD_INCLUDE_DESCRIPTION);
+        validFields.add(StatisticalOperationsRestConstants.FIELD_INCLUDE_FEATURED_UNTIL_DATE);
+        validFields.add(StatisticalOperationsRestConstants.FIELD_INCLUDE_NEWNESS_UNTIL_DATE);
         return parseFields(fields, validFields);
     }
 
     @Override
-    public Instances findInstances(String operationId, String query, String orderBy, String limit, String offset) {
+    public Instances findInstances(String operationId, String query, String orderBy, String limit, String offset, String fields) {
         try {
+            Set<String> parsedFields = parseFieldsOperationsInstanceListEndpoint(fields);
+
             // Retrieve instances by criteria
             SculptorCriteria sculptorCriteria = restCriteria2SculptorCriteriaMapper.getInstanceCriteriaMapper().restCriteriaToSculptorCriteria(query, orderBy, limit, offset);
             List<ConditionalCriteria> conditionalCriteria = new ArrayList<ConditionalCriteria>();
@@ -148,12 +161,18 @@ public class StatisticalOperationsRestInternalFacadeV10Impl implements Statistic
                     conditionalCriteria, sculptorCriteria.getPagingParameter());
 
             // Transform
-            Instances instances = do2RestInternalMapper.toInstances(operationEntity, instancesEntitiesResult, query, orderBy, sculptorCriteria.getLimit());
+            Instances instances = do2RestInternalMapper.toInstances(operationEntity, instancesEntitiesResult, query, orderBy, sculptorCriteria.getLimit(), parsedFields);
             return instances;
 
         } catch (Exception e) {
             throw manageException(e);
         }
+    }
+
+    private Set<String> parseFieldsOperationsInstanceListEndpoint(String fields) {
+        Set<String> validFields = new HashSet<>();
+        validFields.add(StatisticalOperationsRestConstants.FIELD_INCLUDE_DESCRIPTION);
+        return parseFields(fields, validFields);
     }
 
     @Override

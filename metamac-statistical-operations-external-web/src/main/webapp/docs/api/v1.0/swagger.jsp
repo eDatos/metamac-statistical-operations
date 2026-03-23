@@ -802,9 +802,9 @@
                   "kind":{
                      "xml":{
                         "attribute":true,
-                        "namespace":${msg['api.doc.swagger.definitions.any.properties.kind']}
+                        "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"",
+                     "description":"${msg['api.doc.swagger.definitions.any.properties.kind']}",
                      "type":"string"
                   },
                   "acronym":{

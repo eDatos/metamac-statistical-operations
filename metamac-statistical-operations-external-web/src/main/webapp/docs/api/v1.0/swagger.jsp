@@ -910,7 +910,7 @@
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
                      "description":"${msg['api.doc.swagger.definitions.operation.properties.diffusionAndPublicationVisible']}",
-                     "$ref":"boolean"
+                     "type":"boolean"
                   },
                   "id":{
                      "xml":{

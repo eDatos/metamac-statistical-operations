@@ -1668,7 +1668,7 @@
                   },
 				  "diffusionAndPublicationVisible":{
                      "description":"${msg['api.doc.swagger.definitions.operation.properties.diffusionAndPublicationVisible']}",
-                     "$ref":"#/definitions/Resource"
+                     "type":"boolean"
                   }
                }
             }

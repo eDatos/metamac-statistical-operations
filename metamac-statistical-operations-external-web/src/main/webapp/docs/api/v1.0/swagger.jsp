@@ -491,28 +491,28 @@
                      "xml": {
                         "namespace": "http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description": "${msg['api.doc.swagger.definitions.operation.properties.disaggregationBySex']}",
+                     "description": "${msg['api.doc.swagger.definitions.instance.properties.disaggregationBySex']}",
                      "type": "boolean"
                   },
                   "disaggregationByAge": {
                      "xml": {
                         "namespace": "http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description": "${msg['api.doc.swagger.definitions.operation.properties.disaggregationByAge']}",
+                     "description": "${msg['api.doc.swagger.definitions.instance.properties.disaggregationByAge']}",
                      "type": "boolean"
                   },
                   "disaggregationByNationality": {
                      "xml": {
                         "namespace": "http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description": "${msg['api.doc.swagger.definitions.operation.properties.disaggregationByNationality']}",
+                     "description": "${msg['api.doc.swagger.definitions.instance.properties.disaggregationByNationality']}",
                      "type": "boolean"
                   },
                   "disaggregationByDisability": {
                      "xml": {
                         "namespace": "http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description": "${msg['api.doc.swagger.definitions.operation.properties.disaggregationByDisability']}",
+                     "description": "${msg['api.doc.swagger.definitions.instance.properties.disaggregationByDisability']}",
                      "type": "boolean"
                   },
                   "measurementErr":{

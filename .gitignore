@@ -141,3 +141,9 @@ Desktop.ini
 **/bower_components/**
 /target/
 /bin/
+
+######################
+# Claude Code
+######################
+.claude
+**/CLAUDE.local.md

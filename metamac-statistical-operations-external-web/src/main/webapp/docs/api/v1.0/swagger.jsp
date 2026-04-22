@@ -1080,13 +1080,6 @@
                      "description":"${msg['api.doc.swagger.definitions.operation.properties.status']}",
                      "$ref":"#/definitions/Status"
                   },
-                  "edatosMigrationStatus":{
-                     "xml":{
-                        "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
-                     },
-                     "description":"${msg['api.doc.swagger.definitions.operation.properties.edatosMigrationStatus']}",
-                     "$ref":"#/definitions/EdatosMigrationStatus"
-                  },
                   "subjectArea":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"

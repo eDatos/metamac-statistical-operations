@@ -487,6 +487,34 @@
                      "description":"${msg['api.doc.swagger.definitions.instance.properties.inventoryDate']}",
                      "type":"string"
                   },
+                  "disaggregationBySex": {
+                     "xml": {
+                        "namespace": "http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
+                     },
+                     "description": "${msg['api.doc.swagger.definitions.operation.properties.disaggregationBySex']}",
+                     "type": "boolean"
+                  },
+                  "disaggregationByAge": {
+                     "xml": {
+                        "namespace": "http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
+                     },
+                     "description": "${msg['api.doc.swagger.definitions.operation.properties.disaggregationByAge']}",
+                     "type": "boolean"
+                  },
+                  "disaggregationByNationality": {
+                     "xml": {
+                        "namespace": "http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
+                     },
+                     "description": "${msg['api.doc.swagger.definitions.operation.properties.disaggregationByNationality']}",
+                     "type": "boolean"
+                  },
+                  "disaggregationByDisability": {
+                     "xml": {
+                        "namespace": "http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
+                     },
+                     "description": "${msg['api.doc.swagger.definitions.operation.properties.disaggregationByDisability']}",
+                     "type": "boolean"
+                  },
                   "measurementErr":{
                      "xml":{
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
@@ -862,34 +890,6 @@
                      },
                      "description":"${msg['api.doc.swagger.definitions.operation.properties.currentlyActive']}",
                      "type":"boolean"
-                  },
-                  "disaggregationBySex": {
-                     "xml": {
-                        "namespace": "http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
-                     },
-                     "description": "${msg['api.doc.swagger.definitions.operation.properties.disaggregationBySex']}",
-                     "type": "boolean"
-                  },
-                  "disaggregationByAge": {
-                     "xml": {
-                        "namespace": "http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
-                     },
-                     "description": "${msg['api.doc.swagger.definitions.operation.properties.disaggregationByAge']}",
-                     "type": "boolean"
-                  },
-                  "disaggregationByNationality": {
-                     "xml": {
-                        "namespace": "http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
-                     },
-                     "description": "${msg['api.doc.swagger.definitions.operation.properties.disaggregationByNationality']}",
-                     "type": "boolean"
-                  },
-                  "disaggregationByDisability": {
-                     "xml": {
-                        "namespace": "http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
-                     },
-                     "description": "${msg['api.doc.swagger.definitions.operation.properties.disaggregationByDisability']}",
-                     "type": "boolean"
                   },
                   "dataSharings":{
                      "xml":{

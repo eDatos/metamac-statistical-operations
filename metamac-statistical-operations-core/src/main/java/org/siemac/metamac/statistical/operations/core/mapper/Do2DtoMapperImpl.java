@@ -351,10 +351,6 @@ public class Do2DtoMapperImpl extends BaseDo2DtoMapperImpl implements Do2DtoMapp
 
         target.setDiffusionAndPublicationVisible(source.getDiffusionPublicationVisible());
         target.setOptimisticLockingVersion(source.getVersion());
-        target.setDisaggregationBySex(source.getDisaggregationBySex());
-        target.setDisaggregationByAge(source.getDisaggregationByAge());
-        target.setDisaggregationByNationality(source.getDisaggregationByNationality());
-        target.setDisaggregationByDisability(source.getDisaggregationByDisability());
 
         // STATISTICAL OPERATION URLs
         target.getStatisticalOperationUrls().clear();
@@ -625,6 +621,19 @@ public class Do2DtoMapperImpl extends BaseDo2DtoMapperImpl implements Do2DtoMapp
 
         // COHER_NATIONAL_ACCOUNTS
         target.setCoherNationalAccounts(internationalStringToDto(source.getCoherNationalAccounts()));
+
+        // DISAGGREGATION_BY_SEX
+        target.setDisaggregationBySex(source.getDisaggregationBySex());
+
+        // DISAGGREGATION_BY_AGE
+        target.setDisaggregationByAge(source.getDisaggregationByAge());
+
+        // DISAGGREGATION_BY_DISABILITY
+        target.setDisaggregationByDisability(source.getDisaggregationByDisability());
+
+        // DISAGGREGATION_BY_NATIONALITY
+        target.setDisaggregationByNationality(source.getDisaggregationByNationality());
+
 
         // COHER_X_DOMAIN_URL
         // Not necessary

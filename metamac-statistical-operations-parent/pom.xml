@@ -11,7 +11,7 @@
 
     <groupId>org.siemac.metamac.metamac-statistical-operations</groupId>
     <artifactId>metamac-statistical-operations-parent</artifactId>
-    <version>6.1.1-SNAPSHOT</version>
+    <version>6.1.2-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>METAMAC :: STATISTICAL OPERATIONS :: PARENT</name>
     <description>METAMAC :: STATISTICAL OPERATIONS :: PARENT</description>
@@ -32,8 +32,8 @@
     <properties>
         <!-- METAMAC -->
         <metamac-statistical-operations.baseDir>${basedir}/..</metamac-statistical-operations.baseDir>
-        <metamac-statistical-operations-rest-external-api.version>5.1.0</metamac-statistical-operations-rest-external-api.version>
-        <metamac-statistical-operations-rest-internal-api.version>4.1.0</metamac-statistical-operations-rest-internal-api.version>
+        <metamac-statistical-operations-rest-external-api.version>5.1.1-SNAPSHOT</metamac-statistical-operations-rest-external-api.version>
+        <metamac-statistical-operations-rest-internal-api.version>4.1.1-SNAPSHOT</metamac-statistical-operations-rest-internal-api.version>
         <metamac-statistical-operations-rest-api-common.version>2.6.0</metamac-statistical-operations-rest-api-common.version>
         <metamac-srm-rest-external-api.version>3.2.1</metamac-srm-rest-external-api.version>
         <metamac-srm-rest-internal-api.version>3.2.1</metamac-srm-rest-internal-api.version>

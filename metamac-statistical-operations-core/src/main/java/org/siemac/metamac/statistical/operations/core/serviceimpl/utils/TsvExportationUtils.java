@@ -82,10 +82,6 @@ public class TsvExportationUtils {
                 writeStringSingleItem(writer, operation.getProcStatus().getName());
                 writeStringSingleItem(writer, operation.getEdatosMigrationStatus().getName());
                 writeItemInternationalString(writer, operation.getGenderPerspective(), languages);
-                writeStringSingleItem(writer,operation.getDisaggregationBySex()  == null ? null : operation.getDisaggregationBySex().toString() );
-                writeStringSingleItem(writer,operation.getDisaggregationByAge()  == null ? null : operation.getDisaggregationByAge().toString() );
-                writeStringSingleItem(writer,operation.getDisaggregationByNationality()  == null ? null : operation.getDisaggregationByNationality().toString() );
-                writeStringSingleItem(writer,operation.getDisaggregationByDisability()  == null ? null : operation.getDisaggregationByDisability().toString() );
 
                 // Descriptores de difusión
                 writeExternalItemListItem(writer, operation.getPublisher());

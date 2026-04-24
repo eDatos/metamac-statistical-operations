@@ -40,7 +40,7 @@ public class SrmRestInternalFacadeImpl implements SrmRestInternalFacade {
             String agencyID = urnSplited[0];
             String resourceID = urnSplited[1];
             String version = urnSplited[2];
-            Concepts concepts = restApiLocator.getSrmRestInternalFacadeV10().findConcepts(agencyID, resourceID, version, null, null, null, null, null);
+            Concepts concepts = restApiLocator.getSrmRestInternalFacadeV10().findConcepts(agencyID, resourceID, version, null, null, null, null, null, null);
             return concepts.getConcepts();
         } catch (Exception e) {
             throw toRestException(e);

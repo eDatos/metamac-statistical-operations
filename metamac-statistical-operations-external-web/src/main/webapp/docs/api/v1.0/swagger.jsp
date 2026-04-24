@@ -830,9 +830,9 @@
                   "kind":{
                      "xml":{
                         "attribute":true,
-                        "namespace":${msg['api.doc.swagger.definitions.any.properties.kind']}
+                        "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
-                     "description":"",
+                     "description":"${msg['api.doc.swagger.definitions.any.properties.kind']}",
                      "type":"string"
                   },
                   "acronym":{
@@ -910,7 +910,7 @@
                         "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
                      },
                      "description":"${msg['api.doc.swagger.definitions.operation.properties.diffusionAndPublicationVisible']}",
-                     "$ref":"boolean"
+                     "type":"boolean"
                   },
                   "id":{
                      "xml":{
@@ -1661,7 +1661,7 @@
                   },
 				  "diffusionAndPublicationVisible":{
                      "description":"${msg['api.doc.swagger.definitions.operation.properties.diffusionAndPublicationVisible']}",
-                     "$ref":"#/definitions/Resource"
+                     "type":"boolean"
                   }
                }
             }

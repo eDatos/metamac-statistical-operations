@@ -107,18 +107,6 @@ public class OperationRecord extends ListGridRecord {
         setAttribute(OperationDS.CURRENTLY_ACTIVE, value);
     }
 
-    public void setDisaggregationBySex(String value) {
-        setAttribute(OperationDS.DISAGGREGATION_BY_SEX, value);
-    }
-    public void setDisaggregationByAge(String value) {
-        setAttribute(OperationDS.DISAGGREGATION_BY_AGE, value);
-    }
-    public void setDisaggregationByDisability(String value) {
-        setAttribute(OperationDS.DISAGGREGATION_BY_DISABILITY, value);
-    }
-    public void setDisaggregationByNationality(String value) {
-        setAttribute(OperationDS.DISAGGREGATION_BY_NATIONALITY, value);
-    }
     public void setPublicationStreamStatus(StreamMessageStatusEnum status) {
         setAttribute(OperationDS.PUBLISH_MSG_STATUS_KAFKA, StreamMessageStatusEnum.PENDING.equals(status) ? null : CommonUtils.getPublicationStreamStatusIcon(status));
     }

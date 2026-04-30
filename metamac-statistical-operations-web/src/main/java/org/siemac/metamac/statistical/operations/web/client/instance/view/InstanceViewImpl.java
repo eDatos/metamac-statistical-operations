@@ -31,12 +31,14 @@ import org.siemac.metamac.statistical.operations.web.client.widgets.external.Sea
 import org.siemac.metamac.statistical.operations.web.client.widgets.external.SearchSrmListConceptAndConceptSchemeItem;
 import org.siemac.metamac.statistical.operations.web.shared.external.ConceptSchemeTypeEnum;
 import org.siemac.metamac.statistical.operations.web.shared.external.RestWebCriteriaUtils;
+import org.siemac.metamac.web.common.client.MetamacWebCommon;
 import org.siemac.metamac.web.common.client.utils.CommonWebUtils;
 import org.siemac.metamac.web.common.client.utils.CustomRequiredValidator;
 import org.siemac.metamac.web.common.client.utils.FormItemUtils;
 import org.siemac.metamac.web.common.client.utils.InternationalStringUtils;
 import org.siemac.metamac.web.common.client.utils.TimeVariableWebUtils;
 import org.siemac.metamac.web.common.client.widgets.form.GroupDynamicForm;
+import org.siemac.metamac.web.common.client.widgets.form.fields.BooleanSelectItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.CustomSelectItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.MultiLanguageRichTextEditorItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.MultiLanguageTextItem;
@@ -45,7 +47,6 @@ import org.siemac.metamac.web.common.client.widgets.form.fields.ViewMultiLanguag
 import org.siemac.metamac.web.common.client.widgets.form.fields.ViewTextItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.external.ExternalItemListItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.external.SearchMultiExternalItemSimpleItem;
-import org.siemac.metamac.web.common.client.widgets.form.fields.external.SearchSrmItemLinkItemWithSchemeFilterItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.external.SearchSrmListItemWithSchemeFilterItem;
 import org.siemac.metamac.web.common.shared.criteria.MetamacWebCriteria;
 import org.siemac.metamac.web.common.shared.criteria.SrmExternalResourceRestCriteria;
@@ -290,6 +291,11 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
         instanceDto.getCost().addAll(OperationsListUtils.getCostDtos(costItem.getValues(), costDtos));
         instanceDto.setCostDetail(productionDescriptorsEditionForm.getValueAsInternationalStringDto(InstanceDS.COST_DETAIL));
 
+        instanceDto.setDisaggregationBySex(((BooleanSelectItem) diffusionEditionForm.getItem(InstanceDS.DISAGGREGATION_BY_SEX)).getBooleanValue());
+        instanceDto.setDisaggregationByAge(((BooleanSelectItem) diffusionEditionForm.getItem(InstanceDS.DISAGGREGATION_BY_AGE)).getBooleanValue());
+        instanceDto.setDisaggregationByNationality(((BooleanSelectItem) diffusionEditionForm.getItem(InstanceDS.DISAGGREGATION_BY_NATIONALITY)).getBooleanValue());
+        instanceDto.setDisaggregationByDisability(((BooleanSelectItem) diffusionEditionForm.getItem(InstanceDS.DISAGGREGATION_BY_DISABILITY)).getBooleanValue());
+
         // QUALITY DESCRIPTORS
 
         instanceDto.setQualityDoc(qualityEditionForm.getValueAsInternationalStringDto(InstanceDS.QUALITY_DOC));
@@ -328,7 +334,7 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
     public boolean validate() {
         return identifiersEditionForm.validate(false) &&
 
-        contentDescriptorsEditionForm.validate(false) && classDescriptorsEditionForm.validate(false) && productionDescriptorsEditionForm.validate(false) && diffusionEditionForm.validate(false)
+                contentDescriptorsEditionForm.validate(false) && classDescriptorsEditionForm.validate(false) && productionDescriptorsEditionForm.validate(false) && diffusionEditionForm.validate(false)
                 && qualityEditionForm.validate(false) && annotationsEditionForm.validate(false);
     }
 
@@ -384,13 +390,18 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
         ViewMultiLanguageTextItem staticCostBurdenItem = new ViewMultiLanguageTextItem(InstanceDS.COST_BURDEN, getConstants().instanceCostBurden());
         ViewTextItem cost = new ViewTextItem(InstanceDS.COST, getConstants().instanceCost());
         ViewMultiLanguageTextItem staticCostDetail = new ViewMultiLanguageTextItem(InstanceDS.COST_DETAIL, getConstants().instanceCostDetail());
-        productionDescriptorsForm.setFields(createdDate, internalInventoryDate, procStatus, staticDocMethodItem, surveySource, collMethod, publicInformationSuppliers, privateInformationSuppliers, freqColl, staticDataValidationItem,
-                staticDataCompilationItem, staticAdjustmentItem, staticSeasonAdjustmentItem, staticCostBurdenItem, cost,staticCostDetail);
+        productionDescriptorsForm.setFields(createdDate, internalInventoryDate, procStatus, staticDocMethodItem, surveySource, collMethod, publicInformationSuppliers, privateInformationSuppliers,
+                freqColl, staticDataValidationItem, staticDataCompilationItem, staticAdjustmentItem, staticSeasonAdjustmentItem, staticCostBurdenItem, cost, staticCostDetail);
 
         // Diffusion and Publication
         diffusionViewForm = new GroupDynamicForm(getConstants().instanceDiffusionDescriptors());
         ViewTextItem inventoryDate = new ViewTextItem(InstanceDS.INVENTORY_DATE, getConstants().instanceInventoryDate());
-        diffusionViewForm.setFields(inventoryDate);
+        ViewTextItem disaggregationBySex = new ViewTextItem(InstanceDS.DISAGGREGATION_BY_SEX, getConstants().instanceDisaggregationBySex());
+        ViewTextItem disaggregationByAge = new ViewTextItem(InstanceDS.DISAGGREGATION_BY_AGE, getConstants().instanceDisaggregationByAge());
+        ViewTextItem disaggregationByNationality = new ViewTextItem(InstanceDS.DISAGGREGATION_BY_NATIONALITY, getConstants().instanceDisaggregationByNationality());
+        ViewTextItem disaggregationByDisability = new ViewTextItem(InstanceDS.DISAGGREGATION_BY_DISABILITY, getConstants().instanceDisaggregationByDisability());
+
+        diffusionViewForm.setFields(inventoryDate, disaggregationBySex, disaggregationByAge, disaggregationByNationality, disaggregationByDisability);
 
         // Quality descriptors
         qualityViewForm = new GroupDynamicForm(getConstants().instanceQualityDescriptors());
@@ -520,7 +531,8 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
         surveySourceItem = new CustomSelectItem(InstanceDS.STATISTICAL_OPERATION_SOURCE, getConstants().instanceStatisticalOperationSource());
         collMethodItem = new CustomSelectItem(InstanceDS.COLL_METHOD, getConstants().instanceCollMethod());
         ExternalItemListItem publicInformationSuppliersItem = createPublicInformationSuppliersItem();
-        MultiLanguageRichTextEditorItem privateInformationSuppliersItem = new MultiLanguageRichTextEditorItem(InstanceDS.PRIVATE_INFORMATION_SUPPLIERS, getConstants().instancePrivateInformationSuppliers());
+        MultiLanguageRichTextEditorItem privateInformationSuppliersItem = new MultiLanguageRichTextEditorItem(InstanceDS.PRIVATE_INFORMATION_SUPPLIERS,
+                getConstants().instancePrivateInformationSuppliers());
         ExternalItemListItem freqCollItem = createFreqColl();
         MultiLanguageRichTextEditorItem dataValidationItem = new MultiLanguageRichTextEditorItem(InstanceDS.DATA_VALIDATION, getConstants().instanceDataValidation());
         MultiLanguageRichTextEditorItem dataCompilationItem = new MultiLanguageRichTextEditorItem(InstanceDS.DATA_COMPILATION, getConstants().instanceDataCompilation());
@@ -537,7 +549,12 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
         // Diffusion and Publication
         diffusionEditionForm = new GroupDynamicForm(getConstants().instanceDiffusionDescriptors());
         ViewTextItem inventoryDate = new ViewTextItem(InstanceDS.INVENTORY_DATE, getConstants().instanceInventoryDate());
-        diffusionEditionForm.setFields(inventoryDate);
+        BooleanSelectItem disaggregationBySexItem = new BooleanSelectItem(InstanceDS.DISAGGREGATION_BY_SEX, getConstants().instanceDisaggregationBySex());
+        BooleanSelectItem disaggregationByAgeItem = new BooleanSelectItem(InstanceDS.DISAGGREGATION_BY_AGE, getConstants().instanceDisaggregationByAge());
+        BooleanSelectItem disaggregationByNationalityItem = new BooleanSelectItem(InstanceDS.DISAGGREGATION_BY_NATIONALITY, getConstants().instanceDisaggregationByNationality());
+        BooleanSelectItem disaggregationByDisabilityItem = new BooleanSelectItem(InstanceDS.DISAGGREGATION_BY_DISABILITY, getConstants().instanceDisaggregationByDisability());
+
+        diffusionEditionForm.setFields(inventoryDate, disaggregationBySexItem, disaggregationByAgeItem, disaggregationByNationalityItem, disaggregationByDisabilityItem);
 
         // Quality Descriptors
         qualityEditionForm = new GroupDynamicForm(getConstants().instanceQualityDescriptors());
@@ -634,7 +651,7 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
         productionDescriptorsForm.setValue(InstanceDS.STATISTICAL_OPERATION_SOURCE,
                 instanceDto.getSurveySource() != null ? CommonWebUtils.getElementName(instanceDto.getSurveySource().getIdentifier(), instanceDto.getSurveySource().getDescription()) : "");
         productionDescriptorsForm.setValue(InstanceDS.COLL_METHOD,
-                instanceDto.getCollMethod() != null ? CommonWebUtils.getElementName(instanceDto.getCollMethod().getIdentifier(), instanceDto.getCollMethod().getDescription(),0,false) : "");
+                instanceDto.getCollMethod() != null ? CommonWebUtils.getElementName(instanceDto.getCollMethod().getIdentifier(), instanceDto.getCollMethod().getDescription(), 0, false) : "");
         ((ExternalItemListItem) productionDescriptorsForm.getItem(InstanceDS.PUBLIC_INFORMATION_SUPPLIERS)).setExternalItems(instanceDto.getPublicInformationSuppliers());
         productionDescriptorsForm.setValue(InstanceDS.PRIVATE_INFORMATION_SUPPLIERS, instanceDto.getPrivateInformationSuppliers());
         ((ExternalItemListItem) productionDescriptorsForm.getItem(InstanceDS.FREQ_COLL)).setExternalItems(instanceDto.getFreqColl());
@@ -650,6 +667,16 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
         // DIFFUSION AND PUBLICATION
 
         diffusionViewForm.setValue(InstanceDS.INVENTORY_DATE, instanceDto.getInventoryDate());
+        diffusionViewForm.setValue(InstanceDS.DISAGGREGATION_BY_SEX,
+                instanceDto.getDisaggregationBySex() == null ? "" : (instanceDto.getDisaggregationBySex() ? MetamacWebCommon.getConstants().yes() : MetamacWebCommon.getConstants().no()));
+        diffusionViewForm.setValue(InstanceDS.DISAGGREGATION_BY_AGE,
+                instanceDto.getDisaggregationByAge() == null ? "" : (instanceDto.getDisaggregationByAge() ? MetamacWebCommon.getConstants().yes() : MetamacWebCommon.getConstants().no()));
+        diffusionViewForm.setValue(InstanceDS.DISAGGREGATION_BY_DISABILITY,
+                instanceDto.getDisaggregationByDisability() == null
+                        ? "" : (instanceDto.getDisaggregationByDisability() ? MetamacWebCommon.getConstants().yes() : MetamacWebCommon.getConstants().no()));
+        diffusionViewForm.setValue(InstanceDS.DISAGGREGATION_BY_NATIONALITY,
+                instanceDto.getDisaggregationByNationality() == null
+                        ? "" : (instanceDto.getDisaggregationByNationality() ? MetamacWebCommon.getConstants().yes() : MetamacWebCommon.getConstants().no()));
 
         // QUALITY DESCRIPTORS
 
@@ -763,6 +790,10 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
         // DIFFUSION AND PUBLICATION
 
         diffusionEditionForm.setValue(InstanceDS.INVENTORY_DATE, instanceDto.getInventoryDate());
+        ((BooleanSelectItem) diffusionEditionForm.getItem(InstanceDS.DISAGGREGATION_BY_SEX)).setBooleanValue(instanceDto.getDisaggregationBySex());
+        ((BooleanSelectItem) diffusionEditionForm.getItem(InstanceDS.DISAGGREGATION_BY_AGE)).setBooleanValue(instanceDto.getDisaggregationByAge());
+        ((BooleanSelectItem) diffusionEditionForm.getItem(InstanceDS.DISAGGREGATION_BY_NATIONALITY)).setBooleanValue(instanceDto.getDisaggregationByNationality());
+        ((BooleanSelectItem) diffusionEditionForm.getItem(InstanceDS.DISAGGREGATION_BY_DISABILITY)).setBooleanValue(instanceDto.getDisaggregationByDisability());
         diffusionEditionForm.setRequiredTitleSuffix(requiredFieldsToNextProcStatus);
         diffusionEditionForm.markForRedraw();
 
@@ -852,8 +883,8 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
 
     private boolean canInstanceCodeBeEdited() {
         // Operation code can be edited only when ProcStatus is DRAFT
-        return (productionDescriptorsEditionForm.getValue(InstanceDS.PROC_STATUS_VIEW) != null && ProcStatusEnum.DRAFT.toString().equals(
-                productionDescriptorsEditionForm.getValue(InstanceDS.PROC_STATUS_VIEW)));
+        return (productionDescriptorsEditionForm.getValue(InstanceDS.PROC_STATUS_VIEW) != null
+                && ProcStatusEnum.DRAFT.toString().equals(productionDescriptorsEditionForm.getValue(InstanceDS.PROC_STATUS_VIEW)));
     }
 
     public boolean isInstanceInternallyPublished() {
@@ -1025,7 +1056,8 @@ public class InstanceViewImpl extends ViewWithUiHandlers<InstanceUiHandlers> imp
 
     private SearchSrmListItemWithSchemeFilterItem createFreqColl() {
         final String field = InstanceDS.FREQ_COLL;
-        final SearchSrmListItemWithSchemeFilterItem item = new SearchSrmListItemWithSchemeFilterItem(field, getConstants().instanceFreqColl(), StatisticalOperationsWebConstants.FORM_LIST_MAX_RESULTS) {
+        final SearchSrmListItemWithSchemeFilterItem item = new SearchSrmListItemWithSchemeFilterItem(field, getConstants().instanceFreqColl(),
+                StatisticalOperationsWebConstants.FORM_LIST_MAX_RESULTS) {
 
             @Override
             protected void retrieveItemSchemes(int firstResult, int maxResults, SrmExternalResourceRestCriteria webCriteria) {

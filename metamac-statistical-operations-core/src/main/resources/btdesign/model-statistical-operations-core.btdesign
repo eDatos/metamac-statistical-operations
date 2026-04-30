@@ -413,10 +413,6 @@ Application StatisticalOperations {
 			DateTimeTZ internalInventoryDate nullable;
 			"Metadata CURRENTLY_ACTIVE"
 			Boolean currentlyActive;
-			Boolean disaggregationBySex nullable;
-            Boolean disaggregationByAge nullable;
-            Boolean disaggregationByNationality nullable;
-            Boolean disaggregationByDisability nullable;
        		"Metadata PROC_STATUS"
        		- @ProcStatusEnum procStatus not nullable;
        		"Metadata STATUS"
@@ -619,7 +615,12 @@ Application StatisticalOperations {
        		- @InternationalString notes cascade="all" nullable databaseColumn="NOTES_FK";
        		"Metadata PRIVATE_INFORMATION_SUPPLIERS"
        		- @InternationalString privateInformationSuppliers cascade="all" nullable databaseColumn="PRIVATE_INF_SUPPLIERS_FK";
-       		
+
+       		Boolean disaggregationBySex nullable;
+            Boolean disaggregationByAge nullable;
+            Boolean disaggregationByNationality nullable;
+            Boolean disaggregationByDisability nullable;
+
        		"Last update to optimistic locking"
 			DateTimeTZ updateDate nullable;
        		

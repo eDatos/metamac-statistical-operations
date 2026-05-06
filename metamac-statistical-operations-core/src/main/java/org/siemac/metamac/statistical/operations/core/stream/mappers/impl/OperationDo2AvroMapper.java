@@ -101,7 +101,10 @@ public class OperationDo2AvroMapper implements Do2AvroMapper<Operation, Operatio
         List<CategoryResourceInternal> categories = new ArrayList<CategoryResourceInternal>();
         for (ExternalItem categoryElement : secondarySubjectAreas) {
             if (categoryElement != null) {
-                categories.add(categoriesByCategoryElement.get(categoryElement.getCode()));
+                CategoryResourceInternal category = categoriesByCategoryElement.get(categoryElement.getCode());
+                if (category != null) {
+                    categories.add(category);
+                }
             }
         }
         return categoryRest2AvroMapper.toAvros(categories);

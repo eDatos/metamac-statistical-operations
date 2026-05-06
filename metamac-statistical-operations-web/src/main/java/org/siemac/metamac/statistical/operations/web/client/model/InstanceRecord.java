@@ -69,4 +69,17 @@ public class InstanceRecord extends ListGridRecord {
     public void setInternalInventoryDate(String value) {
         setAttribute(InstanceDS.INTERNAL_INVENTORY_DATE, value);
     }
+    
+    public void setDisaggregationBySex(String value) {
+        setAttribute(InstanceDS.DISAGGREGATION_BY_SEX, value);
+    }
+    public void setDisaggregationByAge(String value) {
+        setAttribute(InstanceDS.DISAGGREGATION_BY_AGE, value);
+    }
+    public void setDisaggregationByDisability(String value) {
+        setAttribute(InstanceDS.DISAGGREGATION_BY_DISABILITY, value);
+    }
+    public void setDisaggregationByNationality(String value) {
+        setAttribute(InstanceDS.DISAGGREGATION_BY_NATIONALITY, value);
+    }
 }

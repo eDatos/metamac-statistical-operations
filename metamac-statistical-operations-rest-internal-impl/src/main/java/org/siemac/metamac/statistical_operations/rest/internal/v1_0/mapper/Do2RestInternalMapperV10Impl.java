@@ -133,8 +133,8 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
 		target.setStatisticalOperationType(this.toItem(source.getSurveyType()));
 		target.setOfficialityType(this.toItem(source.getOfficialityType()));
 		target.setIndicatorSystem(source.getIndicatorSystem());
-		target.setProducers(this.toProducers(source.getProducer()));
 		target.setResponsibles(this.toResponsibles(source.getResponsible()));
+        target.setProducers(this.toProducers(source.getProducer()));
 		target.setContributors(this.toContributors(source.getContributor()));
 		target.setCreatedDate(this.toDate(source.getCreatedDate()));
 		target.setInternalInventoryDate(this.toDate(source.getInternalInventoryDate()));
@@ -167,10 +167,6 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
 		target.setTechnicianInCharge(source.getTechnicianInCharge());
 		target.setAssistantTechnician(source.getAssistantTechnician());
 		target.setGenderPerspective(this.toInternationalString(source.getGenderPerspective()));
-		target.setDisaggregationBySex(source.getDisaggregationBySex());
-		target.setDisaggregationByAge(source.getDisaggregationByAge());
-		target.setDisaggregationByNationality(source.getDisaggregationByNationality());
-		target.setDisaggregationByDisability(source.getDisaggregationByDisability());
 		if (includeContactDetails) {
 			setContactDetailsToOperation(target);
 		}
@@ -413,6 +409,10 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
 		target.setCoherInternal(this.toInternationalString(source.getCoherInternal()));
 		target.setComment(this.toInternationalString(source.getComment()));
 		target.setNotes(this.toInternationalString(source.getNotes()));
+        target.setDisaggregationBySex(source.getDisaggregationBySex());
+        target.setDisaggregationByAge(source.getDisaggregationByAge());
+        target.setDisaggregationByNationality(source.getDisaggregationByNationality());
+        target.setDisaggregationByDisability(source.getDisaggregationByDisability());
 		target.setParentLink(this.toInstanceParentLink(source));
 		target.setChildLinks(this.toInstanceChildLinks(source));
 		target.setManagementAppLink(this.toInstanceManagementApplicationLink(source));

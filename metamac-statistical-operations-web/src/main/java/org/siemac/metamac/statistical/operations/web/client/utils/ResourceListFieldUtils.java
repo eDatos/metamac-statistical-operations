@@ -87,20 +87,7 @@ public class ResourceListFieldUtils {
         CustomListGridField technicianInCharge = new CustomListGridField(OperationDS.TECHNICIAN_IN_CHARGE, getConstants().operationTechnicianInCharge());
         CustomListGridField assistantTechnician = new CustomListGridField(OperationDS.ASSISTANT_TECHNICIAN, getConstants().operationAssistantTechnician());
 
-        CustomListGridField disaggregationBySex = new CustomListGridField(OperationDS.DISAGGREGATION_BY_SEX, getConstants().operationDisaggregationBySex());
-        disaggregationBySex.setShowIfCondition(ListGridUtils.getFalseListGridFieldIfFunction());
-
-        CustomListGridField disaggregationByAge = new CustomListGridField(OperationDS.DISAGGREGATION_BY_AGE, getConstants().operationDisaggregationByAge());
-        disaggregationByAge.setShowIfCondition(ListGridUtils.getFalseListGridFieldIfFunction());
-
-        CustomListGridField disaggregationByNationality = new CustomListGridField(OperationDS.DISAGGREGATION_BY_NATIONALITY, getConstants().operationDisaggregationByNationality());
-        disaggregationByNationality.setShowIfCondition(ListGridUtils.getFalseListGridFieldIfFunction());
-
-        CustomListGridField disaggregationByDisability = new CustomListGridField(OperationDS.DISAGGREGATION_BY_DISABILITY, getConstants().operationDisaggregationByDisability());
-        disaggregationByDisability.setShowIfCondition(ListGridUtils.getFalseListGridFieldIfFunction());
-
-        return new CustomListGridField[]{code, urn, title, acronym, statisticPlanCode, subjectArea, surveyType, officialityType, indicatorsSystem, createdDate, internalInventoryDate, currentlyActive, procStatus, status, publicationStreamStatus, edatosMigrationStatus, technicianInCharge, assistantTechnician, disaggregationBySex, disaggregationByAge, disaggregationByNationality, disaggregationByDisability
-        };
+        return new CustomListGridField[]{code, urn, title, acronym, statisticPlanCode, subjectArea, surveyType, officialityType, indicatorsSystem, createdDate, internalInventoryDate, currentlyActive, procStatus, status, publicationStreamStatus, edatosMigrationStatus, technicianInCharge, assistantTechnician};
     }
 
     public static CustomListGridField[] getInstanceFields() {
@@ -127,7 +114,19 @@ public class ResourceListFieldUtils {
         CustomListGridField procStatus = new CustomListGridField(InstanceDS.PROC_STATUS, getConstants().instanceProcStatus());
 
         CustomListGridField order = new CustomListGridField(InstanceDS.ORDER, getConstants().instanceOrder());
+        CustomListGridField disaggregationBySex = new CustomListGridField(InstanceDS.DISAGGREGATION_BY_SEX, getConstants().instanceDisaggregationBySex());
+        disaggregationBySex.setShowIfCondition(ListGridUtils.getFalseListGridFieldIfFunction());
 
-        return new CustomListGridField[]{code, urn, title, acronym, instanceType, createdDate, internalInventoryDate, procStatus, order};
+        CustomListGridField disaggregationByAge = new CustomListGridField(InstanceDS.DISAGGREGATION_BY_AGE, getConstants().instanceDisaggregationByAge());
+        disaggregationByAge.setShowIfCondition(ListGridUtils.getFalseListGridFieldIfFunction());
+
+        CustomListGridField disaggregationByNationality = new CustomListGridField(InstanceDS.DISAGGREGATION_BY_NATIONALITY, getConstants().instanceDisaggregationByNationality());
+        disaggregationByNationality.setShowIfCondition(ListGridUtils.getFalseListGridFieldIfFunction());
+
+        CustomListGridField disaggregationByDisability = new CustomListGridField(InstanceDS.DISAGGREGATION_BY_DISABILITY, getConstants().instanceDisaggregationByDisability());
+        disaggregationByDisability.setShowIfCondition(ListGridUtils.getFalseListGridFieldIfFunction());
+
+
+        return new CustomListGridField[]{code, urn, title, acronym, instanceType, createdDate, internalInventoryDate, procStatus, disaggregationBySex, disaggregationByAge, disaggregationByNationality, disaggregationByDisability, order,};
     }
 }

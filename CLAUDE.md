@@ -293,6 +293,19 @@ title.addLocalizedString(new LocalizedString("es", "Título en español"));
 title.addLocalizedString(new LocalizedString("en", "Title in English"));
 ```
 
+### Catalan properties — apostrophe escaping
+
+`MessageFormat.format()` treats `'` as an escape character (consumed, not displayed).
+In this module, `NoticesRestInternalFacadeImpl` uses `LocaleUtil` only — **no MessageFormat applied to notifications**.
+Rule:
+
+| File location | Processing path | Use |
+|---|---|---|
+| `messages-*_ca.properties` (all prefixes) | No MessageFormat anywhere (LocaleUtil for notices; `String.replace()` for exceptions) | `'` |
+| `*Messages_ca.properties` in `src/main/java/` | GWT `@Messages` interface — MessageFormat always applied | `''` |
+
+Example: `S'ha actualitzat {0}` (messages file) vs `S''ha produït {0}` (GWT Messages file).
+
 ## Code Locations
 
 ### Finding Key Components

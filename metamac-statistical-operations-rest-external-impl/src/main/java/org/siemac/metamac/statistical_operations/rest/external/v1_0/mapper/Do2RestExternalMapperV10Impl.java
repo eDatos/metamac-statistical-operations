@@ -137,6 +137,7 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         target.setUpdateFrequencies(toUpdateFrequencies(source.getUpdateFrequency()));
         target.setCurrentInstance(toResource(getInstanceInProcStatus(source.getInstances(), ProcStatusEnum.PUBLISH_EXTERNALLY), null));
         target.setInventoryDate(toDate(source.getInventoryDate()));
+        target.setLastUpdated(toDate(source.getLastUpdated()));
         target.setRevPolicy(toInternationalString(source.getRevPolicy()));
         target.setRevPractice(toInternationalString(source.getRevPractice()));
         target.setNewnessUntilDate(toDate(source.getNewnessUntilDate()));

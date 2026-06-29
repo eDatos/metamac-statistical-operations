@@ -151,7 +151,7 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
 		target.setCurrentInstance(this.toResource(this.getInstanceInProcStatus(source.getInstances(), ProcStatusEnum.PUBLISH_EXTERNALLY), null));
 		target.setCurrentInternalInstance(this.toResource(this.getInstanceInProcStatus(source.getInstances(), ProcStatusEnum.PUBLISH_INTERNALLY), null));
 		target.setInventoryDate(this.toDate(source.getInventoryDate()));
-		target.setLastupdate(this.toDate(source.getLastUpdated()));
+		target.setLastUpdate(this.toDate(source.getLastUpdated()));
 		target.setRevPolicy(this.toInternationalString(source.getRevPolicy()));
 		target.setRevPractice(this.toInternationalString(source.getRevPractice()));
 		target.setNewnessUntilDate(toDate(source.getNewnessUntilDate()));

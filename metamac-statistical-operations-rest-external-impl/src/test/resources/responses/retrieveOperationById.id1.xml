@@ -215,6 +215,7 @@
         </cdomain:name>
     </operations:currentInstance>
     <operations:inventoryDate>2013-02-04T13:15:14Z</operations:inventoryDate>
+    <operations:lastUpdate>2026-06-23T10:20:30+01:00</operations:lastUpdate>
     <operations:revPolicy>
         <cdomain:text xml:lang="es">revPolicy1 en Español</cdomain:text>
     </operations:revPolicy>

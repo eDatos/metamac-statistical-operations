@@ -933,6 +933,14 @@
                      "description":"${msg['api.doc.swagger.definitions.operation.properties.inventoryDate']}",
                      "type":"string"
                   },
+                  "lastUpdate":{
+                     "xml":{
+                        "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"
+                     },
+                     "description":"${msg['api.doc.swagger.definitions.operation.properties.lastUpdate']}",
+                     "type":"string",
+                     "format":"date-time"
+                  },
                   "statisticalOperationUrl":{
                       "xml":{
                          "namespace":"http://www.siemac.org/metamac/rest/statistical-operations/v1.0/domain"

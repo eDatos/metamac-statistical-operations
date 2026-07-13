@@ -647,6 +647,7 @@ public class StatisticalOperationsCoreMocks {
         operation.getUpdateFrequency().add(mockExternalItemSrm("updateFrequency333", "updateFrequencies", TypeExternalArtefactsEnum.CODE));
         operation.getUpdateFrequency().add(mockExternalItemSrm("updateFrequency4444", "updateFrequencies", TypeExternalArtefactsEnum.CODE));
         operation.setInventoryDate(new DateTime(2013, 2, 4, 13, 15, 14, 0));
+        operation.setLastUpdated(new DateTime(2026, 6, 23, 10, 20, 30, 0));
         operation.setRevPolicy(mockInternationalStringMetadata("revPolicy", subCode));
         operation.setRevPractice(mockInternationalStringMetadata("revPractice", subCode));
         operation.setCommonMetadata(mockExternalItemCommonMetadata("commonMetadata1", "nothing", TypeExternalArtefactsEnum.CONFIGURATION));

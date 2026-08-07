@@ -201,8 +201,11 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         String baseLink = toOperationsLink();
         SculptorCriteria2RestCriteria.toPagedResult(sourcesPagedResult, targets, query, orderBy, limit, baseLink);
 
-        Map<String, CategoryResource> categoryResourceByDefaultCategoryScheme = srmRestExternalFacade
-                .retrieveDefaultCategoriesByCategoryElementCode(configurationService.retrieveDefaultCategoryScheme());
+        Map<String, CategoryResource> categoryResourceByDefaultCategoryScheme = null;
+        if (containsField(parsedFields, StatisticalOperationsRestConstants.FIELD_INCLUDE_SUBJECT_AREA)) {
+            categoryResourceByDefaultCategoryScheme = srmRestExternalFacade
+                    .retrieveDefaultCategoriesByCategoryElementCode(configurationService.retrieveDefaultCategoryScheme());
+        }
 
         // Values
         for (org.siemac.metamac.statistical.operations.core.domain.Operation source : sourcesPagedResult.getValues()) {

@@ -252,8 +252,11 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
 		String baseLink = this.toOperationsLink();
 		SculptorCriteria2RestCriteria.toPagedResult(sourcesPagedResult, targets, query, orderBy, limit, baseLink);
 
-		Map<String, CategoryResourceInternal> categoryResourceByDefaultCategoryScheme = srmRestInternalFacade.retrieveDefaultCategoriesByCategoryElementCode(
-				configurationService.retrieveDefaultCategoryScheme());
+		Map<String, CategoryResourceInternal> categoryResourceByDefaultCategoryScheme = null;
+        if (containsField(parsedFields, StatisticalOperationsRestConstants.FIELD_INCLUDE_SUBJECT_AREA)) {
+            categoryResourceByDefaultCategoryScheme = srmRestInternalFacade.retrieveDefaultCategoriesByCategoryElementCode(
+                    configurationService.retrieveDefaultCategoryScheme());
+        }
 
 		// Values
 		for (org.siemac.metamac.statistical.operations.core.domain.Operation source : sourcesPagedResult.getValues()) {
